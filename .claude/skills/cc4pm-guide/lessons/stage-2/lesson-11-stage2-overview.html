@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段 2 全景：从想法到冲刺计划 — cc4pm</title>
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+  /* === Hero Stats === */
+  .hero-stats {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1.5rem 0 2rem;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    text-align: center;
+    padding: .8rem 1.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    min-width: 110px;
+    transition: all var(--transition);
+  }
+  .hero-stat:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .hero-stat .num {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), #b45309);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-stat .label { font-size: .75rem; color: var(--text-muted); font-weight: 600; }
+
+  /* === Section Tabs === */
+  .section-tabs {
+    display: flex;
+    gap: .3rem;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    padding: .3rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+  }
+  .section-tab {
+    flex: 1;
+    min-width: 80px;
+    padding: .6rem .8rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+  .section-tab:hover { color: var(--text-primary); }
+  .section-tab.active { background: var(--bg-secondary); color: var(--accent); box-shadow: var(--shadow-sm); }
+  .section-panel { display: none; }
+  .section-panel.active { display: block; }
+
+  /* === Pipeline === */
+  .pipeline {
+    display: flex;
+    gap: 0;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    padding-bottom: .5rem;
+  }
+  .pipe-stage {
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: all .3s;
+  }
+  .pipe-node {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    margin: 0 auto .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    border: 3px solid var(--border);
+    background: var(--bg-secondary);
+    transition: all .3s;
+    position: relative;
+    z-index: 2;
+  }
+  .pipe-stage.active .pipe-node {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    box-shadow: 0 0 20px var(--accent-glow);
+    transform: scale(1.15);
+  }
+  .pipe-stage.cis .pipe-node { border-color: var(--purple); }
+  .pipe-stage.cis.active .pipe-node { background: var(--purple-light); border-color: var(--purple); box-shadow: 0 0 20px var(--purple-glow); }
+  .pipe-stage.bmm .pipe-node { border-color: var(--green); }
+  .pipe-stage.bmm.active .pipe-node { background: var(--green-light); border-color: var(--green); box-shadow: 0 0 20px var(--green-glow); }
+
+  .pipe-label { font-size: .78rem; font-weight: 600; color: var(--text-muted); }
+  .pipe-stage.active .pipe-label { color: var(--text-primary); }
+  .pipe-module {
+    font-size: .65rem;
+    padding: 1px 8px;
+    border-radius: 99px;
+    font-weight: 700;
+    margin-top: .3rem;
+    display: inline-block;
+  }
+  .mod-cis { background: var(--purple-light); color: var(--purple); }
+  .mod-bmm { background: var(--green-light); color: var(--green); }
+
+  .pipe-connector {
+    position: absolute;
+    top: 32px;
+    left: calc(50% + 32px);
+    right: calc(-50% + 32px);
+    height: 3px;
+    background: var(--border);
+    z-index: 1;
+  }
+
+  .pipe-detail {
+    background: var(--bg-secondary);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 2rem;
+    margin-top: .5rem;
+    box-shadow: var(--shadow-glow);
+    min-height: 200px;
+  }
+  .pipe-detail h3 { margin-bottom: .3rem; }
+  .pipe-detail .pipe-agent {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .82rem;
+    padding: .3rem .8rem;
+    background: var(--bg-tertiary);
+    border-radius: 99px;
+    margin-bottom: .8rem;
+    font-weight: 600;
+  }
+  .pipe-detail .pipe-desc { font-size: .88rem; color: var(--text-secondary); margin-bottom: .8rem; }
+  .pipe-detail .pipe-output {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: .8rem 1.2rem;
+    font-family: var(--font-mono);
+    font-size: .82rem;
+    line-height: 1.6;
+    margin-bottom: .6rem;
+  }
+  .pipe-detail .pipe-lesson {
+    font-size: .78rem;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  /* === Agent Gallery === */
+  .agent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .agent-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: all var(--transition);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .agent-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .agent-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .agent-card:hover::before { opacity: 1; }
+  .agent-card.expanded { border-color: var(--accent); box-shadow: var(--shadow-glow); }
+
+  .agent-card .agent-header { display: flex; align-items: center; gap: .8rem; margin-bottom: .6rem; }
+  .agent-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .agent-name { font-weight: 700; font-size: .95rem; }
+  .agent-role { font-size: .78rem; color: var(--text-muted); }
+  .agent-personality { font-size: .82rem; color: var(--text-secondary); font-style: italic; margin-bottom: .6rem; }
+  .agent-skills { display: none; }
+  .agent-card.expanded .agent-skills { display: block; }
+  .agent-skill-tag {
+    display: inline-block;
+    font-size: .72rem;
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin: 2px;
+    font-weight: 600;
+  }
+  .agent-cmd {
+    display: none;
+    margin-top: .6rem;
+    font-family: var(--font-mono);
+    font-size: .82rem;
+    padding: .5rem .8rem;
+    background: var(--bg-code);
+    border-radius: var(--radius-sm);
+    color: var(--accent-hover);
+  }
+  .agent-card.expanded .agent-cmd { display: block; }
+
+  .cis-agent::before { background: linear-gradient(90deg, var(--purple), var(--purple-light)); }
+  .bmm-agent::before { background: linear-gradient(90deg, var(--green), var(--green-light)); }
+  .cis-agent .agent-avatar { background: var(--purple-light); color: var(--purple); }
+  .bmm-agent .agent-avatar { background: var(--green-light); color: var(--green); }
+
+  /* === Framework Showcase === */
+  .fw-tabs {
+    display: flex;
+    gap: .3rem;
+    margin-bottom: 1rem;
+  }
+  .fw-tab {
+    padding: .5rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    cursor: pointer;
+    font-size: .82rem;
+    font-weight: 600;
+    background: var(--bg-secondary);
+    transition: all var(--transition);
+  }
+  .fw-tab:hover { border-color: var(--accent); }
+  .fw-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+  .fw-panel { display: none; }
+  .fw-panel.active { display: block; }
+
+  .fw-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: .6rem;
+  }
+  .fw-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: .8rem 1rem;
+    transition: all var(--transition);
+    cursor: default;
+  }
+  .fw-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .fw-card .fw-name { font-weight: 700; font-size: .85rem; margin-bottom: .2rem; }
+  .fw-card .fw-desc { font-size: .75rem; color: var(--text-muted); }
+  .fw-card .fw-q { font-size: .78rem; color: var(--accent-hover); font-style: italic; margin-top: .3rem; }
+
+  .fw-counter {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .fw-count-item {
+    text-align: center;
+  }
+  .fw-count-num {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .fw-count-label { font-size: .75rem; color: var(--text-muted); }
+
+  /* === Before/After === */
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 700px) { .ba-grid { grid-template-columns: 1fr; } }
+
+  .ba-column {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    position: relative;
+  }
+  .ba-column.before { border-top: 4px solid var(--rose); }
+  .ba-column.after { border-top: 4px solid var(--green); }
+  .ba-column h3 { margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+  .ba-column.before h3 { color: var(--rose); }
+  .ba-column.after h3 { color: var(--green); }
+
+  .ba-step {
+    display: flex;
+    align-items: flex-start;
+    gap: .8rem;
+    padding: .6rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: .85rem;
+    color: var(--text-secondary);
+  }
+  .ba-step:last-child { border-bottom: none; }
+  .ba-step .ba-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: .1rem; }
+  .ba-step .ba-text { line-height: 1.5; }
+  .ba-step .ba-time {
+    font-size: .72rem;
+    color: var(--text-muted);
+    display: block;
+    margin-top: .2rem;
+  }
+
+  .ba-total {
+    margin-top: 1rem;
+    padding: .8rem 1rem;
+    border-radius: var(--radius-md);
+    text-align: center;
+    font-weight: 700;
+    font-size: .9rem;
+  }
+  .ba-column.before .ba-total { background: var(--rose-light); color: var(--rose); }
+  .ba-column.after .ba-total { background: var(--green-light); color: var(--green); }
+
+  /* === Abbreviation Table === */
+  .abbr-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: .5rem;
+    margin: 1rem 0;
+  }
+  .abbr-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: .6rem .8rem;
+    text-align: center;
+    transition: all var(--transition);
+  }
+  .abbr-card:hover { border-color: var(--accent); }
+  .abbr-card .abbr-code {
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--accent);
+  }
+  .abbr-card .abbr-full { font-size: .72rem; color: var(--text-muted); }
+  .abbr-card .abbr-zh { font-size: .78rem; color: var(--text-secondary); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1><span class="gradient">阶段 2 · 产品经理核心能力</span></h1>
+<p class="subtitle">从一个想法到可执行的冲刺计划 —— 6 节课掌握 CIS + BMM 全流程</p>
+
+<!-- Hero Stats -->
+<div class="hero-stats">
+  <div class="hero-stat"><div class="num">6</div><div class="label">节课程</div></div>
+  <div class="hero-stat"><div class="num">8</div><div class="label">AI 代理</div></div>
+  <div class="hero-stat"><div class="num">36</div><div class="label">创意技巧</div></div>
+  <div class="hero-stat"><div class="num">30</div><div class="label">创新框架</div></div>
+  <div class="hero-stat"><div class="num">6</div><div class="label">步完整流水线</div></div>
+</div>
+
+<!-- Section Tabs -->
+<div class="section-tabs">
+  <div class="section-tab active" onclick="switchSection('pipeline')">完整流水线</div>
+  <div class="section-tab" onclick="switchSection('agents')">AI 团队</div>
+  <div class="section-tab" onclick="switchSection('frameworks')">创意+创新工具箱</div>
+  <div class="section-tab" onclick="switchSection('compare')">有 vs 没有</div>
+  <div class="section-tab" onclick="switchSection('abbr')">缩写速查</div>
+</div>
+
+<!-- ==================== Section 1: Pipeline ==================== -->
+<div id="section-pipeline" class="section-panel active">
+<div class="card">
+  <h2>完整流水线：从想法到冲刺计划</h2>
+  <p>点击每个阶段，查看对应的代理、产出物和启动命令。左侧两步属于 <span style="color:var(--purple);font-weight:600">CIS（发散）</span>，右侧四步属于 <span style="color:var(--green);font-weight:600">BMM（收敛）</span>。</p>
+
+  <div class="pipeline" id="pipeline">
+    <!-- JS renders -->
+  </div>
+
+  <div class="pipe-detail" id="pipe-detail">
+    <h3 id="pd-title"></h3>
+    <div class="pipe-agent" id="pd-agent"></div>
+    <div class="pipe-desc" id="pd-desc"></div>
+    <div class="pipe-output" id="pd-output"></div>
+    <div class="pipe-lesson" id="pd-lesson"></div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== Section 2: Agent Gallery ==================== -->
+<div id="section-agents" class="section-panel">
+<div class="card">
+  <h2>你的 AI 团队：8 位专家代理</h2>
+  <p>阶段 2 你将认识 8 位 AI 代理——每位都有独特的性格和专长。点击卡片展开详情。</p>
+
+  <div style="display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap">
+    <span style="display:inline-flex;align-items:center;gap:.3rem;font-size:.82rem;font-weight:600">
+      <span style="width:12px;height:12px;border-radius:50%;background:var(--purple);display:inline-block"></span>
+      CIS 创意团队
+    </span>
+    <span style="display:inline-flex;align-items:center;gap:.3rem;font-size:.82rem;font-weight:600">
+      <span style="width:12px;height:12px;border-radius:50%;background:var(--green);display:inline-block"></span>
+      BMM 执行团队
+    </span>
+  </div>
+
+  <div class="agent-grid" id="agent-grid">
+    <!-- JS renders -->
+  </div>
+</div>
+</div>
+
+<!-- ==================== Section 3: Frameworks ==================== -->
+<div id="section-frameworks" class="section-panel">
+<div class="card">
+  <h2>创意+创新工具箱</h2>
+  <p>CIS 模块提供 <strong>36 种创意技巧</strong>（头脑风暴）和 <strong>30 种创新框架</strong>（策略分析），覆盖从灵感到战略的全过程。</p>
+
+  <div class="fw-counter">
+    <div class="fw-count-item"><div class="fw-count-num">36</div><div class="fw-count-label">创意技巧 (7 大类)</div></div>
+    <div class="fw-count-item"><div class="fw-count-num">30</div><div class="fw-count-label">创新框架 (6 大类)</div></div>
+    <div class="fw-count-item"><div class="fw-count-num">5</div><div class="fw-count-label">PM 必备技巧</div></div>
+    <div class="fw-count-item"><div class="fw-count-num">4</div><div class="fw-count-label">核心创新框架</div></div>
+  </div>
+
+  <div class="fw-tabs">
+    <div class="fw-tab active" onclick="switchFw('techniques')">36 创意技巧</div>
+    <div class="fw-tab" onclick="switchFw('innovations')">30 创新框架</div>
+    <div class="fw-tab" onclick="switchFw('must-know')">PM 必备</div>
+  </div>
+
+  <div id="fw-techniques" class="fw-panel active">
+    <div class="fw-grid" id="tech-grid"></div>
+  </div>
+
+  <div id="fw-innovations" class="fw-panel">
+    <div class="fw-grid" id="innov-grid"></div>
+  </div>
+
+  <div id="fw-must-know" class="fw-panel">
+    <div class="callout" style="margin-bottom:1rem">
+      <strong>不用全部记住！</strong> Carson 和 Victor 会根据你的场景自动选择最合适的技巧和框架。但以下这些，你至少要知道它们是什么。
+    </div>
+    <div id="must-grid"></div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== Section 4: Before/After ==================== -->
+<div id="section-compare" class="section-panel">
+<div class="card">
+  <h2>有 cc4pm vs 没有 cc4pm</h2>
+  <p>同样是"把一个产品想法变成可执行的开发计划"，看看差距有多大。</p>
+
+  <div class="ba-grid">
+    <div class="ba-column before">
+      <h3>&#x274C; 传统方式</h3>
+      <div class="ba-step"><span class="ba-icon">&#x1f914;</span><div class="ba-text">凭直觉想功能，容易遗漏维度<span class="ba-time">2-3 小时</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f4c4;</span><div class="ba-text">一个人闷头写 PRD，格式不统一<span class="ba-time">1-2 天</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f50d;</span><div class="ba-text">搜索行业报告、手动整理竞品<span class="ba-time">3-5 天</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f4dd;</span><div class="ba-text">同事评审 PRD（主观、遗漏多）<span class="ba-time">1-2 天</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f9e9;</span><div class="ba-text">手动拆解 Epics/Stories，粒度不一<span class="ba-time">1-2 天</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f4cb;</span><div class="ba-text">用 Excel 追踪进度，容易遗忘更新<span class="ba-time">持续</span></div></div>
+      <div class="ba-total">总计：2-3 周，质量依赖个人经验</div>
+    </div>
+
+    <div class="ba-column after">
+      <h3>&#x2705; 使用 cc4pm</h3>
+      <div class="ba-step"><span class="ba-icon">&#x1f4a1;</span><div class="ba-text">Carson 用 36 种技巧生成 100+ 想法<span class="ba-time">30-60 分钟</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f680;</span><div class="ba-text">Victor 做蓝海分析 + 商业模式设计<span class="ba-time">30-60 分钟</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f50d;</span><div class="ba-text">Mary 自动联网做竞争分析和市场研究<span class="ba-time">30-60 分钟</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f4cb;</span><div class="ba-text">John 引导式 12 步创建 PRD + 13 步验证<span class="ba-time">1-2 小时</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f9e9;</span><div class="ba-text">John 系统拆解 Epics/Stories + IR 检查<span class="ba-time">30-60 分钟</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f3c3;</span><div class="ba-text">Bob 自动生成冲刺状态 + 智能推荐下一步<span class="ba-time">15-30 分钟</span></div></div>
+      <div class="ba-total">总计：1-2 天，流程标准化，质量有保障</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-bottom:0">
+    <strong>核心差异不是"快了多少"，而是"不掉链子"。</strong><br>
+    每一步的输出自动成为下一步的输入。PRD 的需求可追溯到用户目标，Story 的验收标准可以直接变成自动化测试。不需要人工传话和对齐。
+  </div>
+</div>
+</div>
+
+<!-- ==================== Section 5: Abbreviations ==================== -->
+<div id="section-abbr" class="section-panel">
+<div class="card">
+  <h2>缩写速查表</h2>
+  <p>阶段 2 涉及大量缩写。收藏这张表，随时查阅。</p>
+
+  <h3 style="margin-top:1rem;color:var(--purple)">模块缩写</h3>
+  <div class="abbr-grid" id="abbr-modules"></div>
+
+  <h3 style="margin-top:1.2rem;color:var(--green)">工作流缩写（PM John 的菜单）</h3>
+  <div class="abbr-grid" id="abbr-pm"></div>
+
+  <h3 style="margin-top:1.2rem;color:var(--blue)">工作流缩写（SM Bob 的菜单）</h3>
+  <div class="abbr-grid" id="abbr-sm"></div>
+
+  <h3 style="margin-top:1.2rem;color:var(--accent)">通用缩写</h3>
+  <div class="abbr-grid" id="abbr-general"></div>
+</div>
+</div>
+
+<footer>cc4pm 交互式教学 · 阶段 2 全景概览 · Anthropic 风格</footer>
+
+<script>
+// ============ Data ============
+
+const pipelineData = [
+  {
+    icon: '&#x1f4a1;', label: '头脑风暴', module: 'CIS', type: 'cis',
+    agent: 'Carson · 头脑风暴教练',
+    desc: '用 36 种创意技巧系统发散，生成 100+ 产品创意。Carson 像一个充满激情的即兴表演教练，不断用"YES AND"叠加你的想法，鼓励野性思维。',
+    output: '输入：产品主题和背景\n输出：100+ 创意列表、可行性初评、聚合主题\n命令：/bmad-brainstorming → 选择 [BS]',
+    lesson: 'Lesson 11'
+  },
+  {
+    icon: '&#x1f680;', label: '创新策略', module: 'CIS', type: 'cis',
+    agent: 'Victor · 创新战略家',
+    desc: '用 30 种创新框架（蓝海战略、JTBD、商业模式画布等）分析颠覆机会，设计商业模式。Victor 像国际象棋大师，大胆直接，善于戳破幻觉。',
+    output: '输入：创意列表 + 公司背景\n输出：3 个战略方向、执行路线图、成功指标\n命令：/bmad-cis-innovation-strategy → 选择 [IS]',
+    lesson: 'Lesson 12'
+  },
+  {
+    icon: '&#x1f50d;', label: '市场研究', module: 'BMM', type: 'bmm',
+    agent: 'Mary · 分析师',
+    desc: '联网搜索做市场/领域/技术三种研究，验证市场机会。Mary 像一个寻宝猎人，对每条线索兴奋不已，看到数据中的模式就两眼放光。',
+    output: '输入：研究主题和范围\n输出：市场研究报告（竞争分析、用户痛点、机会评估）\n命令：/bmad-analyst → 选择 [MR]',
+    lesson: 'Lesson 13'
+  },
+  {
+    icon: '&#x1f4cb;', label: 'PRD 创建', module: 'BMM', type: 'bmm',
+    agent: 'John · 产品经理',
+    desc: '通过引导式 12 步对话创建专业 PRD，再用 13 步验证质量。John 像一个侦探——不停追问"为什么"，直戳本质，用数据说话。',
+    output: '输入：产品想法 + 创新策略报告\n输出：标准化 PRD（愿景、用户画像、功能需求、非功能需求）\n命令：/bmad-pm → 选择 [CP]',
+    lesson: 'Lesson 14'
+  },
+  {
+    icon: '&#x1f9e9;', label: '需求拆解', module: 'BMM', type: 'bmm',
+    agent: 'John · 产品经理',
+    desc: '将 PRD 系统拆解为 Epics 和 Stories（BDD 格式验收标准），然后通过 IR 检查确保实现就绪。',
+    output: '输入：PRD + 架构文档\n输出：Epics 文件（含 Stories、依赖、验收标准）\n命令：/bmad-pm → 选择 [CE]，然后 [IR]',
+    lesson: 'Lesson 15'
+  },
+  {
+    icon: '&#x1f3c3;', label: '冲刺规划', module: 'BMM', type: 'bmm',
+    agent: 'Bob · 敏捷大师',
+    desc: '生成 sprint-status.yaml 追踪执行进度，CS 创建故事上下文，CC 管理变更，ER 做 Epic 回顾。Bob 简洁高效，对模糊零容忍。',
+    output: '输入：Epics 文件\n输出：sprint-status.yaml、Story 上下文文件\n命令：/bmad-sm → 选择 [SP]',
+    lesson: 'Lesson 16'
+  }
+];
+
+const agentsData = [
+  {
+    name: 'Carson', role: '头脑风暴教练', type: 'cis',
+    icon: '&#x1f3a4;',
+    personality: '"YES AND！让我们把这个想法推到极限！"',
+    skills: ['36 种创意技巧', 'SCAMPER', '类比思维', 'What If', '第一性原理'],
+    cmd: '/bmad-brainstorming'
+  },
+  {
+    name: 'Victor', role: '创新战略家', type: 'cis',
+    icon: '&#x265f;',
+    personality: '"市场奖励真正的新价值。没有商业模式思维的创新只是作秀。"',
+    skills: ['蓝海战略', 'JTBD', '商业模式画布', '价值主张画布', '30 种框架'],
+    cmd: '/bmad-cis-innovation-strategy'
+  },
+  {
+    name: 'Mary', role: '战略分析师', type: 'bmm',
+    icon: '&#x1f50e;',
+    personality: '"这条数据线索太有意思了！让我深挖一下..."',
+    skills: ['市场研究', '领域研究', '技术研究', '竞争分析', 'SWOT'],
+    cmd: '/bmad-analyst'
+  },
+  {
+    name: 'John', role: '产品经理', type: 'bmm',
+    icon: '&#x1f575;',
+    personality: '"为什么？你验证过吗？还是你觉得用户需要？"',
+    skills: ['PRD 创建(CP)', 'PRD 验证(VP)', 'PRD 编辑(EP)', 'Epics(CE)', '实现就绪(IR)'],
+    cmd: '/bmad-pm'
+  },
+  {
+    name: 'Bob', role: '敏捷大师 (Scrum Master)', type: 'bmm',
+    icon: '&#x1f4cb;',
+    personality: '"每个需求必须清晰到没有歧义。模糊 = 返工。"',
+    skills: ['冲刺规划(SP)', '创建故事(CS)', '路线纠正(CC)', 'Epic 回顾(ER)'],
+    cmd: '/bmad-sm'
+  },
+  {
+    name: 'Architect', role: '系统架构师', type: 'bmm',
+    icon: '&#x1f3d7;',
+    personality: '"技术方案要为产品目标服务，不是为了炫技。"',
+    skills: ['架构设计', '技术选型', 'API 设计', '系统约束'],
+    cmd: '/bmad-architect'
+  },
+  {
+    name: 'Dev', role: '开发者', type: 'bmm',
+    icon: '&#x1f4bb;',
+    personality: '"给我清晰的 Story 文件，剩下的交给我。"',
+    skills: ['Story 实现', '代码编写', '测试驱动开发'],
+    cmd: '/bmad-dev-story'
+  },
+  {
+    name: 'QA', role: '质量保障工程师', type: 'bmm',
+    icon: '&#x1f9ea;',
+    personality: '"验收标准写得好，Bug 自然少。"',
+    skills: ['E2E 测试', '代码审查', '质量指标'],
+    cmd: '/bmad-qa'
+  }
+];
+
+const techniques = [
+  { cat: '协作类', items: ['脑力接龙', '圆桌轮转', '六顶思考帽', '世界咖啡馆', '画廊漫步', '名义小组'], color: '--accent' },
+  { cat: '创造类', items: ['SCAMPER', '思维导图', '随机刺激', '类比思维', '概念扇', '强制连接', '形态分析', '图像风暴', '属性列举', '词汇联想', '故事板'], color: '--green' },
+  { cat: '深度类', items: ['第一性原理', '五个为什么', '苏格拉底追问', '根因分析', '因果图', '假设测试', '系统思维', '约束消除'], color: '--blue' },
+  { cat: '内省类', items: ['日记法', '冥想联想', '价值观排序', '情绪板', '个人回顾', '梦想清单'], color: '--purple' },
+  { cat: '结构类', items: ['SWOT', 'PESTLE', '情景规划', '决策矩阵', '优先级矩阵', '亲和图', '流程映射', '力场分析'], color: '--cyan' },
+  { cat: '戏剧类', items: ['角色扮演', '空椅子法', '即兴表演', '时间旅行', '超级英雄'], color: '--rose' },
+  { cat: '狂野类', items: ['逆向思维', 'What If', '最坏情况', '随机行走', '疯狂八分钟'], color: '--accent' }
+];
+
+const innovations = [
+  { cat: '破坏性创新', items: ['破坏性创新理论', 'Jobs-to-be-Done', '蓝海战略', '跨越鸿沟', '平台革命'], color: '--rose' },
+  { cat: '商业模式', items: ['商业模式画布', '价值主张画布', '商业模式模式库', '收入模式创新', '成本结构创新'], color: '--accent' },
+  { cat: '市场分析', items: ['TAM/SAM/SOM', '五力分析', 'PESTLE', '市场时机评估', '竞争定位图'], color: '--green' },
+  { cat: '战略规划', items: ['三层地平线', '精益创业', '创新野心矩阵', '战略意图', '情景规划'], color: '--blue' },
+  { cat: '价值链', items: ['价值链分析', '拆分分析', '平台生态设计', '自建还是外购', '合作策略'], color: '--purple' },
+  { cat: '技术与其他', items: ['技术采用生命周期', 'S 曲线分析', '技术路线图', '开放创新', '数字化转型'], color: '--cyan' }
+];
+
+const mustKnow = [
+  { name: 'SCAMPER', type: '创意技巧', desc: '7 个动作词（替代/组合/适应/修改/另用/消除/逆转）系统改造现有产品', q: '"用什么可以替代？去掉什么会更好？"' },
+  { name: '六顶思考帽', type: '创意技巧', desc: '六种角色视角（数据/直觉/谨慎/乐观/创意/管理）全面审视问题', q: '"戴上黑帽——最大的风险是什么？"' },
+  { name: '第一性原理', type: '创意技巧', desc: '抛开惯性假设，回到最基本事实重新推导解决方案', q: '"用户真正需要的是什么？不是我们觉得的。"' },
+  { name: 'What If', type: '创意技巧', desc: '通过极端假设打开思路，探索边界可能性', q: '"如果完全由 AI 来做会怎样？"' },
+  { name: '类比思维', type: '创意技巧', desc: '从其他领域借鉴解决方案移植到自己的产品', q: '"如果记账工具是一个私人健身教练..."' },
+  { name: 'Jobs-to-be-Done', type: '创新框架', desc: '用户不是买产品，是"雇佣"产品完成某个任务', q: '"用户雇佣你的产品来完成什么任务？"' },
+  { name: '蓝海战略', type: '创新框架', desc: '通过消除/减少/提升/创造四步让竞争变得无关紧要', q: '"行业里什么因素其实没必要？"' },
+  { name: '商业模式画布', type: '创新框架', desc: '9 个模块完整描述如何创造、传递和捕获价值', q: '"谁付钱？付什么钱？为什么付？"' },
+  { name: '价值主张画布', type: '创新框架', desc: '精准匹配用户任务/痛点/收益与产品功能/止痛药/收益创造器', q: '"产品能止哪些痛？创造哪些收益？"' }
+];
+
+const abbrData = {
+  modules: [
+    { code: 'CIS', full: 'Creative Innovation Suite', zh: '创意智能套件' },
+    { code: 'BMM', full: 'BMad Method', zh: 'BMad 方法论' },
+    { code: 'WDS', full: 'Web Design System', zh: 'Web 设计系统' },
+    { code: 'PRD', full: 'Product Requirements Doc', zh: '产品需求文档' },
+    { code: 'BDD', full: 'Behavior-Driven Dev', zh: '行为驱动开发' },
+    { code: 'JTBD', full: 'Jobs to be Done', zh: '待完成的任务' }
+  ],
+  pm: [
+    { code: 'CP', full: 'Create PRD', zh: '创建 PRD' },
+    { code: 'VP', full: 'Validate PRD', zh: '验证 PRD' },
+    { code: 'EP', full: 'Edit PRD', zh: '编辑 PRD' },
+    { code: 'CE', full: 'Create Epics', zh: '创建 Epics/Stories' },
+    { code: 'IR', full: 'Implementation Readiness', zh: '实现就绪检查' },
+    { code: 'CC', full: 'Correct Course', zh: '路线纠正' }
+  ],
+  sm: [
+    { code: 'SP', full: 'Sprint Planning', zh: '冲刺规划' },
+    { code: 'SS', full: 'Sprint Status', zh: '冲刺状态' },
+    { code: 'CS', full: 'Create Story', zh: '创建故事上下文' },
+    { code: 'DS', full: 'Dev Story', zh: '开发故事' },
+    { code: 'CR', full: 'Code Review', zh: '代码审查' },
+    { code: 'ER', full: 'Epic Retrospective', zh: 'Epic 回顾' }
+  ],
+  general: [
+    { code: 'MVP', full: 'Minimum Viable Product', zh: '最小可行产品' },
+    { code: 'TAM', full: 'Total Addressable Market', zh: '总可寻址市场' },
+    { code: 'SWOT', full: 'Strengths/Weaknesses/Opportunities/Threats', zh: '优劣势/机会/威胁' },
+    { code: 'KPI', full: 'Key Performance Indicator', zh: '关键绩效指标' }
+  ]
+};
+
+// ============ Section Navigation ============
+
+function switchSection(name) {
+  document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.section-tab[onclick*="${name}"]`).classList.add('active');
+  document.getElementById('section-' + name).classList.add('active');
+}
+
+// ============ Pipeline ============
+
+let currentPipe = 0;
+
+function renderPipeline() {
+  const el = document.getElementById('pipeline');
+  el.innerHTML = pipelineData.map((s, i) => `
+    <div class="pipe-stage ${s.type} ${i === 0 ? 'active' : ''}" data-idx="${i}" onclick="selectPipe(${i})">
+      <div class="pipe-node">${s.icon}</div>
+      <div class="pipe-label">${s.label}</div>
+      <div class="pipe-module mod-${s.type}">${s.module}</div>
+      ${i < pipelineData.length - 1 ? '<div class="pipe-connector"></div>' : ''}
+    </div>
+  `).join('');
+  renderPipeDetail(0);
+}
+
+function selectPipe(idx) {
+  currentPipe = idx;
+  document.querySelectorAll('.pipe-stage').forEach((s, i) => {
+    s.classList.toggle('active', i === idx);
+  });
+  renderPipeDetail(idx);
+}
+
+function renderPipeDetail(idx) {
+  const d = pipelineData[idx];
+  document.getElementById('pd-title').textContent = `Step ${idx + 1}: ${d.label}`;
+  document.getElementById('pd-agent').innerHTML = `${d.type === 'cis' ? '&#x1f7e3;' : '&#x1f7e2;'} ${d.agent}`;
+  document.getElementById('pd-desc').textContent = d.desc;
+  document.getElementById('pd-output').innerHTML = d.output.replace(/\n/g, '<br>');
+  document.getElementById('pd-lesson').textContent = d.lesson;
+}
+
+// ============ Agent Gallery ============
+
+function renderAgents() {
+  const grid = document.getElementById('agent-grid');
+  grid.innerHTML = agentsData.map((a, i) => `
+    <div class="agent-card ${a.type === 'cis' ? 'cis-agent' : 'bmm-agent'}" onclick="toggleAgent(this)">
+      <div class="agent-header">
+        <div class="agent-avatar">${a.icon}</div>
+        <div>
+          <div class="agent-name">${a.name}</div>
+          <div class="agent-role">${a.role}</div>
+        </div>
+      </div>
+      <div class="agent-personality">${a.personality}</div>
+      <div class="agent-skills">
+        ${a.skills.map(s => `<span class="agent-skill-tag" style="background:${a.type === 'cis' ? 'var(--purple-light);color:var(--purple)' : 'var(--green-light);color:var(--green)'}">${s}</span>`).join('')}
+      </div>
+      <div class="agent-cmd">${a.cmd}</div>
+    </div>
+  `).join('');
+}
+
+function toggleAgent(el) {
+  el.classList.toggle('expanded');
+}
+
+// ============ Frameworks ============
+
+function renderFrameworks() {
+  // Techniques
+  const techGrid = document.getElementById('tech-grid');
+  techGrid.innerHTML = techniques.flatMap(cat =>
+    cat.items.map(item => `
+      <div class="fw-card">
+        <div class="fw-name">${item}</div>
+        <div class="fw-desc" style="color:var(${cat.color})">${cat.cat}</div>
+      </div>
+    `)
+  ).join('');
+
+  // Innovations
+  const innovGrid = document.getElementById('innov-grid');
+  innovGrid.innerHTML = innovations.flatMap(cat =>
+    cat.items.map(item => `
+      <div class="fw-card">
+        <div class="fw-name">${item}</div>
+        <div class="fw-desc" style="color:var(${cat.color})">${cat.cat}</div>
+      </div>
+    `)
+  ).join('');
+
+  // Must-know
+  const mustGrid = document.getElementById('must-grid');
+  mustGrid.innerHTML = mustKnow.map(m => `
+    <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem 1.2rem;margin-bottom:.6rem;transition:all var(--transition);cursor:default"
+         onmouseenter="this.style.borderColor='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)'">
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+        <span style="font-weight:700;font-size:.95rem">${m.name}</span>
+        <span style="font-size:.7rem;padding:1px 8px;border-radius:99px;font-weight:600;background:${m.type === '创意技巧' ? 'var(--purple-light);color:var(--purple)' : 'var(--green-light);color:var(--green)'}">${m.type}</span>
+      </div>
+      <div style="font-size:.85rem;color:var(--text-secondary);margin-bottom:.3rem">${m.desc}</div>
+      <div style="font-size:.82rem;color:var(--accent-hover);font-style:italic">${m.q}</div>
+    </div>
+  `).join('');
+}
+
+function switchFw(name) {
+  document.querySelectorAll('.fw-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.fw-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.fw-tab[onclick*="${name}"]`).classList.add('active');
+  document.getElementById('fw-' + name).classList.add('active');
+}
+
+// ============ Abbreviations ============
+
+function renderAbbr() {
+  for (const [key, items] of Object.entries(abbrData)) {
+    const el = document.getElementById('abbr-' + key);
+    if (!el) continue;
+    el.innerHTML = items.map(a => `
+      <div class="abbr-card">
+        <div class="abbr-code">${a.code}</div>
+        <div class="abbr-full">${a.full}</div>
+        <div class="abbr-zh">${a.zh}</div>
+      </div>
+    `).join('');
+  }
+}
+
+// ============ Init ============
+
+renderPipeline();
+renderAgents();
+renderFrameworks();
+renderAbbr();
+</script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 项目目录全景 — cc4pm 第 5 课</title>
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+  /* 页面特定样式 — 只写 base.css 不覆盖的部分 */
+  .detail-panel { min-height: 200px; }
+  .detail-panel h2 { display: flex; align-items: center; gap: .6rem; }
+  .detail-panel .icon { font-size: 1.4rem; }
+
+  .seg-claude  { background: var(--accent); flex: 1; }
+  .seg-rules   { background: var(--purple); flex: 1; }
+  .seg-divider { background: var(--border); flex: 0 0 3px; }
+  .seg-skills  { background: var(--green); flex: 1.5; }
+  .seg-agents  { background: var(--cyan); flex: 1; }
+  .seg-docs    { background: var(--blue); flex: .8; opacity: .65; }
+</style>
+</head>
+<body>
+
+<h1><span class="gradient">Claude Code 项目目录全景</span></h1>
+<p class="subtitle">cc4pm 第 5 课 — 五层扩展体系可视化讲解</p>
+
+<!-- Comparison Cards -->
+<div class="grid">
+  <div class="grid-card" onclick="showDetail('claude-md')">
+    <div class="emoji">📜</div>
+    <h3>CLAUDE.md</h3>
+    <div class="load-label load-auto">每次自动加载</div>
+    <p>项目契约<br>测试命令、架构约定</p>
+  </div>
+  <div class="grid-card" onclick="showDetail('rules')">
+    <div class="emoji">📏</div>
+    <h3>Rules</h3>
+    <div class="load-label load-auto">每次自动加载</div>
+    <p>编码约束<br>安全、风格、Git 规范</p>
+  </div>
+  <div class="grid-card" onclick="showDetail('skills')">
+    <div class="emoji">🛠️</div>
+    <h3>Skills</h3>
+    <div class="load-label load-demand">按需加载</div>
+    <p>任务工作流<br>诊断、迁移、检查</p>
+  </div>
+  <div class="grid-card" onclick="showDetail('agents')">
+    <div class="emoji">🤖</div>
+    <h3>Agents</h3>
+    <div class="load-label load-demand">按需启动</div>
+    <p>专家角色<br>独立上下文工作</p>
+  </div>
+  <div class="grid-card" onclick="showDetail('settings')">
+    <div class="emoji">⚙️</div>
+    <h3>settings.json</h3>
+    <div class="load-label load-auto">启动时读取</div>
+    <p>运行时配置<br>权限、Hooks、MCP</p>
+  </div>
+</div>
+
+<!-- Interactive Tree -->
+<div class="card">
+  <div class="tree" id="tree"></div>
+</div>
+
+<!-- Detail Panel -->
+<div class="card detail-panel" id="detailPanel">
+  <h2><span class="icon">👆</span> 点击上方卡片或目录树中的条目</h2>
+  <p>查看该组件的详细说明、职责、最佳实践和示例。</p>
+</div>
+
+<!-- Frequency Bar -->
+<div style="margin-bottom: 2rem;">
+  <h2 style="text-align:center; margin-bottom:1rem;">加载频率光谱</h2>
+  <div class="freq-bar">
+    <div class="seg seg-claude">CLAUDE.md</div>
+    <div class="seg seg-rules">Rules</div>
+    <div class="seg seg-divider"></div>
+    <div class="seg seg-skills">Skills</div>
+    <div class="seg seg-agents">Agents</div>
+    <div class="seg seg-docs">docs/ai</div>
+  </div>
+  <div class="freq-legend">
+    <span>← 每次必加载（常驻）</span>
+    <span>按需加载（节省上下文）→</span>
+  </div>
+</div>
+
+<!-- Principle -->
+<div class="callout" style="text-align:center; font-size:1.05rem;">
+  <strong>常驻层</strong>（CLAUDE.md + Rules）要精简，因为每次都消耗上下文。<br>
+  <em>按需层</em>（Skills + Agents + docs）可以很详细，因为只在需要时加载。
+</div>
+
+<footer>cc4pm 交互式教学 · 第 5 课附录 · Anthropic 风格</footer>
+
+<script>
+const treeData = [
+  { id:'project', prefix:'', name:'Project/', comment:'', color:'var(--text-primary)', tag:'' },
+  { id:'claude-md', prefix:'├── ', name:'CLAUDE.md', comment:'# 项目契约', color:'var(--accent)', tag:'auto' },
+  { id:'dot-claude', prefix:'├── ', name:'.claude/', comment:'', color:'var(--text-primary)', tag:'' },
+  { id:'rules', prefix:'│   ├── ', name:'rules/', comment:'# 路径/语言/文件类型约束', color:'var(--purple)', tag:'auto' },
+  { id:'rules-core', prefix:'│   │   ├── ', name:'core.md', comment:'核心编码规范', color:'var(--purple)', tag:'' },
+  { id:'rules-config', prefix:'│   │   ├── ', name:'config.md', comment:'配置文件处理规则', color:'var(--purple)', tag:'' },
+  { id:'rules-release', prefix:'│   │   └── ', name:'release.md', comment:'发布相关约束', color:'var(--purple)', tag:'' },
+  { id:'skills', prefix:'│   ├── ', name:'skills/', comment:'# 任务型工作流', color:'var(--green)', tag:'demand' },
+  { id:'skill-diag', prefix:'│   │   ├── ', name:'runtime-diagnosis/', comment:'统一收集日志、状态和依赖', color:'var(--green)', tag:'' },
+  { id:'skill-mig', prefix:'│   │   ├── ', name:'config-migration/', comment:'配置迁移回滚防污', color:'var(--green)', tag:'' },
+  { id:'skill-rel', prefix:'│   │   ├── ', name:'release-check/', comment:'发布前校验、smoke test', color:'var(--green)', tag:'' },
+  { id:'skill-inc', prefix:'│   │   └── ', name:'incident-triage/', comment:'线上故障分诊', color:'var(--green)', tag:'' },
+  { id:'agents', prefix:'│   ├── ', name:'agents/', comment:'# 自定义 Subagent', color:'var(--cyan)', tag:'demand' },
+  { id:'agent-rev', prefix:'│   │   ├── ', name:'reviewer.md', comment:'代码审查专家', color:'var(--cyan)', tag:'' },
+  { id:'agent-exp', prefix:'│   │   └── ', name:'explorer.md', comment:'代码探索助手', color:'var(--cyan)', tag:'' },
+  { id:'settings', prefix:'│   └── ', name:'settings.json', comment:'', color:'var(--accent)', tag:'config' },
+  { id:'docs', prefix:'└── ', name:'docs/', comment:'', color:'var(--text-primary)', tag:'' },
+  { id:'docs-ai', prefix:'    └── ', name:'ai/', comment:'', color:'var(--text-muted)', tag:'' },
+  { id:'docs-arch', prefix:'        ├── ', name:'architecture.md', comment:'# 架构知识，按需读取', color:'var(--text-muted)', tag:'demand' },
+  { id:'docs-run', prefix:'        └── ', name:'release-runbook.md', comment:'# 发布手册', color:'var(--text-muted)', tag:'demand' },
+];
+
+const details = {
+  'claude-md': {
+    icon: '📜', title: 'CLAUDE.md — 项目契约',
+    html: `
+      <p><span class="key">加载时机：</span>每次对话自动加载（常驻）</p>
+      <p><span class="key">职责：</span>项目级指令，告诉 Claude "这个项目怎么做"</p>
+      <p><span class="key">最佳实践：</span></p>
+      <ul>
+        <li>保持 <strong>30-100 行</strong>，超过 200 行信噪比下降</li>
+        <li>只写 Claude <strong>猜不到</strong>的信息（测试命令、特殊约定）</li>
+        <li>复杂规则用 <code>@docs/xxx.md</code> 引用，不要内联</li>
+        <li>用 <code>/init</code> 自动生成初版，然后精简</li>
+      </ul>
+      <p><span class="key">示例内容：</span></p>
+      <ul>
+        <li><code>node tests/run-all.js</code> — 测试命令</li>
+        <li>agents/ 使用 YAML frontmatter 格式</li>
+        <li>不要修改 scripts/install.js</li>
+      </ul>
+    `
+  },
+  'rules': {
+    icon: '📏', title: 'Rules — 编码约束',
+    html: `
+      <p><span class="key">加载时机：</span>每次对话自动加载（常驻）</p>
+      <p><span class="key">目录：</span><code>.claude/rules/</code></p>
+      <p><span class="key">职责：</span>按主题组织的编码规则，补充 CLAUDE.md</p>
+      <p><span class="key">优势：</span></p>
+      <ul>
+        <li>按主题拆分（security.md、testing.md），易于维护</li>
+        <li>与 CLAUDE.md 分开管理，团队成员可独立维护各自领域</li>
+        <li>同样每次自动加载，无需手动触发</li>
+      </ul>
+      <p><span class="key">示例文件：</span></p>
+      <ul>
+        <li><code>core.md</code> — 核心编码规范：命名约定、错误处理</li>
+        <li><code>config.md</code> — 配置文件处理：不要硬编码密钥</li>
+        <li><code>release.md</code> — 发布约束：版本号格式、changelog</li>
+      </ul>
+    `
+  },
+  'skills': {
+    icon: '🛠️', title: 'Skills — 任务型工作流',
+    html: `
+      <p><span class="key">加载时机：</span>用户触发 <code>/skill-name</code> 时按需加载</p>
+      <p><span class="key">目录：</span><code>.claude/skills/</code></p>
+      <p><span class="key">职责：</span>详细的操作手册，包含完整步骤、检查清单、示例</p>
+      <p><span class="key">为什么按需？</span>技能内容可能很长（几百行），不应每次都加载</p>
+      <p><span class="key">示例技能：</span></p>
+      <ul>
+        <li><code>runtime-diagnosis/</code> — 统一收集日志、进程状态、依赖版本</li>
+        <li><code>config-migration/</code> — 配置文件迁移，包含回滚步骤</li>
+        <li><code>release-check/</code> — 发布前校验清单 + smoke test</li>
+        <li><code>incident-triage/</code> — 线上故障分诊流程</li>
+      </ul>
+      <p><span class="key">触发方式：</span><code>/runtime-diagnosis</code> 或 Claude 自动识别</p>
+    `
+  },
+  'agents': {
+    icon: '🤖', title: 'Agents — 专家角色',
+    html: `
+      <p><span class="key">加载时机：</span>Claude 自主启动或用户指定</p>
+      <p><span class="key">目录：</span><code>.claude/agents/</code></p>
+      <p><span class="key">职责：</span>在<strong>独立上下文</strong>中执行特定任务，不污染主对话</p>
+      <p><span class="key">核心优势：</span></p>
+      <ul>
+        <li>独立上下文 — 不消耗主对话的上下文窗口</li>
+        <li>专业角色 — 每个 Agent 有特定的工具权限和行为约束</li>
+        <li>可并行 — 多个 Agent 可同时工作</li>
+      </ul>
+      <p><span class="key">示例 Agent：</span></p>
+      <ul>
+        <li><code>reviewer.md</code> — 代码审查专家，专注质量和安全</li>
+        <li><code>explorer.md</code> — 代码探索助手，快速理解陌生代码</li>
+      </ul>
+    `
+  },
+  'settings': {
+    icon: '⚙️', title: 'settings.json — 运行时配置',
+    html: `
+      <p><span class="key">加载时机：</span>Claude Code 启动时读取</p>
+      <p><span class="key">文件：</span><code>.claude/settings.json</code></p>
+      <p><span class="key">职责：</span>控制 Claude Code 的行为和权限</p>
+      <p><span class="key">核心配置项：</span></p>
+      <ul>
+        <li><strong>permissions</strong> — 允许哪些 Bash 命令自动执行</li>
+        <li><strong>hooks</strong> — 工具事件时自动触发的脚本</li>
+        <li><strong>env</strong> — 环境变量（MAX_THINKING_TOKENS 等）</li>
+        <li><strong>mcpServers</strong> — MCP 服务器配置</li>
+      </ul>
+      <p><span class="key">层级：</span></p>
+      <ul>
+        <li><code>~/.claude/settings.json</code> — 全局（个人）</li>
+        <li><code>.claude/settings.json</code> — 项目（团队共享）</li>
+        <li><code>.claude/settings.local.json</code> — 本地覆盖（不提交 Git）</li>
+      </ul>
+    `
+  }
+};
+
+// Render tree
+const treeEl = document.getElementById('tree');
+treeData.forEach(item => {
+  const line = document.createElement('div');
+  line.className = 'line';
+  line.dataset.id = item.id;
+  const tagHtml = item.tag === 'auto' ? '<span class="tag tag-auto">自动</span>' :
+                  item.tag === 'demand' ? '<span class="tag tag-demand">按需</span>' :
+                  item.tag === 'config' ? '<span class="tag tag-config">配置</span>' : '';
+  line.innerHTML = `<span class="prefix">${item.prefix}</span><span class="name" style="color:${item.color}">${item.name}</span>${tagHtml}<span class="comment">${item.comment}</span>`;
+  line.addEventListener('click', () => {
+    const mapping = {
+      'rules-core':'rules','rules-config':'rules','rules-release':'rules',
+      'skill-diag':'skills','skill-mig':'skills','skill-rel':'skills','skill-inc':'skills',
+      'agent-rev':'agents','agent-exp':'agents',
+      'docs-arch':'skills','docs-run':'skills'
+    };
+    const targetId = mapping[item.id] || item.id;
+    if (details[targetId]) showDetail(targetId);
+  });
+  treeEl.appendChild(line);
+});
+
+function showDetail(id) {
+  const d = details[id];
+  if (!d) return;
+  const panel = document.getElementById('detailPanel');
+  panel.innerHTML = `<h2><span class="icon">${d.icon}</span> ${d.title}</h2>${d.html}`;
+  panel.classList.add('highlight');
+  setTimeout(() => panel.classList.remove('highlight'), 600);
+  document.querySelectorAll('.tree .line').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll(`.tree .line[data-id="${id}"]`).forEach(l => l.classList.add('active'));
+}
+</script>
+</body>
+</html>

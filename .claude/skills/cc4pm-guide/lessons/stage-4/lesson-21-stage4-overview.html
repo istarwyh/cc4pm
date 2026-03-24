@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cc4pm Stage 4: 工程协作与质量保障</title>
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+/* Tabs */
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.tab-btn{padding:.5rem 1.2rem;border:1px solid var(--border);border-radius:99px;background:var(--bg-secondary);color:var(--text-secondary);cursor:pointer;font-size:.85rem;font-weight:600;transition:all var(--transition)}
+.tab-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* Flow */
+.flow{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;justify-content:center;margin:1.5rem 0}
+.flow-step{background:var(--bg-secondary);border:2px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.3rem;min-width:120px;text-align:center;cursor:pointer;transition:all var(--transition)}
+.flow-step:hover{border-color:var(--accent);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.flow-step.active{border-color:var(--accent);background:var(--accent-light)}
+.flow-step .cmd{font-family:var(--font-mono);font-weight:700;font-size:.95rem;color:var(--accent)}
+.flow-step .label{font-size:.78rem;color:var(--text-secondary);margin-top:.2rem}
+.flow-arrow{font-size:1.5rem;color:var(--text-muted)}
+.flow-detail{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.5rem;margin-top:.5rem;min-height:80px}
+
+/* Agent cards */
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin:1rem 0}
+.agent-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.2rem;transition:all var(--transition)}
+.agent-card:hover{border-color:var(--accent);box-shadow:var(--shadow-md)}
+.agent-card .name{font-weight:700;font-size:.95rem}
+.agent-card .role{font-size:.82rem;color:var(--text-secondary)}
+.agent-card .model-badge{display:inline-block;font-size:.7rem;padding:1px 8px;border-radius:99px;font-weight:600;margin-left:.5rem}
+.model-opus{background:#ede9fe;color:var(--purple)}
+.model-sonnet{background:var(--blue-light);color:var(--blue)}
+
+/* Hook timeline */
+.hook-group{margin-bottom:1.5rem}
+.hook-group-title{font-weight:700;font-size:.95rem;padding:.6rem 1rem;border-radius:var(--radius-sm);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem;cursor:pointer}
+.hook-group-title .count{font-size:.75rem;background:var(--accent);color:#fff;padding:1px 8px;border-radius:99px}
+.hook-item{display:flex;align-items:flex-start;gap:.8rem;padding:.5rem .8rem .5rem 2rem;border-left:2px solid var(--border);margin-left:.5rem;font-size:.85rem;transition:background var(--transition)}
+.hook-item:hover{background:var(--accent-glow)}
+.hook-item .script{font-family:var(--font-mono);font-weight:600;color:var(--accent-hover);min-width:200px}
+.hook-item .desc{color:var(--text-secondary)}
+.hook-item .async-tag{font-size:.65rem;background:var(--cyan-light);color:var(--cyan);padding:1px 6px;border-radius:99px;font-weight:600;margin-left:.3rem}
+
+/* Rules */
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin:1rem 0}
+.rule-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;text-align:center;cursor:pointer;transition:all var(--transition)}
+.rule-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.rule-card.selected{border-color:var(--accent);background:var(--accent-light)}
+.rule-card .lang{font-size:1.5rem;margin-bottom:.3rem}
+.rule-card .name{font-weight:700;font-size:.9rem}
+.rule-card .count{font-size:.75rem;color:var(--text-muted)}
+.rule-detail{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem;margin-top:1rem}
+
+/* QG Flow */
+.qg-pipeline{display:flex;flex-direction:column;gap:.5rem;margin:1rem 0}
+.qg-step{display:flex;align-items:center;gap:1rem;padding:.8rem 1.2rem;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md);transition:all var(--transition)}
+.qg-step:hover{border-color:var(--accent)}
+.qg-step .num{font-size:1.2rem;font-weight:700;color:var(--accent);min-width:30px}
+.qg-step .tool{font-family:var(--font-mono);font-size:.82rem;color:var(--text-muted)}
+.qg-step .action{font-size:.78rem;padding:2px 8px;border-radius:99px;font-weight:600}
+.action-fix{background:var(--green-light);color:var(--green)}
+.action-warn{background:var(--accent-light);color:var(--accent)}
+.action-block{background:var(--rose-light);color:var(--rose)}
+
+/* Compare */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1rem 0}
+.compare-col{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;position:relative}
+.compare-col.old{border-color:var(--rose);border-top:3px solid var(--rose)}
+.compare-col.new{border-color:var(--green);border-top:3px solid var(--green)}
+.compare-col h3{text-align:center;margin-bottom:1rem}
+.compare-item{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:.85rem}
+.compare-item:last-child{border:none}
+
+/* Env vars */
+.env-table{margin:1rem 0}
+.env-row{display:flex;gap:1rem;padding:.5rem .8rem;border-bottom:1px solid var(--border);font-size:.85rem;align-items:flex-start}
+.env-row:hover{background:var(--accent-glow)}
+.env-var{font-family:var(--font-mono);font-weight:600;color:var(--accent-hover);min-width:260px}
+.env-desc{color:var(--text-secondary)}
+
+@media(max-width:700px){
+  .compare{grid-template-columns:1fr}
+  .hook-item .script{min-width:auto}
+  .agent-grid{grid-template-columns:1fr}
+  .flow{flex-direction:column}
+  .flow-arrow{transform:rotate(90deg)}
+}
+</style>
+</head>
+<body>
+
+<h1><span class="gradient">Stage 4</span> 工程协作与质量保障</h1>
+<p class="subtitle">Lesson 21-23 | /plan /tdd /e2e /code-review | 18 代理 | 21 Hooks | 44 Rules</p>
+
+<div class="tabs" id="mainTabs"></div>
+<div id="panels"></div>
+
+<footer>cc4pm 交互式教学 · Stage 4 · 工程协作与质量保障 (L21-L23)</footer>
+
+<script>
+const tabs = [
+  {id:'flow',label:'工程流程',icon:''},
+  {id:'agents',label:'18 代理',icon:''},
+  {id:'hooks',label:'21 Hooks',icon:''},
+  {id:'rules',label:'44 Rules',icon:''},
+  {id:'qgate',label:'质量门禁',icon:''},
+  {id:'compare',label:'有 vs 没有',icon:''}
+];
+
+// === DATA ===
+const flowSteps = [
+  {cmd:'/plan',label:'规划',agent:'planner (opus)',desc:'需求复述 → 阶段拆解 → 风险评估 → 确认后才开始。PM 参与度: 高。'},
+  {cmd:'/tdd',label:'测试驱动',agent:'tdd-guide (sonnet)',desc:'SCAFFOLD → RED(写失败测试) → GREEN(最少代码通过) → REFACTOR(优化)。覆盖率目标: 80%+。'},
+  {cmd:'/build-fix',label:'构建修复',agent:'build-error-resolver (sonnet)',desc:'自动检测构建工具 → 捕获错误 → 逐个修复(最小化修改) → 3 次失败则上报。'},
+  {cmd:'/code-review',label:'代码审查',agent:'code-reviewer (sonnet)',desc:'四级审查：CRITICAL(阻止) → HIGH(建议修) → MEDIUM(优化) → LOW(参考)。'},
+  {cmd:'/e2e',label:'端到端测试',agent:'e2e-runner (sonnet)',desc:'Playwright 多浏览器执行，失败自动截图/视频。WDS 场景 → E2E 测试场景。'},
+  {cmd:'git commit',label:'提交合并',agent:'—',desc:'代码审查通过 → PR → 合并到主分支。PM 确认大型功能。'}
+];
+
+const agents = [
+  {cat:'核心开发',items:[
+    {name:'planner',role:'规划专家',model:'opus',when:'开始新功能、复杂重构前'},
+    {name:'tdd-guide',role:'TDD 教练',model:'sonnet',when:'编写新功能、修复 Bug'},
+    {name:'build-error-resolver',role:'构建错误修复',model:'sonnet',when:'编译/构建失败时'},
+    {name:'code-reviewer',role:'代码审查',model:'sonnet',when:'提交代码前'},
+    {name:'security-reviewer',role:'安全审查',model:'sonnet',when:'安全敏感的代码变更'}
+  ]},
+  {cat:'测试',items:[
+    {name:'e2e-runner',role:'E2E 测试',model:'sonnet',when:'验证用户流程'}
+  ]},
+  {cat:'专项审查',items:[
+    {name:'go-reviewer',role:'Go 代码审查',model:'sonnet',when:'Go 项目'},
+    {name:'python-reviewer',role:'Python 审查',model:'sonnet',when:'Python 项目'},
+    {name:'kotlin-reviewer',role:'Kotlin 审查',model:'sonnet',when:'Kotlin 项目'},
+    {name:'database-reviewer',role:'数据库审查',model:'sonnet',when:'SQL/Supabase 变更'}
+  ]},
+  {cat:'基础设施',items:[
+    {name:'architect',role:'架构师',model:'opus',when:'系统设计决策'},
+    {name:'go-build-resolver',role:'Go 构建修复',model:'sonnet',when:'Go 构建失败'},
+    {name:'kotlin-build-resolver',role:'Kotlin 构建修复',model:'sonnet',when:'Kotlin 构建失败'},
+    {name:'doc-updater',role:'文档同步',model:'sonnet',when:'代码变更后更新文档'},
+    {name:'refactor-cleaner',role:'重构清理',model:'sonnet',when:'清除死代码'}
+  ]},
+  {cat:'高级',items:[
+    {name:'harness-optimizer',role:'性能调优',model:'opus',when:'优化代理系统本身'},
+    {name:'loop-operator',role:'自主循环',model:'sonnet',when:'长时间自动化任务'},
+    {name:'chief-of-staff',role:'通讯助理',model:'opus',when:'邮件/消息分流'}
+  ]}
+];
+
+const hookGroups = [
+  {trigger:'SessionStart',color:'var(--green)',bg:'var(--green-light)',hooks:[
+    {script:'session-start.js',desc:'加载上次会话状态、检测包管理器(npm/pnpm/yarn/bun)、列出已学技能',async:false}
+  ]},
+  {trigger:'PreToolUse',color:'var(--blue)',bg:'var(--blue-light)',hooks:[
+    {script:'auto-tmux-dev.js',desc:'拦截 npm run dev 等命令，自动在 tmux 中启动开发服务器',async:false},
+    {script:'pre-bash-tmux-reminder.js',desc:'npm install/pytest/docker 等长命令建议用 tmux',async:false},
+    {script:'pre-bash-git-push-reminder.js',desc:'git push 前提醒先 review 代码',async:false},
+    {script:'doc-file-warning.js',desc:'创建非标准 .md 文件时警告(允许 README/CLAUDE/AGENTS 等)',async:false},
+    {script:'suggest-compact.js',desc:'每 50 次工具调用建议压缩上下文(COMPACT_THRESHOLD 可配)',async:false},
+    {script:'observe.sh',desc:'持续学习观察器，采集工具使用数据',async:true},
+    {script:'insaits-security-wrapper.js',desc:'AI 安全监控：凭证泄露、提示注入、行为异常(23 种异常类型)',async:false}
+  ]},
+  {trigger:'PreCompact',color:'var(--purple)',bg:'var(--purple-light)',hooks:[
+    {script:'pre-compact.js',desc:'上下文压缩前保存当前状态快照到 compaction-log.txt',async:false}
+  ]},
+  {trigger:'PostToolUse',color:'var(--accent)',bg:'var(--accent-light)',hooks:[
+    {script:'post-bash-pr-created.js',desc:'检测 gh pr create，提取 PR URL 并提供 review 命令',async:false},
+    {script:'post-bash-build-complete.js',desc:'构建完成后异步分析构建结果',async:true},
+    {script:'quality-gate.js',desc:'编辑后运行质量门禁：Biome/Prettier/gofmt/ruff',async:true},
+    {script:'post-edit-format.js',desc:'编辑 JS/TS 后自动检测 Biome 或 Prettier 并格式化',async:false},
+    {script:'post-edit-typecheck.js',desc:'编辑 .ts/.tsx 后找 tsconfig 运行 tsc --noEmit',async:false},
+    {script:'post-edit-console-warn.js',desc:'编辑后检测新增 console.log 并显示行号(最多 5 个)',async:false},
+    {script:'observe.sh',desc:'持续学习结果采集',async:true}
+  ]},
+  {trigger:'Stop',color:'var(--cyan)',bg:'var(--cyan-light)',hooks:[
+    {script:'check-console-log.js',desc:'检查所有被修改文件中的 console.log',async:false},
+    {script:'session-end.js',desc:'提取会话摘要(任务/文件/工具)，保存到 ~/.claude/sessions/',async:true},
+    {script:'evaluate-session.js',desc:'评估会话是否有可提取的经验模式(>10 条消息才触发)',async:true},
+    {script:'cost-tracker.js',desc:'按模型记录 Token 用量和成本到 costs.jsonl',async:true}
+  ]},
+  {trigger:'SessionEnd',color:'var(--rose)',bg:'var(--rose-light)',hooks:[
+    {script:'session-end-marker.js',desc:'会话结束生命周期标记(非阻塞)',async:false}
+  ]}
+];
+
+const rulesData = [
+  {lang:'Common',icon:'*',count:9,files:['coding-style.md','security.md','testing.md','git-workflow.md','performance.md','patterns.md','hooks.md','development-workflow.md','agents.md'],
+   highlights:'不可变优先 | 800行上限 | OWASP 8项清单 | 80%覆盖率 | feat/fix/docs格式 | Repository+API模式 | Research→Plan→TDD→Review全流程'},
+  {lang:'TypeScript',icon:'TS',count:5,files:['coding-style.md','testing.md','patterns.md','hooks.md','security.md'],
+   highlights:'禁 any 用 unknown | Zod 验证 | Playwright E2E | Prettier+tsc | process.env 验证'},
+  {lang:'Python',icon:'PY',count:5,files:['coding-style.md','testing.md','patterns.md','hooks.md','security.md'],
+   highlights:'PEP 8 | frozen dataclass | pytest | black+ruff+mypy | bandit 扫描'},
+  {lang:'Go',icon:'GO',count:5,files:['coding-style.md','testing.md','patterns.md','hooks.md','security.md'],
+   highlights:'gofmt 强制 | table-driven tests | Functional Options | go vet+staticcheck | gosec'},
+  {lang:'Swift',icon:'SW',count:5,files:['coding-style.md','testing.md','patterns.md','hooks.md','security.md'],
+   highlights:'Swift 6 concurrency | Swift Testing | Protocol-Oriented+Actor | SwiftFormat+SwiftLint | Keychain'},
+  {lang:'Kotlin',icon:'KT',count:5,files:['coding-style.md','testing.md','patterns.md','hooks.md','security.md'],
+   highlights:'禁 !! | sealed types | kotlin.test+Turbine | ktlint+detekt | EncryptedSharedPrefs'},
+  {lang:'PHP',icon:'HP',count:5,files:['coding-style.md','testing.md','patterns.md','hooks.md','security.md'],
+   highlights:'PSR-12 | strict_types | PHPUnit/Pest | Pint+PHPStan | prepared statements'},
+  {lang:'Perl',icon:'PL',count:5,files:['coding-style.md','testing.md','patterns.md','hooks.md','security.md'],
+   highlights:'use v5.36 | Moo+Types::Standard | Test2::V0 | perltidy+perlcritic | taint mode'}
+];
+
+const qgSteps = [
+  {num:'1',name:'文件类型检测',desc:'判断 .ts/.js → 跳过(已有 post-edit-format) | .json/.md → Biome/Prettier | .go → gofmt | .py → ruff',tool:'quality-gate.js',action:'路由',actionClass:''},
+  {num:'2',name:'代码格式化',desc:'Biome check --write (格式化+Lint) 或 Prettier --write 或 gofmt -w 或 ruff format',tool:'Biome / Prettier / gofmt / ruff',action:'自动修复',actionClass:'action-fix'},
+  {num:'3',name:'TypeScript 类型检查',desc:'找最近 tsconfig.json(上溯 20 层) → tsc --noEmit → 只显示编辑文件相关错误',tool:'post-edit-typecheck.js',action:'阻止',actionClass:'action-block'},
+  {num:'4',name:'console.log 检测',desc:'检查非测试文件中的 console.log，显示最多 5 个匹配行及行号',tool:'post-edit-console-warn.js + check-console-log.js',action:'警告',actionClass:'action-warn'},
+  {num:'5',name:'安全监控(可选)',desc:'InsAIts 检测凭证泄露、提示注入等 23 种异常。exit 2 = 阻止写入',tool:'insaits-security-wrapper.js',action:'阻止/放行',actionClass:'action-block'}
+];
+
+// === RENDER ===
+const tabsEl = document.getElementById('mainTabs');
+const panelsEl = document.getElementById('panels');
+
+tabs.forEach((t,i)=>{
+  const btn = document.createElement('button');
+  btn.className = 'tab-btn' + (i===0?' active':'');
+  btn.textContent = t.label;
+  btn.onclick = ()=>switchTab(t.id);
+  btn.dataset.id = t.id;
+  tabsEl.appendChild(btn);
+
+  const panel = document.createElement('div');
+  panel.id = 'panel-'+t.id;
+  panel.className = 'tab-panel' + (i===0?' active':'');
+  panelsEl.appendChild(panel);
+});
+
+function switchTab(id){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.id===id));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+id));
+}
+
+// --- Flow ---
+(function(){
+  const p = document.getElementById('panel-flow');
+  p.innerHTML = '<h2>工程流程：从规划到合并</h2><p>点击每个步骤查看详情。这是 cc4pm 开发一个新功能的标准流程。</p>';
+  const flowEl = document.createElement('div');
+  flowEl.className = 'flow';
+  const detailEl = document.createElement('div');
+  detailEl.className = 'flow-detail';
+  detailEl.innerHTML = '<p style="color:var(--text-muted)">点击上方任意步骤查看详情</p>';
+
+  flowSteps.forEach((s,i)=>{
+    if(i>0){const a=document.createElement('span');a.className='flow-arrow';a.textContent='→';flowEl.appendChild(a);}
+    const d=document.createElement('div');
+    d.className='flow-step';
+    d.innerHTML=`<div class="cmd">${s.cmd}</div><div class="label">${s.label}</div>`;
+    d.onclick=()=>{
+      document.querySelectorAll('.flow-step').forEach(x=>x.classList.remove('active'));
+      d.classList.add('active');
+      detailEl.innerHTML=`<h3>${s.cmd} — ${s.label}</h3><p><strong>代理：</strong>${s.agent}</p><p>${s.desc}</p>`;
+    };
+    flowEl.appendChild(d);
+  });
+  p.appendChild(flowEl);
+  p.appendChild(detailEl);
+
+  // PM participation
+  const pm = document.createElement('div');
+  pm.className = 'card';
+  pm.innerHTML = `<h3>PM 的参与点</h3>
+<table><tr><th>阶段</th><th>参与度</th><th>你需要做什么</th></tr>
+<tr><td><code>/plan</code></td><td><strong style="color:var(--rose)">高</strong></td><td>确认需求复述是否准确、阶段拆解是否合理</td></tr>
+<tr><td><code>/tdd</code></td><td>低</td><td>知道测试覆盖率目标(80%+)即可</td></tr>
+<tr><td><code>/build-fix</code></td><td>无</td><td>自动化处理</td></tr>
+<tr><td><code>/code-review</code></td><td><strong style="color:var(--accent)">中</strong></td><td>关注 CRITICAL/HIGH 安全问题</td></tr>
+<tr><td><code>/e2e</code></td><td><strong style="color:var(--rose)">高</strong></td><td>确认测试场景覆盖核心用户旅程</td></tr>
+<tr><td>PR/合并</td><td><strong style="color:var(--accent)">中</strong></td><td>大型功能需 PM 确认后合并</td></tr>
+</table>`;
+  p.appendChild(pm);
+})();
+
+// --- Agents ---
+(function(){
+  const p = document.getElementById('panel-agents');
+  p.innerHTML = '<h2>18 个专业代理</h2><p>模型选择逻辑：<span class="tag model-opus">opus</span> 用于架构决策和复杂推理 | <span class="tag model-sonnet">sonnet</span> 用于编码、审查和测试</p>';
+  agents.forEach(cat=>{
+    const sec = document.createElement('div');
+    sec.style.marginBottom = '1.5rem';
+    sec.innerHTML = `<h3>${cat.cat} (${cat.items.length})</h3>`;
+    const grid = document.createElement('div');
+    grid.className = 'agent-grid';
+    cat.items.forEach(a=>{
+      const card = document.createElement('div');
+      card.className = 'agent-card';
+      card.innerHTML = `<div><span class="name">${a.name}</span><span class="model-badge model-${a.model}">${a.model}</span></div>
+<div class="role">${a.role}</div>
+<div style="font-size:.8rem;color:var(--text-muted);margin-top:.3rem">${a.when}</div>`;
+      grid.appendChild(card);
+    });
+    sec.appendChild(grid);
+    p.appendChild(sec);
+  });
+})();
+
+// --- Hooks ---
+(function(){
+  const p = document.getElementById('panel-hooks');
+  p.innerHTML = '<h2>21 个 Hooks (6 个触发点)</h2><p>来自 <code>hooks/hooks.json</code> 的真实配置。<span class="tag" style="background:var(--cyan-light);color:var(--cyan)">async</span> 标记的 Hook 在后台运行，不阻塞工作。</p>';
+
+  hookGroups.forEach(g=>{
+    const group = document.createElement('div');
+    group.className = 'hook-group';
+    group.innerHTML = `<div class="hook-group-title" style="background:${g.bg};color:${g.color}">
+      <span>${g.trigger}</span><span class="count">${g.hooks.length}</span>
+    </div>`;
+    g.hooks.forEach(h=>{
+      const item = document.createElement('div');
+      item.className = 'hook-item';
+      item.style.borderLeftColor = g.color;
+      item.innerHTML = `<span class="script">${h.script}${h.async?'<span class="async-tag">async</span>':''}</span><span class="desc">${h.desc}</span>`;
+      group.appendChild(item);
+    });
+    p.appendChild(group);
+  });
+
+  // Env vars
+  const envCard = document.createElement('div');
+  envCard.className = 'card';
+  envCard.innerHTML = `<h3>Hook 环境变量控制</h3>
+<div class="env-table">
+  <div class="env-row"><span class="env-var">ECC_HOOK_PROFILE=minimal</span><span class="env-desc">只运行 4 个核心 Hook(session-start/end + evaluate + cost)</span></div>
+  <div class="env-row"><span class="env-var">ECC_HOOK_PROFILE=standard</span><span class="env-desc">运行 17 个 Hook(默认值)</span></div>
+  <div class="env-row"><span class="env-var">ECC_HOOK_PROFILE=strict</span><span class="env-desc">运行全部 21 个 Hook</span></div>
+  <div class="env-row"><span class="env-var">ECC_DISABLED_HOOKS=hook1,hook2</span><span class="env-desc">精确禁用指定 Hook(逗号分隔)</span></div>
+  <div class="env-row"><span class="env-var">ECC_ENABLE_INSAITS=1</span><span class="env-desc">启用 AI 安全监控(需 pip install insa-its)</span></div>
+  <div class="env-row"><span class="env-var">ECC_QUALITY_GATE_STRICT=1</span><span class="env-desc">质量门禁严格模式</span></div>
+  <div class="env-row"><span class="env-var">COMPACT_THRESHOLD=50</span><span class="env-desc">压缩建议阈值(默认 50 次工具调用)</span></div>
+</div>`;
+  p.appendChild(envCard);
+})();
+
+// --- Rules ---
+(function(){
+  const p = document.getElementById('panel-rules');
+  p.innerHTML = '<h2>44 个规则文件 (9 通用 + 7 语言 x 5)</h2><p>AI 代理写代码时<strong>始终遵循</strong>这些规则——不需要每次提醒。点击查看每种语言的核心规则。</p>';
+  const grid = document.createElement('div');
+  grid.className = 'rules-grid';
+  const detail = document.createElement('div');
+  detail.className = 'rule-detail';
+  detail.innerHTML = '<p style="color:var(--text-muted)">点击上方任意语言卡片查看核心规则</p>';
+
+  rulesData.forEach(r=>{
+    const card = document.createElement('div');
+    card.className = 'rule-card';
+    card.innerHTML = `<div class="lang" style="font-weight:700;color:var(--accent)">${r.icon}</div><div class="name">${r.lang}</div><div class="count">${r.count} 个文件</div>`;
+    card.onclick = ()=>{
+      document.querySelectorAll('.rule-card').forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+      detail.innerHTML = `<h3>${r.lang} 规则 (${r.count} 个文件)</h3>
+<p><strong>文件：</strong>${r.files.map(f=>'<code>'+f+'</code>').join(' ')}</p>
+<p><strong>核心要点：</strong></p>
+<div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem">${r.highlights.split(' | ').map(h=>'<span class="tag tag-config">'+h+'</span>').join('')}</div>`;
+    };
+    grid.appendChild(card);
+  });
+  p.appendChild(grid);
+  p.appendChild(detail);
+
+  // Priority note
+  const note = document.createElement('div');
+  note.className = 'callout';
+  note.innerHTML = '<strong>优先级：</strong>语言专用规则 > 通用规则。每种语言的规则<em>不是</em>通用规则的复制粘贴，而是针对语言特性的专门定制。比如 Swift 安全规则强调 Keychain Services，Kotlin 强调禁止 <code>!!</code>。';
+  p.appendChild(note);
+})();
+
+// --- Quality Gate ---
+(function(){
+  const p = document.getElementById('panel-qgate');
+  p.innerHTML = '<h2>质量门禁：quality-gate.js 真实流程</h2><p>基于 <code>scripts/hooks/quality-gate.js</code> (169 行) 的实际逻辑。编辑文件后<strong>异步</strong>运行，30 秒超时。</p>';
+  const pipeline = document.createElement('div');
+  pipeline.className = 'qg-pipeline';
+
+  qgSteps.forEach(s=>{
+    const step = document.createElement('div');
+    step.className = 'qg-step';
+    step.innerHTML = `<div class="num">${s.num}</div>
+<div style="flex:1"><strong>${s.name}</strong><div style="font-size:.82rem;color:var(--text-secondary)">${s.desc}</div><div class="tool">${s.tool}</div></div>
+${s.actionClass?'<span class="action '+s.actionClass+'">'+s.action+'</span>':''}`;
+    pipeline.appendChild(step);
+  });
+  p.appendChild(pipeline);
+
+  // Three-layer
+  const three = document.createElement('div');
+  three.className = 'card';
+  three.innerHTML = `<h3>三层自动化协作</h3>
+<table><tr><th>层</th><th>角色</th><th>回答</th></tr>
+<tr><td><strong>Rules</strong> (44 文件)</td><td>定义标准</td><td>"代码应该长什么样"</td></tr>
+<tr><td><strong>Hooks</strong> (21 个)</td><td>执行检查</td><td>"自动检查是否达标"</td></tr>
+<tr><td><strong>Quality Gate</strong></td><td>决定通过</td><td>"不达标就不能提交"</td></tr>
+</table>`;
+  p.appendChild(three);
+})();
+
+// --- Compare ---
+(function(){
+  const p = document.getElementById('panel-compare');
+  p.innerHTML = '<h2>有 cc4pm vs 没有 cc4pm</h2>';
+  const cmp = document.createElement('div');
+  cmp.className = 'compare';
+
+  const items = [
+    ['代码格式化','手动运行 Prettier','编辑后自动运行 (post-edit-format.js)'],
+    ['类型检查','等 CI 报错才发现','编辑 .ts 后当场检查 (post-edit-typecheck.js)'],
+    ['安全审查','靠人眼看代码','23 种异常自动检测 (InsAIts)'],
+    ['调试代码清理','上线后用户发现 console.log','每次回复后双重检查 (2 个 Hook)'],
+    ['会话状态','关窗口全丢了','自动保存/恢复 (session-start/end.js)'],
+    ['代码审查','人工一个个文件看','四级自动分类 (CRITICAL→LOW)'],
+    ['构建失败','开发者手动排查','自动诊断+最小修复 (/build-fix)'],
+    ['测试覆盖','想起来才写','TDD 强制先写测试 (80%+ 覆盖率)'],
+    ['Git 工作流','每个人格式不同','Rules 统一 feat/fix/docs 格式'],
+    ['AI 使用成本','不知道花了多少','cost-tracker.js 自动记录'],
+    ['开发经验积累','全靠个人记忆','持续学习系统自动提取模式']
+  ];
+
+  const oldCol = document.createElement('div');
+  oldCol.className = 'compare-col old';
+  oldCol.innerHTML = '<h3 style="color:var(--rose)">传统方式</h3>';
+
+  const newCol = document.createElement('div');
+  newCol.className = 'compare-col new';
+  newCol.innerHTML = '<h3 style="color:var(--green)">cc4pm 自动化</h3>';
+
+  items.forEach(([label,old,nw])=>{
+    const o = document.createElement('div');
+    o.className = 'compare-item';
+    o.innerHTML = `<span class="key">${label}</span><span>${old}</span>`;
+    oldCol.appendChild(o);
+    const n = document.createElement('div');
+    n.className = 'compare-item';
+    n.innerHTML = `<span class="key">${label}</span><span>${nw}</span>`;
+    newCol.appendChild(n);
+  });
+  cmp.appendChild(oldCol);
+  cmp.appendChild(newCol);
+  p.appendChild(cmp);
+})();
+</script>
+</body>
+</html>

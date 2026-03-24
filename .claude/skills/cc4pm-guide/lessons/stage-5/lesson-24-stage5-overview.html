@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cc4pm Stage 5: 高级特性与实战</title>
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.tab-btn{padding:.5rem 1.2rem;border:1px solid var(--border);border-radius:99px;background:var(--bg-secondary);color:var(--text-secondary);cursor:pointer;font-size:.85rem;font-weight:600;transition:all var(--transition)}
+.tab-btn:hover{border-color:var(--accent);color:var(--accent)}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* MCP cards */
+.mcp-cats{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.mcp-cat-btn{padding:.4rem 1rem;border:1px solid var(--border);border-radius:99px;background:var(--bg-secondary);font-size:.8rem;cursor:pointer;transition:all var(--transition)}
+.mcp-cat-btn:hover{border-color:var(--accent)}
+.mcp-cat-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mcp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.8rem;margin:1rem 0}
+.mcp-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;transition:all var(--transition)}
+.mcp-card:hover{border-color:var(--accent);box-shadow:var(--shadow-md)}
+.mcp-card .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem}
+.mcp-card .name{font-family:var(--font-mono);font-weight:700;font-size:.9rem}
+.mcp-card .type-badge{font-size:.65rem;padding:1px 6px;border-radius:99px;font-weight:600}
+.type-cmd{background:var(--blue-light);color:var(--blue)}
+.type-http{background:var(--green-light);color:var(--green)}
+.type-py{background:var(--purple-light);color:var(--purple)}
+.mcp-card .desc{font-size:.82rem;color:var(--text-secondary)}
+.mcp-card .cred{font-size:.75rem;color:var(--text-muted);margin-top:.3rem;font-family:var(--font-mono)}
+.mcp-card .cmd-line{font-family:var(--font-mono);font-size:.72rem;color:var(--text-muted);background:var(--bg-code);padding:3px 6px;border-radius:4px;margin-top:.4rem;word-break:break-all;line-height:1.5}
+.mcp-card .usage{font-size:.78rem;color:var(--accent);margin-top:.3rem;font-style:italic}
+.tier-section{margin-bottom:1.5rem}
+.tier-header{display:flex;align-items:center;gap:.8rem;padding:.8rem 1.2rem;border-radius:var(--radius-md);margin-bottom:.8rem;flex-wrap:wrap}
+.tier-header .tier-num{font-size:1.3rem;font-weight:800;opacity:.35}
+.tier-header .tier-info{flex:1;min-width:200px}
+.tier-header .tier-name{font-weight:700;font-size:.95rem}
+.tier-header .tier-desc{font-size:.8rem;opacity:.8}
+.tier-header .tier-count{font-size:.7rem;padding:2px 8px;border-radius:99px;background:rgba(255,255,255,.4);font-weight:600}
+.subcat-title{font-weight:600;font-size:.85rem;color:var(--text-secondary);margin:1rem 0 .5rem;padding-left:.5rem;border-left:3px solid var(--border)}
+
+/* Timeline */
+.timeline{position:relative;margin:1.5rem 0;padding-left:2rem}
+.timeline::before{content:'';position:absolute;left:.8rem;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-group{margin-bottom:1.5rem;position:relative}
+.tl-group::before{content:'';position:absolute;left:-1.2rem;top:.3rem;width:12px;height:12px;border-radius:50%;border:2px solid var(--accent);background:var(--bg-secondary)}
+.tl-group.done::before{background:var(--accent)}
+.tl-group .day{font-weight:700;font-size:.9rem;color:var(--accent);margin-bottom:.3rem}
+.tl-step{display:flex;gap:.8rem;padding:.3rem 0;font-size:.85rem;align-items:flex-start}
+.tl-step .cmd{font-family:var(--font-mono);font-weight:600;color:var(--accent-hover);min-width:190px}
+.tl-step .what{color:var(--text-secondary)}
+
+/* Agent panorama */
+.team-section{margin-bottom:1.5rem}
+.team-title{font-weight:700;font-size:.95rem;padding:.5rem .8rem;border-radius:var(--radius-sm);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.team-agents{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.5rem}
+.team-agent{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.6rem .8rem;font-size:.85rem;display:flex;justify-content:space-between;align-items:center}
+.team-agent .agent-name{font-weight:600}
+.team-agent .agent-role{font-size:.78rem;color:var(--text-muted)}
+
+/* Learning pipeline */
+.pipe{display:flex;flex-direction:column;gap:.3rem;margin:1rem 0}
+.pipe-step{display:flex;align-items:center;gap:1rem;padding:.8rem 1.2rem;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md)}
+.pipe-step .icon{font-size:1.5rem;min-width:40px;text-align:center}
+.pipe-step .cmd{font-family:var(--font-mono);font-weight:700;font-size:.85rem;color:var(--accent)}
+.pipe-step .level{font-size:.7rem;padding:1px 6px;border-radius:99px;font-weight:600}
+.pipe-arrow{text-align:center;color:var(--text-muted);font-size:1.2rem}
+
+/* Graduation */
+.grad-box{background:linear-gradient(135deg,var(--accent-light),#fef9ee);border:2px solid var(--accent);border-radius:var(--radius-xl);padding:2.5rem;text-align:center;margin:2rem 0}
+.grad-box h2{font-size:1.5rem;margin-bottom:1rem}
+.grad-stats{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin:1.5rem 0}
+.grad-stat{text-align:center}
+.grad-stat .num{font-size:2rem;font-weight:700;color:var(--accent)}
+.grad-stat .label{font-size:.8rem;color:var(--text-secondary)}
+
+/* Abbr */
+.abbr-group{margin-bottom:1.5rem}
+.abbr-group h3{margin-bottom:.5rem}
+.abbr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.3rem}
+.abbr-item{display:flex;gap:.5rem;padding:.3rem .6rem;font-size:.85rem;border-bottom:1px solid var(--border)}
+.abbr-item:hover{background:var(--accent-glow)}
+.abbr-item .short{font-family:var(--font-mono);font-weight:700;color:var(--accent-hover);min-width:60px}
+
+/* Config example */
+.config-box{background:var(--bg-code);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem;font-family:var(--font-mono);font-size:.82rem;line-height:1.6;overflow-x:auto;margin:1rem 0}
+.config-box .key{color:var(--blue)}
+.config-box .str{color:var(--green)}
+.config-box .cmt{color:var(--text-muted)}
+
+@media(max-width:700px){
+  .mcp-grid{grid-template-columns:1fr}
+  .team-agents{grid-template-columns:1fr}
+  .grad-stats{flex-direction:column;gap:1rem}
+  .tl-step{flex-direction:column;gap:.2rem}
+  .tl-step .cmd{min-width:auto}
+}
+</style>
+</head>
+<body>
+
+<h1><span class="gradient">Stage 5</span> 高级特性与实战</h1>
+<p class="subtitle">Lesson 24-26 | 23 MCP | 持续学习 | 全流程实战 | 课程总结</p>
+
+<div class="tabs" id="mainTabs"></div>
+<div id="panels"></div>
+
+<footer>cc4pm 交互式教学 · Stage 5 · 高级特性与实战 (L24-L26)</footer>
+
+<script>
+const tabs = [
+  {id:'mcp',label:'23 MCP'},
+  {id:'learn',label:'持续学习'},
+  {id:'fullflow',label:'全流程实战'},
+  {id:'panorama',label:'代理全景'},
+  {id:'grad',label:'课程总结'},
+  {id:'abbr',label:'缩写速查'}
+];
+
+// === DATA ===
+const mcpTiers = [
+  {tier:1,name:'第一层：通用推荐',desc:'建议所有人启用，无需凭证，开箱即用',color:'var(--green)',bg:'var(--green-light)',
+   servers:[
+    {name:'memory',type:'cmd',desc:'跨会话持久化记忆',cmd:'npx -y @modelcontextprotocol/server-memory',usage:'"记住我们的项目用 pnpm"'},
+    {name:'sequential-thinking',type:'cmd',desc:'链式推理增强',cmd:'npx -y @modelcontextprotocol/server-sequential-thinking',usage:'遇到复杂问题自动激活深度推理'},
+    {name:'context7',type:'cmd',desc:'实时文档查询',cmd:'npx -y @upstash/context7-mcp@latest',usage:'"Next.js 15 的 Server Actions 怎么用？"'},
+    {name:'token-optimizer',type:'cmd',desc:'95%+ 上下文压缩',cmd:'npx -y token-optimizer-mcp',usage:'处理超长文件/日志时自动压缩'},
+    {name:'playwright',type:'cmd',desc:'浏览器自动化和测试',cmd:'npx -y @playwright/mcp --browser chrome',usage:'"打开 localhost:3000 截图"'},
+    {name:'filesystem',type:'cmd',desc:'文件系统操作',cmd:'npx -y @modelcontextprotocol/server-filesystem /项目路径',usage:'跨目录操作的补充'}
+  ]},
+  {tier:2,name:'第二层：常用但需凭证',desc:'按需开启，配好 API Key 后能力提升明显',color:'var(--blue)',bg:'var(--blue-light)',
+   servers:[
+    {name:'github',type:'cmd',desc:'PR/Issue 管理、仓库操作',cmd:'npx -y @modelcontextprotocol/server-github',cred:'GITHUB_PERSONAL_ACCESS_TOKEN',usage:'"查 Issue #42 状态"、"给 PR 加 label"'},
+    {name:'supabase',type:'cmd',desc:'数据库操作和认证',cmd:'npx -y @supabase/mcp-server-supabase@latest --project-ref=xxx',cred:'project-ref',usage:'"查 users 表有多少活跃用户"'},
+    {name:'exa-web-search',type:'cmd',desc:'联网搜索和研究',cmd:'npx -y exa-mcp-server',cred:'EXA_API_KEY',usage:'"搜索最新的 React 状态管理方案"'},
+    {name:'fal-ai',type:'cmd',desc:'图片/视频/音频生成',cmd:'npx -y fal-ai-mcp-server',cred:'FAL_KEY',usage:'"生成一张记账 App 的首页插画"'},
+    {name:'magic',type:'cmd',desc:'Magic UI 组件生成',cmd:'npx -y @magicuidesign/mcp@latest',usage:'"生成一个渐变动效按钮组件"'}
+  ]},
+  {tier:3,name:'第三层：按项目需要选用',desc:'针对特定平台或场景，按技术栈选 1-3 个',color:'var(--purple)',bg:'var(--purple-light)',
+   subcats:[
+    {name:'部署平台（选你用的那个）',servers:[
+      {name:'vercel',type:'http',desc:'前端部署管理',cmd:'https://mcp.vercel.com',usage:'"部署到 production"'},
+      {name:'railway',type:'cmd',desc:'后端服务部署',cmd:'npx -y @railway/mcp-server',usage:'"部署后端服务"'},
+      {name:'cloudflare-docs',type:'http',desc:'Cloudflare 文档搜索',cmd:'https://docs.mcp.cloudflare.com/mcp',usage:'"Workers 怎么配置 KV？"'},
+      {name:'cloudflare-workers-builds',type:'http',desc:'Workers 构建管理',cmd:'https://builds.mcp.cloudflare.com/mcp',usage:'"构建并部署 Worker"'},
+      {name:'cloudflare-workers-bindings',type:'http',desc:'Workers 绑定管理',cmd:'https://bindings.mcp.cloudflare.com/mcp',usage:'"给 Worker 绑定 KV"'},
+      {name:'cloudflare-observability',type:'http',desc:'可观测性/日志',cmd:'https://observability.mcp.cloudflare.com/mcp',usage:'"查看 Worker 错误日志"'}
+    ]},
+    {name:'数据与搜索',servers:[
+      {name:'clickhouse',type:'http',desc:'数据分析查询',cmd:'https://mcp.clickhouse.cloud/mcp',usage:'"查询过去 7 天用户增长"'},
+      {name:'firecrawl',type:'cmd',desc:'网页抓取和爬虫',cmd:'npx -y firecrawl-mcp',cred:'FIRECRAWL_API_KEY',usage:'"抓取竞品首页内容"'},
+      {name:'confluence',type:'cmd',desc:'Confluence 文档搜索',cmd:'npx -y confluence-mcp-server',cred:'URL+EMAIL+TOKEN',usage:'"搜索 API 设计文档"'}
+    ]},
+    {name:'浏览器自动化',servers:[
+      {name:'browserbase',type:'cmd',desc:'云端浏览器会话',cmd:'npx -y @browserbasehq/mcp-server-browserbase',cred:'BROWSERBASE_API_KEY',usage:'持久登录态的场景'},
+      {name:'browser-use',type:'http',desc:'AI 浏览器代理',cmd:'https://api.browser-use.com/mcp',cred:'x-browser-use-api-key',usage:'自动完成复杂网页操作'}
+    ]},
+    {name:'安全',servers:[
+      {name:'insaits',type:'py',desc:'AI 安全监控：23 种异常检测',cmd:'python3 -m insa_its.mcp_server',cred:'pip install insa-its',usage:'100% 本地运行，不传数据到外部'}
+    ]}
+  ]}
+];
+
+const learningPipeline = [
+  {cmd:'/learn',name:'会话级提取',level:'会话',levelBg:'var(--green-light)',levelColor:'var(--green)',
+   desc:'分析当前会话中的问题解决过程，提取非显而易见的模式。保存到 ~/.claude/skills/learned/'},
+  {cmd:'/skill-create',name:'项目级分析',level:'项目',levelBg:'var(--blue-light)',levelColor:'var(--blue)',
+   desc:'分析 Git 提交历史(默认 50 个)，发现提交规范、文件共变、架构和测试模式'},
+  {cmd:'/instinct-status',name:'查看已学模式',level:'管理',levelBg:'var(--purple-light)',levelColor:'var(--purple)',
+   desc:'查看所有已积累的"直觉"，每个模式有置信度分数'},
+  {cmd:'/instinct-import/export',name:'团队共享',level:'团队',levelBg:'var(--accent-light)',levelColor:'var(--accent)',
+   desc:'在团队成员之间分享经验模式'},
+  {cmd:'/evolve',name:'模式聚合',level:'进化',levelBg:'var(--rose-light)',levelColor:'var(--rose)',
+   desc:'把多个小模式聚合成完整的技能文件'}
+];
+
+const projectFlow = [
+  {day:'Day 1 上午 — CIS 创意阶段',steps:[
+    {cmd:'/bmad-brainstorming',what:'Carson 用 36 种技巧生成 120+ 创意'},
+    {cmd:'/bmad-cis-innovation-strategy',what:'Victor 做蓝海分析，产出 3 个战略方向'}
+  ]},
+  {day:'Day 1 下午 — BMM 需求阶段',steps:[
+    {cmd:'/bmad-analyst → [MR]',what:'Mary 联网做市场研究'},
+    {cmd:'/bmad-pm → [CP]',what:'John 引导 12 步创建 PRD'},
+    {cmd:'/bmad-pm → [VP]',what:'John 用 13 步验证 PRD 质量'}
+  ]},
+  {day:'Day 2 上午 — BMM 拆解阶段',steps:[
+    {cmd:'/bmad-architect',what:'Architect 设计技术架构'},
+    {cmd:'/bmad-pm → [CE]',what:'John 拆解为 Epics + Stories + BDD'},
+    {cmd:'/bmad-pm → [IR]',what:'John 检查实现就绪度'}
+  ]},
+  {day:'Day 2 下午 — BMM 执行阶段',steps:[
+    {cmd:'/bmad-sm → [SP]',what:'Bob 生成冲刺计划'}
+  ]},
+  {day:'Day 3 — WDS 设计阶段',steps:[
+    {cmd:'/bmad-wds-trigger-mapping',what:'Saga 引导 4 个 Workshop，发现核心驱动力'},
+    {cmd:'/bmad-wds-scenarios',what:'Saga + Freya 创建 UX 场景'},
+    {cmd:'/bmad-wds-scenarios-validate',what:'25 项验证检查'},
+    {cmd:'/bmad-wds-ux-design',what:'Freya 把场景变成界面规范'}
+  ]},
+  {day:'Day 4 — 故事与工程',steps:[
+    {cmd:'/bmad-cis-storytelling',what:'Sophia 构建投资路演故事'},
+    {cmd:'/bmad-cis-presentation-master',what:'Caravaggio 制作幻灯片'},
+    {cmd:'/plan',what:'Planner 为第一个 Story 做规划'},
+    {cmd:'/tdd',what:'TDD Guide 执行 RED→GREEN→REFACTOR'},
+    {cmd:'/code-review',what:'Code Reviewer 审查安全和质量'},
+    {cmd:'/e2e',what:'E2E Runner 验证完整用户流程'}
+  ]},
+  {day:'Day 5 — 发布',steps:[
+    {cmd:'git commit → PR → merge',what:'代码合并到主分支'},
+    {cmd:'部署 (Vercel/Railway MCP)',what:'通过 MCP 一键部署'},
+    {cmd:'/bmad-sm → [SS]',what:'Bob 更新冲刺状态'}
+  ]}
+];
+
+const allTeams = [
+  {name:'CIS 创意团队',color:'var(--purple)',bg:'var(--purple-light)',agents:[
+    {name:'Carson',role:'头脑风暴教练'},{name:'Victor',role:'创新战略家'},
+    {name:'Mary (CIS)',role:'设计思维教练'},{name:'John (CIS)',role:'创新策略师'},
+    {name:'Sophia',role:'故事讲述专家'},{name:'Caravaggio',role:'演示大师'}
+  ]},
+  {name:'BMM 执行团队',color:'var(--accent)',bg:'var(--accent-light)',agents:[
+    {name:'Mary (BMM)',role:'市场分析师'},{name:'John (BMM)',role:'产品经理'},
+    {name:'Bob',role:'敏捷大师'},{name:'Architect',role:'系统架构师'},
+    {name:'Dev',role:'开发者'},{name:'QA',role:'质量保障'}
+  ]},
+  {name:'WDS 设计团队',color:'var(--cyan)',bg:'var(--cyan-light)',agents:[
+    {name:'Saga',role:'WDS 分析师'},{name:'Freya',role:'WDS 设计师'}
+  ]},
+  {name:'Engineering 工程团队',color:'var(--blue)',bg:'var(--blue-light)',agents:[
+    {name:'Planner',role:'规划专家 (opus)'},{name:'TDD Guide',role:'TDD 教练'},
+    {name:'Code Reviewer',role:'代码审查'},{name:'E2E Runner',role:'端到端测试'},
+    {name:'Security Reviewer',role:'安全审查'},{name:'Build Resolver',role:'构建修复'},
+    {name:'Harness Optimizer',role:'性能调优 (opus)'},{name:'Loop Operator',role:'自主循环'},
+    {name:'Chief of Staff',role:'通讯助理 (opus)'},{name:'Doc Updater',role:'文档同步'},
+    {name:'Refactor Cleaner',role:'重构清理'},{name:'Go/Python/Kotlin Reviewer',role:'语言专项审查'}
+  ]}
+];
+
+const abbrGroups = [
+  {name:'核心缩写',items:[
+    ['cc4pm','Claude Code for Product Managers','产品经理的 Claude Code'],
+    ['CIS','Creative & Innovation Suite','创意创新套件'],
+    ['BMM','BMAD Method','BMAD 方法论'],
+    ['WDS','Web Design System','网页设计系统'],
+    ['MCP','Model Context Protocol','模型上下文协议']
+  ]},
+  {name:'产品管理',items:[
+    ['PRD','Product Requirements Document','产品需求文档'],
+    ['MVP','Minimum Viable Product','最小可行产品'],
+    ['JTBD','Jobs to be Done','待完成的任务'],
+    ['KPI','Key Performance Indicator','关键绩效指标'],
+    ['TAM','Total Addressable Market','总可寻址市场'],
+    ['SWOT','Strengths/Weaknesses/Opportunities/Threats','优劣势机会威胁'],
+    ['ROI','Return on Investment','投资回报率']
+  ]},
+  {name:'工程术语',items:[
+    ['TDD','Test-Driven Development','测试驱动开发'],
+    ['BDD','Behavior-Driven Development','行为驱动开发'],
+    ['E2E','End-to-End','端到端'],
+    ['CI','Continuous Integration','持续集成'],
+    ['PR','Pull Request','拉取请求'],
+    ['PAT','Personal Access Token','个人访问令牌']
+  ]},
+  {name:'WDS 术语',items:[
+    ['TM','Trigger Map','触发力地图'],
+    ['FIA','Feature Impact Analysis','功能影响分析'],
+    ['UX','User Experience','用户体验'],
+    ['CTA','Call to Action','行动号召']
+  ]}
+];
+
+// === RENDER ===
+const tabsEl = document.getElementById('mainTabs');
+const panelsEl = document.getElementById('panels');
+
+tabs.forEach((t,i)=>{
+  const btn = document.createElement('button');
+  btn.className = 'tab-btn'+(i===0?' active':'');
+  btn.textContent = t.label;
+  btn.onclick = ()=>switchTab(t.id);
+  btn.dataset.id = t.id;
+  tabsEl.appendChild(btn);
+  const panel = document.createElement('div');
+  panel.id = 'panel-'+t.id;
+  panel.className = 'tab-panel'+(i===0?' active':'');
+  panelsEl.appendChild(panel);
+});
+
+function switchTab(id){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.id===id));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+id));
+}
+
+// --- MCP ---
+(function(){
+  const p = document.getElementById('panel-mcp');
+  const totalCount = mcpTiers.reduce((sum,t)=>{
+    if(t.servers) return sum+t.servers.length;
+    return sum+t.subcats.reduce((s,c)=>s+c.servers.length,0);
+  },0);
+  p.innerHTML = `<h2>${totalCount} 个 MCP 服务器（三层分级）</h2>
+<p>来自 <code>mcp-configs/mcp-servers.json</code> 的真实配置。MCP = AI 代理的"USB 接口"——标准化的外部工具连接方式。</p>
+<p style="margin-bottom:.5rem"><span class="tag type-cmd" style="font-size:.75rem">command</span> 本地启动进程 &nbsp;
+<span class="tag type-http" style="font-size:.75rem">http</span> 连接远程服务 &nbsp;
+<span class="tag type-py" style="font-size:.75rem">python</span> Python 进程</p>`;
+
+  function renderCard(m){
+    const typeLabel = m.type==='cmd'?'command':m.type==='http'?'http':'python';
+    const typeClass = m.type==='cmd'?'type-cmd':m.type==='http'?'type-http':'type-py';
+    return `<div class="mcp-card">
+<div class="header"><span class="name">${m.name}</span><span class="type-badge ${typeClass}">${typeLabel}</span></div>
+<div class="desc">${m.desc}</div>
+<div class="cmd-line">${m.cmd}</div>
+<div class="usage">${m.usage}</div>
+${m.cred?`<div class="cred">需要: ${m.cred}</div>`:''}
+</div>`;
+  }
+
+  mcpTiers.forEach(t=>{
+    const sec = document.createElement('div');
+    sec.className = 'tier-section';
+    const count = t.servers?t.servers.length:t.subcats.reduce((s,c)=>s+c.servers.length,0);
+    sec.innerHTML = `<div class="tier-header" style="background:${t.bg};color:${t.color}">
+<span class="tier-num">${t.tier}</span>
+<div class="tier-info"><div class="tier-name">${t.name}</div><div class="tier-desc">${t.desc}</div></div>
+<span class="tier-count">${count} 个</span></div>`;
+
+    if(t.servers){
+      const grid = document.createElement('div');
+      grid.className = 'mcp-grid';
+      grid.innerHTML = t.servers.map(renderCard).join('');
+      sec.appendChild(grid);
+    } else if(t.subcats){
+      t.subcats.forEach(sc=>{
+        const title = document.createElement('div');
+        title.className = 'subcat-title';
+        title.textContent = sc.name+` (${sc.servers.length})`;
+        sec.appendChild(title);
+        const grid = document.createElement('div');
+        grid.className = 'mcp-grid';
+        grid.innerHTML = sc.servers.map(renderCard).join('');
+        sec.appendChild(grid);
+      });
+    }
+    p.appendChild(sec);
+  });
+
+  // Config example
+  const cfg = document.createElement('div');
+  cfg.className = 'card';
+  cfg.innerHTML = `<h3>真实配置示例</h3>
+<div class="config-box"><span class="cmt">// 第一层：command 类型，本地启动进程（无需凭证）</span>
+<span class="key">"memory"</span>: {
+  <span class="key">"command"</span>: <span class="str">"npx"</span>,
+  <span class="key">"args"</span>: [<span class="str">"-y"</span>, <span class="str">"@modelcontextprotocol/server-memory"</span>]
+}
+
+<span class="cmt">// 第二层：command 类型，需要 API Key</span>
+<span class="key">"github"</span>: {
+  <span class="key">"command"</span>: <span class="str">"npx"</span>,
+  <span class="key">"args"</span>: [<span class="str">"-y"</span>, <span class="str">"@modelcontextprotocol/server-github"</span>],
+  <span class="key">"env"</span>: { <span class="key">"GITHUB_PERSONAL_ACCESS_TOKEN"</span>: <span class="str">"ghp_xxxxxxxxxxxx"</span> }
+}
+
+<span class="cmt">// 第三层：http 类型，连接远程服务</span>
+<span class="key">"vercel"</span>: {
+  <span class="key">"type"</span>: <span class="str">"http"</span>,
+  <span class="key">"url"</span>: <span class="str">"https://mcp.vercel.com"</span>
+}
+
+<span class="cmt">// 第三层：python 类型，本地 Python 进程</span>
+<span class="key">"insaits"</span>: {
+  <span class="key">"command"</span>: <span class="str">"python3"</span>,
+  <span class="key">"args"</span>: [<span class="str">"-m"</span>, <span class="str">"insa_its.mcp_server"</span>]
+}</div>
+<div class="callout"><strong>建议：</strong>同时启用不超过 10 个 MCP，每个占用上下文窗口。推荐日常组合（7 个）：<br>第一层全部(5) + 第二层选 2（如 github + exa-web-search）</div>`;
+  p.appendChild(cfg);
+})();
+
+// --- Learning ---
+(function(){
+  const p = document.getElementById('panel-learn');
+  p.innerHTML = '<h2>持续学习系统</h2><p>cc4pm 让 AI 代理越用越聪明——从会话级到团队级的五层学习管道。</p>';
+  const pipe = document.createElement('div');
+  pipe.className = 'pipe';
+  learningPipeline.forEach((s,i)=>{
+    if(i>0){const a=document.createElement('div');a.className='pipe-arrow';a.textContent='▼';pipe.appendChild(a);}
+    const step = document.createElement('div');
+    step.className = 'pipe-step';
+    step.innerHTML = `<div style="flex:1"><div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem"><span class="cmd">${s.cmd}</span><span class="level" style="background:${s.levelBg};color:${s.levelColor}">${s.level}</span></div><div style="font-weight:600;font-size:.9rem">${s.name}</div><div style="font-size:.82rem;color:var(--text-secondary)">${s.desc}</div></div>`;
+    pipe.appendChild(step);
+  });
+  p.appendChild(pipe);
+
+  // Timeline
+  const tl = document.createElement('div');
+  tl.className = 'card';
+  tl.innerHTML = `<h3>AI 成长时间线</h3>
+<table>
+<tr><td><strong>第 1 周</strong></td><td>AI 代理是个"新人"，需要你告诉它项目规范</td></tr>
+<tr><td><strong>第 4 周</strong></td><td>AI 代理已经学会了你的代码风格和项目模式</td></tr>
+<tr><td><strong>第 8 周</strong></td><td>AI 代理像一个"老员工"，知道项目的所有约定</td></tr>
+</table>`;
+  p.appendChild(tl);
+
+  // Hooks that power learning
+  const hooks = document.createElement('div');
+  hooks.className = 'card';
+  hooks.innerHTML = `<h3>支撑学习的真实 Hooks</h3>
+<table>
+<tr><th>Hook</th><th>触发时机</th><th>作用</th></tr>
+<tr><td><code>observe.sh</code></td><td>Pre/PostToolUse</td><td>采集工具使用数据</td></tr>
+<tr><td><code>evaluate-session.js</code></td><td>Stop</td><td>评估会话是否有可提取模式(>10 条消息)</td></tr>
+<tr><td><code>session-end.js</code></td><td>Stop</td><td>保存会话摘要(任务/文件/工具)</td></tr>
+<tr><td><code>cost-tracker.js</code></td><td>Stop</td><td>记录 Token 用量和成本</td></tr>
+</table>`;
+  p.appendChild(hooks);
+})();
+
+// --- Full Flow ---
+(function(){
+  const p = document.getElementById('panel-fullflow');
+  p.innerHTML = '<h2>完整项目实战：从零到发布 (5 天)</h2><p>以"AI 记账工具"为例，走一遍 CIS→BMM→WDS→Engineering 全流程。</p>';
+  const tl = document.createElement('div');
+  tl.className = 'timeline';
+  projectFlow.forEach(g=>{
+    const group = document.createElement('div');
+    group.className = 'tl-group done';
+    group.innerHTML = `<div class="day">${g.day}</div>`;
+    g.steps.forEach(s=>{
+      const step = document.createElement('div');
+      step.className = 'tl-step';
+      step.innerHTML = `<span class="cmd">${s.cmd}</span><span class="what">${s.what}</span>`;
+      group.appendChild(step);
+    });
+    tl.appendChild(group);
+  });
+  p.appendChild(tl);
+
+  // Handoff
+  const handoff = document.createElement('div');
+  handoff.className = 'callout';
+  handoff.innerHTML = `<strong>关键衔接：</strong>每个阶段的输出是下一个阶段的输入 —<br>
+CIS 创意清单 → BMM PRD → Epics/Stories → WDS Trigger Map → UX 场景 → 页面规范 → /plan → /tdd → /e2e`;
+  p.appendChild(handoff);
+})();
+
+// --- Panorama ---
+(function(){
+  const p = document.getElementById('panel-panorama');
+  p.innerHTML = '<h2>代理协作全景图</h2><p>cc4pm 共有 <strong>18+</strong> 个专业代理，分属 4 个团队，覆盖产品开发全生命周期。</p>';
+  allTeams.forEach(t=>{
+    const sec = document.createElement('div');
+    sec.className = 'team-section';
+    sec.innerHTML = `<div class="team-title" style="background:${t.bg};color:${t.color}">${t.name} (${t.agents.length})</div>`;
+    const grid = document.createElement('div');
+    grid.className = 'team-agents';
+    t.agents.forEach(a=>{
+      const el = document.createElement('div');
+      el.className = 'team-agent';
+      el.innerHTML = `<span class="agent-name">${a.name}</span><span class="agent-role">${a.role}</span>`;
+      grid.appendChild(el);
+    });
+    sec.appendChild(grid);
+    p.appendChild(sec);
+  });
+
+  // Module summary
+  const mod = document.createElement('div');
+  mod.className = 'card';
+  mod.innerHTML = `<h3>一句话总结每个模块</h3>
+<table>
+<tr><td><strong>CIS</strong></td><td>"做什么？"</td><td>用创意和创新找到正确的方向</td></tr>
+<tr><td><strong>BMM</strong></td><td>"怎么做？"</td><td>用结构化方法把方向变成可执行的计划</td></tr>
+<tr><td><strong>WDS</strong></td><td>"为什么用？"</td><td>用心理学让用户真正想用你的产品</td></tr>
+<tr><td><strong>工程</strong></td><td>"做得好？"</td><td>用自动化确保质量和效率</td></tr>
+</table>`;
+  p.appendChild(mod);
+})();
+
+// --- Graduation ---
+(function(){
+  const p = document.getElementById('panel-grad');
+  const grad = document.createElement('div');
+  grad.className = 'grad-box';
+  grad.innerHTML = `<h2>cc4pm 交互式教学</h2>
+<div class="grad-stats">
+  <div class="grad-stat"><div class="num">26</div><div class="label">课程</div></div>
+  <div class="grad-stat"><div class="num">5</div><div class="label">阶段</div></div>
+  <div class="grad-stat"><div class="num">18+</div><div class="label">AI 代理</div></div>
+  <div class="grad-stat"><div class="num">23</div><div class="label">MCP 集成</div></div>
+  <div class="grad-stat"><div class="num">21</div><div class="label">Hooks</div></div>
+  <div class="grad-stat"><div class="num">44</div><div class="label">Rules</div></div>
+  <div class="grad-stat"><div class="num">56+</div><div class="label">技能</div></div>
+  <div class="grad-stat"><div class="num">40+</div><div class="label">命令</div></div>
+</div>
+<p style="font-size:1.1rem;color:var(--text-primary);margin-top:1rem"><strong>AI 不是替代你，而是让你一个人能做到以前需要一个团队才能做的事。</strong></p>
+<p style="color:var(--text-secondary);margin-top:.5rem">现在，去创造些了不起的东西吧。</p>`;
+  p.appendChild(grad);
+
+  // Learning paths
+  const paths = document.createElement('div');
+  paths.className = 'card';
+  paths.innerHTML = `<h3>进阶学习路径</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin-top:1rem">
+  <div style="background:var(--cyan-light);border-radius:var(--radius-md);padding:1rem"><strong style="color:var(--cyan)">WDS 专家</strong><p style="font-size:.82rem">深入 52 个 WDS 技能，实践 Phase 4-8</p><code style="font-size:.75rem">/bmad-agent-wds-saga-analyst</code></div>
+  <div style="background:var(--purple-light);border-radius:var(--radius-md);padding:1rem"><strong style="color:var(--purple)">CIS 创新专家</strong><p style="font-size:.82rem">精通 36 种创意技巧 + 26 种故事框架</p><code style="font-size:.75rem">/bmad-brainstorming</code></div>
+  <div style="background:var(--blue-light);border-radius:var(--radius-md);padding:1rem"><strong style="color:var(--blue)">工程协作专家</strong><p style="font-size:.82rem">TDD/E2E/Review + 定制 Hooks/Rules</p><code style="font-size:.75rem">/tdd /e2e /code-review</code></div>
+  <div style="background:var(--accent-light);border-radius:var(--radius-md);padding:1rem"><strong style="color:var(--accent)">定制 AI 工作流</strong><p style="font-size:.82rem">创建自定义代理/技能/命令</p><code style="font-size:.75rem">/skill-create /learn</code></div>
+</div>`;
+  p.appendChild(paths);
+})();
+
+// --- Abbreviations ---
+(function(){
+  const p = document.getElementById('panel-abbr');
+  p.innerHTML = '<h2>缩写终极速查</h2>';
+  abbrGroups.forEach(g=>{
+    const group = document.createElement('div');
+    group.className = 'abbr-group';
+    group.innerHTML = `<h3>${g.name}</h3>`;
+    const grid = document.createElement('div');
+    grid.className = 'abbr-grid';
+    g.items.forEach(([short,full,cn])=>{
+      const item = document.createElement('div');
+      item.className = 'abbr-item';
+      item.innerHTML = `<span class="short">${short}</span><span>${full}</span><span style="color:var(--text-muted);margin-left:auto;font-size:.8rem">${cn}</span>`;
+      grid.appendChild(item);
+    });
+    group.appendChild(grid);
+    p.appendChild(group);
+  });
+})();
+</script>
+</body>
+</html>

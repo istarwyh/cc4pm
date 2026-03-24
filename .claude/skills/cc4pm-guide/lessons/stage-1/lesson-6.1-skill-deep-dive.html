@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill 深度解析 — cc4pm 第 6.1 课</title>
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+  /* Page-specific styles */
+  .evolution-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+  }
+  .evo-box {
+    padding: .8rem 1.2rem;
+    border-radius: var(--radius-md);
+    text-align: center;
+    font-size: .85rem;
+    min-width: 140px;
+  }
+  .evo-old { background: var(--bg-tertiary); color: var(--text-muted); border: 1px solid var(--border); }
+  .evo-new { background: var(--accent-light); color: var(--accent-hover); border: 1px solid rgba(217,119,6,.3); font-weight: 600; }
+  .evo-arrow { font-size: 1.5rem; color: var(--accent); }
+
+  .anatomy-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 700px) { .anatomy-grid { grid-template-columns: 1fr; } }
+
+  .file-tree {
+    font-family: var(--font-mono);
+    font-size: .88rem;
+    line-height: 2;
+  }
+  .file-tree .dir { color: var(--accent); font-weight: 600; }
+  .file-tree .required { color: var(--green); }
+  .file-tree .optional { color: var(--text-muted); }
+  .file-tree .indent { padding-left: 1.2rem; }
+  .file-tree .indent2 { padding-left: 2.4rem; }
+
+  .disclosure-stack {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+  }
+  .disclosure-level {
+    border-radius: var(--radius-md);
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: all var(--transition);
+    position: relative;
+  }
+  .disclosure-level:hover { transform: translateX(4px); }
+  .disclosure-level .badge {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: .7rem;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+  }
+  .dl-1 { background: var(--green-light); border-left: 4px solid var(--green); }
+  .dl-1 .badge { background: var(--green); color: white; }
+  .dl-2 { background: var(--accent-light); border-left: 4px solid var(--accent); }
+  .dl-2 .badge { background: var(--accent); color: white; }
+  .dl-3 { background: var(--blue-light); border-left: 4px solid var(--blue); }
+  .dl-3 .badge { background: var(--blue); color: white; }
+
+  .test-tabs {
+    display: flex;
+    gap: .5rem;
+    margin-bottom: 1rem;
+  }
+  .test-tab {
+    padding: .5rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    cursor: pointer;
+    font-size: .85rem;
+    background: var(--bg-secondary);
+    transition: all var(--transition);
+  }
+  .test-tab:hover { border-color: var(--accent); }
+  .test-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .test-content { display: none; }
+  .test-content.active { display: block; }
+
+  .step-flow {
+    display: flex;
+    gap: .6rem;
+    flex-wrap: wrap;
+    margin: 1.5rem 0;
+  }
+  .step-item {
+    flex: 1;
+    min-width: 140px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+    transition: all var(--transition);
+  }
+  .step-item:hover { border-color: var(--accent); box-shadow: var(--shadow-md); }
+  .step-item .num {
+    width: 28px; height: 28px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: .8rem;
+    margin-bottom: .5rem;
+  }
+  .step-item h4 { font-size: .85rem; margin-bottom: .3rem; }
+  .step-item p { font-size: .75rem; color: var(--text-muted); }
+
+  .desc-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  @media (max-width: 600px) { .desc-demo { grid-template-columns: 1fr; } }
+  .desc-box {
+    padding: 1.2rem;
+    border-radius: var(--radius-md);
+    font-size: .85rem;
+    font-family: var(--font-mono);
+    line-height: 1.6;
+  }
+  .desc-bad { background: var(--rose-light); border: 1px solid rgba(225,29,72,.2); }
+  .desc-bad .label { color: var(--rose); font-weight: 700; margin-bottom: .5rem; }
+  .desc-good { background: var(--green-light); border: 1px solid rgba(5,150,105,.2); }
+  .desc-good .label { color: var(--green); font-weight: 700; margin-bottom: .5rem; }
+</style>
+</head>
+<body>
+
+<h1><span class="gradient">Skill 深度解析</span></h1>
+<p class="subtitle">cc4pm 第 6.1 课 — 新一代交互式软件的交付形态</p>
+
+<!-- Evolution -->
+<div class="card">
+  <h2>从传统软件到 Skill：交付形态的演进</h2>
+  <div class="evolution-flow">
+    <div class="evo-box evo-old">
+      <div><strong>.exe / .app</strong></div>
+      <div style="font-size:.75rem;color:var(--text-muted)">安装程序</div>
+    </div>
+    <span class="evo-arrow">→</span>
+    <div class="evo-box evo-old">
+      <div><strong>npm install</strong></div>
+      <div style="font-size:.75rem;color:var(--text-muted)">包管理器</div>
+    </div>
+    <span class="evo-arrow">→</span>
+    <div class="evo-box evo-old">
+      <div><strong>SaaS URL</strong></div>
+      <div style="font-size:.75rem;color:var(--text-muted)">Web 应用</div>
+    </div>
+    <span class="evo-arrow">→</span>
+    <div class="evo-box evo-new">
+      <div><strong>SKILL.md</strong></div>
+      <div style="font-size:.75rem">自然语言入口</div>
+    </div>
+  </div>
+  <div class="callout" style="margin-bottom:0">
+    <strong>Skill 是新一代交互式软件的雏形。</strong><br>
+    入口是 SKILL.md，界面是自然语言，AI 根据上下文自适应执行。
+  </div>
+</div>
+
+<!-- Anatomy -->
+<div class="card">
+  <h2>Skill 的解剖结构</h2>
+  <div class="anatomy-grid">
+    <div>
+      <div class="file-tree">
+        <div><span class="dir">skill-name/</span></div>
+        <div class="indent"><span class="required">SKILL.md</span> <span class="tag tag-auto">必需</span></div>
+        <div class="indent2" style="color:var(--green);font-size:.78rem">├ YAML frontmatter</div>
+        <div class="indent2" style="color:var(--green);font-size:.78rem">└ Markdown body</div>
+        <div class="indent"><span class="dir">scripts/</span> <span class="tag tag-demand">可选</span></div>
+        <div class="indent2 optional">└ rotate_pdf.py</div>
+        <div class="indent"><span class="dir">references/</span> <span class="tag tag-demand">可选</span></div>
+        <div class="indent2 optional">├ finance.md</div>
+        <div class="indent2 optional">└ api_docs.md</div>
+        <div class="indent"><span class="dir">assets/</span> <span class="tag tag-demand">可选</span></div>
+        <div class="indent2 optional">├ logo.png</div>
+        <div class="indent2 optional">└ template.pptx</div>
+      </div>
+    </div>
+    <div>
+      <table>
+        <tr><th>目录</th><th>用途</th><th>加载方式</th></tr>
+        <tr><td><code>SKILL.md</code></td><td>入口 + 工作流指令</td><td>触发时加载</td></tr>
+        <tr><td><code>scripts/</code></td><td>确定性操作（避免重写代码）</td><td>执行，不读入上下文</td></tr>
+        <tr><td><code>references/</code></td><td>领域知识、API 文档</td><td>Claude 按需读取</td></tr>
+        <tr><td><code>assets/</code></td><td>输出模板、品牌素材</td><td>用于输出，不读入上下文</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Progressive Disclosure -->
+<div class="card">
+  <h2>三级渐进式披露——上下文的精妙管理</h2>
+  <p style="margin-bottom:1rem">100 个 Skill 不会拖慢你的日常对话——因为只加载需要的部分。</p>
+  <div class="disclosure-stack">
+    <div class="disclosure-level dl-1">
+      <strong>Level 1：元数据</strong> — name + description<br>
+      <span style="font-size:.85rem;color:var(--text-secondary)">始终在上下文中 · ~100 词 · 用于语义匹配触发</span>
+      <span class="badge">常驻</span>
+    </div>
+    <div class="disclosure-level dl-2">
+      <strong>Level 2：SKILL.md body</strong> — 工作流指令<br>
+      <span style="font-size:.85rem;color:var(--text-secondary)">触发后加载 · <5K 词 · 核心步骤和约束</span>
+      <span class="badge">触发时</span>
+    </div>
+    <div class="disclosure-level dl-3">
+      <strong>Level 3：bundled resources</strong> — 脚本 / 引用 / 资产<br>
+      <span style="font-size:.85rem;color:var(--text-secondary)">Claude 按需读取 · 无限制 · 脚本可执行不加载</span>
+      <span class="badge">按需</span>
+    </div>
+  </div>
+</div>
+
+<!-- Creation Steps -->
+<div class="card">
+  <h2>创建 Skill 的六步流程</h2>
+  <div class="step-flow">
+    <div class="step-item">
+      <div class="num">1</div>
+      <h4>理解</h4>
+      <p>用具体示例明确功能</p>
+    </div>
+    <div class="step-item">
+      <div class="num">2</div>
+      <h4>规划</h4>
+      <p>识别可复用资源</p>
+    </div>
+    <div class="step-item">
+      <div class="num">3</div>
+      <h4>初始化</h4>
+      <p>init_skill.py 创建模板</p>
+    </div>
+    <div class="step-item">
+      <div class="num">4</div>
+      <h4>编辑</h4>
+      <p>实现资源 + 写 SKILL.md</p>
+    </div>
+    <div class="step-item">
+      <div class="num">5</div>
+      <h4>打包</h4>
+      <p>package_skill.py 验证</p>
+    </div>
+    <div class="step-item">
+      <div class="num">6</div>
+      <h4>迭代</h4>
+      <p>真实使用中改进</p>
+    </div>
+  </div>
+</div>
+
+<!-- Description Best Practice -->
+<div class="card">
+  <h2>写好 description——Skill 的灵魂</h2>
+  <p>description 是 Skill 被自动发现的关键。Claude 做语义匹配时完全依赖它。</p>
+  <div class="desc-demo">
+    <div class="desc-box desc-bad">
+      <div class="label">BAD</div>
+      <code>description: "A general-purpose document tool"</code>
+      <div style="margin-top:.5rem;font-family:var(--font-sans);font-size:.8rem;color:var(--rose)">
+        太模糊，什么时候触发？<br>和什么匹配？
+      </div>
+    </div>
+    <div class="desc-box desc-good">
+      <div class="label">GOOD</div>
+      <code>description: "Use when the user wants to create, read, edit, or convert Word documents (.docx). Covers: (1) Creating new documents, (2) Editing content, (3) Tracked changes, (4) Comments"</code>
+      <div style="margin-top:.5rem;font-family:var(--font-sans);font-size:.8rem;color:var(--green)">
+        动作开头 + 具体场景 + 关键词丰富
+      </div>
+    </div>
+  </div>
+  <div class="callout" style="margin-bottom:0">
+    <strong>写作要诀：</strong>以动作开头 · 列出 2-4 个触发场景 · 控制 1-3 句 · 包含语义关键词
+  </div>
+</div>
+
+<!-- Testing -->
+<div class="card">
+  <h2>测试 Skill：可触发性 & 可复现性</h2>
+  <div class="test-tabs">
+    <div class="test-tab active" onclick="switchTab('trigger')">可触发性</div>
+    <div class="test-tab" onclick="switchTab('repro')">可复现性</div>
+  </div>
+
+  <div id="tab-trigger" class="test-content active">
+    <table>
+      <tr><th>测试类型</th><th>方法</th><th>预期</th></tr>
+      <tr><td><strong>精确匹配</strong></td><td>用 description 中的关键词</td><td>100% 触发</td></tr>
+      <tr><td><strong>语义匹配</strong></td><td>用同义词、换一种说法</td><td>应该触发</td></tr>
+      <tr><td><strong>负面排除</strong></td><td>用不相关的请求</td><td>不应触发</td></tr>
+      <tr><td><strong>多语言</strong></td><td>中文和英文分别测试</td><td>都应触发</td></tr>
+    </table>
+    <pre style="margin-top:1rem">
+# 正向测试
+claude "帮我创建一个 PRD"
+# → 预期：bmad-create-prd 激活
+
+# 负向测试
+claude "帮我修一个 CSS bug"
+# → 预期：bmad-create-prd 不激活</pre>
+  </div>
+
+  <div id="tab-repro" class="test-content">
+    <table>
+      <tr><th>测试维度</th><th>标准</th></tr>
+      <tr><td><strong>输出结构一致</strong></td><td>同样请求产出同样的章节/格式</td></tr>
+      <tr><td><strong>步骤完整性</strong></td><td>工作流中的每一步都被执行</td></tr>
+      <tr><td><strong>脚本可执行</strong></td><td>附带的脚本在干净环境中能运行</td></tr>
+      <tr><td><strong>引用可发现</strong></td><td>Claude 能找到并正确使用 reference 文件</td></tr>
+    </table>
+    <pre style="margin-top:1rem">
+# 空白上下文测试
+/clear → 触发 Skill → 记录输出
+
+# 有前置上下文测试
+先执行其他操作 → 触发 Skill → 对比
+
+# 重复执行测试
+三次 /clear + 相同请求 → 结构应一致</pre>
+  </div>
+</div>
+
+<footer>cc4pm 交互式教学 · 第 6.1 课 · Anthropic 风格</footer>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.test-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.test-content').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段 1 综合实战 — cc4pm 第 10 课</title>
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+  /* === Knowledge Map === */
+  .kmap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 700px) { .kmap { grid-template-columns: 1fr; } }
+
+  .kmap-group {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.2rem 1.5rem;
+    transition: all var(--transition);
+  }
+  .kmap-group:hover { border-color: var(--accent); box-shadow: var(--shadow-md); }
+
+  .kmap-group .group-header {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin-bottom: .8rem;
+    font-weight: 700;
+    font-size: .95rem;
+  }
+  .kmap-group .group-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .kmap-lesson {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .5rem .8rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition);
+    font-size: .85rem;
+    color: var(--text-secondary);
+  }
+  .kmap-lesson:hover { background: var(--accent-glow); color: var(--text-primary); }
+  .kmap-lesson.active { background: var(--accent-light); color: var(--accent-hover); font-weight: 600; }
+  .kmap-lesson .ln {
+    font-weight: 700;
+    font-size: .75rem;
+    color: var(--text-muted);
+    min-width: 24px;
+  }
+
+  .kmap-detail {
+    background: var(--bg-secondary);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 2rem;
+    margin-top: 1rem;
+    box-shadow: var(--shadow-glow);
+    display: none;
+  }
+  .kmap-detail.visible { display: block; }
+  .kmap-detail h3 { margin-bottom: .5rem; }
+  .kmap-detail .takeaways { list-style: none; padding: 0; }
+  .kmap-detail .takeaways li {
+    padding: .4rem 0;
+    padding-left: 1.4rem;
+    position: relative;
+    font-size: .88rem;
+  }
+  .kmap-detail .takeaways li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+    font-family: var(--font-mono);
+  }
+  .kmap-detail .tools-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-top: .6rem;
+  }
+  .kmap-detail .tool-chip {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 2px 10px;
+    font-size: .78rem;
+    font-family: var(--font-mono);
+    color: var(--accent-hover);
+  }
+
+  /* === Workflow Simulator === */
+  .workflow-track {
+    display: flex;
+    gap: 0;
+    margin: 1.5rem 0;
+    position: relative;
+    overflow-x: auto;
+    padding-bottom: .5rem;
+  }
+  .wf-step {
+    flex: 1;
+    min-width: 150px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: all .3s;
+  }
+  .wf-step .wf-node {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    margin: 0 auto .6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    border: 3px solid var(--border);
+    background: var(--bg-secondary);
+    transition: all .3s;
+    position: relative;
+    z-index: 2;
+  }
+  .wf-step.active .wf-node {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    box-shadow: 0 0 16px var(--accent-glow);
+    transform: scale(1.15);
+  }
+  .wf-step.done .wf-node {
+    border-color: var(--green);
+    background: var(--green-light);
+  }
+  .wf-step .wf-label {
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: color .3s;
+  }
+  .wf-step.active .wf-label,
+  .wf-step.done .wf-label { color: var(--text-primary); }
+
+  .wf-connector {
+    position: absolute;
+    top: 26px;
+    left: calc(50% + 26px);
+    right: calc(-50% + 26px);
+    height: 3px;
+    background: var(--border);
+    z-index: 1;
+    transition: background .3s;
+  }
+  .wf-step.done .wf-connector { background: var(--green); }
+
+  .wf-detail-panel {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 2rem;
+    margin-top: .5rem;
+    min-height: 180px;
+    transition: all .3s;
+  }
+  .wf-detail-panel.glow {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-glow);
+  }
+  .wf-detail-panel h3 { margin-bottom: .4rem; }
+  .wf-detail-panel .wf-tools {
+    font-size: .82rem;
+    color: var(--text-muted);
+    margin-bottom: .8rem;
+  }
+  .wf-detail-panel .wf-cmd {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: .8rem 1.2rem;
+    font-family: var(--font-mono);
+    font-size: .85rem;
+    line-height: 1.6;
+    margin-bottom: .6rem;
+  }
+  .wf-detail-panel .wf-explain {
+    font-size: .85rem;
+    color: var(--text-secondary);
+  }
+  .wf-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  .wf-btn {
+    padding: .5rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    background: var(--bg-secondary);
+    cursor: pointer;
+    font-size: .85rem;
+    transition: all var(--transition);
+  }
+  .wf-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .wf-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .wf-btn.primary:hover { background: var(--accent-hover); }
+  .wf-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* === Tool Panorama === */
+  .filter-bar {
+    display: flex;
+    gap: .4rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .filter-chip {
+    padding: .35rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    cursor: pointer;
+    font-size: .82rem;
+    background: var(--bg-secondary);
+    transition: all var(--transition);
+    user-select: none;
+  }
+  .filter-chip:hover { border-color: var(--accent); }
+  .filter-chip.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: .8rem;
+    margin-bottom: 1rem;
+  }
+  .tool-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.2rem;
+    transition: all var(--transition);
+    cursor: default;
+  }
+  .tool-card:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+  .tool-card.hidden { display: none; }
+  .tool-card .tc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: .4rem;
+  }
+  .tool-card .tc-name {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: .9rem;
+    color: var(--accent-hover);
+  }
+  .tool-card .tc-cat {
+    font-size: .65rem;
+    padding: 1px 6px;
+    border-radius: 99px;
+    font-weight: 600;
+  }
+  .tool-card .tc-desc { font-size: .8rem; color: var(--text-secondary); }
+  .tool-card .tc-lesson { font-size: .72rem; color: var(--text-muted); margin-top: .3rem; }
+
+  .cat-ctx   { background: var(--accent-light); color: var(--accent); }
+  .cat-sess  { background: var(--blue-light); color: var(--blue); }
+  .cat-inter { background: var(--green-light); color: var(--green); }
+  .cat-eng   { background: var(--purple-light); color: var(--purple); }
+  .cat-config{ background: var(--cyan-light); color: var(--cyan); }
+
+  /* === Quiz === */
+  .quiz-progress {
+    display: flex;
+    gap: .3rem;
+    margin-bottom: 1.2rem;
+  }
+  .quiz-dot {
+    width: 28px; height: 6px;
+    border-radius: 99px;
+    background: var(--border);
+    transition: background .3s;
+  }
+  .quiz-dot.current { background: var(--accent); }
+  .quiz-dot.correct { background: var(--green); }
+  .quiz-dot.wrong { background: var(--rose); }
+
+  .quiz-question {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: .6rem; }
+  .quiz-option {
+    padding: .8rem 1.2rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: .9rem;
+    transition: all var(--transition);
+    color: var(--text-secondary);
+    position: relative;
+    padding-left: 2.5rem;
+  }
+  .quiz-option:hover:not(.disabled) { border-color: var(--accent); background: var(--accent-glow); }
+  .quiz-option::before {
+    content: attr(data-letter);
+    position: absolute;
+    left: .8rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .quiz-option.selected { border-color: var(--accent); background: var(--accent-light); color: var(--text-primary); }
+  .quiz-option.correct { border-color: var(--green); background: var(--green-light); color: var(--text-primary); }
+  .quiz-option.wrong { border-color: var(--rose); background: var(--rose-light); color: var(--text-primary); }
+  .quiz-option.disabled { cursor: not-allowed; opacity: .7; }
+  .quiz-option.disabled.correct { opacity: 1; }
+
+  .quiz-feedback {
+    margin-top: 1rem;
+    padding: 1rem 1.2rem;
+    border-radius: var(--radius-md);
+    font-size: .88rem;
+    display: none;
+  }
+  .quiz-feedback.visible { display: block; }
+  .quiz-feedback.is-correct { background: var(--green-light); border-left: 4px solid var(--green); color: var(--text-primary); }
+  .quiz-feedback.is-wrong { background: var(--rose-light); border-left: 4px solid var(--rose); color: var(--text-primary); }
+
+  .quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.2rem;
+  }
+  .quiz-score { font-size: .9rem; color: var(--text-secondary); }
+
+  /* === Stage 2 Preview === */
+  .s2-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .8rem;
+    margin: 1.2rem 0;
+  }
+  @media (max-width: 700px) { .s2-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .s2-grid { grid-template-columns: 1fr; } }
+
+  .s2-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.2rem;
+    text-align: center;
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+  .s2-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .s2-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .s2-card:hover::before { opacity: 1; }
+  .s2-card .s2-num { font-size: .72rem; color: var(--text-muted); font-weight: 600; }
+  .s2-card .s2-icon { font-size: 1.6rem; margin: .4rem 0; }
+  .s2-card h4 { font-size: .88rem; margin-bottom: .3rem; }
+  .s2-card p { font-size: .75rem; color: var(--text-muted); }
+
+  /* === Result Panel === */
+  .result-panel {
+    text-align: center;
+    padding: 2rem;
+    display: none;
+  }
+  .result-panel.visible { display: block; }
+  .result-score {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), #b45309);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: .3rem;
+  }
+  .result-label { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1rem; }
+  .result-badge {
+    display: inline-block;
+    padding: .6rem 2rem;
+    border-radius: 99px;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .badge-gold { background: linear-gradient(135deg, #fef3c7, #fcd34d); color: #92400e; border: 2px solid #f59e0b; }
+  .badge-silver { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); color: #475569; border: 2px solid #94a3b8; }
+  .badge-bronze { background: linear-gradient(135deg, #fed7aa, #fdba74); color: #9a3412; border: 2px solid #f97316; }
+
+  /* === Section Nav Tabs === */
+  .section-tabs {
+    display: flex;
+    gap: .3rem;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    padding: .3rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+  }
+  .section-tab {
+    flex: 1;
+    min-width: 80px;
+    padding: .6rem .8rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+  .section-tab:hover { color: var(--text-primary); }
+  .section-tab.active { background: var(--bg-secondary); color: var(--accent); box-shadow: var(--shadow-sm); }
+
+  .section-panel { display: none; }
+  .section-panel.active { display: block; }
+
+  /* === Misc === */
+  .counter-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+  }
+  .counter-box {
+    text-align: center;
+    padding: .8rem 1.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    min-width: 100px;
+  }
+  .counter-box .num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .counter-box .label {
+    font-size: .75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<h1><span class="gradient">阶段 1 · 综合实战</span></h1>
+<p class="subtitle">回顾 10 节课的知识体系，用完整工作流为 cc4pm 构思新功能</p>
+
+<!-- Stats -->
+<div class="counter-row">
+  <div class="counter-box"><div class="num">10</div><div class="label">课程</div></div>
+  <div class="counter-box"><div class="num">20+</div><div class="label">命令与工具</div></div>
+  <div class="counter-box"><div class="num">5</div><div class="label">工作流步骤</div></div>
+  <div class="counter-box"><div class="num">7</div><div class="label">核心能力</div></div>
+</div>
+
+<!-- Section Navigator -->
+<div class="section-tabs">
+  <div class="section-tab active" onclick="switchSection('map')">知识地图</div>
+  <div class="section-tab" onclick="switchSection('tools')">工具全景</div>
+  <div class="section-tab" onclick="switchSection('workflow')">工作流模拟</div>
+  <div class="section-tab" onclick="switchSection('quiz')">自测挑战</div>
+  <div class="section-tab" onclick="switchSection('next')">阶段 2 预览</div>
+</div>
+
+<!-- ==================== Section 1: Knowledge Map ==================== -->
+<div id="section-map" class="section-panel active">
+<div class="card">
+  <h2>知识地图：10 节课的全景连接</h2>
+  <p>点击任意课程查看核心知识点和关键工具。四大模块环环相扣，从认知到实操构建完整能力栈。</p>
+
+  <div class="kmap">
+    <!-- 认知基础 -->
+    <div class="kmap-group" style="border-left: 4px solid var(--accent);">
+      <div class="group-header">
+        <div class="group-icon" style="background:var(--accent-light);color:var(--accent);">1</div>
+        认知基础
+      </div>
+      <div class="kmap-lesson" data-lesson="1" onclick="showLesson(1)">
+        <span class="ln">L1</span> cc4pm 全景：四大模块与产品思维
+      </div>
+      <div class="kmap-lesson" data-lesson="2" onclick="showLesson(2)">
+        <span class="ln">L2</span> 上下文窗口：你最重要的资源
+      </div>
+      <div class="kmap-lesson" data-lesson="3" onclick="showLesson(3)">
+        <span class="ln">L3</span> 主动管理上下文
+      </div>
+      <div class="kmap-lesson" data-lesson="31" onclick="showLesson(31)">
+        <span class="ln">L3.1</span> Status Line：实时仪表盘
+      </div>
+    </div>
+
+    <!-- 高效使用 -->
+    <div class="kmap-group" style="border-left: 4px solid var(--green);">
+      <div class="group-header">
+        <div class="group-icon" style="background:var(--green-light);color:var(--green);">2</div>
+        高效使用
+      </div>
+      <div class="kmap-lesson" data-lesson="4" onclick="showLesson(4)">
+        <span class="ln">L4</span> 快速上手：第一次实操
+      </div>
+      <div class="kmap-lesson" data-lesson="5" onclick="showLesson(5)">
+        <span class="ln">L5</span> CLAUDE.md：项目的 AI 记忆
+      </div>
+      <div class="kmap-lesson" data-lesson="6" onclick="showLesson(6)">
+        <span class="ln">L6</span> 命令与技能系统
+      </div>
+      <div class="kmap-lesson" data-lesson="61" onclick="showLesson(61)">
+        <span class="ln">L6.1</span> Skill 深度解析
+      </div>
+    </div>
+
+    <!-- 进阶能力 -->
+    <div class="kmap-group" style="border-left: 4px solid var(--blue);">
+      <div class="group-header">
+        <div class="group-icon" style="background:var(--blue-light);color:var(--blue);">3</div>
+        进阶能力
+      </div>
+      <div class="kmap-lesson" data-lesson="7" onclick="showLesson(7)">
+        <span class="ln">L7</span> 代理系统：你的 AI 专家团
+      </div>
+      <div class="kmap-lesson" data-lesson="8" onclick="showLesson(8)">
+        <span class="ln">L8</span> Hooks 与 Rules：自动化守护
+      </div>
+      <div class="kmap-lesson" data-lesson="9" onclick="showLesson(9)">
+        <span class="ln">L9</span> 环境搭建：安装与验证
+      </div>
+    </div>
+
+    <!-- 综合实战 -->
+    <div class="kmap-group" style="border-left: 4px solid var(--purple);">
+      <div class="group-header">
+        <div class="group-icon" style="background:var(--purple-light);color:var(--purple);">4</div>
+        综合实战
+      </div>
+      <div class="kmap-lesson" data-lesson="10" onclick="showLesson(10)">
+        <span class="ln">L10</span> 为 cc4pm 构思新功能
+      </div>
+      <div style="padding:.6rem .8rem;font-size:.82rem;color:var(--text-muted);font-style:italic">
+        串联全部技能，完成完整产品工作流
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail panel -->
+  <div id="kmap-detail" class="kmap-detail">
+    <h3 id="kmap-title"></h3>
+    <p id="kmap-summary" style="font-size:.88rem;color:var(--text-secondary);margin-bottom:.6rem"></p>
+    <ul class="takeaways" id="kmap-takeaways"></ul>
+    <div class="tools-row" id="kmap-tools"></div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== Section 2: Tool Panorama ==================== -->
+<div id="section-tools" class="section-panel">
+<div class="card">
+  <h2>工具全景：阶段 1 掌握的全部武器</h2>
+  <p>按类别筛选，快速查阅每个命令的用途和来源。</p>
+
+  <div class="filter-bar">
+    <div class="filter-chip active" data-filter="all" onclick="filterTools('all')">全部</div>
+    <div class="filter-chip" data-filter="ctx" onclick="filterTools('ctx')">上下文管理</div>
+    <div class="filter-chip" data-filter="sess" onclick="filterTools('sess')">会话管理</div>
+    <div class="filter-chip" data-filter="inter" onclick="filterTools('inter')">交互效率</div>
+    <div class="filter-chip" data-filter="eng" onclick="filterTools('eng')">工程命令</div>
+    <div class="filter-chip" data-filter="config" onclick="filterTools('config')">配置与扩展</div>
+  </div>
+
+  <div class="tool-grid" id="tool-grid"></div>
+
+  <div class="callout" style="margin-bottom:0">
+    <strong>经验法则：</strong>上下文管理工具最常用——每个会话都会用到。工程命令在执行阶段密集使用。配置工具是一次性设置但影响深远。
+  </div>
+</div>
+</div>
+
+<!-- ==================== Section 3: Workflow Simulator ==================== -->
+<div id="section-workflow" class="section-panel">
+<div class="card">
+  <h2>工作流模拟：5 步完成"吃自己的狗粮"</h2>
+  <p>点击各步骤或使用导航按钮，体验从<strong>探索→头脑风暴→规划→验证→保存</strong>的完整产品工作流。</p>
+
+  <div class="workflow-track">
+    <div class="wf-step active" data-step="0" onclick="goStep(0)">
+      <div class="wf-node">1</div>
+      <div class="wf-label">探索现状</div>
+      <div class="wf-connector"></div>
+    </div>
+    <div class="wf-step" data-step="1" onclick="goStep(1)">
+      <div class="wf-node">2</div>
+      <div class="wf-label">头脑风暴</div>
+      <div class="wf-connector"></div>
+    </div>
+    <div class="wf-step" data-step="2" onclick="goStep(2)">
+      <div class="wf-node">3</div>
+      <div class="wf-label">需求规划</div>
+      <div class="wf-connector"></div>
+    </div>
+    <div class="wf-step" data-step="3" onclick="goStep(3)">
+      <div class="wf-node">4</div>
+      <div class="wf-label">方案验证</div>
+      <div class="wf-connector"></div>
+    </div>
+    <div class="wf-step" data-step="4" onclick="goStep(4)">
+      <div class="wf-node">5</div>
+      <div class="wf-label">保存进度</div>
+    </div>
+  </div>
+
+  <div class="wf-detail-panel glow" id="wf-panel">
+    <h3 id="wf-title"></h3>
+    <div class="wf-tools" id="wf-tools"></div>
+    <div class="wf-cmd" id="wf-cmd"></div>
+    <div class="wf-explain" id="wf-explain"></div>
+  </div>
+
+  <div class="wf-nav">
+    <button class="wf-btn" id="wf-prev" onclick="prevStep()">上一步</button>
+    <button class="wf-btn primary" id="wf-next" onclick="nextStep()">下一步</button>
+  </div>
+</div>
+</div>
+
+<!-- ==================== Section 4: Quiz ==================== -->
+<div id="section-quiz" class="section-panel">
+<div class="card">
+  <h2>自测挑战：阶段 1 知识检验</h2>
+  <p>6 道题目，覆盖全部核心概念。你能拿到满分吗？</p>
+
+  <div class="quiz-progress" id="quiz-progress"></div>
+
+  <div id="quiz-body">
+    <div class="quiz-question" id="quiz-q"></div>
+    <div class="quiz-options" id="quiz-opts"></div>
+    <div class="quiz-feedback" id="quiz-fb"></div>
+    <div class="quiz-footer">
+      <div class="quiz-score" id="quiz-score"></div>
+      <button class="wf-btn primary" id="quiz-next-btn" onclick="nextQuestion()" style="display:none">下一题</button>
+    </div>
+  </div>
+
+  <div class="result-panel" id="quiz-result">
+    <div class="result-score" id="final-score"></div>
+    <div class="result-label" id="final-label"></div>
+    <div id="final-badge"></div>
+    <div style="margin-top:1.5rem">
+      <button class="wf-btn" onclick="resetQuiz()">重新挑战</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== Section 5: Stage 2 Preview ==================== -->
+<div id="section-next" class="section-panel">
+<div class="card">
+  <h2>阶段 2 预览：产品经理核心能力</h2>
+  <p>阶段 1 教会你<strong>怎么用</strong>工具，阶段 2 教你<strong>用它们做什么</strong>——直接完成产品经理的核心工作。</p>
+
+  <div class="s2-grid">
+    <div class="s2-card">
+      <div class="s2-num">Lesson 11</div>
+      <div class="s2-icon">&#x1f4a1;</div>
+      <h4>头脑风暴</h4>
+      <p>36 种创意技巧<br>生成 100+ 想法</p>
+    </div>
+    <div class="s2-card">
+      <div class="s2-num">Lesson 12</div>
+      <div class="s2-icon">&#x1f680;</div>
+      <h4>创新策略</h4>
+      <p>蓝海分析<br>Jobs-to-be-Done</p>
+    </div>
+    <div class="s2-card">
+      <div class="s2-num">Lesson 13</div>
+      <div class="s2-icon">&#x1f50d;</div>
+      <h4>市场研究</h4>
+      <p>竞争分析<br>技术可行性</p>
+    </div>
+    <div class="s2-card">
+      <div class="s2-num">Lesson 14</div>
+      <div class="s2-icon">&#x1f4cb;</div>
+      <h4>PRD 创建</h4>
+      <p>AI 辅助需求文档<br>模板 + 验证</p>
+    </div>
+    <div class="s2-card">
+      <div class="s2-num">Lesson 15</div>
+      <div class="s2-icon">&#x1f9e9;</div>
+      <h4>需求拆解</h4>
+      <p>Epics & Stories<br>实现就绪检查</p>
+    </div>
+    <div class="s2-card">
+      <div class="s2-num">Lesson 16</div>
+      <div class="s2-icon">&#x1f3c3;</div>
+      <h4>冲刺规划</h4>
+      <p>敏捷大师代理<br>进度追踪</p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-bottom:0">
+    <strong>从阶段 2 开始，你的 AI 团队将真正为你的产品工作服务。</strong><br>
+    头脑风暴产出创意 → 创新策略筛选方向 → 市场研究验证机会 → PRD 落地需求 → 拆解为可执行故事 → 冲刺规划推进交付。
+  </div>
+</div>
+</div>
+
+<footer>cc4pm 交互式教学 · 阶段 1 综合实战 · Anthropic 风格</footer>
+
+<script>
+// ============ Data ============
+
+const lessonData = {
+  1: {
+    title: 'Lesson 1: cc4pm 全景——四大模块与产品思维',
+    summary: '理解 cc4pm 的定位：不只是写代码工具，而是从产品创意到交付的全流程 AI 协作平台。',
+    takeaways: [
+      '四大模块：BMM（业务建模）、CIS（创意智能）、WDS（设计系统）、工程工具链',
+      'Claude Code 是"指挥者模式"，不是聊天模式',
+      '代理式编程：你给高层指令，AI 自主分解执行',
+      '产品经理可以直接使用 AI 代理完成核心工作'
+    ],
+    tools: ['BMM', 'CIS', 'WDS', '工程工具链']
+  },
+  2: {
+    title: 'Lesson 2: 上下文窗口——你最重要的资源',
+    summary: '200K tokens 的上下文窗口是一切操作的基础约束。学会基础的清理和压缩手段。',
+    takeaways: [
+      '上下文窗口 = 200K tokens ≈ 10 万字',
+      '/clear 清空重新开始，/compact 智能压缩',
+      '/cost 追踪 token 消耗和费用',
+      '五个陷阱：大文件、循环纠正、重复读取、遗留上下文、无规划对话'
+    ],
+    tools: ['/clear', '/compact', '/cost']
+  },
+  3: {
+    title: 'Lesson 3: 主动管理上下文',
+    summary: '从"被动清理"升级到"主动管理"——在问题出现之前就掌控局面。',
+    takeaways: [
+      '/context 查看 token 占用结构，精准定位瓶颈',
+      '/memory 确认加载了哪些 CLAUDE.md，管理 auto memory',
+      '会话生命周期：--continue、--resume、--fork',
+      '双击 ESC 回编辑，/btw 侧问题不污染上下文'
+    ],
+    tools: ['/context', '/memory', '--continue', '--resume', '--fork', '/rename', 'ESC×2', '/btw']
+  },
+  31: {
+    title: 'Lesson 3.1: Status Line——实时仪表盘',
+    summary: '终端底部的自定义状态栏，实时展示上下文、费用、Git 状态等信息，零 token 成本。',
+    takeaways: [
+      '/statusline 一句话生成状态栏脚本',
+      '工作原理：JSON stdin → 脚本处理 → stdout → 终端底部',
+      '完整数据字段：model、context_window、cost、rate_limits',
+      '支持多行、ANSI 颜色、自定义脚本'
+    ],
+    tools: ['/statusline', 'settings.json', 'jq', 'bash']
+  },
+  4: {
+    title: 'Lesson 4: 快速上手——第一次实操',
+    summary: '提示词精确度直接影响上下文效率。掌握四种策略让 Claude 一步到位。',
+    takeaways: [
+      '策略 1：限定范围——约束条件 + 成功标准',
+      '策略 2：指向来源——文件路径、行号、git 历史',
+      '策略 3：引用模式——"照葫芦画瓢"',
+      '策略 4：描述症状——具体现象 + 已有线索',
+      '五种输入方式：@文件、截图、URL、管道、Claude 自搜索'
+    ],
+    tools: ['@文件名', '管道 |', 'Glob', 'Grep']
+  },
+  5: {
+    title: 'Lesson 5: CLAUDE.md——项目的 AI 记忆',
+    summary: '六段式模板让 Claude 在每个会话中自动理解项目约束和规范。',
+    takeaways: [
+      '六段式：合约、构建测试、架构边界、NEVER、ALWAYS、Compact 指令',
+      '五层扩展：CLAUDE.md → Rules → Skills → Agents → docs/ai',
+      '自我进化：让 Claude 根据教训自己更新 CLAUDE.md',
+      'Auto memory：跨会话持久笔记'
+    ],
+    tools: ['CLAUDE.md', 'Rules/', '.claude/settings.json']
+  },
+  6: {
+    title: 'Lesson 6: 命令与技能系统',
+    summary: 'Commands 是快捷入口，Skills 是完整工作流。按需加载，不浪费上下文。',
+    takeaways: [
+      'Commands（斜杠命令）：轻量触发器，加载即执行',
+      'Skills（技能）：完整的知识 + 工作流 + 资源包',
+      '按需加载：100 个 Skill 只加载元数据，触发后才加载 body',
+      'cc4pm 命令分类：BMM、CIS、WDS、工程、管理'
+    ],
+    tools: ['/tdd', '/plan', '/e2e', '/code-review', '/bmad-brainstorming']
+  },
+  61: {
+    title: 'Lesson 6.1: Skill 深度——新一代交互式软件',
+    summary: 'Skill 是新一代软件交付形态。渐进式披露 + 三级加载实现极致上下文效率。',
+    takeaways: [
+      '从 .exe → npm → SaaS → SKILL.md 的演进',
+      '三级渐进式披露：元数据(常驻) → body(触发时) → 资源(按需)',
+      'description 是 Skill 的灵魂——决定能否被自动触发',
+      '可触发性 + 可复现性双重测试标准'
+    ],
+    tools: ['SKILL.md', 'scripts/', 'references/', 'assets/']
+  },
+  7: {
+    title: 'Lesson 7: 代理系统——你的 AI 专家团',
+    summary: '子代理在独立上下文中工作，只返回精炼结果，是保持主上下文干净的关键武器。',
+    takeaways: [
+      '三种内置代理类型：Explore（快速搜索）、Plan（架构设计）、通用',
+      '子代理在独立上下文中工作，不污染主对话',
+      'cc4pm 的 18+ 专家代理覆盖全流程',
+      '复杂任务分解给多个子代理并行执行'
+    ],
+    tools: ['Agent(Explore)', 'Agent(Plan)', 'Agent(通用)', 'agents/*.md']
+  },
+  8: {
+    title: 'Lesson 8: Hooks 与 Rules——自动化守护',
+    summary: 'Hooks 是确定性自动化（shell 脚本），Rules 是柔性约束（Markdown 指令）。',
+    takeaways: [
+      'Hook 事件：PreToolUse、PostToolUse、Notification、Stop',
+      '退出码语义：0=通过 1=静默拒绝 2=带消息拒绝',
+      'Rules 支持 glob 匹配——不同文件类型不同规则',
+      '一句话创建 Hook：/hookify "描述你要的行为"'
+    ],
+    tools: ['hooks.json', 'rules/*.md', '/hookify']
+  },
+  9: {
+    title: 'Lesson 9: 环境搭建——安装与验证',
+    summary: '三种安装方式适配不同角色，按需选择最小化安装。',
+    takeaways: [
+      '三种方式：完整安装、按角色选择、最小安装',
+      '按角色：PM 选 BMM+CIS，设计师选 WDS，开发者选工程工具链',
+      '验证安装：检查 agents/、skills/、rules/ 是否正确部署',
+      'MCP 配置：按需添加外部集成'
+    ],
+    tools: ['install 脚本', 'selective-install', 'mcp-configs/']
+  },
+  10: {
+    title: 'Lesson 10: 综合实战——为 cc4pm 构思新功能',
+    summary: '"吃自己的狗粮"——用 cc4pm 自己的工具为 cc4pm 设计新功能，完成完整产品闭环。',
+    takeaways: [
+      '5 步工作流：探索→头脑风暴→规划→验证→保存',
+      '每个步骤用不同工具：Plan Mode、/bmad-brainstorming、/plan、子代理',
+      '步骤间 /clear 保持上下文干净',
+      '用 /rename + /save-session 保存工作进度'
+    ],
+    tools: ['Plan Mode', '/clear', '/bmad-brainstorming', '/plan', 'Agent', '/rename']
+  }
+};
+
+const toolsData = [
+  { name: '/clear', cat: 'ctx', catLabel: '上下文', desc: '清空上下文，重新开始', lesson: 'L2' },
+  { name: '/compact', cat: 'ctx', catLabel: '上下文', desc: '智能压缩上下文，保留关键信息', lesson: 'L2' },
+  { name: '/cost', cat: 'ctx', catLabel: '上下文', desc: '查看 token 消耗和费用', lesson: 'L2' },
+  { name: '/context', cat: 'ctx', catLabel: '上下文', desc: '查看 token 占用结构分布', lesson: 'L3' },
+  { name: '/memory', cat: 'ctx', catLabel: '上下文', desc: '确认加载的配置和 auto memory', lesson: 'L3' },
+  { name: '/statusline', cat: 'ctx', catLabel: '上下文', desc: '一句话生成终端状态栏', lesson: 'L3.1' },
+  { name: '--continue', cat: 'sess', catLabel: '会话', desc: '恢复最近一次会话', lesson: 'L3' },
+  { name: '--resume', cat: 'sess', catLabel: '会话', desc: '从历史会话列表中选择恢复', lesson: 'L3' },
+  { name: '--fork', cat: 'sess', catLabel: '会话', desc: '分叉会话，探索不同方案', lesson: 'L3' },
+  { name: '/rename', cat: 'sess', catLabel: '会话', desc: '重命名会话方便查找', lesson: 'L3' },
+  { name: '双击 ESC', cat: 'inter', catLabel: '交互', desc: '回到上一条输入重新编辑', lesson: 'L3' },
+  { name: '单击 ESC', cat: 'inter', catLabel: '交互', desc: '打断 Claude 当前操作', lesson: 'L3' },
+  { name: '/btw', cat: 'inter', catLabel: '交互', desc: '侧问题，不污染上下文', lesson: 'L3' },
+  { name: '@文件名', cat: 'inter', catLabel: '交互', desc: '引用文件让 Claude 直接加载', lesson: 'L4' },
+  { name: '管道 |', cat: 'inter', catLabel: '交互', desc: '把外部数据喂给 Claude', lesson: 'L4' },
+  { name: 'Plan Mode', cat: 'eng', catLabel: '工程', desc: '只读模式，安全探索不修改', lesson: 'L2' },
+  { name: '/plan', cat: 'eng', catLabel: '工程', desc: '需求转化为结构化实施方案', lesson: 'L6' },
+  { name: '/tdd', cat: 'eng', catLabel: '工程', desc: '测试驱动开发工作流', lesson: 'L6' },
+  { name: '/e2e', cat: 'eng', catLabel: '工程', desc: '生成和运行端到端测试', lesson: 'L6' },
+  { name: '/code-review', cat: 'eng', catLabel: '工程', desc: '对抗性代码审查', lesson: 'L6' },
+  { name: '/bmad-brainstorming', cat: 'eng', catLabel: '工程', desc: '36 种创意技巧头脑风暴', lesson: 'L6' },
+  { name: 'CLAUDE.md', cat: 'config', catLabel: '配置', desc: '项目级 AI 指令和约束', lesson: 'L5' },
+  { name: 'Rules/', cat: 'config', catLabel: '配置', desc: '按文件类型匹配的规则', lesson: 'L8' },
+  { name: 'SKILL.md', cat: 'config', catLabel: '配置', desc: 'Skill 入口和工作流定义', lesson: 'L6.1' },
+  { name: 'hooks.json', cat: 'config', catLabel: '配置', desc: '确定性自动化钩子', lesson: 'L8' },
+  { name: 'agents/*.md', cat: 'config', catLabel: '配置', desc: '子代理定义文件', lesson: 'L7' },
+];
+
+const workflowSteps = [
+  {
+    title: 'Step 1: 探索现状',
+    tools: '使用 Plan Mode（只读模式）',
+    cmd: '# 进入 Plan Mode\n# 按 Shift+Tab 切换\n\n"读一下 .claude/skills/cc4pm-guide/ 的结构，\n 理解目前的教学系统是怎么组织的。"',
+    explain: 'Plan Mode 下 Claude 只读取文件，不做修改。先了解现状，避免盲目动手。这是 Lesson 2 的核心原则：先探索，再规划，再执行。'
+  },
+  {
+    title: 'Step 2: 头脑风暴',
+    tools: '使用 /bmad-brainstorming（CIS 创意工具）',
+    cmd: '/clear  # 清理上一步的探索上下文\n/bmad-brainstorming\n\n主题："如何让教学系统更好？增加什么互动元素？"\n背景：纯文本 Markdown 课程，用户在 Claude Code 中阅读',
+    explain: '步骤间用 /clear 保持上下文干净。CIS 工具会用 SCAMPER、类比思维、What If 等多种技巧帮你生成创意。'
+  },
+  {
+    title: 'Step 3: 需求规划',
+    tools: '使用 /plan（结构化规划命令）',
+    cmd: '/clear  # 新阶段新开始\n/plan "为 cc4pm-guide 添加进度追踪功能：\n1. 记录用户完成了哪些课程\n2. 显示成就徽章\n3. 支持断点续学\n参考 SKILL.md 的现有格式"',
+    explain: '/plan 将模糊的需求转化为结构化实施方案，包括功能概述、技术方案和实现步骤。'
+  },
+  {
+    title: 'Step 4: 方案验证',
+    tools: '使用子代理（独立上下文验证）',
+    cmd: '"用子代理检查方案：\n 1. 是否与 SKILL.md 格式兼容？\n 2. 数据存储位置是否合理？\n 3. 有没有遗漏的边界情况？"',
+    explain: '子代理在独立上下文中做深度验证，不污染主对话。只返回精炼的评估结论——这是 Lesson 7 的核心技能。'
+  },
+  {
+    title: 'Step 5: 保存进度',
+    tools: '使用 /rename + /save-session',
+    cmd: '/rename "cc4pm-guide-进度追踪-规划"\n/save-session\n\n# 下次恢复：\n# claude --resume → 从列表中选择',
+    explain: '给会话命名后保存，下次用 --resume 从列表中一眼找到并继续。工作连续性不被打断——这是 Lesson 3 的会话管理。'
+  }
+];
+
+const quizData = [
+  {
+    q: 'Claude Code 的上下文窗口大小是多少？',
+    opts: ['50K tokens', '100K tokens', '200K tokens', '500K tokens'],
+    answer: 2,
+    fb_ok: '200K tokens（约 10 万字）是当前默认窗口大小。这是所有操作的核心约束。',
+    fb_no: '正确答案是 200K tokens。这个数字要刻在脑子里——它决定了你能做多少事。'
+  },
+  {
+    q: '以下哪个操作不会消耗上下文 token？',
+    opts: ['/compact 压缩上下文', '/btw 问一个侧问题', '直接问 Claude 一个问题', '让 Claude 读一个大文件'],
+    answer: 1,
+    fb_ok: '/btw 的问答完全不进入对话历史，不消耗上下文。它是"便签纸上写答案然后撕掉"。',
+    fb_no: '正确答案是 /btw。它的回答出现在覆盖层中，永远不进入对话历史，零上下文消耗。'
+  },
+  {
+    q: '当你想从上次中断的地方继续工作，应该用什么命令？',
+    opts: ['claude --resume', 'claude --continue', 'claude --fork', '/clear'],
+    answer: 1,
+    fb_ok: '--continue 直接恢复最近一次会话，零交互。日常工作最常用的恢复方式。',
+    fb_no: '正确答案是 claude --continue。--resume 是从列表中选择，--fork 是分叉，/clear 是清空。'
+  },
+  {
+    q: '子代理的核心价值是什么？',
+    opts: ['运行速度更快', '在独立上下文中工作，不污染主对话', '可以访问互联网', '支持多种编程语言'],
+    answer: 1,
+    fb_ok: '子代理的最大价值就是"独立上下文"——做深度探索或验证后只返回精炼结果，主对话保持干净。',
+    fb_no: '正确答案是"独立上下文"。这是 Lesson 7 的核心概念：让子代理去做脏活累活，主对话保持清爽。'
+  },
+  {
+    q: 'CLAUDE.md 的六段式模板中，哪一段定义了"绝对不能做的事"？',
+    opts: ['Project Contract', 'Architecture Boundaries', 'NEVER', 'ALWAYS'],
+    answer: 2,
+    fb_ok: 'NEVER 段定义了明确的禁止行为。这是保障安全和质量的红线。',
+    fb_no: '正确答案是 NEVER 段。它定义了 Claude 在这个项目中绝对不能做的事，比如"不要直接操作生产数据库"。'
+  },
+  {
+    q: '在完整工作流中，为什么要在步骤之间使用 /clear？',
+    opts: ['节省费用', '避免前一步的上下文干扰新任务', '重置 Claude 的人格', '清除错误日志'],
+    answer: 1,
+    fb_ok: '每个步骤的上下文需求不同——探索阶段的大量文件内容对头脑风暴没用，反而是噪音。/clear 让每一步都在干净环境中开始。',
+    fb_no: '正确答案是"避免上下文干扰"。前一步的探索内容对下一步的创意环节是噪音——/clear 让每步从干净环境开始。'
+  }
+];
+
+// ============ Section Navigation ============
+
+function switchSection(name) {
+  document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.section-tab[onclick*="${name}"]`).classList.add('active');
+  document.getElementById('section-' + name).classList.add('active');
+}
+
+// ============ Knowledge Map ============
+
+function showLesson(id) {
+  const data = lessonData[id];
+  if (!data) return;
+
+  document.querySelectorAll('.kmap-lesson').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll(`.kmap-lesson[data-lesson="${id}"]`).forEach(el => el.classList.add('active'));
+
+  document.getElementById('kmap-title').textContent = data.title;
+  document.getElementById('kmap-summary').textContent = data.summary;
+
+  const ul = document.getElementById('kmap-takeaways');
+  ul.innerHTML = data.takeaways.map(t => `<li>${t}</li>`).join('');
+
+  const toolsRow = document.getElementById('kmap-tools');
+  toolsRow.innerHTML = data.tools.map(t => `<span class="tool-chip">${t}</span>`).join('');
+
+  const detail = document.getElementById('kmap-detail');
+  detail.classList.add('visible');
+}
+
+// ============ Tool Panorama ============
+
+function renderTools() {
+  const grid = document.getElementById('tool-grid');
+  const catClasses = { ctx: 'cat-ctx', sess: 'cat-sess', inter: 'cat-inter', eng: 'cat-eng', config: 'cat-config' };
+
+  grid.innerHTML = toolsData.map(t => `
+    <div class="tool-card" data-cat="${t.cat}">
+      <div class="tc-head">
+        <span class="tc-name">${t.name}</span>
+        <span class="tc-cat ${catClasses[t.cat]}">${t.catLabel}</span>
+      </div>
+      <div class="tc-desc">${t.desc}</div>
+      <div class="tc-lesson">来源：${t.lesson}</div>
+    </div>
+  `).join('');
+}
+
+function filterTools(cat) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.filter-chip[data-filter="${cat}"]`).classList.add('active');
+
+  document.querySelectorAll('.tool-card').forEach(card => {
+    if (cat === 'all' || card.dataset.cat === cat) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+// ============ Workflow Simulator ============
+
+let currentStep = 0;
+
+function renderStep() {
+  const steps = document.querySelectorAll('.wf-step');
+  steps.forEach((s, i) => {
+    s.classList.remove('active', 'done');
+    if (i < currentStep) s.classList.add('done');
+    if (i === currentStep) s.classList.add('active');
+  });
+
+  const data = workflowSteps[currentStep];
+  document.getElementById('wf-title').textContent = data.title;
+  document.getElementById('wf-tools').textContent = data.tools;
+  document.getElementById('wf-cmd').innerHTML = data.cmd.replace(/\n/g, '<br>');
+  document.getElementById('wf-explain').textContent = data.explain;
+
+  document.getElementById('wf-prev').disabled = currentStep === 0;
+  const nextBtn = document.getElementById('wf-next');
+  if (currentStep === workflowSteps.length - 1) {
+    nextBtn.textContent = '完成';
+    nextBtn.classList.remove('primary');
+  } else {
+    nextBtn.textContent = '下一步';
+    nextBtn.classList.add('primary');
+  }
+}
+
+function goStep(i) { currentStep = i; renderStep(); }
+function prevStep() { if (currentStep > 0) { currentStep--; renderStep(); } }
+function nextStep() { if (currentStep < workflowSteps.length - 1) { currentStep++; renderStep(); } }
+
+// ============ Quiz ============
+
+let quizIdx = 0;
+let quizScore = 0;
+let quizAnswered = false;
+
+function renderQuiz() {
+  // Progress dots
+  const prog = document.getElementById('quiz-progress');
+  prog.innerHTML = quizData.map((_, i) => `<div class="quiz-dot ${i === quizIdx ? 'current' : ''}"></div>`).join('');
+
+  const q = quizData[quizIdx];
+  document.getElementById('quiz-q').textContent = `${quizIdx + 1}/${quizData.length}  ${q.q}`;
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const opts = document.getElementById('quiz-opts');
+  opts.innerHTML = q.opts.map((o, i) =>
+    `<div class="quiz-option" data-letter="${letters[i]}" data-idx="${i}" onclick="selectAnswer(${i})">${o}</div>`
+  ).join('');
+
+  document.getElementById('quiz-fb').className = 'quiz-feedback';
+  document.getElementById('quiz-fb').textContent = '';
+  document.getElementById('quiz-next-btn').style.display = 'none';
+  document.getElementById('quiz-score').textContent = `得分：${quizScore}/${quizData.length}`;
+  quizAnswered = false;
+}
+
+function selectAnswer(idx) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+
+  const q = quizData[quizIdx];
+  const correct = idx === q.answer;
+
+  if (correct) quizScore++;
+
+  // Highlight options
+  document.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.classList.add('disabled');
+    const oi = parseInt(opt.dataset.idx);
+    if (oi === q.answer) opt.classList.add('correct');
+    if (oi === idx && !correct) opt.classList.add('wrong');
+  });
+
+  // Feedback
+  const fb = document.getElementById('quiz-fb');
+  fb.textContent = correct ? q.fb_ok : q.fb_no;
+  fb.className = `quiz-feedback visible ${correct ? 'is-correct' : 'is-wrong'}`;
+
+  // Progress dot
+  const dots = document.querySelectorAll('.quiz-dot');
+  dots[quizIdx].classList.remove('current');
+  dots[quizIdx].classList.add(correct ? 'correct' : 'wrong');
+
+  // Score
+  document.getElementById('quiz-score').textContent = `得分：${quizScore}/${quizData.length}`;
+
+  // Next button
+  const btn = document.getElementById('quiz-next-btn');
+  btn.style.display = 'inline-block';
+  btn.textContent = quizIdx === quizData.length - 1 ? '查看结果' : '下一题';
+}
+
+function nextQuestion() {
+  if (quizIdx < quizData.length - 1) {
+    quizIdx++;
+    renderQuiz();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-body').style.display = 'none';
+  const panel = document.getElementById('quiz-result');
+  panel.classList.add('visible');
+
+  const pct = Math.round(quizScore / quizData.length * 100);
+  document.getElementById('final-score').textContent = `${quizScore}/${quizData.length}`;
+
+  let label, badgeClass, badgeText;
+  if (pct === 100) {
+    label = '完美通关！你已经完全掌握了阶段 1 的核心知识。';
+    badgeClass = 'badge-gold';
+    badgeText = '🥈 入门者徽章';
+  } else if (pct >= 66) {
+    label = '表现优秀！大部分知识已经掌握，可以继续前进。';
+    badgeClass = 'badge-silver';
+    badgeText = '🥈 入门者徽章';
+  } else {
+    label = '还需要加油！建议回顾对应课程后再来挑战。';
+    badgeClass = 'badge-bronze';
+    badgeText = '继续学习';
+  }
+
+  document.getElementById('final-label').textContent = label;
+  document.getElementById('final-badge').innerHTML = `<span class="result-badge ${badgeClass}">${badgeText}</span>`;
+}
+
+function resetQuiz() {
+  quizIdx = 0;
+  quizScore = 0;
+  quizAnswered = false;
+  document.getElementById('quiz-body').style.display = 'block';
+  document.getElementById('quiz-result').classList.remove('visible');
+  renderQuiz();
+}
+
+// ============ Init ============
+
+renderTools();
+renderStep();
+renderQuiz();
+</script>
+</body>
+</html>

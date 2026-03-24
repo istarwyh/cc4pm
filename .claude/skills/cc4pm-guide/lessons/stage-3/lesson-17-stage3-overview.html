@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阶段 3 全景：WDS 用户心理与设计 — cc4pm</title>
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+  /* === Hero Stats === */
+  .hero-stats {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1.5rem 0 2rem;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    text-align: center;
+    padding: .8rem 1.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    min-width: 110px;
+    transition: all var(--transition);
+  }
+  .hero-stat:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .hero-stat .num {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), #b45309);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-stat .label { font-size: .75rem; color: var(--text-muted); font-weight: 600; }
+
+  /* === Section Tabs === */
+  .section-tabs {
+    display: flex;
+    gap: .3rem;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    padding: .3rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+  }
+  .section-tab {
+    flex: 1;
+    min-width: 80px;
+    padding: .6rem .8rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+  .section-tab:hover { color: var(--text-primary); }
+  .section-tab.active { background: var(--bg-secondary); color: var(--accent); box-shadow: var(--shadow-sm); }
+  .section-panel { display: none; }
+  .section-panel.active { display: block; }
+
+  /* === WDS Pipeline (vertical timeline) === */
+  .wds-timeline {
+    position: relative;
+    padding-left: 60px;
+    margin: 1.5rem 0;
+  }
+  .wds-timeline::before {
+    content: '';
+    position: absolute;
+    left: 27px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--cyan), var(--purple), var(--accent));
+    border-radius: 99px;
+  }
+  .wds-phase {
+    position: relative;
+    margin-bottom: .8rem;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .wds-phase-node {
+    position: absolute;
+    left: -60px;
+    top: 0;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    border: 3px solid var(--border);
+    background: var(--bg-secondary);
+    transition: all .3s;
+    z-index: 2;
+  }
+  .wds-phase.active .wds-phase-node {
+    border-color: var(--cyan);
+    background: var(--cyan-light);
+    box-shadow: 0 0 20px var(--cyan-glow);
+    transform: scale(1.12);
+  }
+  .wds-phase-header {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .8rem 1.2rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: all .2s;
+  }
+  .wds-phase:hover .wds-phase-header { border-color: var(--cyan); }
+  .wds-phase.active .wds-phase-header { border-color: var(--cyan); box-shadow: var(--shadow-md); }
+  .wds-phase-num {
+    font-size: .65rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 99px;
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .wds-phase.active .wds-phase-num { background: var(--cyan-light); color: var(--cyan); }
+  .wds-phase-name { font-weight: 600; font-size: .9rem; }
+  .wds-phase-agent {
+    margin-left: auto;
+    font-size: .72rem;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .agent-saga { background: var(--blue-light); color: var(--blue); }
+  .agent-freya { background: var(--purple-light); color: var(--purple); }
+  .agent-both { background: var(--accent-light); color: var(--accent); }
+
+  .wds-phase-detail {
+    display: none;
+    margin-top: .5rem;
+    padding: 1.2rem 1.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--cyan);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-glow);
+    font-size: .88rem;
+  }
+  .wds-phase.active .wds-phase-detail { display: block; }
+  .wds-phase-detail .detail-row {
+    display: flex;
+    gap: .6rem;
+    margin-bottom: .4rem;
+    align-items: flex-start;
+  }
+  .wds-phase-detail .detail-label {
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 60px;
+    font-size: .82rem;
+  }
+  .wds-phase-detail .detail-value { color: var(--text-secondary); }
+  .wds-phase-detail .detail-cmd {
+    font-family: var(--font-mono);
+    font-size: .82rem;
+    padding: .4rem .8rem;
+    background: var(--bg-code);
+    border-radius: var(--radius-sm);
+    color: var(--accent-hover);
+    margin-top: .5rem;
+    display: inline-block;
+  }
+
+  /* === Agent Gallery === */
+  .agent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .agent-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: all var(--transition);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .agent-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .agent-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .agent-card:hover::before { opacity: 1; }
+  .agent-card.expanded { border-color: var(--accent); box-shadow: var(--shadow-glow); }
+
+  .agent-card .agent-header { display: flex; align-items: center; gap: .8rem; margin-bottom: .6rem; }
+  .agent-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .agent-name { font-weight: 700; font-size: .95rem; }
+  .agent-role { font-size: .78rem; color: var(--text-muted); }
+  .agent-personality { font-size: .82rem; color: var(--text-secondary); font-style: italic; margin-bottom: .6rem; }
+  .agent-details { display: none; }
+  .agent-card.expanded .agent-details { display: block; }
+  .agent-skill-tag {
+    display: inline-block;
+    font-size: .72rem;
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin: 2px;
+    font-weight: 600;
+  }
+  .agent-cmd {
+    display: none;
+    margin-top: .6rem;
+    font-family: var(--font-mono);
+    font-size: .82rem;
+    padding: .5rem .8rem;
+    background: var(--bg-code);
+    border-radius: var(--radius-sm);
+    color: var(--accent-hover);
+  }
+  .agent-card.expanded .agent-cmd { display: block; }
+
+  .wds-agent::before { background: linear-gradient(90deg, var(--cyan), var(--cyan-light)); }
+  .cis-agent::before { background: linear-gradient(90deg, var(--purple), var(--purple-light)); }
+  .wds-agent .agent-avatar { background: var(--cyan-light); color: var(--cyan); }
+  .cis-agent .agent-avatar { background: var(--purple-light); color: var(--purple); }
+
+  /* === Methodology Cards === */
+  .method-tabs {
+    display: flex;
+    gap: .3rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .method-tab {
+    padding: .5rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    cursor: pointer;
+    font-size: .82rem;
+    font-weight: 600;
+    background: var(--bg-secondary);
+    transition: all var(--transition);
+  }
+  .method-tab:hover { border-color: var(--accent); }
+  .method-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .method-panel { display: none; }
+  .method-panel.active { display: block; }
+
+  .tm-layer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: .8rem 1.2rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    margin-bottom: .5rem;
+    transition: all .2s;
+    cursor: pointer;
+  }
+  .tm-layer:hover { border-color: var(--cyan); transform: translateX(4px); }
+  .tm-layer .tm-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: .9rem;
+    flex-shrink: 0;
+  }
+  .tm-layer .tm-name { font-weight: 600; font-size: .9rem; }
+  .tm-layer .tm-desc { font-size: .78rem; color: var(--text-muted); }
+
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: .6rem;
+    margin: 1rem 0;
+  }
+  .scenario-part {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: .8rem 1rem;
+    text-align: center;
+    transition: all .2s;
+  }
+  .scenario-part:hover { border-color: var(--cyan); transform: translateY(-2px); }
+  .scenario-part .sp-num { font-size: 1.4rem; margin-bottom: .3rem; }
+  .scenario-part .sp-name { font-weight: 700; font-size: .85rem; margin-bottom: .2rem; }
+  .scenario-part .sp-desc { font-size: .72rem; color: var(--text-muted); }
+
+  /* === Story Framework === */
+  .story-cat {
+    margin-bottom: 1rem;
+  }
+  .story-cat-header {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .6rem 1rem;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all .2s;
+    margin-bottom: .3rem;
+  }
+  .story-cat-header:hover { background: var(--accent-light); }
+  .story-cat-header .cat-icon { font-size: 1.2rem; }
+  .story-cat-header .cat-name { font-weight: 700; font-size: .9rem; }
+  .story-cat-header .cat-count {
+    margin-left: auto;
+    font-size: .72rem;
+    padding: 2px 8px;
+    border-radius: 99px;
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .story-cat-header .cat-arrow {
+    font-size: .7rem;
+    transition: transform .2s;
+    color: var(--text-muted);
+  }
+  .story-cat.open .cat-arrow { transform: rotate(90deg); }
+  .story-items {
+    display: none;
+    padding: .3rem 0 .3rem 2.5rem;
+  }
+  .story-cat.open .story-items { display: block; }
+  .story-item {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    padding: .4rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: .85rem;
+  }
+  .story-item:last-child { border-bottom: none; }
+  .story-item .si-name { font-weight: 600; min-width: 100px; }
+  .story-item .si-structure { color: var(--text-muted); font-size: .78rem; }
+  .story-item .si-use { color: var(--cyan); font-size: .78rem; font-weight: 600; }
+
+  /* === Before/After === */
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 700px) { .ba-grid { grid-template-columns: 1fr; } }
+  .ba-column {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+  }
+  .ba-column.before { border-top: 4px solid var(--rose); }
+  .ba-column.after { border-top: 4px solid var(--green); }
+  .ba-column h3 { margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+  .ba-column.before h3 { color: var(--rose); }
+  .ba-column.after h3 { color: var(--green); }
+  .ba-step {
+    display: flex;
+    align-items: flex-start;
+    gap: .8rem;
+    padding: .6rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: .85rem;
+    color: var(--text-secondary);
+  }
+  .ba-step:last-child { border-bottom: none; }
+  .ba-step .ba-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .ba-step .ba-time {
+    font-size: .72rem;
+    color: var(--text-muted);
+    display: block;
+    margin-top: .2rem;
+  }
+  .ba-total {
+    margin-top: 1rem;
+    padding: .8rem 1rem;
+    border-radius: var(--radius-md);
+    text-align: center;
+    font-weight: 700;
+    font-size: .9rem;
+  }
+  .ba-column.before .ba-total { background: var(--rose-light); color: var(--rose); }
+  .ba-column.after .ba-total { background: var(--green-light); color: var(--green); }
+
+  /* === Abbreviation Table === */
+  .abbr-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: .5rem;
+    margin: 1rem 0;
+  }
+  .abbr-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: .6rem .8rem;
+    text-align: center;
+    transition: all var(--transition);
+  }
+  .abbr-card:hover { border-color: var(--accent); }
+  .abbr-card .abbr-code {
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--accent);
+  }
+  .abbr-card .abbr-full { font-size: .72rem; color: var(--text-muted); }
+  .abbr-card .abbr-zh { font-size: .78rem; color: var(--text-secondary); font-weight: 600; }
+
+  /* === Demo Types === */
+  .demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: .8rem;
+    margin: 1rem 0;
+  }
+  .demo-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.2rem;
+    transition: all .2s;
+  }
+  .demo-card:hover { border-color: var(--purple); transform: translateY(-2px); }
+  .demo-card .demo-icon { font-size: 1.5rem; margin-bottom: .3rem; }
+  .demo-card .demo-name { font-weight: 700; font-size: .88rem; margin-bottom: .2rem; }
+  .demo-card .demo-audience { font-size: .75rem; color: var(--text-muted); }
+  .demo-card .demo-pages { font-size: .72rem; color: var(--cyan); font-weight: 600; margin-top: .3rem; }
+</style>
+</head>
+<body>
+
+<h1><span class="gradient">阶段 3 · WDS 用户心理与设计</span></h1>
+<p class="subtitle">从用户心理驱动设计 —— 4 节课掌握 WDS + 故事讲述全流程</p>
+
+<!-- Hero Stats -->
+<div class="hero-stats">
+  <div class="hero-stat"><div class="num">4</div><div class="label">节课程</div></div>
+  <div class="hero-stat"><div class="num">4</div><div class="label">AI 代理</div></div>
+  <div class="hero-stat"><div class="num">52</div><div class="label">WDS 技能</div></div>
+  <div class="hero-stat"><div class="num">26</div><div class="label">故事框架</div></div>
+  <div class="hero-stat"><div class="num">8</div><div class="label">设计阶段</div></div>
+</div>
+
+<!-- Section Tabs -->
+<div class="section-tabs">
+  <div class="section-tab active" onclick="switchSection('pipeline')">WDS 流水线</div>
+  <div class="section-tab" onclick="switchSection('agents')">设计团队</div>
+  <div class="section-tab" onclick="switchSection('methods')">核心方法论</div>
+  <div class="section-tab" onclick="switchSection('stories')">26 故事框架</div>
+  <div class="section-tab" onclick="switchSection('compare')">有 vs 没有</div>
+  <div class="section-tab" onclick="switchSection('abbr')">缩写速查</div>
+</div>
+
+<!-- ==================== Section 1: WDS Pipeline ==================== -->
+<div id="section-pipeline" class="section-panel active">
+<div class="card">
+  <h2>WDS 8 阶段流水线：Phase 0 → Phase 8</h2>
+  <p>点击每个阶段，查看详细信息。颜色标注负责的代理：<span style="color:var(--blue);font-weight:600">Saga（分析）</span> · <span style="color:var(--purple);font-weight:600">Freya（设计）</span> · <span style="color:var(--accent);font-weight:600">协作</span></p>
+
+  <div class="wds-timeline" id="wds-timeline">
+    <!-- JS renders -->
+  </div>
+</div>
+</div>
+
+<!-- ==================== Section 2: Agent Gallery ==================== -->
+<div id="section-agents" class="section-panel">
+<div class="card">
+  <h2>你的设计团队：4 位专家代理</h2>
+  <p>阶段 3 你将认识 4 位新代理——两位来自 WDS（设计），两位来自 CIS（故事）。点击卡片展开详情。</p>
+
+  <div style="display:flex;gap:.8rem;margin-bottom:1rem;flex-wrap:wrap">
+    <span style="display:inline-flex;align-items:center;gap:.3rem;font-size:.82rem;font-weight:600">
+      <span style="width:12px;height:12px;border-radius:50%;background:var(--cyan);display:inline-block"></span>
+      WDS 设计团队
+    </span>
+    <span style="display:inline-flex;align-items:center;gap:.3rem;font-size:.82rem;font-weight:600">
+      <span style="width:12px;height:12px;border-radius:50%;background:var(--purple);display:inline-block"></span>
+      CIS 故事团队
+    </span>
+  </div>
+
+  <div class="agent-grid" id="agent-grid">
+    <!-- JS renders -->
+  </div>
+</div>
+</div>
+
+<!-- ==================== Section 3: Core Methodology ==================== -->
+<div id="section-methods" class="section-panel">
+<div class="card">
+  <h2>核心方法论</h2>
+  <p>WDS 的三大核心方法：<strong>Trigger Map</strong>（用户心理映射）、<strong>UX 场景</strong>（用户旅程）、<strong>场景验证</strong>（质量保障）。</p>
+
+  <div class="method-tabs">
+    <div class="method-tab active" onclick="switchMethod('trigger')">Trigger Map 四层</div>
+    <div class="method-tab" onclick="switchMethod('workshop')">4 个研讨会</div>
+    <div class="method-tab" onclick="switchMethod('scenario')">场景 8 组成</div>
+    <div class="method-tab" onclick="switchMethod('drivers')">驱动力模型</div>
+  </div>
+
+  <div id="method-trigger" class="method-panel active">
+    <h3>Trigger Map 四层结构</h3>
+    <p>从商业目标出发，逐层映射到用户的心理驱动力。</p>
+    <div id="tm-layers"></div>
+    <div class="callout" style="margin-top:1rem;margin-bottom:0">
+      <strong>核心原理——损失厌恶：</strong>人们对"失去"的恐惧是"获得"快乐的 2 倍。设计时要同时考虑正向驱动力（用户想要的）和负向驱动力（用户害怕的）。
+    </div>
+  </div>
+
+  <div id="method-workshop" class="method-panel">
+    <h3>4 个结构化研讨会（Workshop）</h3>
+    <p>Saga 代理引导你完成 4 个研讨会，逐步建立完整的 Trigger Map。</p>
+    <div id="ws-list"></div>
+  </div>
+
+  <div id="method-scenario" class="method-panel">
+    <h3>UX 场景的 8 个核心组成部分</h3>
+    <p>每个场景大纲必须包含这 8 个部分，确保从"用户心理"到"操作路径"的完整链路。</p>
+    <div class="scenario-grid" id="scenario-grid"></div>
+    <div class="callout" style="margin-bottom:0">
+      <strong>"阳光路径"原则：</strong>每个场景只描述一条最佳路径。异常和边界情况留给后续的开发阶段处理。
+    </div>
+  </div>
+
+  <div id="method-drivers" class="method-panel">
+    <h3>驱动力的 WHAT + WHY + WHEN 模式</h3>
+    <p>每个驱动力用三个维度描述，确保足够具体和可操作。</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0">
+      <div style="background:var(--green-light);border:1px solid var(--green);border-radius:var(--radius-md);padding:1.2rem">
+        <h3 style="color:var(--green);margin-bottom:.6rem">正向驱动力（Toward）</h3>
+        <div style="font-size:.85rem;color:var(--text-secondary);margin-bottom:.3rem"><strong>WHAT：</strong>看到每月支出趋势图</div>
+        <div style="font-size:.85rem;color:var(--text-secondary);margin-bottom:.3rem"><strong>WHY：</strong>感觉自己在掌控财务</div>
+        <div style="font-size:.85rem;color:var(--text-secondary)"><strong>WHEN：</strong>月末查看账单时</div>
+        <div style="font-size:.78rem;color:var(--green);margin-top:.5rem;font-weight:600">"我想要..."</div>
+      </div>
+      <div style="background:var(--rose-light);border:1px solid var(--rose);border-radius:var(--radius-md);padding:1.2rem">
+        <h3 style="color:var(--rose);margin-bottom:.6rem">负向驱动力（Away-from）</h3>
+        <div style="font-size:.85rem;color:var(--text-secondary);margin-bottom:.3rem"><strong>WHAT：</strong>担心忘记记录现金支出</div>
+        <div style="font-size:.85rem;color:var(--text-secondary);margin-bottom:.3rem"><strong>WHY：</strong>月底对账发现差额会焦虑</div>
+        <div style="font-size:.85rem;color:var(--text-secondary)"><strong>WHEN：</strong>外出消费用现金付款后</div>
+        <div style="font-size:.78rem;color:var(--rose);margin-top:.5rem;font-weight:600">"我害怕..." — 通常比正向更有力（2x）</div>
+      </div>
+    </div>
+
+    <div style="background:var(--bg-code);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem 1.2rem;font-family:var(--font-mono);font-size:.82rem;line-height:1.8;margin-bottom:0">
+      功能影响分析（FIA）矩阵示例：<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[P1] [P2] [N1] [N2] [N3] &nbsp;总分<br>
+      一键报表生成&nbsp;&nbsp;&nbsp;&nbsp; ★&nbsp;&nbsp; ★★★&nbsp; ★★&nbsp;&nbsp; -&nbsp;&nbsp; ★★&nbsp;&nbsp; = 11<br>
+      智能记账提醒&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp; ★★★&nbsp; ★&nbsp;&nbsp; ★★&nbsp;&nbsp; = 9<br>
+      AI 自动分类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp; ★&nbsp;&nbsp;&nbsp; ★★&nbsp;&nbsp; -&nbsp;&nbsp; ★★★&nbsp; = 9<br>
+      → 功能优先级有心理学依据，不是"拍脑袋"
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== Section 4: 26 Story Frameworks ==================== -->
+<div id="section-stories" class="section-panel">
+<div class="card">
+  <h2>26 个故事框架 × 6 大分类</h2>
+  <p>CIS Storytelling 提供 26 个经过验证的故事框架。点击分类展开查看全部框架。</p>
+
+  <div style="display:flex;gap:1.5rem;justify-content:center;margin:1.5rem 0;flex-wrap:wrap">
+    <div style="text-align:center">
+      <div style="font-size:2.2rem;font-weight:800;color:var(--accent)">26</div>
+      <div style="font-size:.75rem;color:var(--text-muted)">故事框架</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:2.2rem;font-weight:800;color:var(--purple)">6</div>
+      <div style="font-size:.75rem;color:var(--text-muted)">大分类</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:2.2rem;font-weight:800;color:var(--cyan)">7</div>
+      <div style="font-size:.75rem;color:var(--text-muted)">演示类型</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:2.2rem;font-weight:800;color:var(--green)">10</div>
+      <div style="font-size:.75rem;color:var(--text-muted)">步工作流</div>
+    </div>
+  </div>
+
+  <div id="story-cats"></div>
+
+  <h3 style="margin-top:1.5rem">7 种产品演示类型</h3>
+  <div class="demo-grid" id="demo-grid"></div>
+</div>
+</div>
+
+<!-- ==================== Section 5: Before/After ==================== -->
+<div id="section-compare" class="section-panel">
+<div class="card">
+  <h2>传统 UX 设计 vs WDS 设计方法</h2>
+  <p>同样是"把需求变成用户喜欢的产品设计"，看看方法论带来的差异。</p>
+
+  <div class="ba-grid">
+    <div class="ba-column before">
+      <h3>&#x274C; 传统 UX 流程</h3>
+      <div class="ba-step"><span class="ba-icon">&#x1f50d;</span><div>用户调研（问卷+访谈）<span class="ba-time">1-2 周</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f464;</span><div>建立用户画像（经验驱动）<span class="ba-time">2-3 天</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f4a1;</span><div>信息架构+功能列表（拍脑袋定优先级）<span class="ba-time">3-5 天</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f3a8;</span><div>线框图+视觉设计（设计师凭直觉）<span class="ba-time">1-2 周</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f9ea;</span><div>用户测试→发现不对→大改<span class="ba-time">1 周+</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f4e2;</span><div>产品演示靠个人口才<span class="ba-time">随缘</span></div></div>
+      <div class="ba-total">总计：4-6 周，大概率需要返工</div>
+    </div>
+
+    <div class="ba-column after">
+      <h3>&#x2705; 使用 WDS</h3>
+      <div class="ba-step"><span class="ba-icon">&#x1f91d;</span><div>Phase 0: 团队对齐签核（有共识才开始）<span class="ba-time">1-2 小时</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f4cb;</span><div>Phase 1: 产品简报（复用 BMM 数据）<span class="ba-time">30 分钟</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f9e0;</span><div>Phase 2: Trigger Map 4 个研讨会（心理驱动）<span class="ba-time">1-2 小时</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f6e4;</span><div>Phase 3: UX 场景（8 组成×验证标准）<span class="ba-time">2-3 小时</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f3a8;</span><div>Phase 4: UX 设计（每个元素有心理依据）<span class="ba-time">1-2 天</span></div></div>
+      <div class="ba-step"><span class="ba-icon">&#x1f4d6;</span><div>故事讲述（26 框架+7 演示类型）<span class="ba-time">1-2 小时</span></div></div>
+      <div class="ba-total">总计：3-5 天，每个决策有依据，返工率极低</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-bottom:0">
+    <strong>核心差异不是"快了多少"，而是"为什么这样设计"。</strong><br>
+    传统 UX 的功能优先级靠直觉，WDS 的优先级靠 Trigger Map 的心理分析矩阵。传统 UX 用户测试才发现问题，WDS 在场景验证阶段（25 项检查）就提前拦截。
+  </div>
+</div>
+</div>
+
+<!-- ==================== Section 6: Abbreviations ==================== -->
+<div id="section-abbr" class="section-panel">
+<div class="card">
+  <h2>阶段 3 缩写速查表</h2>
+  <p>本阶段涉及的核心缩写。收藏这张表，随时查阅。</p>
+
+  <h3 style="margin-top:1rem;color:var(--cyan)">WDS 模块</h3>
+  <div class="abbr-grid" id="abbr-wds"></div>
+
+  <h3 style="margin-top:1.2rem;color:var(--blue)">Trigger Map 相关</h3>
+  <div class="abbr-grid" id="abbr-tm"></div>
+
+  <h3 style="margin-top:1.2rem;color:var(--purple)">UX 场景相关</h3>
+  <div class="abbr-grid" id="abbr-ux"></div>
+
+  <h3 style="margin-top:1.2rem;color:var(--accent)">故事讲述相关</h3>
+  <div class="abbr-grid" id="abbr-story"></div>
+
+  <h3 style="margin-top:1.2rem;color:var(--green)">代理名称</h3>
+  <div class="abbr-grid" id="abbr-agents"></div>
+</div>
+</div>
+
+<footer>cc4pm 交互式教学 · 阶段 3 全景概览 · Anthropic 风格</footer>
+
+<script>
+// ============ Data ============
+
+const wdsPipeline = [
+  {
+    phase: 0, icon: '&#x1f91d;', name: '对齐签核', en: 'Alignment Sign-off',
+    agent: 'both', agentLabel: '团队协作',
+    desc: '在正式开始前，确保所有人对产品方向达成共识。最昂贵的错误是方向错误。',
+    output: '团队签核文档：产品愿景、目标用户、核心问题的共识',
+    cmd: '/bmad-wds-alignment-signoff', lesson: 'L17'
+  },
+  {
+    phase: 1, icon: '&#x1f4cb;', name: '产品简报', en: 'Product Brief',
+    agent: 'saga', agentLabel: 'Saga',
+    desc: '建立项目的完整上下文——做什么、为谁做、技术栈。可复用 BMM 简报。',
+    output: '项目简报文档：项目类型、复杂度、技术栈、目标用户',
+    cmd: '/bmad-wds-project-brief', lesson: 'L17'
+  },
+  {
+    phase: 2, icon: '&#x1f9e0;', name: '触发力映射', en: 'Trigger Mapping',
+    agent: 'saga', agentLabel: 'Saga',
+    desc: 'WDS 最核心、最独特的阶段。通过 4 个研讨会把商业目标映射到用户心理驱动力。',
+    output: '5 份文档：商业目标、用户群画像、驱动力清单、FIA 矩阵、汇总',
+    cmd: '/bmad-wds-trigger-mapping', lesson: 'L18'
+  },
+  {
+    phase: 3, icon: '&#x1f6e4;', name: 'UX 场景设计', en: 'UX Scenarios',
+    agent: 'both', agentLabel: 'Saga + Freya',
+    desc: '把驱动力转化为用户旅程——8 组成部分的场景大纲，只描述"阳光路径"。',
+    output: '场景大纲文档：每个场景含交易、驱动力、设备、入口、最佳结果、最短路径',
+    cmd: '/bmad-wds-scenarios', lesson: 'L19'
+  },
+  {
+    phase: 4, icon: '&#x1f3a8;', name: 'UX 设计', en: 'UX Design',
+    agent: 'freya', agentLabel: 'Freya',
+    desc: '把场景变成具体的界面设计规范——页面布局、组件选择、交互模式、内容策略。',
+    output: '页面规范文档（Page Spec）：布局、组件、交互、内容的详细描述',
+    cmd: '/bmad-wds-ux-design', lesson: 'L17'
+  },
+  {
+    phase: 5, icon: '&#x1f4bb;', name: '代理驱动开发', en: 'Agentic Dev',
+    agent: 'freya', agentLabel: 'Freya',
+    desc: 'AI 代理根据设计规范自动生成代码、运行测试、修复问题。',
+    output: '可运行的前端代码、测试覆盖、技术文档',
+    cmd: '/bmad-wds-development', lesson: 'L17'
+  },
+  {
+    phase: 6, icon: '&#x1f5bc;', name: '资产生成', en: 'Asset Generation',
+    agent: 'freya', agentLabel: 'Freya',
+    desc: '根据设计规范生成图标、图片、插画、视频、动画等视觉资产。',
+    output: '图标集、图片、视频、UI 组件等视觉资产',
+    cmd: '/bmad-wds-icons, images, videos', lesson: 'L17'
+  },
+  {
+    phase: 7, icon: '&#x1f3d7;', name: '设计系统', en: 'Design System',
+    agent: 'freya', agentLabel: 'Freya',
+    desc: '建立可复用的设计系统——颜色、字体、间距、组件库。',
+    output: '完整的设计系统：token、组件库、使用指南',
+    cmd: '/bmad-wds-create-design-system', lesson: 'L17'
+  },
+  {
+    phase: 8, icon: '&#x1f504;', name: '产品演化', en: 'Product Evolution',
+    agent: 'freya', agentLabel: 'Freya',
+    desc: '产品上线后的持续改进循环：分析→改进→设计→实现→部署→反馈。',
+    output: '改进方案、更新后的设计规范、部署计划',
+    cmd: '/bmad-wds-product-evolution', lesson: 'L17'
+  }
+];
+
+const agentsData = [
+  {
+    name: 'Saga（萨迦）', role: 'WDS 分析师', type: 'wds',
+    icon: '&#x1f50e;',
+    personality: '"让我们追根究底——用户到底为什么要用这个产品？"',
+    skills: ['产品分析', 'Trigger Mapping 引导', '用户心理洞察', '竞品设计分析', '4 个研讨会引导'],
+    phases: 'Phase 1-2',
+    cmd: '/bmad-agent-wds-saga-analyst'
+  },
+  {
+    name: 'Freya（芙蕾雅）', role: 'WDS 设计师', type: 'wds',
+    icon: '&#x1f3a8;',
+    personality: '"美感和实用性不冲突——好的设计两者兼得。"',
+    skills: ['UX 设计', '视觉设计', '资产生成', '设计系统', '代码生成', '线框图/原型'],
+    phases: 'Phase 4-8',
+    cmd: '/bmad-agent-wds-freya-ux'
+  },
+  {
+    name: 'Sophia（索菲亚）', role: 'CIS 故事讲述', type: 'cis',
+    icon: '&#x1f4d6;',
+    personality: '"数据说服逻辑，故事说服情感。让我帮你讲一个打动人的故事。"',
+    skills: ['26 个故事框架', '叙事弧构建', '情感注入', '多版本生成', '渠道适配'],
+    phases: '跨模块通用',
+    cmd: '/bmad-agent-cis-storyteller'
+  },
+  {
+    name: 'Caravaggio（卡拉瓦乔）', role: 'CIS 演示大师', type: 'cis',
+    icon: '&#x1f5bc;',
+    personality: '"用光影对比让重点跃然眼前。每一张幻灯片都要有存在的理由。"',
+    skills: ['演示结构设计', '视觉叙事', '数据可视化', '7 种演示类型', '风格一致性'],
+    phases: '跨模块通用',
+    cmd: '/bmad-agent-cis-presentation-master'
+  }
+];
+
+const tmLayers = [
+  { num: 1, name: '商业目标', en: 'Business Goals', desc: '我们想达成什么？', color: '--accent', q: '例：6个月内获得 10,000 付费用户' },
+  { num: 2, name: '产品', en: 'Product', desc: '用什么产品达成？', color: '--blue', q: '例：移动端 AI 记账 App' },
+  { num: 3, name: '目标用户群', en: 'Target Groups', desc: '谁在使用？', color: '--green', q: '例：小微企业主、自由职业者' },
+  { num: 4, name: '驱动力', en: 'Driving Forces', desc: '用户为什么要用？', color: '--rose', q: '正向："我想要..." + 负向："我害怕..."' }
+];
+
+const workshops = [
+  { num: 1, name: '目标与产品对齐', icon: '&#x1f3af;', desc: '确定商业目标、产品形态、衡量标准', output: '商业目标清单 + 产品定位文档' },
+  { num: 2, name: '目标用户群分析', icon: '&#x1f464;', desc: '识别用户群、创建画像、确定优先级、描述情境', output: '用户群画像 + 优先级排序 + 使用情境' },
+  { num: 3, name: '驱动力发现', icon: '&#x1f9e0;', desc: '正向/负向驱动力头脑风暴 + 分类合并 + 强度评估（最关键！）', output: '驱动力清单（WHAT+WHY+WHEN 格式）' },
+  { num: 4, name: '功能影响分析', icon: '&#x1f4ca;', desc: '设计对应功能 → 建立映射矩阵 → 评分排序 → 确定 MVP', output: 'FIA 矩阵 + MVP 功能集' }
+];
+
+const scenarioParts = [
+  { num: '&#x1f4b0;', name: 'Transaction', zh: '核心任务', desc: '用户要完成什么？' },
+  { num: '&#x1f3af;', name: 'Business Goal', zh: '商业目标', desc: '服务哪个商业目标？' },
+  { num: '&#x1f464;', name: 'User & Situation', zh: '用户与情境', desc: '谁在什么情况下？' },
+  { num: '&#x1f9e0;', name: 'Driving Forces', zh: '驱动力', desc: '什么心理在推动？' },
+  { num: '&#x1f4f1;', name: 'Device', zh: '设备', desc: '用什么设备？' },
+  { num: '&#x1f6aa;', name: 'Entry', zh: '入口', desc: '从哪里进入？' },
+  { num: '&#x2b50;', name: 'Best Outcome', zh: '最佳结果', desc: '最理想结果（含情感）' },
+  { num: '&#x26a1;', name: 'Shortest Path', zh: '最短路径', desc: '最少步骤达到结果' }
+];
+
+const storyFrameworks = [
+  {
+    cat: '启蒙故事', icon: '&#x1f4a1;', color: '--accent',
+    items: [
+      { name: '问题启蒙', structure: '无意识→发现问题→意识到严重性', use: '教育用户' },
+      { name: '机遇启蒙', structure: '世界如此→如果可能→新可能性', use: '市场机会' },
+      { name: '价值启蒙', structure: '旧价值观→新视角→价值观转变', use: '认知升级' },
+      { name: '能力启蒙', structure: '我不会→有人展示→我也可以', use: '降低门槛' }
+    ]
+  },
+  {
+    cat: '转变故事', icon: '&#x1f504;', color: '--green',
+    items: [
+      { name: '英雄之旅', structure: '普通生活→挑战→帮助→蜕变', use: '品牌故事' },
+      { name: '学徒故事', structure: '初学者→学习→掌握→专家', use: '成长叙事' },
+      { name: '逆境故事', structure: '挑战→失败→坚持→突破', use: '创业叙事' },
+      { name: '对比故事', structure: '用前困境→使用产品→用后改善', use: '案例研究' },
+      { name: '合作故事', structure: '各自为战→合作→共赢', use: '团队叙事' }
+    ]
+  },
+  {
+    cat: '连接故事', icon: '&#x1f91d;', color: '--blue',
+    items: [
+      { name: '同理心故事', structure: '我也经历过→我理解→一起解决', use: '创始人故事' },
+      { name: '社群故事', structure: '都是这个群体→共同挑战→团结', use: '社区建设' },
+      { name: '成长故事', structure: '我小时候→如何成长→现在的我', use: '个人品牌' },
+      { name: '脆弱故事', structure: '我的失败→如何面对→教训', use: '建立信任' },
+      { name: '信仰故事', structure: '我相信→为什么→如何指导我', use: '品牌宣言' }
+    ]
+  },
+  {
+    cat: '学习故事', icon: '&#x1f4da;', color: '--purple',
+    items: [
+      { name: '失败教训', structure: '我做错了→结果→教训', use: '内部分享' },
+      { name: '对话故事', structure: '两人对话→一人的启发', use: '观点碰撞' },
+      { name: '问题解决', structure: '问题→思考→方案→结果', use: '方案展示' },
+      { name: '实验故事', structure: '假设→实验→发现→行动', use: '数据驱动' }
+    ]
+  },
+  {
+    cat: '启发故事', icon: '&#x1f31f;', color: '--cyan',
+    items: [
+      { name: '梦想故事', structure: '困境→美好未来→怎么到达', use: '产品愿景' },
+      { name: '可能性故事', structure: '曾经不可能→现在实现了', use: '技术突破' },
+      { name: '鼓励故事', structure: '如果他能做到→你也能', use: '用户激励' },
+      { name: '启蒙故事', structure: '不理解→关键时刻→理解了', use: '观念转变' }
+    ]
+  },
+  {
+    cat: '冲突故事', icon: '&#x26a1;', color: '--rose',
+    items: [
+      { name: '对立故事', structure: '两种思想冲突→第三条路', use: '创新提案' },
+      { name: '悖论故事', structure: '看似矛盾→如何共存', use: '深度思考' },
+      { name: '讽刺故事', structure: '预期结果 vs 实际结果', use: '颠覆认知' },
+      { name: '救赎故事', structure: '失败→无法挽回→转机→新开始', use: '逆转叙事' }
+    ]
+  }
+];
+
+const demoTypes = [
+  { icon: '&#x1f4a1;', name: '概念演示', audience: '团队/早期投资者', pages: '5-10 分钟' },
+  { icon: '&#x2699;', name: '功能演示', audience: '潜在用户/销售', pages: '10-20 分钟' },
+  { icon: '&#x1f3ac;', name: '场景演示', audience: '用户研究/决策者', pages: '15-30 分钟' },
+  { icon: '&#x2696;', name: '对比演示', audience: '竞品用户/犹豫者', pages: '10-15 分钟' },
+  { icon: '&#x1f31f;', name: '用户成功故事', audience: '潜在用户/投资者', pages: '15-25 分钟' },
+  { icon: '&#x1f527;', name: '技术架构演示', audience: 'CTO/集成商', pages: '20-30 分钟' },
+  { icon: '&#x1f91d;', name: '交互式工作坊', audience: '培训/企业客户', pages: '30-60 分钟' }
+];
+
+const abbrData = {
+  wds: [
+    { code: 'WDS', full: 'Web Design System', zh: '网页设计系统' },
+    { code: 'Phase', full: 'Phase (0-8)', zh: 'WDS 流水线阶段' },
+    { code: 'TM', full: 'Trigger Map', zh: '触发力地图' },
+    { code: 'FIA', full: 'Feature Impact Analysis', zh: '功能影响分析' }
+  ],
+  tm: [
+    { code: 'BG', full: 'Business Goals', zh: '商业目标' },
+    { code: 'TG', full: 'Target Groups', zh: '目标用户群' },
+    { code: 'DF', full: 'Driving Forces', zh: '驱动力' },
+    { code: 'PD', full: 'Positive Drivers', zh: '正向驱动力' },
+    { code: 'ND', full: 'Negative Drivers', zh: '负向驱动力' },
+    { code: 'WS', full: 'Workshop', zh: '研讨会' }
+  ],
+  ux: [
+    { code: 'UX', full: 'User Experience', zh: '用户体验' },
+    { code: 'SO', full: 'Scenario Outline', zh: '场景大纲' },
+    { code: 'SP', full: 'Shortest Path', zh: '最短路径' },
+    { code: 'BO', full: 'Best Outcome', zh: '最佳结果' },
+    { code: 'CTA', full: 'Call to Action', zh: '行动号召' }
+  ],
+  story: [
+    { code: 'CIS', full: 'Creative Innovation Suite', zh: '创意创新套件' },
+    { code: 'PM', full: 'Presentation Master', zh: '演示大师' },
+    { code: 'ROI', full: 'Return on Investment', zh: '投资回报率' },
+    { code: 'BP', full: 'Business Plan', zh: '商业计划' }
+  ],
+  agents: [
+    { code: 'Saga', full: 'WDS Analyst Agent', zh: 'WDS 分析师代理' },
+    { code: 'Freya', full: 'WDS Designer Agent', zh: 'WDS 设计师代理' },
+    { code: 'Sophia', full: 'CIS Storyteller Agent', zh: 'CIS 故事讲述代理' },
+    { code: 'Caravaggio', full: 'CIS Presentation Agent', zh: 'CIS 演示大师代理' }
+  ]
+};
+
+// ============ Section Navigation ============
+
+function switchSection(name) {
+  document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.section-tab[onclick*="${name}"]`).classList.add('active');
+  document.getElementById('section-' + name).classList.add('active');
+}
+
+// ============ WDS Pipeline ============
+
+function renderPipeline() {
+  const el = document.getElementById('wds-timeline');
+  el.innerHTML = wdsPipeline.map((p, i) => `
+    <div class="wds-phase ${i === 0 ? 'active' : ''}" onclick="togglePhase(this, ${i})">
+      <div class="wds-phase-node">${p.icon}</div>
+      <div class="wds-phase-header">
+        <span class="wds-phase-num">Phase ${p.phase}</span>
+        <span class="wds-phase-name">${p.name}</span>
+        <span style="font-size:.75rem;color:var(--text-muted)">${p.en}</span>
+        <span class="wds-phase-agent agent-${p.agent}">${p.agentLabel}</span>
+      </div>
+      <div class="wds-phase-detail">
+        <div class="detail-row"><span class="detail-label">说明</span><span class="detail-value">${p.desc}</span></div>
+        <div class="detail-row"><span class="detail-label">产出</span><span class="detail-value">${p.output}</span></div>
+        <div class="detail-row"><span class="detail-label">课程</span><span class="detail-value">${p.lesson}</span></div>
+        <div class="detail-cmd">${p.cmd}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function togglePhase(el, idx) {
+  const wasActive = el.classList.contains('active');
+  document.querySelectorAll('.wds-phase').forEach(p => p.classList.remove('active'));
+  if (!wasActive) el.classList.add('active');
+}
+
+// ============ Agents ============
+
+function renderAgents() {
+  const grid = document.getElementById('agent-grid');
+  grid.innerHTML = agentsData.map(a => `
+    <div class="agent-card ${a.type === 'wds' ? 'wds-agent' : 'cis-agent'}" onclick="this.classList.toggle('expanded')">
+      <div class="agent-header">
+        <div class="agent-avatar">${a.icon}</div>
+        <div>
+          <div class="agent-name">${a.name}</div>
+          <div class="agent-role">${a.role} · ${a.phases}</div>
+        </div>
+      </div>
+      <div class="agent-personality">${a.personality}</div>
+      <div class="agent-details">
+        ${a.skills.map(s => `<span class="agent-skill-tag" style="background:${a.type === 'wds' ? 'var(--cyan-light);color:var(--cyan)' : 'var(--purple-light);color:var(--purple)'}">${s}</span>`).join('')}
+      </div>
+      <div class="agent-cmd">${a.cmd}</div>
+    </div>
+  `).join('');
+}
+
+// ============ Methods ============
+
+function renderMethods() {
+  // TM Layers
+  document.getElementById('tm-layers').innerHTML = tmLayers.map(l => `
+    <div class="tm-layer">
+      <div class="tm-num" style="background:var(${l.color}-light);color:var(${l.color})">${l.num}</div>
+      <div>
+        <div class="tm-name">${l.name} <span style="font-weight:400;color:var(--text-muted);font-size:.82rem">${l.en}</span></div>
+        <div class="tm-desc">${l.desc} — ${l.q}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Workshops
+  document.getElementById('ws-list').innerHTML = workshops.map(w => `
+    <div class="tm-layer">
+      <div class="tm-num" style="background:var(--cyan-light);color:var(--cyan)">${w.icon}</div>
+      <div>
+        <div class="tm-name">Workshop ${w.num}: ${w.name}</div>
+        <div class="tm-desc">${w.desc}</div>
+        <div style="font-size:.75rem;color:var(--green);font-weight:600;margin-top:.2rem">产出：${w.output}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Scenario parts
+  document.getElementById('scenario-grid').innerHTML = scenarioParts.map(s => `
+    <div class="scenario-part">
+      <div class="sp-num">${s.num}</div>
+      <div class="sp-name">${s.name}</div>
+      <div style="font-size:.78rem;color:var(--text-secondary);font-weight:600">${s.zh}</div>
+      <div class="sp-desc">${s.desc}</div>
+    </div>
+  `).join('');
+}
+
+function switchMethod(name) {
+  document.querySelectorAll('.method-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.method-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.method-tab[onclick*="${name}"]`).classList.add('active');
+  document.getElementById('method-' + name).classList.add('active');
+}
+
+// ============ Stories ============
+
+function renderStories() {
+  document.getElementById('story-cats').innerHTML = storyFrameworks.map((cat, ci) => `
+    <div class="story-cat ${ci === 0 ? 'open' : ''}" id="story-cat-${ci}">
+      <div class="story-cat-header" onclick="toggleStoryCat(${ci})">
+        <span class="cat-icon">${cat.icon}</span>
+        <span class="cat-name" style="color:var(${cat.color})">${cat.cat}</span>
+        <span class="cat-count">${cat.items.length} 个框架</span>
+        <span class="cat-arrow">&#x25B6;</span>
+      </div>
+      <div class="story-items">
+        ${cat.items.map(item => `
+          <div class="story-item">
+            <span class="si-name">${item.name}</span>
+            <span style="flex:1">
+              <span class="si-structure">${item.structure}</span>
+              <br><span class="si-use">${item.use}</span>
+            </span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  // Demo types
+  document.getElementById('demo-grid').innerHTML = demoTypes.map(d => `
+    <div class="demo-card">
+      <div class="demo-icon">${d.icon}</div>
+      <div class="demo-name">${d.name}</div>
+      <div class="demo-audience">${d.audience}</div>
+      <div class="demo-pages">${d.pages}</div>
+    </div>
+  `).join('');
+}
+
+function toggleStoryCat(idx) {
+  document.getElementById('story-cat-' + idx).classList.toggle('open');
+}
+
+// ============ Abbreviations ============
+
+function renderAbbr() {
+  for (const [key, items] of Object.entries(abbrData)) {
+    const el = document.getElementById('abbr-' + key);
+    if (!el) continue;
+    el.innerHTML = items.map(a => `
+      <div class="abbr-card">
+        <div class="abbr-code">${a.code}</div>
+        <div class="abbr-full">${a.full}</div>
+        <div class="abbr-zh">${a.zh}</div>
+      </div>
+    `).join('');
+  }
+}
+
+// ============ Init ============
+
+renderPipeline();
+renderAgents();
+renderMethods();
+renderStories();
+renderAbbr();
+</script>
+</body>
+</html>

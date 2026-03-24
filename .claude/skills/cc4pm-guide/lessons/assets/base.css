@@ -1,0 +1,323 @@
+/*
+ * cc4pm 课件统一样式 — Anthropic 米黄暖色风格
+ *
+ * 用法：在 HTML 中引入
+ *   <link rel="stylesheet" href="../../assets/base.css">
+ *   或根据相对路径调整 ../../
+ *
+ * 设计理念：
+ *   - 温暖的米黄/奶油色调，来自 Anthropic 品牌基因
+ *   - 柔和的阴影和圆角，营造亲和感
+ *   - 橙棕色为主色调，传达温暖与信任
+ *   - 充足的留白，阅读舒适
+ */
+
+/* === 设计令牌 === */
+:root {
+  /* 背景色系 */
+  --bg-primary:   #faf6f1;          /* 页面背景：温暖米黄 */
+  --bg-secondary: #ffffff;          /* 卡片背景：纯白 */
+  --bg-tertiary:  #f5ede4;          /* 次级区域：浅米色 */
+  --bg-code:      #fdf2e9;          /* 代码块背景 */
+
+  /* 文字色系 */
+  --text-primary:   #1a1612;        /* 主文字：深暖棕 */
+  --text-secondary: #6b5e54;        /* 次要文字 */
+  --text-muted:     #9a8d82;        /* 辅助文字 */
+  --text-inverse:   #ffffff;        /* 反色文字 */
+
+  /* 主色调：Anthropic 暖橙棕 */
+  --accent:         #d97706;        /* 主色：琥珀橙 */
+  --accent-hover:   #b45309;        /* 悬停态 */
+  --accent-light:   #fef3c7;        /* 浅底色 */
+  --accent-glow:    rgba(217,119,6,.12); /* 光晕 */
+
+  /* 语义色 */
+  --green:          #059669;
+  --green-light:    #d1fae5;
+  --green-glow:     rgba(5,150,105,.1);
+
+  --blue:           #2563eb;
+  --blue-light:     #dbeafe;
+  --blue-glow:      rgba(37,99,235,.1);
+
+  --purple:         #7c3aed;
+  --purple-light:   #ede9fe;
+  --purple-glow:    rgba(124,58,237,.1);
+
+  --cyan:           #0891b2;
+  --cyan-light:     #cffafe;
+  --cyan-glow:      rgba(8,145,178,.1);
+
+  --rose:           #e11d48;
+  --rose-light:     #ffe4e6;
+  --rose-glow:      rgba(225,29,72,.1);
+
+  /* 边框 */
+  --border:         #e8ddd1;
+  --border-hover:   #d4c4b0;
+
+  /* 圆角 */
+  --radius-sm:    6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
+
+  /* 阴影 */
+  --shadow-sm:    0 1px 3px rgba(26,22,18,.06);
+  --shadow-md:    0 4px 12px rgba(26,22,18,.08);
+  --shadow-lg:    0 8px 24px rgba(26,22,18,.1);
+  --shadow-glow:  0 0 20px var(--accent-glow);
+
+  /* 过渡 */
+  --transition:   .2s ease;
+
+  /* 字体 */
+  --font-sans:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', 'PingFang SC', sans-serif;
+  --font-mono:  'SF Mono', 'Fira Code', 'Cascadia Code', 'Noto Sans Mono', monospace;
+}
+
+/* === 全局重置 === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.75;
+  padding: 2.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === 排版 === */
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: .3rem;
+  color: var(--text-primary);
+}
+h1 .gradient {
+  background: linear-gradient(135deg, var(--accent), #b45309);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: .8rem;
+  color: var(--text-primary);
+}
+
+h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: .5rem;
+  color: var(--text-primary);
+}
+
+p { margin-bottom: .6rem; color: var(--text-secondary); }
+
+.subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: .95rem;
+  margin-bottom: 2.5rem;
+}
+
+.key { color: var(--text-primary); font-weight: 600; }
+.muted { color: var(--text-muted); }
+
+/* === 卡片 === */
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
+}
+.card.highlight {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-glow);
+}
+
+/* === 标签 === */
+.tag {
+  display: inline-block;
+  font-size: .7rem;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.tag-auto   { background: var(--green-light); color: var(--green); }
+.tag-demand { background: var(--accent-light); color: var(--accent); }
+.tag-config { background: var(--blue-light);  color: var(--blue); }
+.tag-info   { background: var(--purple-light); color: var(--purple); }
+
+/* === 代码 === */
+code {
+  background: var(--bg-code);
+  color: var(--accent-hover);
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: .85em;
+}
+
+pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.2rem 1.5rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: .88rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* === 网格卡片 === */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.grid-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  cursor: pointer;
+}
+.grid-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+.grid-card .emoji { font-size: 2rem; margin-bottom: .5rem; }
+.grid-card h3 { margin-bottom: .3rem; }
+.grid-card .load-label { font-size: .75rem; margin-bottom: .5rem; }
+.grid-card .load-auto { color: var(--green); font-weight: 600; }
+.grid-card .load-demand { color: var(--accent); font-weight: 600; }
+.grid-card p { font-size: .82rem; }
+
+/* === 目录树 === */
+.tree { font-family: var(--font-mono); font-size: .92rem; }
+.tree .line {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+}
+.tree .line:hover { background: var(--accent-glow); }
+.tree .line.active { background: var(--accent-light); }
+.tree .prefix { color: var(--text-muted); white-space: pre; user-select: none; }
+.tree .name { font-weight: 600; }
+.tree .comment { color: var(--text-muted); margin-left: 1rem; font-size: .82rem; }
+.tree .tag { margin-left: .6rem; }
+
+/* === 频率条 === */
+.freq-bar {
+  display: flex;
+  height: 48px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: .5rem;
+}
+.freq-bar .seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text-inverse);
+  transition: flex .3s;
+}
+.freq-legend {
+  display: flex;
+  justify-content: space-between;
+  font-size: .75rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* === 重点框 === */
+.callout {
+  background: linear-gradient(135deg, var(--accent-light), #fef9ee);
+  border: 1px solid rgba(217,119,6,.25);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+}
+.callout strong { color: var(--accent-hover); }
+.callout em { color: var(--green); font-style: normal; font-weight: 600; }
+
+/* === 列表 === */
+ul, ol {
+  padding-left: 1.3rem;
+  margin-bottom: .8rem;
+}
+li {
+  color: var(--text-secondary);
+  margin-bottom: .3rem;
+}
+
+/* === 表格 === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+th {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: left;
+  padding: .6rem 1rem;
+  border-bottom: 2px solid var(--border);
+  font-size: .88rem;
+}
+td {
+  padding: .5rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: .88rem;
+}
+tr:hover td { background: var(--bg-tertiary); }
+
+/* === 页脚 === */
+footer {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: .8rem;
+  padding-top: 1.5rem;
+  margin-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+/* === 响应式 === */
+@media (max-width: 600px) {
+  body { padding: 1rem; }
+  .card { padding: 1.2rem; }
+  h1 { font-size: 1.5rem; }
+  .grid { grid-template-columns: 1fr 1fr; }
+}
