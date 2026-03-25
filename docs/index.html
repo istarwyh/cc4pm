@@ -230,7 +230,27 @@ section { padding: var(--space-5xl) 0; }
 }
 
 .hero-sub {
-  font-size: 20px; color: var(--text-secondary); max-width: 640px; line-height: 1.6;
+  font-size: 20px; color: var(--text-secondary); max-width: 640px; line-height: 1.7;
+}
+
+.hero-origin {
+  font-size: 15px;
+  color: var(--text-muted);
+  max-width: 680px;
+  line-height: 1.6;
+  margin-top: var(--space-md);
+  text-align: center;
+}
+
+.hero-origin a {
+  color: var(--link-color);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  transition: color 200ms ease-out;
+}
+
+.hero-origin a:hover {
+  color: var(--link-hover);
 }
 
 .hero-stats {
@@ -683,8 +703,14 @@ section { padding: var(--space-5xl) 0; }
     </h1>
 
     <p class="hero-sub anim fade-up" style="transition-delay:200ms">
-      面向产品主理人，从灵感验证到上线发布，一个人就是一支产品团队的 AI 全生命周期系统
+      面向产品主理人，从灵感验证到上线发布<br>
+      一个人就是一支产品团队的 AI 全生命周期系统
     </p>
+
+    <div class="hero-origin anim fade-up" style="transition-delay:250ms">
+      基于 <a href="https://github.com/affaan-m/everything-claude-code" target="_blank" rel="noopener">Everything Claude Code</a>（Anthropic 黑客马拉松获奖项目）<br>
+      融合 BMAD Method —— 作者在蚂蚁内部 BI、产品、研发、HR 多团队分享后的方法论沉淀
+    </div>
 
     <div class="hero-stats anim fade-up" style="transition-delay:300ms">
       <div class="stat-item">
