@@ -103,6 +103,25 @@ section { padding: var(--space-5xl) 0; }
 .section-header.center { text-align: center; }
 .section-header.center .section-subtitle { margin: 0 auto; }
 
+.section-icon {
+  margin: 0 auto var(--space-lg);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 20px;
+  color: var(--color-bmm);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  transition: all 300ms ease-out;
+}
+.section-icon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
 /* Animations */
 .anim { opacity: 0; transition: opacity 600ms cubic-bezier(0.25,0.46,0.45,0.94), transform 600ms cubic-bezier(0.25,0.46,0.45,0.94); }
 .anim.fade-up { transform: translateY(30px); }
@@ -857,6 +876,13 @@ section { padding: var(--space-5xl) 0; }
 <section id="install">
   <div class="container">
     <div class="section-header center anim fade-up">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:48px;height:48px">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </div>
       <div class="section-label">安装</div>
       <h2 class="section-title">三步上手</h2>
       <p class="section-subtitle">克隆仓库，即刻解锁 200+ Skills 全部能力</p>
