@@ -203,6 +203,70 @@ cc4pm 方式：
 
 但 AI 只是工具。**决策权永远在你手中**——AI 帮你分析、生成、验证，但最终的产品方向、用户洞察和商业判断，需要你的智慧和经验。
 
+## 🛠️ 最终实操练习
+
+完成以下练习，巩固所学内容。
+
+### 练习 1：回顾你的学习路径
+
+查看你在课程中创建的所有产出：
+
+```bash
+# 查看规划产出
+ls planning-artifacts/
+
+# 查看实现产出
+ls implementation-artifacts/
+
+# 查看设计产出
+ls design-artifacts/
+```
+
+### 练习 2：选择一个进阶方向
+
+根据你的兴趣，尝试以下进阶命令：
+
+**WDS 专家方向**：
+```bash
+/bmad-agent-wds-saga-analyst
+/bmad-wds-ux-design
+```
+
+**CIS 创新专家方向**：
+```bash
+/bmad-brainstorming
+/bmad-cis-storytelling
+```
+
+**工程协作专家方向**：
+```bash
+/tdd
+/code-review
+/e2e
+```
+
+**定制工作流方向**：
+```bash
+/skill-create
+/learn
+```
+
+### 练习 3：开始你的真实项目
+
+用所学知识启动一个真实项目：
+
+```bash
+# 推荐的起点
+/bmad-brainstorming
+```
+
+**最终检查清单**：
+- [ ] 回顾了课程中的所有产出
+- [ ] 选择了一个进阶方向
+- [ ] 准备好开始真实项目
+
+---
+
 ## 结业
 
 恭喜你完成了 cc4pm 交互式教学的全部 26 课！

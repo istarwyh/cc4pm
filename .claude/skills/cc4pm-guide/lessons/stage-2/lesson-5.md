@@ -318,6 +318,68 @@ Then [预期结果]
 
 这个模板的设计目标是：开发人员拿到这个 Story 文件后，不需要再问任何人就能开始干活。
 
+## 🛠️ 实操练习
+
+完成以下练习，掌握需求拆解工具。
+
+### 练习 1：创建 Epics 和 Stories
+
+```bash
+# 运行以下命令启动 PM 代理
+/bmad-pm
+# 选择 [CE] 创建 Epics 和 Stories
+```
+
+**任务**：
+1. 确保已有 PRD 文档（上一课的产出）
+2. 选择 `[CE]` 开始需求拆解
+3. 完成 5 步拆解流程
+4. 获得 Epics 清单和 Stories 文件
+
+**预期产出**：
+- Epics 清单（3-6 个 Epic）
+- 每个 Epic 下的 Stories（每个 Epic 3-8 个 Story）
+- BDD 格式的验收标准
+- 保存在 `planning-artifacts/epics/` 的文档
+
+### 练习 2：创建单个 Story 文件
+
+使用专门的 Story 创建命令：
+
+```bash
+# 直接创建单个 Story
+/bmad-create-story
+
+# 或通过 PM 代理
+/bmad-pm
+# 选择 [CS] 创建故事
+```
+
+**任务**：
+- 选择一个 Epic 中的 Story
+- 创建完整的 Story 文件（包含技术要求、测试要求等）
+
+### 练习 3：运行实现就绪检查
+
+```bash
+# 检查是否准备好开始开发
+/bmad-check-implementation-readiness
+```
+
+**任务**：
+- 运行 IR 检查
+- 查看报告，识别阻塞项
+- 解决阻塞项后重新检查
+
+**检查清单**：
+- [ ] 成功启动 `/bmad-pm` 并选择 [CE]
+- [ ] 完成 Epics 和 Stories 拆解
+- [ ] 每个 Story 都有 BDD 格式的验收标准
+- [ ] 运行了实现就绪检查（IR）
+- [ ] 所有阻塞项已解决
+
+---
+
 ## 常见问题
 
 **Q: Epic 应该拆多细？**

@@ -7,6 +7,8 @@
 - 了解 cc4pm 的全景：四大模块与 Claude Code 扩展体系
 - 通过演示案例亲眼观察代理循环的运作
 
+> **互动版**：打开 [lesson-1-panorama.html](lesson-1-panorama.html)，用可视化方式探索四大模块、体验代理循环动画。
+
 ## 核心内容
 
 ### 1. Claude Code 不是聊天机器人
@@ -237,4 +239,4 @@ A: cc4pm 是基于 ECC 的增强版本。ECC 是 Anthropic 黑客马拉松获奖
 - [3] 退出学习
 
 ---
-*阶段 1 | Lesson 1/10 | 上一课: 无 | 下一课: Lesson 2 - 上下文窗口*
+*阶段 1 | Lesson 1/26 (阶段内 1/10) | 上一课: 无 | 下一课: Lesson 2 - 上下文窗口*

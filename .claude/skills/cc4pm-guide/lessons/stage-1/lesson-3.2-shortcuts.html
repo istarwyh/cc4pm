@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>快捷键训练器 — cc4pm Lesson 3.2</title>
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+  /* === 键盘按键样式 === */
+  .keyboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .key-card {
+    position: relative;
+    background: linear-gradient(180deg, #fff 0%, #f8f4ef 100%);
+    border: 1px solid var(--border);
+    border-bottom: 3px solid #c4b5a4;
+    border-radius: var(--radius-sm);
+    padding: 1.2rem 1rem .8rem;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(26,22,18,.08), 0 4px 8px rgba(26,22,18,.04);
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    user-select: none;
+  }
+  .key-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26,22,18,.12), 0 6px 16px rgba(26,22,18,.06);
+  }
+  .key-card:active, .key-card.pressed {
+    transform: translateY(0);
+    border-bottom-width: 1px;
+    box-shadow: 0 1px 2px rgba(26,22,18,.06);
+  }
+  .key-card.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow), 0 0 20px rgba(217,119,6,.15);
+  }
+
+  .key-card .cat-tag {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: .6rem;
+    padding: 1px 6px;
+    border-radius: 99px;
+    font-weight: 600;
+    letter-spacing: .3px;
+  }
+  .cat-back    { background: var(--rose-light); color: var(--rose); }
+  .cat-control { background: var(--purple-light); color: var(--purple); }
+  .cat-input   { background: var(--blue-light); color: var(--blue); }
+  .cat-display { background: var(--cyan-light); color: var(--cyan); }
+  .cat-edit    { background: var(--green-light); color: var(--green); }
+  .cat-quick   { background: var(--accent-light); color: var(--accent); }
+  .cat-context { background: #fce7f3; color: #be185d; }
+
+  .key-label {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: .3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .3rem;
+  }
+  .key-label .plus {
+    font-size: .8rem;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+  .key-desc {
+    font-size: .75rem;
+    color: var(--text-muted);
+    line-height: 1.3;
+  }
+
+  /* === 展开详情面板 === */
+  .detail-panel {
+    background: var(--bg-secondary);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-md);
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-glow);
+    display: none;
+    animation: slideDown .25s ease;
+  }
+  .detail-panel.visible { display: block; }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .detail-panel h3 { color: var(--accent-hover); margin-bottom: .5rem; }
+  .detail-panel .example {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: .8rem 1rem;
+    font-family: var(--font-mono);
+    font-size: .85rem;
+    margin: .6rem 0;
+    line-height: 1.6;
+  }
+  .detail-panel .tip {
+    font-size: .85rem;
+    color: var(--text-secondary);
+    margin-top: .5rem;
+  }
+  .detail-panel .tip strong { color: var(--accent); }
+
+  /* === 场景练习 === */
+  .score-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    padding: .6rem 1.2rem;
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+    font-size: .9rem;
+  }
+  .score-bar .score-num {
+    color: var(--accent);
+    font-size: 1.1rem;
+  }
+  .score-bar .progress-dots {
+    display: flex;
+    gap: .4rem;
+  }
+  .score-bar .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background var(--transition);
+  }
+  .score-bar .dot.correct { background: var(--green); }
+  .score-bar .dot.wrong   { background: var(--rose); }
+
+  .quiz-question {
+    margin-bottom: 1.2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .quiz-question:last-child { border-bottom: none; padding-bottom: 0; }
+  .quiz-question .q-text {
+    font-size: .95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: .8rem;
+  }
+  .quiz-question .q-num {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--text-inverse);
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: .75rem;
+    margin-right: .5rem;
+    font-weight: 700;
+  }
+  .quiz-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+  }
+  .quiz-btn {
+    font-family: var(--font-mono);
+    font-size: .8rem;
+    font-weight: 600;
+    padding: .4rem .8rem;
+    background: linear-gradient(180deg, #fff 0%, #f8f4ef 100%);
+    border: 1px solid var(--border);
+    border-bottom: 2px solid #c4b5a4;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition);
+    color: var(--text-primary);
+  }
+  .quiz-btn:hover {
+    transform: translateY(-1px);
+    border-color: var(--accent);
+  }
+  .quiz-btn:active {
+    transform: translateY(0);
+    border-bottom-width: 1px;
+  }
+  .quiz-btn.correct {
+    background: var(--green-light);
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .quiz-btn.wrong {
+    background: var(--rose-light);
+    border-color: var(--rose);
+    color: var(--rose);
+    animation: shake .3s;
+  }
+  .quiz-btn:disabled {
+    opacity: .6;
+    cursor: default;
+    transform: none;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+  .quiz-feedback {
+    margin-top: .5rem;
+    font-size: .82rem;
+    display: none;
+  }
+  .quiz-feedback.visible { display: block; }
+  .quiz-feedback.correct-fb { color: var(--green); }
+  .quiz-feedback.wrong-fb   { color: var(--rose); }
+
+  /* === 编辑器对比 === */
+  .editor-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 600px) {
+    .editor-compare { grid-template-columns: 1fr; }
+  }
+  .editor-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: border-color var(--transition), box-shadow var(--transition);
+  }
+  .editor-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-md);
+  }
+  .editor-card h3 {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .8rem;
+  }
+  .editor-card .editor-icon {
+    font-size: 1.3rem;
+  }
+  .editor-card ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .editor-card li {
+    position: relative;
+    padding-left: 1.3rem;
+    margin-bottom: .4rem;
+    font-size: .88rem;
+  }
+  .editor-card li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+    font-family: var(--font-mono);
+  }
+
+  .shared-settings {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.5rem;
+    font-size: .88rem;
+  }
+  .shared-settings h4 {
+    font-size: .9rem;
+    margin-bottom: .5rem;
+    color: var(--text-secondary);
+  }
+  .shared-settings .setting-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+  }
+  .setting-chip {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: .3rem .8rem;
+    font-size: .78rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  /* === tmux 流程 === */
+  .tmux-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    padding: .5rem 0;
+  }
+  .tmux-step {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: .8rem 1rem;
+    min-width: 150px;
+    text-align: center;
+    flex-shrink: 0;
+    transition: border-color var(--transition), box-shadow var(--transition);
+  }
+  .tmux-step:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+  }
+  .tmux-step .step-icon { font-size: 1.4rem; margin-bottom: .3rem; }
+  .tmux-step .step-title {
+    font-weight: 600;
+    font-size: .85rem;
+    color: var(--text-primary);
+    margin-bottom: .2rem;
+  }
+  .tmux-step .step-cmd {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    color: var(--accent-hover);
+    background: var(--bg-code);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    display: inline-block;
+  }
+  .tmux-arrow {
+    color: var(--accent);
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 0 .3rem;
+    flex-shrink: 0;
+  }
+
+  .tmux-table td:first-child {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--accent-hover);
+    white-space: nowrap;
+  }
+
+  /* === 区块标题 === */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin-bottom: .3rem;
+  }
+  .section-title .section-icon {
+    font-size: 1.3rem;
+  }
+
+  .section-num {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--text-inverse);
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: .8rem;
+    font-weight: 700;
+    margin-right: .3rem;
+  }
+</style>
+</head>
+<body>
+
+<h1><span class="gradient">快捷键训练器</span></h1>
+<p class="subtitle">效率工作流 &middot; Lesson 3.2 互动版</p>
+
+<!-- ====== Section 1: 快捷键互动面板 ====== -->
+<div class="card">
+  <div class="section-title">
+    <h2><span class="section-num">1</span> 快捷键互动面板</h2>
+  </div>
+  <p class="muted" style="margin-bottom:1.2rem;">点击任意按键查看详细说明和使用示例</p>
+
+  <div class="keyboard-grid" id="keyboardGrid">
+    <!-- Key cards rendered by JS -->
+  </div>
+
+  <div class="detail-panel" id="detailPanel">
+    <h3 id="detailTitle"></h3>
+    <div class="example" id="detailExample"></div>
+    <div class="tip" id="detailTip"></div>
+  </div>
+</div>
+
+<!-- ====== Section 2: 场景练习 ====== -->
+<div class="card">
+  <div class="section-title">
+    <h2><span class="section-num">2</span> 场景练习</h2>
+  </div>
+  <p class="muted" style="margin-bottom:1rem;">选出正确的快捷键来解决每个场景</p>
+
+  <div class="score-bar">
+    <span>正确 <span class="score-num" id="scoreNum">0</span>/5</span>
+    <div class="progress-dots" id="progressDots">
+      <div class="dot" id="dot-0"></div>
+      <div class="dot" id="dot-1"></div>
+      <div class="dot" id="dot-2"></div>
+      <div class="dot" id="dot-3"></div>
+      <div class="dot" id="dot-4"></div>
+    </div>
+  </div>
+
+  <div id="quizContainer">
+    <!-- Quiz questions rendered by JS -->
+  </div>
+</div>
+
+<!-- ====== Section 3: 编辑器对比 ====== -->
+<div class="card">
+  <div class="section-title">
+    <h2><span class="section-num">3</span> 编辑器对比</h2>
+  </div>
+  <p class="muted" style="margin-bottom:1rem;">两大编辑器各有千秋，选择适合你的</p>
+
+  <div class="editor-compare">
+    <div class="editor-card">
+      <h3><span class="editor-icon">Z</span> Zed</h3>
+      <ul>
+        <li>启动速度极快，资源占用少</li>
+        <li>内置 Agent Panel，直连 Claude</li>
+        <li>原生 Vim 模式支持</li>
+        <li>Rust 编写，高性能渲染</li>
+      </ul>
+    </div>
+    <div class="editor-card">
+      <h3><span class="editor-icon">VS</span> VSCode / Cursor</h3>
+      <ul>
+        <li>插件生态极其丰富</li>
+        <li>扩展市场支持几乎所有语言</li>
+        <li>内置终端，无需切换窗口</li>
+        <li>Cursor 深度集成 AI 辅助</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="shared-settings">
+    <h4>共同推荐设置</h4>
+    <div class="setting-chips">
+      <span class="setting-chip">Auto-save (延迟 1s)</span>
+      <span class="setting-chip">File Watcher</span>
+      <span class="setting-chip">Git 集成</span>
+      <span class="setting-chip">终端字体: 等宽</span>
+      <span class="setting-chip">格式化: 保存时自动</span>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Section 4: tmux 速查 ====== -->
+<div class="card">
+  <div class="section-title">
+    <h2><span class="section-num">4</span> tmux 速查</h2>
+  </div>
+  <p class="muted" style="margin-bottom:1rem;">tmux 让你的终端会话永不丢失</p>
+
+  <div class="tmux-flow">
+    <div class="tmux-step">
+      <div class="step-icon">+</div>
+      <div class="step-title">创建会话</div>
+      <div class="step-cmd">tmux new -s dev</div>
+    </div>
+    <div class="tmux-arrow">&rarr;</div>
+    <div class="tmux-step">
+      <div class="step-icon">&gt;_</div>
+      <div class="step-title">正常工作</div>
+      <div class="step-cmd">编写代码 / 运行命令</div>
+    </div>
+    <div class="tmux-arrow">&rarr;</div>
+    <div class="tmux-step">
+      <div class="step-icon">||</div>
+      <div class="step-title">临时离开</div>
+      <div class="step-cmd">Ctrl+B &rarr; D</div>
+    </div>
+    <div class="tmux-arrow">&rarr;</div>
+    <div class="tmux-step">
+      <div class="step-icon">&larr;</div>
+      <div class="step-title">回来继续</div>
+      <div class="step-cmd">tmux attach -t dev</div>
+    </div>
+  </div>
+
+  <table class="tmux-table">
+    <thead>
+      <tr>
+        <th>命令 / 快捷键</th>
+        <th>作用</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>tmux new -s &lt;name&gt;</td><td>新建命名会话</td></tr>
+      <tr><td>tmux ls</td><td>列出所有会话</td></tr>
+      <tr><td>tmux attach -t &lt;name&gt;</td><td>重新连接到会话</td></tr>
+      <tr><td>Ctrl+B &rarr; D</td><td>断开当前会话（后台保留）</td></tr>
+      <tr><td>Ctrl+B &rarr; %</td><td>左右分屏</td></tr>
+      <tr><td>Ctrl+B &rarr; "</td><td>上下分屏</td></tr>
+      <tr><td>Ctrl+B &rarr; 方向键</td><td>切换面板</td></tr>
+      <tr><td>Ctrl+B &rarr; C</td><td>新建窗口</td></tr>
+      <tr><td>Ctrl+B &rarr; N / P</td><td>下一个 / 上一个窗口</td></tr>
+      <tr><td>exit</td><td>关闭当前面板或窗口</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>cc4pm 交互式教学 &middot; Lesson 3.2 互动版</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // === 快捷键数据 ===
+  var shortcuts = [
+    {
+      id: 'esc-esc',
+      keys: ['ESC', 'ESC'],
+      display: 'ESC ESC',
+      category: '回退',
+      catClass: 'cat-back',
+      effect: '回到上一条输入重新编辑',
+      title: 'Esc Esc — 回退到上一条输入',
+      example: '> 你发了一条不满意的提示词\n> Claude 已经开始回答\n> 按 Esc Esc → 回到编辑状态\n\n等同于 /rewind 和 /checkpoints',
+      tip: '<strong>最常用的回退方式。</strong>当 Claude 的回答偏离方向时，回到上一步重新措辞比继续追问更高效。'
+    },
+    {
+      id: 'esc',
+      keys: ['ESC'],
+      display: 'ESC',
+      category: '控制',
+      catClass: 'cat-control',
+      effect: '打断 Claude 当前操作',
+      title: 'Esc — 打断当前操作',
+      example: '> Claude 正在读取大量文件...\n> 按 Esc → 立刻停止\n> 你可以重新下达指令',
+      tip: '<strong>及时止损。</strong>发现 Claude 在做无用功时，尽早打断节省 token 和时间。'
+    },
+    {
+      id: 'shift-enter',
+      keys: ['SHIFT', 'ENTER'],
+      display: '&#8679; Enter',
+      category: '输入',
+      catClass: 'cat-input',
+      effect: '多行输入（换行不发送）',
+      title: 'Shift+Enter — 多行输入',
+      example: '> 按 Shift+Enter 换行继续写\n>\n> 第一行：任务描述\n> 第二行：约束条件\n> 第三行：输出格式\n>\n> 最后按 Enter 发送',
+      tip: '<strong>写结构化提示词的必备技巧。</strong>将需求拆成多行让 Claude 更准确地理解。'
+    },
+    {
+      id: 'tab',
+      keys: ['TAB'],
+      display: 'Tab &#8677;',
+      category: '显示',
+      catClass: 'cat-display',
+      effect: '切换思考过程显示/隐藏',
+      title: 'Tab — 查看思考过程',
+      example: '> Claude 正在回答中...\n> 按 Tab → 展开/折叠思考过程\n>\n> 你可以看到 Claude 的推理步骤',
+      tip: '<strong>调试利器。</strong>当结果不符预期时，看看 Claude 的思考过程能帮你定位问题。'
+    },
+    {
+      id: 'ctrl-u',
+      keys: ['CTRL', 'U'],
+      display: '&#8963; U',
+      category: '编辑',
+      catClass: 'cat-edit',
+      effect: '删除当前输入的整行',
+      title: 'Ctrl+U — 清空当前输入',
+      example: '> 你打了一长串内容...\n> 发现完全不对\n> 按 Ctrl+U → 一键清空\n>\n> 比按住退格键快得多',
+      tip: '<strong>终端通用快捷键。</strong>在任何 Unix 终端里都能用，不限于 Claude Code。'
+    },
+    {
+      id: 'bang',
+      keys: ['!'],
+      display: '!',
+      category: '快捷',
+      catClass: 'cat-quick',
+      effect: '快速执行 bash 命令',
+      title: '! — 快速执行 bash',
+      example: '> !ls          → 列出当前目录\n> !git status  → 查看 Git 状态\n> !cat file.ts → 查看文件内容\n>\n> 不用退出 Claude，直接执行',
+      tip: '<strong>免切换窗口。</strong>快速查看文件、跑命令，结果直接显示在 Claude 里。'
+    },
+    {
+      id: 'at',
+      keys: ['@'],
+      display: '@',
+      category: '快捷',
+      catClass: 'cat-quick',
+      effect: '搜索并引用文件',
+      title: '@ — 引用文件',
+      example: '> @src/utils.ts   → 搜索并引用该文件\n> @package.json   → 引用配置文件\n>\n> 输入 @ 后开始打字即可模糊搜索',
+      tip: '<strong>精准上下文。</strong>引用文件让 Claude 直接读取内容，比口头描述准确得多。'
+    },
+    {
+      id: 'slash',
+      keys: ['/'],
+      display: '/',
+      category: '快捷',
+      catClass: 'cat-quick',
+      effect: '发起斜杠命令',
+      title: '/ — 斜杠命令',
+      example: '> /help    → 查看帮助\n> /compact → 压缩上下文\n> /model   → 切换模型\n> /clear   → 清空会话\n>\n> 输入 / 后可 Tab 补全',
+      tip: '<strong>Claude Code 的控制中心。</strong>所有内置功能都通过斜杠命令访问。'
+    },
+    {
+      id: 'btw',
+      keys: ['/btw'],
+      display: '/btw',
+      category: '上下文',
+      catClass: 'cat-context',
+      effect: '侧问题，不污染上下文',
+      title: '/btw — 不污染上下文的侧问题',
+      example: '> 你正在让 Claude 写一个复杂功能...\n> 突然想问："JavaScript 的 Map 和 Object 区别？"\n>\n> /btw Map 和 Object 有什么区别？\n>\n> Claude 回答后，主任务上下文不受影响',
+      tip: '<strong>保护上下文纯净度。</strong>临时疑问用 /btw，主线任务不会被打断。'
+    }
+  ];
+
+  // === 渲染键盘 ===
+  var grid = document.getElementById('keyboardGrid');
+  var panel = document.getElementById('detailPanel');
+  var activeId = null;
+
+  shortcuts.forEach(function(s) {
+    var card = document.createElement('div');
+    card.className = 'key-card';
+    card.setAttribute('data-id', s.id);
+
+    var tag = '<span class="cat-tag ' + s.catClass + '">' + s.category + '</span>';
+    var keyHtml = '';
+    if (s.keys.length > 1 && s.id !== 'esc-esc') {
+      keyHtml = s.keys.map(function(k) { return '<span>' + k + '</span>'; }).join('<span class="plus">+</span>');
+    } else if (s.id === 'esc-esc') {
+      keyHtml = '<span>ESC</span><span class="plus">&times;2</span>';
+    } else {
+      keyHtml = '<span>' + s.display + '</span>';
+    }
+
+    card.innerHTML = tag +
+      '<div class="key-label">' + keyHtml + '</div>' +
+      '<div class="key-desc">' + s.effect + '</div>';
+
+    card.addEventListener('click', function() {
+      toggleDetail(s.id);
+    });
+
+    grid.appendChild(card);
+  });
+
+  function toggleDetail(id) {
+    var allCards = grid.querySelectorAll('.key-card');
+    if (activeId === id) {
+      panel.classList.remove('visible');
+      allCards.forEach(function(c) { c.classList.remove('active'); });
+      activeId = null;
+      return;
+    }
+
+    activeId = id;
+    var s = shortcuts.find(function(x) { return x.id === id; });
+    document.getElementById('detailTitle').textContent = s.title;
+    document.getElementById('detailExample').textContent = s.example;
+    document.getElementById('detailTip').innerHTML = s.tip;
+
+    allCards.forEach(function(c) {
+      c.classList.toggle('active', c.getAttribute('data-id') === id);
+    });
+
+    panel.classList.add('visible');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // === 场景练习数据 ===
+  var quizData = [
+    {
+      text: '你输入了一段提示词，Claude 开始执行但方向不对，你想立刻停止。用哪个快捷键？',
+      options: ['Esc', 'Esc Esc', 'Ctrl+U', 'Tab'],
+      answer: 0,
+      explanation: '按一次 Esc 可以立刻打断 Claude 当前正在进行的操作。'
+    },
+    {
+      text: 'Claude 的回答不满意，你想回到上一条输入重新措辞。',
+      options: ['Esc', 'Esc Esc', '/', 'Shift+Enter'],
+      answer: 1,
+      explanation: '按两次 Esc (Esc Esc) 可以回退到上一条输入，重新编辑你的提示词。'
+    },
+    {
+      text: '你需要写一段三行的复杂指令，但不想提前发送。',
+      options: ['Tab', 'Ctrl+U', 'Shift+Enter', '!'],
+      answer: 2,
+      explanation: 'Shift+Enter 可以在输入框中换行，而不会发送消息。写完多行后按 Enter 发送。'
+    },
+    {
+      text: '你想看看 Claude 在思考什么。',
+      options: ['Tab', '@', '/', 'Esc'],
+      answer: 0,
+      explanation: '按 Tab 可以展开或折叠 Claude 的思考过程，查看它的推理步骤。'
+    },
+    {
+      text: '不退出 Claude 就查看 git 状态。',
+      options: ['@', '/', '!', 'Ctrl+U'],
+      answer: 2,
+      explanation: '输入 !git status 可以直接在 Claude Code 中执行 bash 命令，无需切换终端。'
+    }
+  ];
+
+  var score = 0;
+  var answered = [false, false, false, false, false];
+
+  var container = document.getElementById('quizContainer');
+
+  quizData.forEach(function(q, qi) {
+    var div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.id = 'quiz-' + qi;
+
+    var optionsHtml = q.options.map(function(opt, oi) {
+      return '<button class="quiz-btn" data-qi="' + qi + '" data-oi="' + oi + '">' + opt + '</button>';
+    }).join('');
+
+    div.innerHTML =
+      '<div class="q-text"><span class="q-num">' + (qi + 1) + '</span>' + q.text + '</div>' +
+      '<div class="quiz-options">' + optionsHtml + '</div>' +
+      '<div class="quiz-feedback" id="fb-' + qi + '"></div>';
+
+    container.appendChild(div);
+  });
+
+  container.addEventListener('click', function(e) {
+    var btn = e.target.closest('.quiz-btn');
+    if (!btn) return;
+
+    var qi = parseInt(btn.getAttribute('data-qi'));
+    var oi = parseInt(btn.getAttribute('data-oi'));
+
+    if (answered[qi]) return;
+
+    var q = quizData[qi];
+    var fb = document.getElementById('fb-' + qi);
+    var dot = document.getElementById('dot-' + qi);
+    var allBtns = document.querySelectorAll('#quiz-' + qi + ' .quiz-btn');
+
+    if (oi === q.answer) {
+      answered[qi] = true;
+      score++;
+      document.getElementById('scoreNum').textContent = score;
+      btn.classList.add('correct');
+      dot.classList.add('correct');
+      fb.textContent = q.explanation;
+      fb.className = 'quiz-feedback visible correct-fb';
+      allBtns.forEach(function(b) { b.disabled = true; });
+    } else {
+      btn.classList.add('wrong');
+      setTimeout(function() { btn.classList.remove('wrong'); }, 500);
+      fb.textContent = '试试其他键';
+      fb.className = 'quiz-feedback visible wrong-fb';
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>

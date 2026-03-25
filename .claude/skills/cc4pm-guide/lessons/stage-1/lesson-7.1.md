@@ -159,4 +159,4 @@ A: 每个 Teammate 都是独立的 Claude 实例，各自消耗 token。3 个 Te
 - [3] 退出学习
 
 ---
-*阶段 1 | Lesson 7.1/10 | 上一课: Lesson 7 - 代理系统 | 下一课: Lesson 8 - Hooks 与 Rules*
+*阶段 1 | Lesson 7.1/26 | 上一课: Lesson 7 - 代理系统 | 下一课: Lesson 8 - Hooks 与 Rules*

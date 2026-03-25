@@ -351,6 +351,60 @@ Phase 8: 演化    → 根据驱动力满足度决定改进方向
 
 **这就是 WDS 最强大的地方**：从 Trigger Map 开始，每一个设计和开发决策都有心理学依据，而不是"我觉得这样好"。
 
+## 🛠️ 实操练习
+
+完成以下练习，掌握 Trigger Mapping 工具。
+
+### 练习 1：创建 Trigger Map
+
+```bash
+# 启动 Trigger Mapping 工作流
+/bmad-wds-trigger-mapping
+```
+
+**任务**：
+1. 完成 Workshop 1：确认商业目标和产品定位
+2. 完成 Workshop 2：分析目标用户群
+3. 完成 Workshop 3：发现正向和负向驱动力（使用 WHAT+WHY+WHEN 格式）
+4. 完成 Workshop 4：功能影响分析
+
+**预期产出**：
+- `trigger-map/business-goals.md`
+- `trigger-map/target-groups.md`
+- `trigger-map/driving-forces.md`
+- `trigger-map/feature-impact-analysis.md`
+
+### 练习 2：验证 Trigger Map 质量
+
+```bash
+# 验证 Trigger Map
+/bmad-wds-trigger-mapping-validate
+```
+
+**任务**：
+- 运行验证工作流
+- 查看验证报告，识别需要改进的地方
+- 确保每个驱动力都有 WHAT+WHY+WHEN
+- 确保每个功能都能追溯到驱动力
+
+### 练习 3：范围改进（可选）
+
+如果需要聚焦特定改进点：
+
+```bash
+# 范围改进
+/bmad-wds-scope-improvement
+```
+
+**检查清单**：
+- [ ] 成功启动 `/bmad-wds-trigger-mapping`
+- [ ] 完成 4 个研讨会
+- [ ] 生成了 Trigger Map 文档
+- [ ] 运行了验证工作流
+- [ ] 每个驱动力都有 WHAT+WHY+WHEN 格式
+
+---
+
 ## 常见问题
 
 **Q: Trigger Map 和用户画像（Persona）有什么区别？**

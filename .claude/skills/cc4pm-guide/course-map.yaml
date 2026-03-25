@@ -1,0 +1,415 @@
+# cc4pm 课程地图 — 单一事实来源
+# 所有导航页脚、SKILL.md 课程表、健康报告均从此文件生成
+# 运行 node scripts/sync-courseware.js 同步
+
+meta:
+  title: "cc4pm 交互式教学"
+  subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
+  total_lessons: 26
+  supplementary_lessons: 4
+  default_max_lines: 400
+
+stages:
+  - id: stage-1
+    title: "Claude Code 基础入门"
+    lessons:
+      - id: lesson-1
+        file: lesson-1.md
+        number: 1
+        title: "cc4pm 全景：四大模块与产品思维"
+        short_title: "cc4pm 全景"
+        topics:
+          - agent-loop
+          - four-modules
+          - cc4pm-overview
+          - bmm-cis-wds-engineering
+
+      - id: lesson-2
+        file: lesson-2.md
+        number: 2
+        title: "上下文窗口：你最重要的资源"
+        short_title: "上下文窗口"
+        topics:
+          - context-window
+          - clear-command
+          - compact-command
+          - cost-command
+          - context-traps
+          - strategic-manual-compact
+          - mcp-cli-replacement
+
+      - id: lesson-3
+        file: lesson-3.md
+        number: 3
+        title: "主动管理上下文"
+        short_title: "主动管理上下文"
+        topics:
+          - context-management
+          - session-lifecycle
+          - continue-resume-fork
+          - btw-side-question
+          - rewind-checkpoints-esc
+          - memory-command
+
+      - id: lesson-3.1
+        file: lesson-3.1.md
+        number: 3.1
+        title: "Status Line——你的实时仪表盘"
+        short_title: "Status Line"
+        supplementary: true
+        topics:
+          - status-line
+          - token-monitoring
+          - statusline-command
+
+      - id: lesson-3.2
+        file: lesson-3.2.md
+        number: 3.2
+        title: "效率工作流：快捷键、编辑器与 tmux"
+        short_title: "效率工作流"
+        supplementary: true
+        topics:
+          - keyboard-shortcuts
+          - shift-enter-multiline
+          - tab-toggle-thinking
+          - editor-integration
+          - zed-vscode-cursor
+          - tmux-sessions
+          - git-worktree
+          - fork-command
+
+      - id: lesson-4
+        file: lesson-4.md
+        number: 4
+        title: "快速上手：第一次实操"
+        short_title: "快速上手"
+        topics:
+          - prompt-precision
+          - rich-input
+          - claude-interview
+          - first-hands-on
+
+      - id: lesson-5
+        file: lesson-5.md
+        number: 5
+        title: "CLAUDE.md：项目的 AI 记忆"
+        short_title: "CLAUDE.md"
+        topics:
+          - claude-md
+          - file-hierarchy
+          - six-section-template
+          - memory-md
+          - auto-memory
+
+      - id: lesson-6
+        file: lesson-6.md
+        number: 6
+        title: "命令与技能系统"
+        short_title: "命令与技能"
+        topics:
+          - commands-system
+          - skills-system
+          - skill-md-format
+          - context-budget
+          - 48-commands-overview
+
+      - id: lesson-6.1
+        file: lesson-6.1.md
+        number: 6.1
+        title: "Skill 深度：新一代交互式软件"
+        short_title: "Skill 深度"
+        supplementary: true
+        topics:
+          - skill-delivery-form
+          - progressive-disclosure
+          - skill-creation-6steps
+          - skill-gotchas-section
+          - triggerability-test
+          - reproducibility-test
+
+      - id: lesson-7
+        file: lesson-7.md
+        number: 7
+        title: "代理系统：你的 AI 专家团"
+        short_title: "代理系统"
+        topics:
+          - subagent-mechanism
+          - builtin-subagents
+          - custom-agents-18
+          - agent-vs-skill
+          - subagent-context-goal
+
+      - id: lesson-7.1
+        file: lesson-7.1.md
+        number: 7.1
+        title: "Agent Teams——多 Claude 协作团队"
+        short_title: "Agent Teams"
+        supplementary: true
+        topics:
+          - agent-teams
+          - lead-teammates
+          - iterm2-integration
+          - multi-role-discussion
+          - party-mode-vs-teams
+
+      - id: lesson-8
+        file: lesson-8.md
+        number: 8
+        title: "Hooks 与 Rules：自动化守护"
+        short_title: "Hooks 与 Rules"
+        topics:
+          - hooks-system
+          - rules-system
+          - five-event-types
+          - exit-code-mechanism
+          - 21-hooks
+          - 44-rules
+
+      - id: lesson-9
+        file: lesson-9.md
+        number: 9
+        title: "环境搭建：安装与验证"
+        short_title: "环境搭建"
+        topics:
+          - installation
+          - directory-structure
+          - three-usage-modes
+          - role-based-install
+          - verification-checklist
+
+      - id: lesson-10
+        file: lesson-10.md
+        number: 10
+        title: "综合实战：为 cc4pm 构思新功能"
+        short_title: "综合实战"
+        topics:
+          - plan-mode
+          - hands-on-exercise
+          - subagent-verification
+          - session-save
+
+  - id: stage-2
+    title: "产品主理人核心能力"
+    subtitle: "BMM + CIS"
+    lessons:
+      - id: lesson-1
+        file: lesson-1.md
+        number: 11
+        title: "头脑风暴：36种创意技巧生成100+想法"
+        short_title: "头脑风暴"
+        topics:
+          - cis-overview
+          - carson-agent
+          - 36-creative-techniques
+          - scamper
+          - six-thinking-hats
+          - first-principles
+          - what-if
+          - analogy-thinking
+
+      - id: lesson-2
+        file: lesson-2.md
+        number: 12
+        title: "创新策略：蓝海分析与商业模式设计"
+        short_title: "创新策略"
+        topics:
+          - victor-agent
+          - 30-innovation-frameworks
+          - jtbd
+          - blue-ocean-strategy
+          - business-model-canvas
+          - cis-to-bmm-bridge
+
+      - id: lesson-3
+        file: lesson-3.md
+        number: 13
+        title: "市场研究与领域分析"
+        short_title: "市场研究"
+        topics:
+          - mary-agent
+          - market-research
+          - domain-research
+          - technical-research
+          - porter-five-forces
+          - competitive-benchmarking
+          - opportunity-matrix
+
+      - id: lesson-4
+        file: lesson-4.md
+        number: 14
+        title: "PRD 创建：AI 辅助的需求文档"
+        short_title: "PRD 创建"
+        topics:
+          - john-agent
+          - prd-creation
+          - prd-validation
+          - prd-editing
+          - prd-template
+
+      - id: lesson-5
+        file: lesson-5.md
+        number: 15
+        title: "需求拆解：从 PRD 到 Epics 和 Stories"
+        short_title: "需求拆解"
+        topics:
+          - epic-vs-story
+          - create-epics
+          - bdd-format
+          - implementation-readiness
+
+      - id: lesson-6
+        file: lesson-6.md
+        number: 16
+        title: "冲刺规划与进度追踪"
+        short_title: "冲刺规划"
+        topics:
+          - bob-agent
+          - sprint-planning
+          - sprint-status
+          - story-execution
+          - course-correction
+          - epic-retrospective
+
+  - id: stage-3
+    title: "网页设计系统"
+    subtitle: "WDS"
+    lessons:
+      - id: lesson-1
+        file: lesson-1.md
+        number: 17
+        title: "WDS 概览：从用户心理到设计规范"
+        short_title: "WDS 概览"
+        topics:
+          - wds-overview
+          - wds-8-phases
+          - saga-agent
+          - freya-agent
+          - alignment-signoff
+          - product-brief
+          - trigger-mapping-intro
+          - design-system-intro
+
+      - id: lesson-2
+        file: lesson-2.md
+        number: 18
+        title: "Trigger Map：用户心理→功能映射"
+        short_title: "Trigger Map"
+        topics:
+          - trigger-map
+          - four-layer-structure
+          - what-why-when-pattern
+          - four-workshops
+          - feature-impact-analysis
+          - trigger-map-validation
+
+      - id: lesson-3
+        file: lesson-3.md
+        number: 19
+        title: "UX 场景与用户旅程设计"
+        short_title: "UX 场景"
+        topics:
+          - scenario-outline
+          - 8-scenario-components
+          - 9-step-workflow
+          - trigger-to-scenario
+          - scenario-validation
+
+      - id: lesson-4
+        file: lesson-4.md
+        number: 20
+        title: "故事讲述：产品叙事与演示"
+        short_title: "故事讲述"
+        max_lines: 900
+        topics:
+          - sophia-agent
+          - caravaggio-agent
+          - mirror-neurons
+          - story-stickiness
+          - 22-story-frameworks
+          - five-story-categories
+
+  - id: stage-4
+    title: "工程工具链"
+    lessons:
+      - id: lesson-1
+        file: lesson-1.md
+        number: 21
+        title: "工程协作概览：从 PM 到开发者的桥梁"
+        short_title: "工程协作概览"
+        topics:
+          - plan-command
+          - 18-agents-overview
+          - model-selection-logic
+          - plan-test-dev-review
+          - github-actions-cicd
+
+      - id: lesson-2
+        file: lesson-2.md
+        number: 22
+        title: "测试与代码审查：质量保障三板斧"
+        short_title: "测试与审查"
+        topics:
+          - tdd-command
+          - e2e-command
+          - code-review-command
+          - build-fix-command
+          - red-green-refactor
+          - coverage-standards
+
+      - id: lesson-3
+        file: lesson-3.md
+        number: 23
+        title: "自动化工作流：Hooks、Rules 和质量门禁"
+        short_title: "自动化工作流"
+        max_lines: 480
+        topics:
+          - hooks-deep-dive
+          - hook-triggers-6
+          - hook-exit-codes
+          - hook-profiles
+          - rules-layered-architecture
+          - quality-gate
+          - three-layer-automation
+
+  - id: stage-5
+    title: "高级应用与持续优化"
+    lessons:
+      - id: lesson-1
+        file: lesson-1.md
+        number: 24
+        title: "高级特性：MCP 集成与持续学习"
+        short_title: "高级特性"
+        max_lines: 460
+        topics:
+          - mcp-servers
+          - mcp-three-tiers
+          - learn-command
+          - skill-create-command
+          - continuous-learning
+          - plugins-system
+          - plugin-marketplace
+          - mgrep
+
+      - id: lesson-2
+        file: lesson-2.md
+        number: 25
+        title: "完整项目实战：从零到发布"
+        short_title: "完整项目实战"
+        topics:
+          - full-workflow
+          - key-handoff-points
+          - project-launch-checklist
+          - agent-collaboration-panorama
+          - dual-instance-bootstrap
+
+      - id: lesson-3
+        file: lesson-3.md
+        number: 26
+        title: "课程总结：你的 AI 产品主理人工具箱"
+        short_title: "课程总结"
+        topics:
+          - knowledge-map
+          - command-cheatsheet
+          - abbreviation-reference
+          - learning-path
+          - course-finale

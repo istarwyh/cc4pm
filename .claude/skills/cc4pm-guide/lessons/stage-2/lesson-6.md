@@ -393,6 +393,84 @@ Epics：backlog 2, in-progress 1, done 0
 | Epic 完成时 | 参与回顾会议 | [ER] 回顾总结 |
 | 验收功能 | 按验收标准验证 | 查看 Story 文件中的 BDD 验收标准 |
 
+## 🛠️ 实操练习
+
+完成以下练习，掌握冲刺规划和执行工具。
+
+### 练习 1：启动 Bob 并生成冲刺计划
+
+```bash
+# 运行以下命令启动敏捷大师代理
+/bmad-sm
+# 选择 [SP] 冲刺规划
+```
+
+**任务**：
+1. 确保已有 Epics 和 Stories（上一课的产出）
+2. 选择 `[SP]` 生成冲刺状态
+3. 查看生成的 `sprint-status.yaml`
+
+**预期产出**：
+- `implementation-artifacts/sprint-status.yaml`
+- 所有 Epics 和 Stories 的状态追踪
+
+### 练习 2：创建 Story 上下文并开始开发
+
+```bash
+/bmad-sm
+# 选择 [CS] 创建故事上下文
+```
+
+**任务**：
+- 为第一个 Story 创建完整的开发上下文
+- 查看生成的 Story 文件
+- 理解 Story 状态从 `backlog` 变为 `ready-for-dev`
+
+### 练习 3：查看冲刺状态
+
+```bash
+# 直接查看冲刺状态
+/bmad-sprint-status
+```
+
+**任务**：
+- 查看当前冲刺的整体进度
+- 识别哪些 Stories 在进行中、哪些已完成
+
+### 练习 4：尝试路线纠正（可选）
+
+如果需要调整计划：
+
+```bash
+/bmad-sm
+# 选择 [CC] 路线纠正
+```
+
+**扩展练习**：尝试直接使用快捷命令
+
+```bash
+# 冲刺规划
+/bmad-sprint-planning
+
+# 冲刺状态
+/bmad-sprint-status
+
+# 路线纠正
+/bmad-correct-course
+
+# Epic 回顾
+/bmad-retrospective
+```
+
+**检查清单**：
+- [ ] 成功启动 `/bmad-sm`
+- [ ] 生成了 `sprint-status.yaml`
+- [ ] 创建了第一个 Story 的开发上下文
+- [ ] 使用 `/bmad-sprint-status` 查看了进度
+- [ ] 了解了路线纠正（CC）和回顾（ER）工作流
+
+---
+
 ## 常见问题
 
 **Q: sprint-status.yaml 需要手动维护吗？**

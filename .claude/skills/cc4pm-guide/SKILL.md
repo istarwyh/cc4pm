@@ -55,77 +55,60 @@ description: |
 
 ## 阶段导航
 
-### 阶段 1：基础入门（10 节课）
-_从认知到实操，全面掌握 Claude Code 和 cc4pm 的核心能力_
+### 阶段 1：Claude Code 基础入门（10 节课）
 
-| # | 标题 | 内容概要 |
-|---|------|---------|
-| 1 | cc4pm 全景：四大模块与产品思维 | 项目定位、四大模块全景、为什么产品主理人需要它 |
-| 2 | 上下文窗口：你最重要的资源 | 200K tokens、/clear、/compact、/cost、五个陷阱 |
-| 3 | 主动管理上下文：让每个 token 都有价值 | /context、/memory、会话管理、回退三入口（ESC ESC / /rewind / /checkpoints）、/btw |
-| 3.1 | Status Line：你的实时仪表盘 | /statusline、上下文进度条、费用追踪、Git 状态 |
-| 3.2 | 效率工作流：快捷键、编辑器与 tmux | 7 个快捷键、Zed/VSCode 编辑器集成、tmux 会话管理、Git Worktree |
-| 4 | 快速上手：第一次实操 | 获取 cc4pm、运行第一个 BMM 命令和工程命令 |
-| 5 | CLAUDE.md：项目的 AI 记忆 | 六段式模板、五层扩展体系、自我进化技巧 |
-| 6 | 命令与技能系统 | Commands vs Skills、按需加载、命令分类总览 |
-| 6.1 | Skill 深度：新一代交互式软件 | 渐进式披露、创建流程、可触发性与可复现性测试 |
-| 7 | 代理系统：你的 AI 专家团 | 子代理原理、三种内置代理、cc4pm 的 18 个代理 |
-| 7.1 | Agent Teams：多 Claude 协作团队 | Lead + Teammates、开启配置、多角色产品讨论、PM 场景 |
-| 8 | Hooks 与 Rules：自动化守护 | Hook 事件类型、退出码、Rules 组织、cc4pm 实例 |
-| 9 | 环境搭建：安装与验证 | 三种安装方式、按角色选择、验证安装 |
-| 10 | 综合实战：为 cc4pm 构思新功能 | 综合实战、阶段总结、阶段 2 预告 |
-
-→ 课程文件：[lessons/stage-1/](lessons/stage-1/)
+| 编号 | 课名 | 核心知识点 |
+|------|------|-----------|
+| 1 | cc4pm 全景：四大模块与产品思维 | agent-loop、four-modules、cc4pm-overview、bmm-cis-wds-engineering |
+| 2 | 上下文窗口：你最重要的资源 | context-window、clear-command、compact-command、cost-command |
+| 3 | 主动管理上下文 | context-management、session-lifecycle、continue-resume-fork、btw-side-question |
+| 3.1 | Status Line——你的实时仪表盘 | status-line、token-monitoring、statusline-command |
+| 3.2 | 效率工作流：快捷键、编辑器与 tmux | keyboard-shortcuts、shift-enter-multiline、tab-toggle-thinking、editor-integration |
+| 4 | 快速上手：第一次实操 | prompt-precision、rich-input、claude-interview、first-hands-on |
+| 5 | CLAUDE.md：项目的 AI 记忆 | claude-md、file-hierarchy、six-section-template、memory-md |
+| 6 | 命令与技能系统 | commands-system、skills-system、skill-md-format、context-budget |
+| 6.1 | Skill 深度：新一代交互式软件 | skill-delivery-form、progressive-disclosure、skill-creation-6steps、skill-gotchas-section |
+| 7 | 代理系统：你的 AI 专家团 | subagent-mechanism、builtin-subagents、custom-agents-18、agent-vs-skill |
+| 7.1 | Agent Teams——多 Claude 协作团队 | agent-teams、lead-teammates、iterm2-integration、multi-role-discussion |
+| 8 | Hooks 与 Rules：自动化守护 | hooks-system、rules-system、five-event-types、exit-code-mechanism |
+| 9 | 环境搭建：安装与验证 | installation、directory-structure、three-usage-modes、role-based-install |
+| 10 | 综合实战：为 cc4pm 构思新功能 | plan-mode、hands-on-exercise、subagent-verification、session-save |
 
 ### 阶段 2：产品主理人核心能力 — BMM + CIS（6 节课）
-_直接使用 AI 完成产品主理人的核心工作_
 
-| # | 标题 | 内容概要 |
-|---|------|---------|
-| 11 | 头脑风暴：36种创意技巧生成100+想法 | CIS 头脑风暴工作流、7大类技巧、实操演练 |
-| 12 | 创新策略：蓝海分析与商业模式设计 | CIS 创新框架、Jobs-to-be-Done、价值主张画布 |
-| 13 | 市场研究与领域分析 | BMM 分析师代理、竞争分析、技术可行性 |
-| 14 | PRD 创建：AI 辅助的需求文档 | BMM PM 代理、PRD 模板、验证和编辑 |
-| 15 | 需求拆解：从 PRD 到 Epics 和 Stories | BMM 工作流、故事模板、实现就绪检查 |
-| 16 | 冲刺规划与进度追踪 | BMM 敏捷大师、冲刺状态、路线纠正 |
+| 编号 | 课名 | 核心知识点 |
+|------|------|-----------|
+| 11 | 头脑风暴：36种创意技巧生成100+想法 | cis-overview、carson-agent、36-creative-techniques、scamper |
+| 12 | 创新策略：蓝海分析与商业模式设计 | victor-agent、30-innovation-frameworks、jtbd、blue-ocean-strategy |
+| 13 | 市场研究与领域分析 | mary-agent、market-research、domain-research、technical-research |
+| 14 | PRD 创建：AI 辅助的需求文档 | john-agent、prd-creation、prd-validation、prd-editing |
+| 15 | 需求拆解：从 PRD 到 Epics 和 Stories | epic-vs-story、create-epics、bdd-format、implementation-readiness |
+| 16 | 冲刺规划与进度追踪 | bob-agent、sprint-planning、sprint-status、story-execution |
 
-→ 课程文件：[lessons/stage-2/](lessons/stage-2/)
+### 阶段 3：网页设计系统 — WDS（4 节课）
 
-### 阶段 3：设计与用户心理 — WDS（4 节课）
-_用 Trigger Map 从用户心理驱动产品设计_
+| 编号 | 课名 | 核心知识点 |
+|------|------|-----------|
+| 17 | WDS 概览：从用户心理到设计规范 | wds-overview、wds-8-phases、saga-agent、freya-agent |
+| 18 | Trigger Map：用户心理→功能映射 | trigger-map、four-layer-structure、what-why-when-pattern、four-workshops |
+| 19 | UX 场景与用户旅程设计 | scenario-outline、8-scenario-components、9-step-workflow、trigger-to-scenario |
+| 20 | 故事讲述：产品叙事与演示 | sophia-agent、caravaggio-agent、mirror-neurons、story-stickiness |
 
-| # | 标题 | 内容概要 |
-|---|------|---------|
-| 17 | WDS 概览：从用户心理到设计规范 | 8阶段方法、Saga和Freya代理、设计哲学 |
-| 18 | Trigger Map：用户心理→功能映射 | 5个研讨会、心理驱动力、功能评分 |
-| 19 | UX 场景与用户旅程设计 | 场景大纲、用户流、概念规范 |
-| 20 | 故事讲述：产品叙事与演示 | CIS 故事框架、产品演示、价值传达 |
+### 阶段 4：工程工具链（3 节课）
 
-→ 课程文件：[lessons/stage-3/](lessons/stage-3/)
+| 编号 | 课名 | 核心知识点 |
+|------|------|-----------|
+| 21 | 工程协作概览：从 PM 到开发者的桥梁 | plan-command、18-agents-overview、model-selection-logic、plan-test-dev-review |
+| 22 | 测试与代码审查：质量保障三板斧 | tdd-command、e2e-command、code-review-command、build-fix-command |
+| 23 | 自动化工作流：Hooks、Rules 和质量门禁 | hooks-deep-dive、hook-triggers-6、hook-exit-codes、hook-profiles |
 
-### 阶段 4：工程协作与质量保障（3 节课）
-_理解工程团队如何使用这些工具，更好地协作_
+### 阶段 5：高级应用与持续优化（3 节课）
 
-| # | 标题 | 内容概要 |
-|---|------|---------|
-| 21 | 工程协作概览：18 个代理与完整工程流程 | /plan 规划、18 个专业代理分工、规划→测试→开发→审查流程、GitHub Actions CI/CD |
-| 22 | 测试与代码审查：质量三板斧 | /tdd RED→GREEN→REFACTOR、/e2e Playwright 端到端、/code-review 四级审查、/build-fix |
-| 23 | 自动化工作流：Hooks、Rules 和质量门禁 | 21 个 Hooks（6 触发点）、44 个 Rules（9 通用 + 7 语言 × 5）、Quality Gate 流水线 |
-
-→ 课程文件：[lessons/stage-4/](lessons/stage-4/)
-
-### 阶段 5：高级特性与实战（3 节课）
-_MCP 集成、持续学习、完整项目从零到发布_
-
-| # | 标题 | 内容概要 |
-|---|------|---------|
-| 24 | 高级特性：MCP 集成与持续学习 | 23 个 MCP 服务器（三层分级）、Plugins 系统（市场、LSP、mgrep）、/learn 模式提取、/skill-create、持续学习系统 |
-| 25 | 完整项目实战：从零到发布 | CIS→BMM→WDS→Engineering 全流程、5 天实战节奏、阶段衔接 |
-| 26 | 课程总结：你的 AI 产品主理人工具箱 | 26 课知识地图、命令速查总表、缩写速查、进阶学习路径、结业 |
-
-→ 课程文件：[lessons/stage-5/](lessons/stage-5/)
-
----
+| 编号 | 课名 | 核心知识点 |
+|------|------|-----------|
+| 24 | 高级特性：MCP 集成与持续学习 | mcp-servers、mcp-three-tiers、learn-command、skill-create-command |
+| 25 | 完整项目实战：从零到发布 | full-workflow、key-handoff-points、project-launch-checklist、agent-collaboration-panorama |
+| 26 | 课程总结：你的 AI 产品主理人工具箱 | knowledge-map、command-cheatsheet、abbreviation-reference、learning-path |
 
 ## 进度追踪
 

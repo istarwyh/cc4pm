@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 专家团画廊 — cc4pm 第 7 课</title>
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+  /* ===== Section 1: 子代理原理图 ===== */
+  .arch-diagram {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1.5rem 1rem;
+  }
+  .main-ctx {
+    border: 2px solid var(--accent);
+    border-radius: var(--radius-xl);
+    padding: 2rem 2.5rem 2.5rem;
+    background: var(--accent-glow);
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+  }
+  .main-ctx-label {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    background: var(--accent);
+    color: var(--text-inverse);
+    font-size: .75rem;
+    font-weight: 600;
+    padding: 2px 12px;
+    border-radius: 99px;
+  }
+  .sub-ctx {
+    border: 2px dashed var(--purple);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 2rem;
+    background: var(--purple-glow);
+    margin-top: 1rem;
+    text-align: center;
+    position: relative;
+    animation: subagentPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes subagentPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(124,58,237,.15); }
+    50% { box-shadow: 0 0 24px 8px rgba(124,58,237,.2); }
+  }
+  .sub-ctx-label {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--purple);
+    color: var(--text-inverse);
+    font-size: .72rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 99px;
+  }
+  .arch-arrows {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.2rem;
+    gap: .5rem;
+    font-size: .82rem;
+    flex-wrap: wrap;
+  }
+  .arch-step {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .5rem .8rem;
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  .arch-step .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--text-inverse);
+    font-size: .7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .arch-arrow-icon { font-size: 1.2rem; color: var(--accent); flex-shrink: 0; }
+
+  .builtin-types {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 600px) { .builtin-types { grid-template-columns: 1fr; } }
+  .type-card {
+    text-align: center;
+    padding: 1.2rem 1rem;
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .type-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .type-card .type-icon { font-size: 1.8rem; margin-bottom: .4rem; }
+  .type-card .type-name { font-weight: 700; font-size: .9rem; margin-bottom: .3rem; }
+  .type-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 99px;
+    font-size: .7rem;
+    font-weight: 600;
+    color: var(--text-inverse);
+  }
+  .badge-green  { background: var(--green); }
+  .badge-blue   { background: var(--blue); }
+  .badge-amber  { background: var(--accent); }
+
+  /* ===== Section 2: Filter bar ===== */
+  .filter-bar {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  .filter-pill {
+    padding: .4rem 1rem;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    background: var(--bg-secondary);
+    font-size: .82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    color: var(--text-secondary);
+    user-select: none;
+  }
+  .filter-pill:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-pill.active {
+    background: var(--accent);
+    color: var(--text-inverse);
+    border-color: var(--accent);
+  }
+  .filter-pill[data-cat="plan"].active { background: var(--blue); border-color: var(--blue); }
+  .filter-pill[data-cat="quality"].active { background: var(--green); border-color: var(--green); }
+  .filter-pill[data-cat="dev"].active { background: var(--purple); border-color: var(--purple); }
+  .filter-pill[data-cat="auto"].active { background: var(--cyan); border-color: var(--cyan); }
+
+  /* ===== Agent gallery grid ===== */
+  .agent-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  @media (max-width: 860px) { .agent-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .agent-grid { grid-template-columns: 1fr; } }
+
+  .agent-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.2rem 1.4rem;
+    cursor: pointer;
+    transition: all .3s ease;
+    border-left: 4px solid transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  .agent-card.hidden {
+    opacity: 0;
+    transform: scale(.92);
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    overflow: hidden;
+  }
+  .agent-card.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .agent-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .agent-card.cat-plan    { border-left-color: var(--blue); }
+  .agent-card.cat-quality { border-left-color: var(--green); }
+  .agent-card.cat-dev     { border-left-color: var(--purple); }
+  .agent-card.cat-auto    { border-left-color: var(--cyan); }
+
+  .agent-name {
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--text-primary);
+    margin-bottom: .2rem;
+  }
+  .agent-desc {
+    font-size: .82rem;
+    color: var(--text-secondary);
+    margin-bottom: .6rem;
+  }
+  .agent-meta {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+  }
+  .model-badge {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 99px;
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+  }
+  .model-opus {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+  }
+  .model-sonnet {
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .tools-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    padding: 1px 8px;
+    border-radius: 99px;
+    font-size: .68rem;
+    font-weight: 600;
+  }
+  .tools-readonly {
+    background: var(--green-light);
+    color: var(--green);
+  }
+  .tools-readwrite {
+    background: var(--accent-light);
+    color: var(--accent-hover);
+  }
+
+  /* ===== Expanded card detail ===== */
+  .agent-detail-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(26,22,18,.45);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    animation: fadeIn .2s ease;
+  }
+  .agent-detail-overlay.show { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .agent-detail {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-xl);
+    padding: 2rem 2.5rem;
+    max-width: 560px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    animation: slideUp .25s ease;
+    border-left: 5px solid var(--accent);
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .agent-detail.cat-plan    { border-left-color: var(--blue); }
+  .agent-detail.cat-quality { border-left-color: var(--green); }
+  .agent-detail.cat-dev     { border-left-color: var(--purple); }
+  .agent-detail.cat-auto    { border-left-color: var(--cyan); }
+
+  .detail-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: color var(--transition);
+  }
+  .detail-close:hover { color: var(--text-primary); }
+  .detail-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: .2rem;
+  }
+  .detail-desc {
+    color: var(--text-secondary);
+    font-size: .9rem;
+    margin-bottom: 1rem;
+  }
+  .detail-section {
+    margin-bottom: 1rem;
+  }
+  .detail-section h4 {
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: .4rem;
+  }
+  .detail-section p, .detail-section ul {
+    font-size: .88rem;
+    color: var(--text-secondary);
+  }
+  .detail-tools {
+    display: flex;
+    gap: .4rem;
+    flex-wrap: wrap;
+  }
+  .detail-tool-tag {
+    background: var(--bg-code);
+    color: var(--accent-hover);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: .78rem;
+    font-weight: 500;
+  }
+
+  /* ===== Section 3: 决策树 ===== */
+  .decision-tree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .8rem;
+  }
+  .dt-node {
+    width: 100%;
+    max-width: 520px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all .3s ease;
+  }
+  .dt-node.inactive { opacity: .35; pointer-events: none; transform: scale(.97); }
+  .dt-node.completed { opacity: .55; }
+  .dt-question {
+    padding: 1.2rem 1.5rem;
+    font-weight: 600;
+    font-size: .92rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+  }
+  .dt-question .q-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: .8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .dt-choices {
+    display: flex;
+    border-top: 1px solid var(--border);
+  }
+  .dt-choice {
+    flex: 1;
+    padding: .8rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    font-size: .85rem;
+    font-weight: 600;
+    transition: all var(--transition);
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+  }
+  .dt-choice:first-child { border-right: 1px solid var(--border); }
+  .dt-choice:hover { background: var(--accent-glow); color: var(--accent); }
+  .dt-choice.selected-yes {
+    background: var(--green-light);
+    color: var(--green);
+  }
+  .dt-choice.selected-no {
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+  }
+
+  .dt-connector {
+    width: 2px;
+    height: 20px;
+    background: var(--border);
+    transition: background .3s;
+  }
+  .dt-connector.active { background: var(--accent); }
+
+  .dt-result {
+    display: none;
+    max-width: 520px;
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: .95rem;
+    text-align: center;
+    animation: slideUp .3s ease;
+  }
+  .dt-result.show { display: block; }
+  .dt-result.use-agent {
+    background: var(--green-light);
+    color: var(--green);
+    border: 2px solid var(--green);
+  }
+  .dt-result.stay-main {
+    background: var(--accent-light);
+    color: var(--accent-hover);
+    border: 2px solid var(--accent);
+  }
+  .dt-reset {
+    margin-top: .5rem;
+    padding: .4rem 1.2rem;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    background: var(--bg-secondary);
+    cursor: pointer;
+    font-size: .8rem;
+    color: var(--text-secondary);
+    transition: all var(--transition);
+  }
+  .dt-reset:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ===== Section 4: 对比卡片 ===== */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1.8rem;
+    transition: all var(--transition);
+  }
+  .compare-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .compare-card h3 {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .8rem;
+  }
+  .compare-card .cmp-icon { font-size: 1.5rem; }
+  .compare-card ul { list-style: none; padding: 0; }
+  .compare-card li {
+    padding: .4rem 0;
+    font-size: .88rem;
+    display: flex;
+    align-items: flex-start;
+    gap: .5rem;
+  }
+  .compare-card li::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: .5rem;
+    flex-shrink: 0;
+  }
+  .compare-agent li::before { background: var(--purple); }
+  .compare-skill li::before { background: var(--green); }
+
+  .section-gap { margin-top: 2.5rem; }
+</style>
+</head>
+<body>
+
+<h1><span class="gradient">AI 专家团画廊</span></h1>
+<p class="subtitle">代理系统 · Lesson 7 互动版</p>
+
+<!-- ====================================================================
+     Section 1: 子代理原理图
+     ==================================================================== -->
+<div class="card section-gap">
+  <h2>子代理工作原理</h2>
+  <p>Claude Code 的子代理在<strong>独立的上下文窗口</strong>中运行，完成后只将摘要返回给父级。</p>
+
+  <div class="arch-diagram">
+    <div class="main-ctx">
+      <span class="main-ctx-label">主对话上下文</span>
+      <p style="font-size:.85rem; margin-bottom:.8rem; color:var(--text-secondary);">
+        你和 Claude 的完整对话历史、文件读取缓存、工具结果等都在这里。
+      </p>
+      <div class="sub-ctx">
+        <span class="sub-ctx-label">子代理（独立上下文窗口）</span>
+        <p style="font-size:.85rem; color:var(--text-secondary); margin:0;">
+          独立的提示 + 独立的工具权限<br>
+          <strong>不能看到</strong>父级的完整对话历史
+        </p>
+      </div>
+    </div>
+
+    <div class="arch-arrows">
+      <div class="arch-step"><span class="num">1</span> 父级发送提示</div>
+      <span class="arch-arrow-icon">&#10132;</span>
+      <div class="arch-step"><span class="num">2</span> 子代理独立工作</div>
+      <span class="arch-arrow-icon">&#10132;</span>
+      <div class="arch-step"><span class="num">3</span> 只返回摘要</div>
+    </div>
+  </div>
+
+  <h3 style="text-align:center; margin-top:1.8rem; margin-bottom:.8rem;">三种内置子代理类型</h3>
+  <div class="builtin-types">
+    <div class="type-card">
+      <div class="type-icon">&#128269;</div>
+      <div class="type-name">Explore</div>
+      <span class="type-badge badge-green">只读</span>
+      <p style="font-size:.8rem; margin-top:.5rem;">Read, Grep, Glob<br>安全地探索代码库</p>
+    </div>
+    <div class="type-card">
+      <div class="type-icon">&#128203;</div>
+      <div class="type-name">Plan</div>
+      <span class="type-badge badge-blue">只读 + 规划</span>
+      <p style="font-size:.8rem; margin-top:.5rem;">Read, Grep, Glob, TodoWrite<br>分析问题并制定计划</p>
+    </div>
+    <div class="type-card">
+      <div class="type-icon">&#9881;&#65039;</div>
+      <div class="type-name">General-purpose</div>
+      <span class="type-badge badge-amber">完整工具集</span>
+      <p style="font-size:.8rem; margin-top:.5rem;">所有工具权限<br>能读写文件、执行命令</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================================
+     Section 2: 代理画廊
+     ==================================================================== -->
+<div class="section-gap">
+  <h2 style="text-align:center;">代理画廊</h2>
+  <p style="text-align:center;">cc4pm 包含 18 个专用代理 —— 点击筛选，点击卡片查看详情。</p>
+
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-pill active" data-cat="all" onclick="filterAgents('all')">全部 (18)</button>
+    <button class="filter-pill" data-cat="plan" onclick="filterAgents('plan')">规划与分析 (3)</button>
+    <button class="filter-pill" data-cat="quality" onclick="filterAgents('quality')">质量保障 (6)</button>
+    <button class="filter-pill" data-cat="dev" onclick="filterAgents('dev')">开发与测试 (6)</button>
+    <button class="filter-pill" data-cat="auto" onclick="filterAgents('auto')">自动化与协调 (3)</button>
+  </div>
+
+  <div class="agent-grid" id="agentGrid"></div>
+</div>
+
+<!-- Detail overlay -->
+<div class="agent-detail-overlay" id="detailOverlay" onclick="closeDetail(event)">
+  <div class="agent-detail" id="detailCard" onclick="event.stopPropagation()">
+    <button class="detail-close" onclick="closeDetail()">&times;</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- ====================================================================
+     Section 3: 使用决策树
+     ==================================================================== -->
+<div class="card section-gap">
+  <h2>什么时候该用子代理？</h2>
+  <p>回答三个问题，决定是否需要启用子代理。</p>
+
+  <div class="decision-tree" id="decisionTree">
+    <div class="dt-node" id="dtNode1">
+      <div class="dt-question">
+        <span class="q-icon">1</span>
+        你的任务需要读取大量文件吗？
+      </div>
+      <div class="dt-choices">
+        <button class="dt-choice" onclick="dtAnswer(1, true)">&#10003; 是的</button>
+        <button class="dt-choice" onclick="dtAnswer(1, false)">&#10007; 不需要</button>
+      </div>
+    </div>
+
+    <div class="dt-connector" id="dtConn1"></div>
+
+    <div class="dt-node inactive" id="dtNode2">
+      <div class="dt-question">
+        <span class="q-icon">2</span>
+        你需要基于之前的对话历史吗？
+      </div>
+      <div class="dt-choices">
+        <button class="dt-choice" onclick="dtAnswer(2, true)">&#10003; 需要</button>
+        <button class="dt-choice" onclick="dtAnswer(2, false)">&#10007; 不需要</button>
+      </div>
+    </div>
+
+    <div class="dt-connector" id="dtConn2"></div>
+
+    <div class="dt-node inactive" id="dtNode3">
+      <div class="dt-question">
+        <span class="q-icon">3</span>
+        任务的输出比输入短得多吗？
+      </div>
+      <div class="dt-choices">
+        <button class="dt-choice" onclick="dtAnswer(3, true)">&#10003; 是的</button>
+        <button class="dt-choice" onclick="dtAnswer(3, false)">&#10007; 不是</button>
+      </div>
+    </div>
+
+    <div class="dt-result" id="dtResult"></div>
+    <button class="dt-reset" id="dtResetBtn" style="display:none;" onclick="dtReset()">&#8634; 重新测试</button>
+  </div>
+</div>
+
+<!-- ====================================================================
+     Section 4: 代理 vs 技能 对比
+     ==================================================================== -->
+<div class="section-gap">
+  <h2 style="text-align:center;">代理 vs 技能</h2>
+  <p style="text-align:center;">两种扩展机制，适用于不同场景。</p>
+
+  <div class="compare-grid">
+    <div class="compare-card compare-agent">
+      <h3><span class="cmp-icon">&#129302;</span> Agent 代理</h3>
+      <ul>
+        <li>独立上下文窗口，互不干扰</li>
+        <li>隔离执行，有自己的工具权限</li>
+        <li>适合专业任务（审查、构建修复等）</li>
+        <li>输出摘要返回，节省主上下文空间</li>
+        <li>可指定模型（opus / sonnet）</li>
+        <li>用 YAML frontmatter 定义角色和工具</li>
+      </ul>
+    </div>
+    <div class="compare-card compare-skill">
+      <h3><span class="cmp-icon">&#128218;</span> Skill 技能</h3>
+      <ul>
+        <li>加载到当前上下文，共享完整记忆</li>
+        <li>无独立工具权限，依赖主对话</li>
+        <li>适合领域知识和工作流指导</li>
+        <li>通过 <code>/skill</code> 命令按需加载</li>
+        <li>共享同一模型和对话历史</li>
+        <li>Markdown 格式，含使用场景说明</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:1.2rem;">
+    <strong>简单记忆法：</strong>
+    Agent 是<em>请一位专家来帮忙</em>，Skill 是<em>给自己一本参考手册</em>。
+    需要独立执行和隔离时用 Agent，需要知识指导和上下文共享时用 Skill。
+  </div>
+</div>
+
+<footer>cc4pm 交互式教学 · Lesson 7 互动版</footer>
+
+<script>
+/* ===================================================================
+   Agent data
+   =================================================================== */
+const agents = [
+  {
+    id: 'planner', name: 'planner', desc: '需求分析和实现规划', cat: 'plan',
+    tools: ['Read','Grep','Glob'], model: 'opus',
+    modelWhy: 'planner 需要深度推理能力来分析复杂需求和制定实现策略，因此使用 Opus 模型。',
+    useCase: '当你面对一个复杂的新功能需求时，planner 会读取代码库，分析现有架构，然后输出一份分步实现计划。',
+    bestFor: '新功能规划、大型重构的前期分析、技术方案对比'
+  },
+  {
+    id: 'architect', name: 'architect', desc: '系统架构设计', cat: 'plan',
+    tools: ['Read','Grep','Glob'], model: 'opus',
+    modelWhy: 'architect 需要 Opus 的高级推理能力来理解复杂的系统依赖关系并做出架构决策。',
+    useCase: '设计微服务拆分方案时，architect 会分析模块依赖、数据流和接口边界，输出架构建议。',
+    bestFor: '系统设计评审、技术架构决策、模块拆分建议'
+  },
+  {
+    id: 'chief-of-staff', name: 'chief-of-staff', desc: '项目协调和任务分配', cat: 'plan',
+    tools: ['Read','Grep','Glob'], model: 'opus',
+    modelWhy: '项目协调需要理解全局上下文并做出优先级判断，Opus 模型更适合此类高层决策。',
+    useCase: '面对一个大型迭代时，chief-of-staff 会分析所有待办任务，按优先级和依赖关系排列，并建议分配方式。',
+    bestFor: '项目规划、任务优先级排序、迭代计划制定'
+  },
+  {
+    id: 'code-reviewer', name: 'code-reviewer', desc: '代码质量审查', cat: 'quality',
+    tools: ['Read','Grep','Glob','Bash'], model: 'sonnet',
+    modelWhy: '代码审查是高频操作，Sonnet 在速度和质量间取得良好平衡，同时具备运行 lint/test 的 Bash 权限。',
+    useCase: '提交 PR 前，code-reviewer 会检查代码风格、潜在 bug、测试覆盖率，并给出改进建议。',
+    bestFor: 'Pull Request 审查、代码风格检查、最佳实践建议'
+  },
+  {
+    id: 'security-reviewer', name: 'security-reviewer', desc: '安全漏洞检测', cat: 'quality',
+    tools: ['Read','Write','Edit','Bash','Grep','Glob'], model: 'sonnet',
+    modelWhy: 'Sonnet 足以识别常见安全模式，且具备读写权限以自动修复简单的安全问题。',
+    useCase: '检测 SQL 注入、XSS、敏感信息泄露等漏洞，并提供或直接应用修复补丁。',
+    bestFor: '安全审计、漏洞扫描、依赖安全检查'
+  },
+  {
+    id: 'python-reviewer', name: 'python-reviewer', desc: 'Python 代码审查', cat: 'quality',
+    tools: ['Read','Grep','Glob','Bash'], model: 'sonnet',
+    modelWhy: '语言专用审查器使用 Sonnet，可快速运行 pylint/mypy 等工具进行高效审查。',
+    useCase: '审查 Python 代码的类型标注、PEP 8 合规性、包管理和测试质量。',
+    bestFor: 'Python 项目代码审查、类型检查、风格统一'
+  },
+  {
+    id: 'go-reviewer', name: 'go-reviewer', desc: 'Go 代码审查', cat: 'quality',
+    tools: ['Read','Grep','Glob','Bash'], model: 'sonnet',
+    modelWhy: '语言专用审查器使用 Sonnet，可运行 go vet/golangci-lint 等工具进行高效审查。',
+    useCase: '审查 Go 代码的错误处理模式、goroutine 泄露风险、接口设计等。',
+    bestFor: 'Go 项目代码审查、并发安全检查、性能分析'
+  },
+  {
+    id: 'kotlin-reviewer', name: 'kotlin-reviewer', desc: 'Kotlin 代码审查', cat: 'quality',
+    tools: ['Read','Grep','Glob','Bash'], model: 'sonnet',
+    modelWhy: '语言专用审查器使用 Sonnet，可运行 ktlint/detekt 等工具进行高效审查。',
+    useCase: '审查 Kotlin 代码的空安全、协程使用、Kotlin 惯用写法等。',
+    bestFor: 'Kotlin/Android 项目审查、空安全检查、惯用写法建议'
+  },
+  {
+    id: 'database-reviewer', name: 'database-reviewer', desc: '数据库设计审查', cat: 'quality',
+    tools: ['Read','Grep','Glob'], model: 'sonnet',
+    modelWhy: '数据库审查主要是模式分析，Sonnet 已足够，且仅需只读权限来审查 schema 和迁移文件。',
+    useCase: '审查数据库迁移文件、索引策略、查询性能和范式设计。',
+    bestFor: '数据库 schema 审查、迁移安全检查、查询优化建议'
+  },
+  {
+    id: 'tdd-guide', name: 'tdd-guide', desc: '测试驱动开发', cat: 'dev',
+    tools: ['Read','Write','Edit','Bash','Grep','Glob'], model: 'sonnet',
+    modelWhy: 'TDD 需要频繁的编写-运行-修改循环，Sonnet 的速度优势使工作流更流畅。',
+    useCase: '引导你按照 Red-Green-Refactor 循环开发，先写失败测试，再写实现代码。',
+    bestFor: '新功能的 TDD 开发、测试补充、测试重构'
+  },
+  {
+    id: 'e2e-runner', name: 'e2e-runner', desc: 'Playwright E2E 测试', cat: 'dev',
+    tools: ['Read','Write','Edit','Bash','Grep','Glob'], model: 'sonnet',
+    modelWhy: 'E2E 测试编写和运行需要读写文件和执行命令，Sonnet 提供足够的速度和准确性。',
+    useCase: '自动生成 Playwright 测试用例，运行测试，分析失败原因并修复。',
+    bestFor: '端到端测试生成、UI 测试自动化、测试失败调试'
+  },
+  {
+    id: 'build-error-resolver', name: 'build-error-resolver', desc: '构建错误修复', cat: 'dev',
+    tools: ['Read','Write','Edit','Bash','Grep','Glob'], model: 'sonnet',
+    modelWhy: '构建修复需要快速迭代（运行构建、分析错误、修改代码），Sonnet 的速度非常关键。',
+    useCase: '当 CI 构建失败时，自动分析错误日志、定位问题文件并应用修复。',
+    bestFor: 'CI/CD 构建失败修复、依赖冲突解决、编译错误调试'
+  },
+  {
+    id: 'go-build-resolver', name: 'go-build-resolver', desc: 'Go 构建错误修复', cat: 'dev',
+    tools: ['Read','Write','Edit','Bash','Grep','Glob'], model: 'sonnet',
+    modelWhy: 'Go 构建修复是 build-error-resolver 的语言专用版本，Sonnet 足够处理 Go 编译问题。',
+    useCase: '专门处理 Go 编译错误、模块依赖问题、类型不匹配等构建失败。',
+    bestFor: 'Go 编译错误、go mod 问题、CGO 相关构建失败'
+  },
+  {
+    id: 'kotlin-build-resolver', name: 'kotlin-build-resolver', desc: 'Kotlin 构建错误修复', cat: 'dev',
+    tools: ['Read','Write','Edit','Bash','Grep','Glob'], model: 'sonnet',
+    modelWhy: 'Kotlin 构建修复是 build-error-resolver 的语言专用版本，Sonnet 适合处理 Gradle 构建问题。',
+    useCase: '处理 Gradle 构建失败、Kotlin 编译错误、Android 构建配置问题。',
+    bestFor: 'Gradle 构建失败、Kotlin 编译错误、Android 构建配置'
+  },
+  {
+    id: 'refactor-cleaner', name: 'refactor-cleaner', desc: '重构和代码清理', cat: 'dev',
+    tools: ['Read','Write','Edit','Bash','Grep','Glob'], model: 'sonnet',
+    modelWhy: '重构需要大量文件读写操作，Sonnet 在保证质量的同时提供更好的速度。',
+    useCase: '提取重复代码为共用函数、重命名变量、简化复杂条件逻辑、移除死代码。',
+    bestFor: '代码重构、死代码清理、函数提取、模块重组'
+  },
+  {
+    id: 'doc-updater', name: 'doc-updater', desc: '文档自动更新', cat: 'auto',
+    tools: ['Read','Write','Edit','Grep','Glob'], model: 'sonnet',
+    modelWhy: '文档更新主要是文本生成任务，Sonnet 足以处理，且不需要 Bash 执行权限。',
+    useCase: '当代码变更后，自动更新相关的 README、API 文档和注释。',
+    bestFor: '文档同步更新、API 文档生成、CHANGELOG 维护'
+  },
+  {
+    id: 'loop-operator', name: 'loop-operator', desc: '自改进循环操作', cat: 'auto',
+    tools: ['Read','Write','Edit','Bash','Grep','Glob'], model: 'sonnet',
+    modelWhy: '自改进循环需要完整的读写执行权限来迭代优化，Sonnet 的速度适合多轮循环。',
+    useCase: '运行 "观察-检查-修改-评估" 循环，持续改进代码或配置直到达到质量标准。',
+    bestFor: '质量达标循环、性能调优迭代、自动修复流程'
+  },
+  {
+    id: 'harness-optimizer', name: 'harness-optimizer', desc: '编排流程优化', cat: 'auto',
+    tools: ['Read','Write','Edit','Grep','Glob'], model: 'sonnet',
+    modelWhy: '流程优化主要是分析和改写配置文件，Sonnet 足以处理，不需要 Bash 权限。',
+    useCase: '分析现有的 CI/CD 流程、代理编排方案，并建议或实施优化。',
+    bestFor: '工作流优化、代理编排改进、流程瓶颈分析'
+  }
+];
+
+/* ===================================================================
+   Render gallery
+   =================================================================== */
+function renderGallery() {
+  const grid = document.getElementById('agentGrid');
+  grid.innerHTML = '';
+  agents.forEach(a => {
+    const isReadonly = a.tools.length <= 4 && !a.tools.includes('Write') && !a.tools.includes('Edit');
+    const card = document.createElement('div');
+    card.className = `agent-card cat-${a.cat} visible`;
+    card.dataset.cat = a.cat;
+    card.onclick = () => showAgentDetail(a);
+    card.innerHTML = `
+      <div class="agent-name">${a.name}</div>
+      <div class="agent-desc">${a.desc}</div>
+      <div class="agent-meta">
+        <span class="model-badge model-${a.model}">${a.model}</span>
+        ${isReadonly
+          ? '<span class="tools-badge tools-readonly">&#128269; 只读</span>'
+          : '<span class="tools-badge tools-readwrite">&#128295; 读写执行</span>'}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+/* ===================================================================
+   Filter
+   =================================================================== */
+function filterAgents(cat) {
+  document.querySelectorAll('.filter-pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.cat === cat);
+  });
+  const cards = document.querySelectorAll('.agent-card');
+  cards.forEach(c => {
+    const match = cat === 'all' || c.dataset.cat === cat;
+    if (match) {
+      c.classList.remove('hidden');
+      c.classList.add('visible');
+    } else {
+      c.classList.remove('visible');
+      c.classList.add('hidden');
+    }
+  });
+}
+
+/* ===================================================================
+   Agent detail overlay
+   =================================================================== */
+function showAgentDetail(a) {
+  const overlay = document.getElementById('detailOverlay');
+  const card = document.getElementById('detailCard');
+  const content = document.getElementById('detailContent');
+
+  card.className = `agent-detail cat-${a.cat}`;
+
+  const isReadonly = a.tools.length <= 4 && !a.tools.includes('Write') && !a.tools.includes('Edit');
+
+  content.innerHTML = `
+    <div class="detail-title">${a.name}</div>
+    <div class="detail-desc">${a.desc}</div>
+    <div class="agent-meta" style="margin-bottom:1.2rem;">
+      <span class="model-badge model-${a.model}">${a.model}</span>
+      ${isReadonly
+        ? '<span class="tools-badge tools-readonly">&#128269; 只读</span>'
+        : '<span class="tools-badge tools-readwrite">&#128295; 读写执行</span>'}
+    </div>
+
+    <div class="detail-section">
+      <h4>工具列表</h4>
+      <div class="detail-tools">
+        ${a.tools.map(t => `<span class="detail-tool-tag">${t}</span>`).join('')}
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h4>为什么用 ${a.model}？</h4>
+      <p>${a.modelWhy}</p>
+    </div>
+
+    <div class="detail-section">
+      <h4>使用案例</h4>
+      <p>${a.useCase}</p>
+    </div>
+
+    <div class="detail-section">
+      <h4>最适合场景</h4>
+      <p style="color:var(--accent-hover); font-weight:600;">${a.bestFor}</p>
+    </div>
+  `;
+
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail(e) {
+  if (e && e.target !== document.getElementById('detailOverlay')) return;
+  document.getElementById('detailOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDetail();
+});
+
+/* ===================================================================
+   Decision tree
+   =================================================================== */
+let dtState = { step: 1, answers: {} };
+
+function dtAnswer(step, yes) {
+  if (step !== dtState.step) return;
+  dtState.answers[step] = yes;
+
+  const node = document.getElementById('dtNode' + step);
+  const choices = node.querySelectorAll('.dt-choice');
+  choices[0].className = 'dt-choice' + (yes ? ' selected-yes' : '');
+  choices[1].className = 'dt-choice' + (!yes ? ' selected-no' : '');
+  node.classList.add('completed');
+
+  // Question 1: Yes -> use subagent
+  if (step === 1 && yes) {
+    showDtResult(true, '用子代理！大量文件读取会占用主上下文空间，子代理可以在独立窗口中处理后只返回摘要。');
+    return;
+  }
+
+  // Question 2: Yes -> stay in main
+  if (step === 2 && yes) {
+    showDtResult(false, '留在主对话。子代理看不到之前的对话历史，需要上下文连续性的任务不适合委派。');
+    return;
+  }
+
+  // Question 3
+  if (step === 3) {
+    if (yes) {
+      showDtResult(true, '用子代理！输出远短于输入时，子代理可以大量阅读后返回简短摘要，节省主上下文空间。');
+    } else {
+      showDtResult(false, '留在主对话。当输出和输入差不多长时，子代理的摘要可能丢失重要细节。');
+    }
+    return;
+  }
+
+  // Advance to next step
+  dtState.step = step + 1;
+  const conn = document.getElementById('dtConn' + step);
+  conn.classList.add('active');
+  const nextNode = document.getElementById('dtNode' + (step + 1));
+  nextNode.classList.remove('inactive');
+}
+
+function showDtResult(useAgent, msg) {
+  const result = document.getElementById('dtResult');
+  result.className = 'dt-result show ' + (useAgent ? 'use-agent' : 'stay-main');
+  result.textContent = (useAgent ? '&#10004; ' : '&#10010; ') + msg;
+  result.innerHTML = (useAgent ? '&#10004; ' : '&#8594; ') + msg;
+  document.getElementById('dtResetBtn').style.display = 'inline-block';
+
+  // Deactivate remaining nodes
+  for (let i = dtState.step + 1; i <= 3; i++) {
+    document.getElementById('dtNode' + i).classList.add('inactive');
+  }
+}
+
+function dtReset() {
+  dtState = { step: 1, answers: {} };
+  for (let i = 1; i <= 3; i++) {
+    const node = document.getElementById('dtNode' + i);
+    node.classList.remove('completed');
+    if (i > 1) node.classList.add('inactive');
+    node.querySelectorAll('.dt-choice').forEach(c => c.className = 'dt-choice');
+  }
+  document.querySelectorAll('.dt-connector').forEach(c => c.classList.remove('active'));
+  document.getElementById('dtResult').className = 'dt-result';
+  document.getElementById('dtResetBtn').style.display = 'none';
+}
+
+/* ===================================================================
+   Init
+   =================================================================== */
+renderGallery();
+</script>
+</body>
+</html>
