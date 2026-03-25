@@ -111,12 +111,12 @@ const tabs = [
 
 // === DATA ===
 const flowSteps = [
-  {cmd:'/plan',label:'规划',agent:'planner (opus)',desc:'需求复述 → 阶段拆解 → 风险评估 → 确认后才开始。PM 参与度: 高。'},
+  {cmd:'/plan',label:'规划',agent:'planner (opus)',desc:'需求复述 → 阶段拆解 → 风险评估 → 确认后才开始。'},
   {cmd:'/tdd',label:'测试驱动',agent:'tdd-guide (sonnet)',desc:'SCAFFOLD → RED(写失败测试) → GREEN(最少代码通过) → REFACTOR(优化)。覆盖率目标: 80%+。'},
   {cmd:'/build-fix',label:'构建修复',agent:'build-error-resolver (sonnet)',desc:'自动检测构建工具 → 捕获错误 → 逐个修复(最小化修改) → 3 次失败则上报。'},
   {cmd:'/code-review',label:'代码审查',agent:'code-reviewer (sonnet)',desc:'四级审查：CRITICAL(阻止) → HIGH(建议修) → MEDIUM(优化) → LOW(参考)。'},
   {cmd:'/e2e',label:'端到端测试',agent:'e2e-runner (sonnet)',desc:'Playwright 多浏览器执行，失败自动截图/视频。WDS 场景 → E2E 测试场景。'},
-  {cmd:'git commit',label:'提交合并',agent:'—',desc:'代码审查通过 → PR → 合并到主分支。PM 确认大型功能。'}
+  {cmd:'git commit',label:'提交合并',agent:'—',desc:'代码审查通过 → PR → 合并到主分支。确认功能完整后合并。'}
 ];
 
 const agents = [
@@ -261,17 +261,17 @@ function switchTab(id){
   p.appendChild(flowEl);
   p.appendChild(detailEl);
 
-  // PM participation
+  // participation overview
   const pm = document.createElement('div');
   pm.className = 'card';
-  pm.innerHTML = `<h3>PM 的参与点</h3>
-<table><tr><th>阶段</th><th>参与度</th><th>你需要做什么</th></tr>
-<tr><td><code>/plan</code></td><td><strong style="color:var(--rose)">高</strong></td><td>确认需求复述是否准确、阶段拆解是否合理</td></tr>
-<tr><td><code>/tdd</code></td><td>低</td><td>知道测试覆盖率目标(80%+)即可</td></tr>
-<tr><td><code>/build-fix</code></td><td>无</td><td>自动化处理</td></tr>
-<tr><td><code>/code-review</code></td><td><strong style="color:var(--accent)">中</strong></td><td>关注 CRITICAL/HIGH 安全问题</td></tr>
-<tr><td><code>/e2e</code></td><td><strong style="color:var(--rose)">高</strong></td><td>确认测试场景覆盖核心用户旅程</td></tr>
-<tr><td>PR/合并</td><td><strong style="color:var(--accent)">中</strong></td><td>大型功能需 PM 确认后合并</td></tr>
+  pm.innerHTML = `<h3>产品主理人的工程节奏</h3>
+<table><tr><th>阶段</th><th>你做什么</th></tr>
+<tr><td><code>/plan</code></td><td>确认需求复述、调整阶段拆解、把控风险优先级</td></tr>
+<tr><td><code>/tdd</code></td><td>定义验收标准，让 AI 按标准生成代码和测试</td></tr>
+<tr><td><code>/build-fix</code></td><td>构建失败时一键修复</td></tr>
+<tr><td><code>/code-review</code></td><td>审阅 CRITICAL/HIGH 问题，决定是否修复或接受</td></tr>
+<tr><td><code>/e2e</code></td><td>确认测试覆盖核心用户旅程，验收产品质量</td></tr>
+<tr><td>PR/合并</td><td>确认功能完整后合并，准备发布</td></tr>
 </table>`;
   p.appendChild(pm);
 })();

@@ -289,6 +289,28 @@ claude
 
 按照上面"方式二"或"方式三"的步骤，把你需要的组件安装到 `~/.claude/`。然后切换到你自己的项目目录，验证命令是否可用。
 
+### 进阶：动态系统提示注入
+
+安装完成后，你可能会发现不同的工作场景需要不同的上下文。与其把所有内容都塞进 CLAUDE.md（每次都加载），不如用 `--system-prompt` 按需注入：
+
+```bash
+# 启动时动态注入上下文文件
+claude --system-prompt "$(cat ~/.claude/contexts/dev.md)"
+```
+
+**实际设置——用 alias 创建不同的工作模式**：
+
+```bash
+# 在 ~/.zshrc 或 ~/.bashrc 中添加
+alias claude-dev='claude --system-prompt "$(cat ~/.claude/contexts/dev.md)"'
+alias claude-review='claude --system-prompt "$(cat ~/.claude/contexts/review.md)"'
+alias claude-research='claude --system-prompt "$(cat ~/.claude/contexts/research.md)"'
+```
+
+每个 context 文件只包含该模式需要的指令——`dev.md` 关注编码规范和测试要求，`review.md` 关注安全检查和质量标准，`research.md` 关注信息收集和总结格式。
+
+**为什么比放在 CLAUDE.md 好？** 系统提示的权威性高于用户消息，而且不同场景只加载相关上下文，避免无关规则占用上下文窗口。
+
 ### 升级和更新
 
 cc4pm 是一个活跃的开源项目，持续更新中。保持更新的方法：

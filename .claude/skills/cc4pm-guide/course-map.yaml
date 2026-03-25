@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 4
+  supplementary_lessons: 6
   default_max_lines: 400
 
 stages:
@@ -77,6 +77,8 @@ stages:
           - tmux-sessions
           - git-worktree
           - fork-command
+          - voice-transcription
+          - parallel-cascade
 
       - id: lesson-4
         file: lesson-4.md
@@ -138,6 +140,7 @@ stages:
           - custom-agents-18
           - agent-vs-skill
           - subagent-context-goal
+          - iterative-retrieval
 
       - id: lesson-7.1
         file: lesson-7.1.md
@@ -164,6 +167,7 @@ stages:
           - exit-code-mechanism
           - 21-hooks
           - 44-rules
+          - memory-persistence-hooks
 
       - id: lesson-9
         file: lesson-9.md
@@ -176,6 +180,7 @@ stages:
           - three-usage-modes
           - role-based-install
           - verification-checklist
+          - dynamic-system-prompt
 
       - id: lesson-10
         file: lesson-10.md
@@ -334,7 +339,7 @@ stages:
       - id: lesson-1
         file: lesson-1.md
         number: 21
-        title: "工程协作概览：从 PM 到开发者的桥梁"
+        title: "工程协作概览：产品主理人的交付引擎"
         short_title: "工程协作概览"
         topics:
           - plan-command
@@ -355,6 +360,8 @@ stages:
           - build-fix-command
           - red-green-refactor
           - coverage-standards
+          - verification-loops
+          - pass-at-k
 
       - id: lesson-3
         file: lesson-3.md
@@ -370,6 +377,39 @@ stages:
           - rules-layered-architecture
           - quality-gate
           - three-layer-automation
+
+      - id: lesson-3.1
+        file: lesson-3.1.md
+        number: 23.1
+        title: "Harness 设计哲学：来自 Anthropic 工程团队的实战经验"
+        short_title: "Harness 设计哲学"
+        supplementary: true
+        topics:
+          - harness-engineering-philosophy
+          - generator-evaluator-pattern
+          - context-anxiety
+          - context-reset-vs-compaction
+          - sprint-contracts
+          - harness-evolution
+          - harness-cost-data
+
+      - id: lesson-3.2
+        file: lesson-3.2.md
+        number: 23.2
+        title: "Harness 实操：循环模式、编排与审计"
+        short_title: "Harness 实操"
+        supplementary: true
+        topics:
+          - continuous-agent-loop
+          - loop-patterns-4
+          - relay-running
+          - shared-task-notes
+          - harness-audit-scorecard
+          - harness-optimizer
+          - orchestrate-command
+          - stall-detection-recovery
+          - cost-control-limits
+          - de-sloppify-pattern
 
   - id: stage-5
     title: "高级应用与持续优化"

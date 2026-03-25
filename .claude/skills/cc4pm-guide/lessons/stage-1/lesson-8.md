@@ -158,6 +158,20 @@ claude
 
 > **深入学习**：本课介绍了 Hook 和 Rule 的基本概念。在 **Lesson 23（阶段 4）**中，你将深入了解 cc4pm 全部 21 个 Hook 的真实运行逻辑——包括 `run-with-flags.js` 条件执行框架、Hook Profile 环境变量（`minimal/standard/strict`）、Quality Gate 质量门禁的完整检测流水线，以及 44 个 Rules 文件的语言专用规则（TypeScript/Python/Go/Swift/Kotlin/PHP/Perl 各 5 个文件的特定工具链）。
 
+### 记忆持久化 Hooks
+
+除了代码质量守护，Hooks 还有一个重要用途——**跨会话记忆持久化**。大多数人不知道这些 Hook 组合：
+
+| Hook 类型 | 用途 | 触发时机 |
+|-----------|------|---------|
+| **PreCompact** | 压缩前保存重要状态到文件 | 上下文压缩即将发生时 |
+| **Stop（会话结束）** | 将学习成果持久化到文件 | Claude 完成最后一次回复时 |
+| **SessionStart** | 自动加载之前保存的上下文 | 新会话开始时 |
+
+三个 Hook 形成闭环：Stop 保存 → SessionStart 加载 → PreCompact 防丢失。这样即使跨会话，Claude 也能"记住"关键决策和进展。
+
+> 这些 Hook 的完整实现见 cc4pm 的 `hooks/` 目录。关键设计：用 **Stop** 而非 UserPromptSubmit 做持久化——UserPromptSubmit 每条消息都触发（增加延迟），Stop 只在会话结束时运行一次。
+
 ### Rules 系统
 
 Rules 是另一层自动化——它们不是脚本，而是**每次对话都自动加载的指导方针**。

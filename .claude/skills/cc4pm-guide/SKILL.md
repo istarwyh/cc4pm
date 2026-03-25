@@ -98,9 +98,11 @@ description: |
 
 | 编号 | 课名 | 核心知识点 |
 |------|------|-----------|
-| 21 | 工程协作概览：从 PM 到开发者的桥梁 | plan-command、18-agents-overview、model-selection-logic、plan-test-dev-review |
+| 21 | 工程协作概览：产品主理人的交付引擎 | plan-command、18-agents-overview、model-selection-logic、plan-test-dev-review |
 | 22 | 测试与代码审查：质量保障三板斧 | tdd-command、e2e-command、code-review-command、build-fix-command |
 | 23 | 自动化工作流：Hooks、Rules 和质量门禁 | hooks-deep-dive、hook-triggers-6、hook-exit-codes、hook-profiles |
+| 23.1 | Harness 设计哲学：来自 Anthropic 工程团队的实战经验 | harness-engineering-philosophy、generator-evaluator-pattern、context-anxiety、context-reset-vs-compaction |
+| 23.2 | Harness 实操：循环模式、编排与审计 | continuous-agent-loop、loop-patterns-4、relay-running、shared-task-notes |
 
 ### 阶段 5：高级应用与持续优化（3 节课）
 
