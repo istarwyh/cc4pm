@@ -3,6 +3,7 @@
 ## 本课目标
 
 - 理解 MCP（Model Context Protocol，模型上下文协议）如何让 AI 代理连接外部工具
+- 掌握插件（Plugins）系统：市场安装、LSP 插件、mgrep 搜索等
 - 掌握 /learn 和 /skill-create 的知识提取和经验积累机制
 - 了解持续学习系统（Continuous Learning）的工作原理
 - 理解 cc4pm 的插件架构和跨平台支持
@@ -288,6 +289,84 @@ cc4pm 有一个完整的"持续学习"系统，让 AI 代理越用越聪明：
 ### cc4pm 的插件架构
 
 cc4pm 不只是一个工具——它是一个完整的插件系统，可以跨多个 AI 开发工具使用。
+
+#### 插件（Plugins）——比 MCP 更丰富的扩展方式
+
+MCP 连接的是外部服务。**插件（Plugin）是一种更高级的打包方式**——它可以同时包含技能、MCP、钩子，甚至 LSP（语言服务器协议），打包成一个可安装的单元。
+
+```
+MCP 只做一件事：
+  连接外部服务（GitHub、Supabase、Vercel...）
+
+Plugin 可以做很多事：
+  ├── 包含技能（工作流定义）
+  ├── 包含 MCP（外部集成）
+  ├── 包含 Hook（自动化触发）
+  └── 包含 LSP（语言智能——类型检查、补全、跳转定义）
+```
+
+#### 插件市场与安装
+
+```bash
+# 添加一个插件市场
+claude plugin marketplace add affaan-m/everything-claude-code
+
+# 查看已安装的插件
+/plugins
+
+# 安装特定插件
+/plugin install everything-claude-code@everything-claude-code
+```
+
+**已有的插件市场**：打开 Claude Code 后输入 `/plugins`，可以看到官方市场和第三方市场中的所有可用插件。
+
+#### 值得了解的插件类型
+
+| 插件类型 | 代表 | 说明 |
+|---------|------|------|
+| **LSP 插件** | `typescript-lsp`、`pyright-lsp` | 给 Claude 提供实时类型检查和代码补全——不需要打开 IDE，Claude 也能获得编辑器级别的代码智能 |
+| **搜索插件** | `mgrep` | 比内置 ripgrep 更强的语义搜索——支持本地搜索和网络搜索 |
+| **工作流插件** | `hookify` | 用对话方式创建 Hook，不用手写 JSON |
+| **文档插件** | `context7` | 查询最新技术文档（也作为 MCP 提供） |
+
+#### mgrep——比 grep 更好的搜索
+
+`mgrep` 是一个通过插件市场安装的增强搜索工具，由 [Mixedbread](https://www.mixedbread.ai/) 提供。它比 Claude Code 内置的 ripgrep 搜索更智能：
+
+```bash
+# 本地代码搜索（语义理解，不只是文本匹配）
+mgrep "处理用户认证的函数"
+
+# 网络搜索（AI 联网搜索最新信息）
+mgrep --web "Next.js 15 App Router 最新变化"
+```
+
+**安装方式**：
+
+```bash
+# 先添加 Mixedbread 市场
+claude plugin marketplace add mixedbread-ai/mgrep
+
+# 然后安装
+/plugins → 找到 Mixedbread-Grep → 安装
+```
+
+#### 插件与上下文窗口的关系
+
+**重要提醒**：和 MCP 一样，每个启用的插件都会占用上下文窗口。
+
+```
+经验法则：
+  配置 20-30 个插件/MCP → 保存在配置中备用
+  同时启用 < 10 个       → 实际工作时只开需要的
+  活动工具 < 80 个       → 超过会明显影响 Claude 的表现
+
+管理方式：
+  /plugins  → 查看所有插件的启用/禁用状态
+  /mcp      → 查看所有 MCP 的启用/禁用状态
+```
+
+不需要每个项目都开全部插件。按项目需求选 4-5 个即可。
 
 #### 支持的平台
 

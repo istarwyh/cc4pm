@@ -1,4 +1,4 @@
-# Lesson 26: 课程总结：你的 AI 产品经理工具箱
+# Lesson 26: 课程总结：你的 AI 产品主理人工具箱
 
 ## 本课目标
 
@@ -18,7 +18,7 @@
   ✅ cc4pm 的安装和配置
   ✅ 基本命令和技能的使用
 
-阶段 2: 产品经理核心能力（L11-L16）
+阶段 2: 产品主理人核心能力（L11-L16）
   ✅ CIS 创意创新——36 技巧 + 30 框架
   ✅ BMM 市场研究——竞品分析 + 用户洞察
   ✅ BMM PRD 创建——12 步创建 + 13 步验证
@@ -51,7 +51,7 @@
 | Carson | 头脑风暴教练 | CIS | L11 |
 | Victor | 创新战略家 | CIS | L12 |
 | Mary | 设计思维教练 / 分析师 | CIS/BMM | L12/L13 |
-| John | 创新策略师 / 产品经理 | CIS/BMM | L12/L14 |
+| John | 创新策略师 / 产品主理人 | CIS/BMM | L12/L14 |
 | Bob | 敏捷大师 | BMM | L16 |
 | Architect | 系统架构师 | BMM | L15 |
 | Dev | 开发者 | BMM | L15 |
@@ -129,7 +129,7 @@
 
 | 缩写 | 全称 | 中文 |
 |------|------|------|
-| cc4pm | Claude Code for Product Managers | 产品经理的 Claude Code |
+| cc4pm | Claude Code for Product Managers | 产品主理人的 Claude Code |
 | CIS | Creative & Innovation Suite | 创意创新套件 |
 | BMM | BMAD Method | BMAD 方法论 |
 | WDS | Web Design System | 网页设计系统 |

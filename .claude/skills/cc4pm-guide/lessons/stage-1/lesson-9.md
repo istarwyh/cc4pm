@@ -119,7 +119,7 @@ cp -r skills/coding-standards ~/.claude/skills/
 cp -r skills/security-review ~/.claude/skills/
 cp -r skills/backend-patterns ~/.claude/skills/
 
-# 如果你是产品经理，还推荐安装 BMM/CIS 相关技能
+# 如果你是产品主理人，还推荐安装 BMM/CIS 相关技能
 # （这些技能通过斜杠命令触发，已在 commands/ 中包含）
 ```
 
@@ -138,7 +138,7 @@ cp agents/*.md ~/.claude/agents/
 
 不是每个人都需要全部 96 个技能。以下是按角色推荐的最小安装集：
 
-#### 产品经理推荐
+#### 产品主理人推荐
 
 ```bash
 # 通用规则
@@ -150,7 +150,7 @@ mkdir -p ~/.claude/commands
 cp commands/*.md ~/.claude/commands/
 ```
 
-产品经理主要使用的命令：
+产品主理人主要使用的命令：
 
 | 命令 | 用途 |
 |------|------|
@@ -318,7 +318,7 @@ A: 检查以下几点：
 2. 确认你在 Claude Code 的交互模式中（不是 print 模式）
 3. 尝试退出并重新启动 `claude`
 
-**Q: 我只想用产品经理相关的功能，需要安装代理吗？**
+**Q: 我只想用产品主理人相关的功能，需要安装代理吗？**
 
 A: 如果你只使用 BMM/CIS 的斜杠命令（如 `/bmad-brainstorming`、`/bmad-create-prd`），不需要安装 agents/。代理主要是工程团队在子代理模式下使用的。但安装代理也不会有坏处——它们只在被调用时才会消耗资源。
 
