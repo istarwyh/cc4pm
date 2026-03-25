@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cc4pm - AI 驱动的全流程产品开发系统</title>
+<meta name="description" content="面向产品经理和互联网人的 AI 效能工具。200+ Skills、4 大核心模块，覆盖产品全生命周期。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-base: #faf9f5;
+  --bg-elevated: #f0efe8;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f5f4ee;
+  --bg-overlay: #e8e6dc;
+  --text-primary: #141413;
+  --text-secondary: #4a4a45;
+  --text-muted: #8a8a82;
+  --text-disabled: #b0aea5;
+  --color-bmm: #d97757;
+  --color-cis: #6a9bcc;
+  --color-wds: #788c5d;
+  --color-eng: #9b7db8;
+  --cta-from: #d97757;
+  --cta-to: #c4623f;
+  --cta-hover-from: #e08868;
+  --cta-hover-to: #d97757;
+  --btn-github-bg: #141413;
+  --btn-github-border: #2a2a28;
+  --terminal-green: #788c5d;
+  --terminal-yellow: #d97757;
+  --terminal-blue: #6a9bcc;
+  --terminal-cursor: #d97757;
+  --link-color: #d97757;
+  --link-hover: #c4623f;
+  --border-default: #e8e6dc;
+  --border-highlight: #d4d2c8;
+  --font-mono: 'SF Mono','Cascadia Code','Fira Code','JetBrains Mono','Menlo','Consolas',monospace;
+  --font-sans: 'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Helvetica Neue',Arial,sans-serif;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+  --space-5xl: 128px;
+  --container-max: 1200px;
+  --container-narrow: 800px;
+  --border-radius-sm: 6px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 24px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-base);
+  color: var(--text-secondary);
+  font-size: 18px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+a { color: var(--link-color); text-decoration: none; transition: color 200ms ease-out; }
+a:hover { color: var(--link-hover); }
+
+.container { max-width: var(--container-max); margin: 0 auto; padding: 0 24px; }
+
+section { padding: var(--space-5xl) 0; }
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--cta-from);
+  text-transform: uppercase;
+  margin-bottom: var(--space-md);
+}
+
+.section-title {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.section-subtitle {
+  font-size: 18px;
+  color: var(--text-secondary);
+  max-width: 600px;
+}
+
+.section-header { margin-bottom: var(--space-3xl); }
+.section-header.center { text-align: center; }
+.section-header.center .section-subtitle { margin: 0 auto; }
+
+/* Animations */
+.anim { opacity: 0; transition: opacity 600ms cubic-bezier(0.25,0.46,0.45,0.94), transform 600ms cubic-bezier(0.25,0.46,0.45,0.94); }
+.anim.fade-up { transform: translateY(30px); }
+.anim.fade-in { transform: none; }
+.anim.scale-in { transform: scale(0.92); }
+.anim.slide-left { transform: translateX(-40px); }
+.anim.slide-right { transform: translateX(40px); }
+.anim.visible { opacity: 1; transform: translateY(0) scale(1) translateX(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim { opacity: 1; transform: none; transition: none; }
+  .cursor-blink { animation: none !important; opacity: 1; }
+  .dot-pulse { animation: none !important; }
+  .arch-line { animation: none !important; }
+}
+
+/* ========== NAV ========== */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 64px;
+  background: rgba(250,249,245,0.92);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid var(--border-default);
+  transition: box-shadow 300ms ease;
+}
+.navbar.scrolled { box-shadow: 0 1px 12px rgba(0,0,0,0.06); }
+.navbar .container {
+  display: flex; align-items: center; justify-content: space-between; height: 100%;
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-brand-name { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--text-primary); }
+.nav-version {
+  font-size: 12px; color: var(--text-muted); border: 1px solid var(--border-default);
+  border-radius: 99px; padding: 2px 10px; font-family: var(--font-mono);
+}
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-size: 14px; color: var(--text-secondary); text-decoration: none; transition: color 200ms;
+  position: relative; padding: 4px 0;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
+.nav-links a.active { color: var(--cta-from); }
+.nav-github {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--btn-github-bg); border: 1px solid var(--btn-github-border);
+  border-radius: 8px; padding: 6px 14px; font-size: 14px; color: #ffffff;
+  text-decoration: none; transition: border-color 200ms;
+}
+.nav-github:hover { border-color: var(--border-highlight); color: #ffffff; }
+.nav-github svg { width: 18px; height: 18px; }
+.nav-github .star-count { color: #b0aea5; font-size: 13px; }
+
+.hamburger {
+  display: none; background: none; border: none; cursor: pointer; padding: 4px;
+  color: var(--text-primary);
+}
+.hamburger svg { width: 24px; height: 24px; }
+
+.mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(250,249,245,0.98);
+  flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2xl);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-size: 24px; color: var(--text-secondary); text-decoration: none;
+}
+.mobile-menu a:hover { color: var(--text-primary); }
+.mobile-close {
+  position: absolute; top: 20px; right: 24px;
+  background: none; border: none; color: var(--text-primary); cursor: pointer;
+}
+.mobile-close svg { width: 28px; height: 28px; }
+
+@media (max-width: 767px) {
+  .nav-links { display: none; }
+  .nav-github .star-text { display: none; }
+  .hamburger { display: block; }
+}
+
+/* ========== HERO ========== */
+#hero {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding-top: 64px;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 50% 20%, rgba(217,119,87,0.08) 0%, transparent 70%),
+    var(--bg-base);
+}
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(217,119,87,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(217,119,87,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  will-change: transform;
+}
+.hero-content {
+  position: relative; z-index: 1; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-xl);
+  max-width: 900px; padding: 0 24px;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--bg-card); border: 1px solid var(--border-highlight);
+  border-radius: 99px; padding: 6px 16px; font-size: 13px; color: var(--text-muted);
+}
+.dot-pulse {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--terminal-yellow);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.hero-title { font-size: 72px; font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; }
+.hero-title-line1 { color: var(--text-primary); display: block; }
+.hero-title-line2 {
+  display: block;
+  background: linear-gradient(135deg, var(--cta-from), var(--cta-to));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 20px; color: var(--text-secondary); max-width: 640px; line-height: 1.6;
+}
+
+.hero-stats {
+  display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+}
+.stat-item {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0 16px; position: relative;
+}
+.stat-item + .stat-item::before {
+  content: ''; position: absolute; left: -16px; top: 10%; height: 80%;
+  width: 1px; background: var(--border-default);
+}
+.stat-number {
+  font-size: 56px; font-weight: 800; line-height: 1; color: var(--text-primary);
+}
+.stat-label { font-size: 14px; margin-top: 4px; }
+
+.hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--cta-from), var(--cta-to));
+  color: #fff; padding: 14px 32px; border-radius: 12px;
+  font-size: 16px; font-weight: 600; border: none; cursor: pointer;
+  transition: all 200ms ease-out; text-decoration: none;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--cta-hover-from), var(--cta-hover-to));
+  transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217,119,87,0.25);
+  color: #fff;
+}
+.btn-primary:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(217,119,87,0.15); }
+.btn-primary svg { width: 20px; height: 20px; }
+
+.btn-github {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--btn-github-bg); border: 1px solid var(--btn-github-border);
+  color: #ffffff; padding: 14px 28px; border-radius: 12px;
+  font-size: 16px; font-weight: 500; cursor: pointer; text-decoration: none;
+  transition: all 200ms ease-out;
+}
+.btn-github:hover {
+  border-color: var(--border-highlight); transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06); color: #ffffff;
+}
+.btn-github svg { width: 20px; height: 20px; }
+
+.terminal-preview {
+  background: #141413; border: 1px solid var(--border-default);
+  border-radius: 12px; padding: 16px 20px; max-width: 520px; width: 100%;
+  font-family: var(--font-mono); font-size: 15px;
+  color: #f0f0ec;
+}
+.terminal-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+}
+.terminal-dots { display: flex; gap: 8px; }
+.terminal-dots span {
+  width: 12px; height: 12px; border-radius: 50%;
+}
+.terminal-dots span:nth-child(1) { background: #EF4444; }
+.terminal-dots span:nth-child(2) { background: #F59E0B; }
+.terminal-dots span:nth-child(3) { background: #10B981; }
+
+.copy-btn {
+  background: none; border: none; color: #8a8a82; cursor: pointer;
+  padding: 4px; display: flex; align-items: center; transition: color 200ms;
+}
+.copy-btn:hover { color: #f0f0ec; }
+.copy-btn svg { width: 18px; height: 18px; }
+
+.terminal-line {
+  display: flex; gap: 8px; align-items: center;
+}
+.terminal-prompt { color: var(--terminal-green); }
+.terminal-cmd { color: #f0f0ec; }
+
+/* ========== ARCHITECTURE ========== */
+#architecture { background: var(--bg-elevated); }
+
+.arch-container {
+  position: relative; width: 100%; max-width: 700px; margin: 0 auto;
+  height: 540px;
+}
+.arch-center {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 130px; height: 130px; border-radius: 50%;
+  background: var(--bg-card); border: 2px solid var(--border-highlight);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 2;
+}
+.arch-center-name { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--text-primary); }
+.arch-center-ver { font-size: 11px; color: var(--text-muted); text-align: center; line-height: 1.3; margin-top: 2px; }
+
+.arch-svg {
+  position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%;
+}
+.arch-line {
+  stroke: var(--border-default); stroke-width: 1; stroke-dasharray: 4 4;
+  animation: dash-flow 1.5s linear infinite;
+}
+@keyframes dash-flow { to { stroke-dashoffset: -8; } }
+
+.arch-node {
+  position: absolute; width: 150px; height: 150px;
+  border-radius: 16px; background: var(--bg-card);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; cursor: pointer; z-index: 2;
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out;
+  text-align: center;
+}
+.arch-node:hover { transform: scale(1.08); }
+.arch-node svg { width: 32px; height: 32px; }
+.arch-node-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.arch-node-count { font-size: 22px; font-weight: 700; }
+.arch-node-desc { font-size: 11px; color: var(--text-muted); }
+
+.arch-detail {
+  max-height: 0; overflow: hidden; opacity: 0;
+  background: var(--bg-card); border: 1px solid var(--border-highlight);
+  border-radius: 16px; margin-top: 24px;
+  transition: max-height 350ms cubic-bezier(0.34,1.56,0.64,1), opacity 350ms ease, padding 350ms ease;
+}
+.arch-detail.open { max-height: 500px; opacity: 1; padding: 24px; }
+.arch-detail-title { font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; }
+.arch-detail-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px;
+}
+.arch-detail-item {
+  font-size: 14px; color: var(--text-secondary); padding: 4px 0;
+  font-family: var(--font-mono);
+}
+
+/* Mobile arch */
+.arch-mobile { display: none; }
+.arch-mobile-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg);
+}
+.arch-mobile-card {
+  background: var(--bg-card); border-radius: 16px; padding: 24px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: 8px; cursor: pointer; transition: all 250ms ease-out;
+}
+.arch-mobile-card:hover { transform: translateY(-4px); }
+.arch-mobile-card svg { width: 32px; height: 32px; }
+.arch-mobile-card-name { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+.arch-mobile-card-count { font-size: 28px; font-weight: 700; }
+.arch-mobile-card-desc { font-size: 13px; color: var(--text-muted); }
+
+@media (max-width: 767px) {
+  .arch-container { display: none; }
+  .arch-mobile { display: block; }
+  .arch-mobile-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .arch-container { display: none; }
+  .arch-mobile { display: block; }
+  .arch-mobile-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ========== CAPABILITIES ========== */
+#capabilities { background: var(--bg-base); }
+
+.tabs { display: flex; justify-content: center; gap: 8px; position: relative; margin-bottom: var(--space-2xl); flex-wrap: wrap; }
+.tab-btn {
+  padding: 10px 24px; font-size: 15px; color: var(--text-muted);
+  background: none; border: none; cursor: pointer; position: relative;
+  font-family: var(--font-sans); transition: color 200ms;
+}
+.tab-btn.active { color: var(--text-primary); }
+.tab-indicator {
+  position: absolute; bottom: 0; height: 2px; transition: left 300ms ease-in-out, width 300ms ease-in-out;
+  border-radius: 1px;
+}
+
+.tab-content { position: relative; min-height: 400px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: tabFadeIn 200ms ease-out; }
+@keyframes tabFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.cap-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg);
+}
+.cap-card {
+  background: var(--bg-card); border: 1px solid var(--border-default);
+  border-radius: 16px; padding: 28px;
+  transition: all 250ms ease-out;
+}
+.cap-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+}
+.cap-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.cap-icon svg { width: 24px; height: 24px; }
+.cap-card h3 {
+  font-size: 20px; font-weight: 600; color: var(--text-primary);
+  margin-top: 16px; line-height: 1.4;
+}
+.cap-card p { font-size: 16px; color: var(--text-secondary); margin-top: 8px; line-height: 1.6; }
+.cap-tag {
+  display: inline-block; font-size: 13px; font-family: var(--font-mono);
+  border-radius: 99px; padding: 4px 12px; margin-top: 16px;
+}
+
+@media (max-width: 1023px) { .cap-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 767px) { .cap-grid { grid-template-columns: 1fr; } }
+
+/* ========== WORKFLOW ========== */
+#workflow { background: var(--bg-elevated); }
+
+.workflow-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg);
+}
+.workflow-card {
+  background: var(--bg-card); border: 1px solid var(--border-default);
+  border-radius: 16px; padding: 28px; text-align: center;
+  transition: all 250ms ease-out; position: relative;
+}
+.workflow-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
+.workflow-icon {
+  width: 48px; height: 48px; margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.workflow-icon svg { width: 40px; height: 40px; }
+.workflow-card h3 { font-size: 20px; font-weight: 600; color: var(--text-primary); }
+.workflow-card p { font-size: 15px; color: var(--text-secondary); margin-top: 8px; line-height: 1.5; }
+.workflow-step {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--cta-from), var(--cta-to));
+  color: #fff; font-size: 12px; font-weight: 700;
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+@media (max-width: 1023px) { .workflow-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 767px) { .workflow-grid { grid-template-columns: 1fr; } }
+
+/* ========== INSTALL ========== */
+#install { background: var(--bg-base); }
+
+.install-terminal {
+  max-width: 700px; margin: 0 auto;
+  background: #141413; border: 1px solid var(--border-default);
+  border-radius: 16px; overflow: hidden;
+}
+.install-terminal-bar {
+  height: 44px; background: #1e1e1c; padding: 0 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.install-terminal-bar .label {
+  font-family: var(--font-mono); font-size: 13px; color: #8a8a82;
+  flex: 1; text-align: center;
+}
+.install-terminal-body {
+  padding: 20px 24px; font-family: var(--font-mono); font-size: 15px; line-height: 1.8;
+  min-height: 300px;
+  color: #f0f0ec;
+}
+.term-line { margin-bottom: 2px; white-space: pre-wrap; }
+.term-prompt { color: var(--terminal-green); }
+.term-text { color: #f0f0ec; }
+.term-success { color: var(--terminal-green); }
+.term-info { color: var(--terminal-blue); }
+.term-muted { color: #8a8a82; }
+.term-warn { color: var(--terminal-yellow); }
+.term-cmd-color { color: var(--color-bmm); }
+
+.cursor-blink {
+  display: inline-block; width: 8px; height: 18px;
+  background: var(--terminal-cursor); vertical-align: text-bottom;
+  animation: blink 1060ms step-end infinite;
+}
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+.install-actions {
+  display: flex; gap: 16px; justify-content: center; margin-top: var(--space-xl);
+  flex-wrap: wrap;
+}
+.install-note {
+  text-align: center; margin-top: var(--space-md);
+  font-size: 13px; color: var(--text-muted);
+}
+
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--bg-card); border: 1px solid var(--border-default);
+  color: var(--text-primary); padding: 12px 24px; border-radius: 12px;
+  font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none;
+  transition: all 200ms ease-out;
+}
+.btn-secondary:hover {
+  border-color: var(--border-highlight); transform: translateY(-2px);
+  color: var(--text-primary);
+}
+
+/* ========== COMMUNITY ========== */
+#community { background: var(--bg-elevated); }
+
+.community-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-2xl);
+}
+
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before {
+  content: ''; position: absolute; left: 3px; top: 8px; bottom: 8px;
+  width: 2px; background: var(--border-highlight);
+}
+.timeline-item { position: relative; margin-bottom: 28px; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -24px; top: 6px;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--cta-from);
+  border: 2px solid var(--bg-elevated);
+}
+.timeline-date {
+  font-family: var(--font-mono); font-size: 13px; color: var(--text-muted);
+}
+.timeline-event { font-size: 16px; color: var(--text-primary); font-weight: 500; margin-top: 2px; }
+
+.data-cards { display: flex; flex-direction: column; gap: var(--space-lg); }
+.data-card {
+  background: var(--bg-card); border-radius: 12px; padding: 20px;
+  text-align: center;
+}
+.data-card-number {
+  font-size: 36px; font-weight: 800; color: var(--text-primary); line-height: 1;
+}
+.data-card-label { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+
+.contrib h3 { font-size: 22px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+.contrib p { font-size: 15px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6; }
+.contrib-links { display: flex; flex-direction: column; gap: 12px; }
+.contrib-author {
+  margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-default);
+  font-size: 14px; color: var(--text-muted);
+}
+.contrib-author a { color: var(--link-color); }
+
+@media (max-width: 1023px) { .community-grid { grid-template-columns: 1fr; } }
+
+/* ========== CTA FOOTER ========== */
+#cta-footer {
+  background: var(--bg-base); position: relative;
+  padding: var(--space-5xl) 0 var(--space-4xl);
+}
+.cta-footer-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 800px 500px at 50% 60%, rgba(217,119,87,0.08) 0%, transparent 70%);
+}
+.cta-footer-content { position: relative; z-index: 1; text-align: center; }
+.cta-footer-content h2 {
+  font-size: 48px; font-weight: 700; color: var(--text-primary); line-height: 1.2;
+  margin-bottom: var(--space-md);
+}
+.cta-footer-content > p {
+  font-size: 18px; color: var(--text-secondary); margin-bottom: var(--space-xl);
+}
+
+.site-footer {
+  border-top: 1px solid var(--border-default); margin-top: var(--space-4xl);
+  padding: var(--space-xl) 0;
+}
+.footer-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 13px; color: var(--text-muted); font-family: var(--font-mono);
+}
+.footer-links { display: flex; gap: 16px; }
+.footer-links a { color: var(--text-muted); transition: color 200ms; }
+.footer-links a:hover { color: var(--text-primary); }
+.footer-links svg { width: 20px; height: 20px; }
+
+@media (max-width: 767px) {
+  .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+  .hero-title { font-size: 40px; }
+  .hero-sub { font-size: 17px; }
+  .stat-number { font-size: 36px; }
+  .hero-stats { gap: 16px; }
+  .stat-item + .stat-item::before { display: none; }
+  .hero-ctas { flex-direction: column; width: 100%; }
+  .hero-ctas .btn-primary, .hero-ctas .btn-github { width: 100%; justify-content: center; }
+  .section-title { font-size: 32px; }
+  .cta-footer-content h2 { font-size: 32px; }
+  .tab-btn { padding: 10px 16px; font-size: 14px; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-title { font-size: 56px; }
+  .stat-number { font-size: 44px; }
+  .section-title { font-size: 40px; }
+  .cta-footer-content h2 { font-size: 40px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="navbar" id="navbar">
+  <div class="container">
+    <div class="nav-brand">
+      <span class="nav-brand-name">cc4pm</span>
+      <span class="nav-version">v2.0</span>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#architecture">架构</a></li>
+        <li><a href="#capabilities">能力</a></li>
+        <li><a href="#workflow">全流程</a></li>
+        <li><a href="#install">安装</a></li>
+        <li><a href="#community">社区</a></li>
+      </ul>
+    </nav>
+    <a href="https://github.com/istarwyh/cc4pm" class="nav-github" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      <span class="star-text">Star</span>
+    </a>
+    <button class="hamburger" onclick="toggleMobileMenu()" aria-label="打开菜单">
+      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMobileMenu()" aria-label="关闭菜单">
+    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <a href="#architecture" onclick="toggleMobileMenu()">架构</a>
+  <a href="#capabilities" onclick="toggleMobileMenu()">能力</a>
+  <a href="#workflow" onclick="toggleMobileMenu()">全流程</a>
+  <a href="#install" onclick="toggleMobileMenu()">安装</a>
+  <a href="#community" onclick="toggleMobileMenu()">社区</a>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid" id="heroGrid"></div>
+  <div class="hero-content">
+    <div class="hero-badge anim fade-in">
+      <span class="dot-pulse"></span>
+      产品经理的 AI 效能工具
+    </div>
+
+    <h1 class="hero-title anim fade-up" style="transition-delay:100ms">
+      <span class="hero-title-line1">cc4pm</span>
+      <span class="hero-title-line2">AI 驱动的全流程产品开发系统</span>
+    </h1>
+
+    <p class="hero-sub anim fade-up" style="transition-delay:200ms">
+      面向产品经理和互联网人，覆盖需求分析、产品设计、创意策划、Web 开发全生命周期的 Claude Code 插件系统
+    </p>
+
+    <div class="hero-stats anim fade-up" style="transition-delay:300ms">
+      <div class="stat-item">
+        <span class="stat-number" data-target="44">0</span>
+        <span class="stat-label" style="color:var(--color-bmm)">BMM Skills</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="10">0</span>
+        <span class="stat-label" style="color:var(--color-cis)">CIS Skills</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="50">0</span>
+        <span class="stat-label" style="color:var(--color-wds)">WDS Skills</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="94" data-suffix="+">0</span>
+        <span class="stat-label" style="color:var(--color-eng)">工程 Skills</span>
+      </div>
+    </div>
+
+    <div class="hero-ctas anim fade-up" style="transition-delay:400ms">
+      <a href="#install" class="btn-primary">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        立即安装
+      </a>
+      <a href="https://github.com/istarwyh/cc4pm" class="btn-github" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Star on GitHub
+      </a>
+    </div>
+
+    <div class="terminal-preview anim fade-up" style="transition-delay:500ms">
+      <div class="terminal-header">
+        <div class="terminal-dots"><span></span><span></span><span></span></div>
+        <button class="copy-btn" onclick="copyText('git clone https://github.com/istarwyh/cc4pm.git', this)" aria-label="复制命令">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
+      </div>
+      <div class="terminal-line">
+        <span class="terminal-prompt">$</span>
+        <span class="terminal-cmd">git clone https://github.com/istarwyh/cc4pm.git</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture">
+  <div class="container">
+    <div class="section-header center anim fade-up">
+      <div class="section-label">架构</div>
+      <h2 class="section-title">四大核心模块</h2>
+      <p class="section-subtitle">覆盖产品全生命周期：从需求到设计到开发到交付</p>
+    </div>
+
+    <!-- Desktop arch diagram -->
+    <div class="arch-container anim scale-in" id="archDiagram">
+      <svg class="arch-svg" id="archSvg"></svg>
+      <div class="arch-center">
+        <span class="arch-center-name">cc4pm</span>
+        <span class="arch-center-ver">200+ Skills<br>全流程覆盖</span>
+      </div>
+      <!-- Nodes placed by JS -->
+    </div>
+
+    <!-- Mobile/Tablet grid -->
+    <div class="arch-mobile">
+      <div class="arch-mobile-grid" id="archMobileGrid"></div>
+    </div>
+
+    <div class="arch-detail" id="archDetail">
+      <div class="arch-detail-title" id="archDetailTitle"></div>
+      <div class="arch-detail-grid" id="archDetailGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section id="capabilities">
+  <div class="container">
+    <div class="section-header center anim fade-up">
+      <div class="section-label">能力</div>
+      <h2 class="section-title">产品经理的 AI 超能力</h2>
+      <p class="section-subtitle">从需求分析到创意策划，从 UX 设计到工程交付，全链路 AI 赋能</p>
+    </div>
+
+    <div class="tabs anim fade-up" id="capTabs">
+      <button class="tab-btn active" data-tab="bmm" onclick="switchTab('bmm')">
+        <span class="tab-full">BMM 业务建模</span><span class="tab-short" style="display:none">BMM</span>
+      </button>
+      <button class="tab-btn" data-tab="cis" onclick="switchTab('cis')">
+        <span class="tab-full">CIS 创意智能</span><span class="tab-short" style="display:none">CIS</span>
+      </button>
+      <button class="tab-btn" data-tab="wds" onclick="switchTab('wds')">
+        <span class="tab-full">WDS 设计系统</span><span class="tab-short" style="display:none">WDS</span>
+      </button>
+      <button class="tab-btn" data-tab="eng" onclick="switchTab('eng')">
+        <span class="tab-full">工程工具链</span><span class="tab-short" style="display:none">工程</span>
+      </button>
+      <div class="tab-indicator" id="tabIndicator"></div>
+    </div>
+
+    <div class="tab-content">
+      <div class="tab-panel active" id="panel-bmm">
+        <div class="cap-grid" id="grid-bmm"></div>
+      </div>
+      <div class="tab-panel" id="panel-cis">
+        <div class="cap-grid" id="grid-cis"></div>
+      </div>
+      <div class="tab-panel" id="panel-wds">
+        <div class="cap-grid" id="grid-wds"></div>
+      </div>
+      <div class="tab-panel" id="panel-eng">
+        <div class="cap-grid" id="grid-eng"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW (Product Lifecycle) -->
+<section id="workflow">
+  <div class="container">
+    <div class="section-header center anim fade-up">
+      <div class="section-label">全流程</div>
+      <h2 class="section-title">产品开发全生命周期</h2>
+      <p class="section-subtitle">从市场调研到产品交付，cc4pm 让每个阶段都有 AI 助力</p>
+    </div>
+    <div class="workflow-grid" id="workflowGrid"></div>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section id="install">
+  <div class="container">
+    <div class="section-header center anim fade-up">
+      <div class="section-label">安装</div>
+      <h2 class="section-title">三步上手</h2>
+      <p class="section-subtitle">克隆仓库，即刻解锁 200+ Skills 全部能力</p>
+    </div>
+
+    <div class="install-terminal anim fade-up" id="installTerminal">
+      <div class="install-terminal-bar">
+        <div class="terminal-dots"><span></span><span></span><span></span></div>
+        <span class="label">terminal</span>
+        <div style="width:36px"></div>
+      </div>
+      <div class="install-terminal-body" id="termBody">
+        <span class="cursor-blink" id="termCursor"></span>
+      </div>
+    </div>
+
+    <div class="install-actions anim fade-up" style="transition-delay:200ms">
+      <a href="https://github.com/istarwyh/cc4pm" class="btn-primary" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:20px;height:20px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub 仓库
+      </a>
+      <button class="btn-secondary" onclick="copyText('git clone https://github.com/istarwyh/cc4pm.git', this)">
+        复制 Clone 命令
+      </button>
+    </div>
+    <p class="install-note">支持 Claude Code / Cursor / Codex / OpenCode 多平台</p>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section id="community">
+  <div class="container">
+    <div class="section-header center anim fade-up">
+      <div class="section-label">社区</div>
+      <h2 class="section-title">开源驱动，持续进化</h2>
+      <p class="section-subtitle">产品经理和开发者的共同选择</p>
+    </div>
+
+    <div class="community-grid">
+      <div class="anim fade-up">
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-date">2025.05</div>
+            <div class="timeline-event">ECC v0.1 — 项目启动，首个 Claude Code 配置集</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">2025.08</div>
+            <div class="timeline-event">Anthropic 黑客松获奖</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">2025.10</div>
+            <div class="timeline-event">跨平台支持 (Cursor/Codex/OpenCode)</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">2026.01</div>
+            <div class="timeline-event">cc4pm 品牌升级，整合 BMM/CIS/WDS</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">2026.03</div>
+            <div class="timeline-event">v2.0 — 200+ Skills，四大模块全面覆盖</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="anim fade-up" style="transition-delay:80ms">
+        <div class="data-cards">
+          <div class="data-card">
+            <div class="data-card-number" data-target="200" data-suffix="+">0</div>
+            <div class="data-card-label">Skills · 覆盖产品全生命周期</div>
+          </div>
+          <div class="data-card">
+            <div class="data-card-number" data-target="4">0</div>
+            <div class="data-card-label">核心模块 · BMM / CIS / WDS / 工程</div>
+          </div>
+          <div class="data-card">
+            <div class="data-card-number" data-target="8">0</div>
+            <div class="data-card-label">支持语言 · TS/Go/Python/Kotlin/Swift/PHP/Perl/C++</div>
+          </div>
+          <div class="data-card">
+            <div class="data-card-number">MIT</div>
+            <div class="data-card-label">完全开源 · 商用友好</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="anim fade-up" style="transition-delay:160ms">
+        <div class="contrib">
+          <h3>加入我们</h3>
+          <p>欢迎提交 PR、报告 Issue、分享使用经验。无论你是产品经理、设计师还是开发者，都可以为 cc4pm 贡献力量。</p>
+          <div class="contrib-links">
+            <a href="https://github.com/istarwyh/cc4pm/blob/main/CONTRIBUTING.md" class="btn-secondary" target="_blank" rel="noopener">
+              查看贡献指南
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <a href="https://github.com/istarwyh/cc4pm/issues" class="btn-secondary" target="_blank" rel="noopener">
+              提交 Issue
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+          <div class="contrib-author">
+            Project: <a href="https://github.com/istarwyh/cc4pm" target="_blank" rel="noopener">cc4pm</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FOOTER -->
+<section id="cta-footer">
+  <div class="cta-footer-bg"></div>
+  <div class="container cta-footer-content">
+    <h2 class="anim fade-up">准备好用 AI 重塑你的产品工作流了吗？</h2>
+    <p class="anim fade-up" style="transition-delay:100ms">200+ Skills，4 大模块，覆盖产品开发全生命周期</p>
+
+    <div class="hero-ctas anim fade-up" style="transition-delay:200ms">
+      <a href="#install" class="btn-primary">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        立即安装
+      </a>
+      <a href="https://github.com/istarwyh/cc4pm" class="btn-github" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Star on GitHub
+      </a>
+    </div>
+
+    <div class="terminal-preview anim fade-up" style="transition-delay:300ms;margin:24px auto 0;">
+      <div class="terminal-header">
+        <div class="terminal-dots"><span></span><span></span><span></span></div>
+        <button class="copy-btn" onclick="copyText('git clone https://github.com/istarwyh/cc4pm.git', this)" aria-label="复制命令">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
+      </div>
+      <div class="terminal-line">
+        <span class="terminal-prompt">$</span>
+        <span class="terminal-cmd">git clone https://github.com/istarwyh/cc4pm.git</span>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span>cc4pm v2.0</span>
+        <span>MIT License</span>
+        <div class="footer-links">
+          <a href="https://github.com/istarwyh/cc4pm" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</section>
+
+</main>
+
+<script>
+(function() {
+  'use strict';
+
+  // ====== DATA ======
+  var archNodes = [
+    { name: 'BMM', count: 44, desc: '业务建模方法论', color: '--color-bmm', angle: 225,
+      icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+      items: ['bmad-create-prd','bmad-create-product-brief','bmad-edit-prd','bmad-validate-prd','bmad-analyst','bmad-pm','bmad-sm','bmad-qa','bmad-create-architecture','bmad-create-epics-and-stories','bmad-create-story','bmad-sprint-planning','bmad-sprint-status','bmad-retrospective','bmad-code-review','bmad-domain-research','bmad-market-research','bmad-technical-research','bmad-document-project','bmad-check-implementation-readiness','bmad-generate-project-context','bmad-index-docs','bmad-shard-doc'] },
+    { name: 'CIS', count: 10, desc: '创意智能系统', color: '--color-cis', angle: 315,
+      icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>',
+      items: ['bmad-brainstorming','bmad-cis-design-thinking','bmad-cis-innovation-strategy','bmad-cis-problem-solving','bmad-cis-storytelling','bmad-agent-cis-brainstorming-coach','bmad-agent-cis-creative-problem-solver','bmad-agent-cis-design-thinking-coach','bmad-agent-cis-innovation-strategist','bmad-agent-cis-presentation-master'] },
+    { name: 'WDS', count: 50, desc: 'Web 设计系统', color: '--color-wds', angle: 45,
+      icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
+      items: ['bmad-wds-ux-design','bmad-wds-prototyping','bmad-wds-wireframes','bmad-wds-design-system','bmad-wds-figma-integration','bmad-wds-page-designs','bmad-wds-icons','bmad-wds-images','bmad-wds-videos','bmad-wds-asset-generation','bmad-wds-deploy','bmad-wds-development','bmad-wds-implement','bmad-wds-edit-components','bmad-wds-view-components','bmad-wds-reverse-engineering','bmad-wds-acceptance-testing','bmad-wds-trigger-mapping','bmad-wds-scenarios','bmad-wds-workflow-design-system'] },
+    { name: '工程', count: 94, desc: '工程工具链', color: '--color-eng', angle: 135,
+      icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+      items: ['tdd-workflow','coding-standards','backend-patterns','frontend-patterns','api-design','security-review','eval-harness','continuous-learning','autonomous-loops','agentic-engineering','/tdd','/plan','/code-review','/e2e','/orchestrate','/evolve','/build-fix','/learn','architect','code-reviewer','tdd-guide','security-reviewer','planner'] }
+  ];
+
+  var capData = {
+    bmm: [
+      { title: 'PRD 创建与验证', desc: '一键生成专业产品需求文档，支持结构化验证和迭代优化', tag: 'bmad-create-prd' },
+      { title: '产品简报', desc: '快速梳理产品定位、目标用户、核心价值主张', tag: 'bmad-create-product-brief' },
+      { title: '冲刺规划', desc: 'Scrum 冲刺规划助手，自动分解 Epic 为可执行 Story', tag: 'bmad-sprint-planning' },
+      { title: '需求分析', desc: '深度需求分析，识别用户痛点和业务机会', tag: 'bmad-analyst' },
+      { title: '架构设计', desc: '从需求到技术架构的系统性设计', tag: 'bmad-create-architecture' },
+      { title: '域研究 & 市场调研', desc: '竞品分析、市场趋势、技术可行性全方位调研', tag: 'bmad-domain-research' }
+    ],
+    cis: [
+      { title: '头脑风暴', desc: '36 种创意技巧，从 SCAMPER 到类比思维，激发无限灵感', tag: 'bmad-brainstorming' },
+      { title: '设计思维', desc: '完整的设计思维流程：共情、定义、构思、原型、测试', tag: 'bmad-cis-design-thinking' },
+      { title: '创新策略', desc: '蓝海策略、颠覆式创新、价值创新方法论', tag: 'bmad-cis-innovation-strategy' },
+      { title: '故事叙述', desc: '产品故事构建，让用户和投资人都能理解你的愿景', tag: 'bmad-cis-storytelling' },
+      { title: '问题解决', desc: '系统化问题分析与创造性解决方案生成', tag: 'bmad-cis-problem-solving' },
+      { title: '演示制作', desc: '专业级产品演示和路演材料生成', tag: 'bmad-agent-cis-presentation-master' }
+    ],
+    wds: [
+      { title: 'UX 设计', desc: '用户体验设计全流程，从用户旅程到交互规范', tag: 'bmad-wds-ux-design' },
+      { title: '原型 & 线框图', desc: '快速生成可交互原型和结构化线框图', tag: 'bmad-wds-prototyping' },
+      { title: '组件设计系统', desc: '构建和管理可复用的 UI 组件库', tag: 'bmad-wds-design-system' },
+      { title: 'Figma 集成', desc: '与 Figma 设计工具深度集成，设计到代码无缝衔接', tag: 'bmad-wds-figma-integration' },
+      { title: '资产生成', desc: '图标、图片、视频等数字资产的 AI 辅助生成', tag: 'bmad-wds-asset-generation' },
+      { title: 'Trigger Map', desc: '用户心理分析与行为触发点映射，优化转化路径', tag: 'bmad-wds-trigger-mapping' }
+    ],
+    eng: [
+      { title: 'TDD 工作流', desc: '测试驱动开发全流程引导，红-绿-重构循环自动化', tag: 'tdd-workflow' },
+      { title: '自主循环', desc: 'AI 代理自主运行的持续改进循环', tag: 'autonomous-loops' },
+      { title: '安全审计', desc: '自动扫描代码安全漏洞和最佳实践违规', tag: 'security-review' },
+      { title: '多代理编排', desc: '多个 AI 代理协作完成复杂工程任务', tag: '/orchestrate' },
+      { title: '评估体系', desc: 'AI 输出质量评估与基准测试框架', tag: 'eval-harness' },
+      { title: '持续学习', desc: '从会话中提取模式，持续积累项目知识', tag: 'continuous-learning' }
+    ]
+  };
+
+  var colorMap = { bmm: '--color-bmm', cis: '--color-cis', wds: '--color-wds', eng: '--color-eng' };
+
+  var workflowSteps = [
+    { step: 1, name: '市场调研', desc: '竞品分析、市场趋势、用户画像', color: 'var(--color-bmm)',
+      icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' },
+    { step: 2, name: '需求定义', desc: 'PRD 创建、产品简报、架构设计', color: 'var(--color-bmm)',
+      icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' },
+    { step: 3, name: '创意策划', desc: '头脑风暴、设计思维、创新策略', color: 'var(--color-cis)',
+      icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>' },
+    { step: 4, name: 'UX 设计', desc: '线框图、原型、设计系统、Figma 集成', color: 'var(--color-wds)',
+      icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>' },
+    { step: 5, name: '工程开发', desc: 'TDD、代码审查、安全审计、多语言', color: 'var(--color-eng)',
+      icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>' },
+    { step: 6, name: '冲刺管理', desc: 'Epic 分解、Story 创建、状态追踪', color: 'var(--color-bmm)',
+      icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>' },
+    { step: 7, name: '质量保障', desc: 'E2E 测试、验收测试、QA 审查', color: 'var(--color-eng)',
+      icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' },
+    { step: 8, name: '部署交付', desc: '资产生成、部署、产品文档', color: 'var(--color-wds)',
+      icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>' }
+  ];
+
+  // ====== ICONS for capabilities ======
+  var capIcons = {
+    bmm: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
+    cis: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>',
+    wds: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
+    eng: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>'
+  };
+
+  // ====== RENDER CAPABILITIES ======
+  Object.keys(capData).forEach(function(key) {
+    var grid = document.getElementById('grid-' + key);
+    var cv = 'var(' + colorMap[key] + ')';
+    capData[key].forEach(function(item, i) {
+      var card = document.createElement('div');
+      card.className = 'cap-card anim fade-up';
+      card.style.transitionDelay = (i * 80) + 'ms';
+      card.innerHTML =
+        '<div class="cap-icon" style="background:color-mix(in srgb, ' + cv + ' 20%, transparent);color:' + cv + '">' + capIcons[key] + '</div>' +
+        '<h3>' + item.title + '</h3>' +
+        '<p>' + item.desc + '</p>' +
+        '<span class="cap-tag" style="color:' + cv + ';background:color-mix(in srgb, ' + cv + ' 10%, transparent)">' + item.tag + '</span>';
+      card.addEventListener('mouseenter', function() { card.style.borderColor = 'color-mix(in srgb, ' + cv + ' 40%, transparent)'; });
+      card.addEventListener('mouseleave', function() { card.style.borderColor = ''; });
+      grid.appendChild(card);
+    });
+  });
+
+  // ====== RENDER WORKFLOW ======
+  var wg = document.getElementById('workflowGrid');
+  workflowSteps.forEach(function(s, i) {
+    var card = document.createElement('div');
+    card.className = 'workflow-card anim fade-up';
+    card.style.transitionDelay = (i * 80) + 'ms';
+    card.innerHTML =
+      '<div class="workflow-step">' + s.step + '</div>' +
+      '<div class="workflow-icon" style="color:' + s.color + '">' + s.icon + '</div>' +
+      '<h3>' + s.name + '</h3>' +
+      '<p>' + s.desc + '</p>';
+    wg.appendChild(card);
+  });
+
+  // ====== ARCHITECTURE DIAGRAM (desktop) ======
+  var archDiag = document.getElementById('archDiagram');
+  var archSvg = document.getElementById('archSvg');
+  var activeArch = null;
+
+  function renderArch() {
+    var cw = archDiag.offsetWidth, ch = archDiag.offsetHeight;
+    var cx = cw / 2, cy = ch / 2, radius = Math.min(cw, ch) * 0.36;
+    archSvg.innerHTML = '';
+
+    archNodes.forEach(function(n, i) {
+      var rad = n.angle * Math.PI / 180;
+      var nx = cx + radius * Math.cos(rad);
+      var ny = cy + radius * Math.sin(rad);
+
+      // line
+      var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+      line.setAttribute('x2', nx); line.setAttribute('y2', ny);
+      line.setAttribute('class', 'arch-line');
+      archSvg.appendChild(line);
+
+      // node
+      var existing = document.getElementById('arch-node-' + i);
+      if (existing) existing.remove();
+      var node = document.createElement('div');
+      node.className = 'arch-node';
+      node.id = 'arch-node-' + i;
+      var cv = 'var(' + n.color + ')';
+      node.style.cssText = 'left:' + (nx - 75) + 'px;top:' + (ny - 75) + 'px;border:1px solid color-mix(in srgb, ' + cv + ' 20%, transparent);';
+      node.innerHTML = '<span style="color:' + cv + '">' + n.icon + '</span>' +
+        '<span class="arch-node-name">' + n.name + '</span>' +
+        '<span class="arch-node-count" style="color:' + cv + '">' + n.count + '</span>' +
+        '<span class="arch-node-desc">' + n.desc + '</span>';
+      node.addEventListener('mouseenter', function() {
+        node.style.borderColor = cv; node.style.boxShadow = '0 0 24px color-mix(in srgb, ' + cv + ' 25%, transparent)';
+      });
+      node.addEventListener('mouseleave', function() {
+        node.style.borderColor = 'color-mix(in srgb, ' + cv + ' 20%, transparent)'; node.style.boxShadow = '';
+      });
+      node.addEventListener('click', function() { toggleArchDetail(i); });
+      archDiag.appendChild(node);
+    });
+  }
+
+  function toggleArchDetail(idx) {
+    var det = document.getElementById('archDetail');
+    var title = document.getElementById('archDetailTitle');
+    var grid = document.getElementById('archDetailGrid');
+
+    if (activeArch === idx) {
+      det.classList.remove('open');
+      activeArch = null;
+      return;
+    }
+
+    var n = archNodes[idx];
+    var cv = 'var(' + n.color + ')';
+    title.textContent = n.name + ' - ' + n.desc + ' (' + n.count + ' skills)';
+    title.style.color = cv;
+    grid.innerHTML = '';
+    n.items.forEach(function(item) {
+      var d = document.createElement('div');
+      d.className = 'arch-detail-item';
+      d.textContent = item;
+      grid.appendChild(d);
+    });
+
+    if (activeArch !== null) {
+      det.classList.remove('open');
+      setTimeout(function() { det.classList.add('open'); }, 200);
+    } else {
+      det.classList.add('open');
+    }
+    activeArch = idx;
+  }
+
+  // mobile arch
+  var mGrid = document.getElementById('archMobileGrid');
+  archNodes.forEach(function(n, i) {
+    var cv = 'var(' + n.color + ')';
+    var card = document.createElement('div');
+    card.className = 'arch-mobile-card';
+    card.style.borderLeft = '3px solid ' + cv;
+    card.innerHTML = '<span style="color:' + cv + '">' + n.icon + '</span>' +
+      '<span class="arch-mobile-card-name">' + n.name + '</span>' +
+      '<span class="arch-mobile-card-count" style="color:' + cv + '">' + n.count + '</span>' +
+      '<span class="arch-mobile-card-desc">' + n.desc + '</span>';
+    card.addEventListener('click', function() { toggleArchDetail(i); });
+    mGrid.appendChild(card);
+  });
+
+  // initial render + resize
+  if (window.innerWidth >= 1024) renderArch();
+  window.addEventListener('resize', function() { if (window.innerWidth >= 1024) renderArch(); });
+
+  // ====== TAB SWITCHER ======
+  function updateIndicator() {
+    var active = document.querySelector('.tab-btn.active');
+    var indicator = document.getElementById('tabIndicator');
+    if (!active || !indicator) return;
+    var tabKey = active.getAttribute('data-tab');
+    var cv = 'var(' + colorMap[tabKey] + ')';
+    indicator.style.left = active.offsetLeft + 'px';
+    indicator.style.width = active.offsetWidth + 'px';
+    indicator.style.background = cv;
+  }
+
+  window.switchTab = function(tab) {
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.toggle('active', b.getAttribute('data-tab') === tab); });
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.toggle('active', p.id === 'panel-' + tab); });
+    updateIndicator();
+  };
+
+  setTimeout(updateIndicator, 100);
+  window.addEventListener('resize', updateIndicator);
+
+  // ====== MOBILE TAB TEXT ======
+  function updateTabText() {
+    var isMobile = window.innerWidth < 768;
+    document.querySelectorAll('.tab-full').forEach(function(e) { e.style.display = isMobile ? 'none' : ''; });
+    document.querySelectorAll('.tab-short').forEach(function(e) { e.style.display = isMobile ? '' : 'none'; });
+    updateIndicator();
+  }
+  updateTabText();
+  window.addEventListener('resize', updateTabText);
+
+  // ====== INTERSECTION OBSERVER ======
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.anim').forEach(function(el) { observer.observe(el); });
+
+  // ====== NUMBER COUNTER ======
+  var counterObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (!e.isIntersecting) return;
+      var el = e.target;
+      counterObserver.unobserve(el);
+      var target = parseInt(el.getAttribute('data-target'));
+      if (isNaN(target)) return;
+      var suffix = el.getAttribute('data-suffix') || '';
+      var start = performance.now();
+      var duration = 2000;
+
+      function update(now) {
+        var t = Math.min((now - start) / duration, 1);
+        t = 1 - Math.pow(1 - t, 3); // ease-out cubic
+        var val = Math.round(t * target);
+        el.textContent = val.toLocaleString() + (t >= 1 ? suffix : '');
+        if (t < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('[data-target]').forEach(function(el) { counterObserver.observe(el); });
+
+  // ====== NAVBAR SCROLL + ACTIVE SECTION ======
+  var navbar = document.getElementById('navbar');
+  var sections = ['hero','architecture','capabilities','workflow','install','community','cta-footer'];
+  var navLinks = document.querySelectorAll('.nav-links a');
+
+  var ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        // navbar shadow
+        navbar.classList.toggle('scrolled', window.scrollY > 80);
+
+        // parallax
+        document.getElementById('heroGrid').style.transform = 'translateY(' + (window.scrollY * 0.05) + 'px)';
+
+        // active section
+        var scrollPos = window.scrollY + 200;
+        var current = '';
+        sections.forEach(function(id) {
+          var sec = document.getElementById(id);
+          if (sec && sec.offsetTop <= scrollPos) current = id;
+        });
+        navLinks.forEach(function(a) {
+          var href = a.getAttribute('href').substring(1);
+          a.classList.toggle('active', href === current);
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  // ====== MOBILE MENU ======
+  window.toggleMobileMenu = function() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  };
+
+  // ====== COPY TO CLIPBOARD ======
+  var copySvg = '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>';
+  var checkSvg = '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  window.copyText = function(text, btn) {
+    navigator.clipboard.writeText(text).then(function() {
+      if (btn) {
+        btn.innerHTML = checkSvg;
+        btn.style.color = 'var(--terminal-green)';
+        setTimeout(function() { btn.innerHTML = copySvg; btn.style.color = ''; }, 2000);
+      }
+    });
+  };
+
+  // ====== TERMINAL TYPEWRITER ======
+  var termBody = document.getElementById('termBody');
+  var termCursor = document.getElementById('termCursor');
+  var termStarted = false;
+
+  var termLines = [
+    { type: 'cmd', prompt: '~ $ ', text: 'git clone https://github.com/istarwyh/cc4pm.git', delay: 500 },
+    { type: 'out', html: '<span class="term-muted">Cloning into \'cc4pm\'...</span>', delay: 600 },
+    { type: 'out', html: '<span class="term-success">done.</span>', delay: 400 },
+    { type: 'cmd', prompt: '~ $ ', text: 'cd cc4pm', delay: 400 },
+    { type: 'cmd', prompt: 'cc4pm $ ', text: 'ls .claude/skills/ | wc -l', delay: 400 },
+    { type: 'out', html: '<span class="term-info">110 skills loaded</span>', delay: 300 },
+    { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">BMM (44) - 业务建模方法论</span>', delay: 200 },
+    { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">CIS (10) - 创意智能系统</span>', delay: 200 },
+    { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">WDS (50) - Web 设计系统</span>', delay: 200 },
+    { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">工程 (94+) - 工程工具链</span>', delay: 200 },
+    { type: 'out', html: '<span class="term-warn">cc4pm v2.0 ready! 200+ skills at your service.</span>', delay: 600 },
+    { type: 'cmd', prompt: 'cc4pm $ ', text: '/bmad-create-prd', cmdClass: 'term-cmd-color', delay: 800 },
+    { type: 'out', html: '<span class="term-info">启动 PRD 创建工作流...</span>', delay: 400 },
+    { type: 'out', html: '<span class="term-success">\u2713 产品需求文档已就绪</span>', delay: 200 }
+  ];
+
+  function addLine(html) {
+    var div = document.createElement('div');
+    div.className = 'term-line';
+    div.innerHTML = html;
+    termBody.insertBefore(div, termCursor);
+  }
+
+  function typeCommand(prompt, text, cls, callback) {
+    var div = document.createElement('div');
+    div.className = 'term-line';
+    var promptSpan = '<span class="term-prompt">' + prompt + '</span>';
+    var textSpan = document.createElement('span');
+    textSpan.className = cls || 'term-text';
+    div.innerHTML = promptSpan;
+    div.appendChild(textSpan);
+    termBody.insertBefore(div, termCursor);
+
+    var idx = 0;
+    function next() {
+      if (idx < text.length) {
+        textSpan.textContent += text[idx];
+        idx++;
+        setTimeout(next, 50);
+      } else if (callback) {
+        callback();
+      }
+    }
+    next();
+  }
+
+  function runTerminal(lineIdx) {
+    if (lineIdx >= termLines.length) return;
+    var l = termLines[lineIdx];
+    setTimeout(function() {
+      if (l.type === 'cmd') {
+        typeCommand(l.prompt, l.text, l.cmdClass, function() { runTerminal(lineIdx + 1); });
+      } else {
+        addLine(l.html);
+        runTerminal(lineIdx + 1);
+      }
+    }, l.delay);
+  }
+
+  var termObs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting && !termStarted) {
+      termStarted = true;
+      termObs.unobserve(entries[0].target);
+      runTerminal(0);
+    }
+  }, { threshold: 0.3 });
+  termObs.observe(document.getElementById('installTerminal'));
+
+})();
+</script>
+</body>
+</html>

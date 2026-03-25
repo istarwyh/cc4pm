@@ -17,7 +17,7 @@
 ![Perl](https://img.shields.io/badge/-Perl-39457E?logo=perl&logoColor=white)
 ![Markdown](https://img.shields.io/badge/-Markdown-000000?logo=markdown&logoColor=white)
 
-> **50K+ stars** | **6K+ forks** | **30 contributors** | **5 languages supported** | **Anthropic Hackathon Winner**
+> **50K+ stars** | **6K+ forks** | **30 contributors** | **8 languages supported** | **997 tests passing** | **Anthropic Hackathon Winner**
 
 ---
 
@@ -35,7 +35,13 @@
 
 Not just configs. A complete system: skills, instincts, memory optimization, continuous learning, security scanning, and research-first development. Production-ready agents, hooks, commands, rules, and MCP configurations evolved over 10+ months of intensive daily use building real products.
 
-Works across **Claude Code**, **Codex**, **Cowork**, and other AI agent harnesses.
+Works across **Claude Code**, **Cursor**, **Codex**, **OpenCode**, and other AI agent harnesses.
+
+<div align="center">
+
+**[🎨 Interactive Showcase](https://istarwyh.github.io/cc4pm/)** — 可视化了解 cc4pm 四大核心模块、200+ Skills、完整产品开发工作流
+
+</div>
 
 ---
 
@@ -156,9 +162,9 @@ git clone https://github.com/affaan-m/everything-claude-code.git
 cd everything-claude-code
 
 # Recommended: use the installer (handles common + language rules safely)
-./install.sh typescript    # or python or golang or swift or php
+./install.sh typescript    # or python or golang or swift or php or kotlin or perl
 # You can pass multiple languages:
-# ./install.sh typescript python golang swift php
+# ./install.sh typescript python golang swift php kotlin perl
 # or target cursor:
 # ./install.sh --target cursor typescript
 # or target antigravity:
@@ -180,7 +186,7 @@ For manual install instructions see the README in the `rules/` folder.
 /plugin list everything-claude-code@everything-claude-code
 ```
 
-✨ **That's it!** You now have access to 16 agents, 65 skills, and 40 commands.
+✨ **That's it!** You now have access to 18 agents, 94 skills, and 48 commands.
 
 ---
 
@@ -241,7 +247,7 @@ everything-claude-code/
 |   |-- plugin.json         # Plugin metadata and component paths
 |   |-- marketplace.json    # Marketplace catalog for /plugin marketplace add
 |
-|-- agents/           # Specialized subagents for delegation
+|-- agents/           # 18 specialized subagents for delegation
 |   |-- planner.md           # Feature implementation planning
 |   |-- architect.md         # System design decisions
 |   |-- tdd-guide.md         # Test-driven development
@@ -253,10 +259,15 @@ everything-claude-code/
 |   |-- doc-updater.md       # Documentation sync
 |   |-- go-reviewer.md       # Go code review
 |   |-- go-build-resolver.md # Go build error resolution
-|   |-- python-reviewer.md   # Python code review (NEW)
-|   |-- database-reviewer.md # Database/Supabase review (NEW)
+|   |-- python-reviewer.md   # Python code review
+|   |-- database-reviewer.md # Database/Supabase review
+|   |-- chief-of-staff.md    # Cross-agent coordination
+|   |-- harness-optimizer.md # Harness config optimization
+|   |-- loop-operator.md     # Autonomous loop control
+|   |-- kotlin-reviewer.md   # Kotlin code review
+|   |-- kotlin-build-resolver.md # Kotlin build errors
 |
-|-- skills/           # Workflow definitions and domain knowledge
+|-- skills/           # 94 workflow definitions and domain knowledge
 |   |-- coding-standards/           # Language best practices
 |   |-- clickhouse-io/              # ClickHouse analytics, queries, data engineering
 |   |-- backend-patterns/           # API, database, caching patterns
@@ -317,8 +328,13 @@ everything-claude-code/
 |   |-- perl-testing/              # Perl TDD with Test2::V0, prove, Devel::Cover (NEW)
 |   |-- autonomous-loops/           # Autonomous loop patterns: sequential pipelines, PR loops, DAG orchestration (NEW)
 |   |-- plankton-code-quality/      # Write-time code quality enforcement with Plankton hooks (NEW)
+|   |-- kotlin-patterns/            # Kotlin idioms and best practices
+|   |-- kotlin-coroutines-flows/    # Kotlin coroutines and flows patterns
+|   |-- kotlin-exposed-patterns/    # Kotlin Exposed ORM patterns
+|   |-- kotlin-ktor-patterns/       # Kotlin Ktor framework patterns
+|   |-- kotlin-testing/             # Kotlin testing with JUnit5, MockK
 |
-|-- commands/         # Slash commands for quick execution
+|-- commands/         # 48 slash commands for quick execution
 |   |-- tdd.md              # /tdd - Test-driven development
 |   |-- plan.md             # /plan - Implementation planning
 |   |-- e2e.md              # /e2e - E2E test generation
@@ -338,6 +354,7 @@ everything-claude-code/
 |   |-- instinct-import.md  # /instinct-import - Import instincts (NEW)
 |   |-- instinct-export.md  # /instinct-export - Export instincts (NEW)
 |   |-- evolve.md           # /evolve - Cluster instincts into skills
+|   |-- promote.md          # /promote - Promote project instincts to global scope
 |   |-- pm2.md              # /pm2 - PM2 service lifecycle management (NEW)
 |   |-- multi-plan.md       # /multi-plan - Multi-agent task decomposition (NEW)
 |   |-- multi-execute.md    # /multi-execute - Orchestrated multi-agent workflows (NEW)
@@ -346,13 +363,24 @@ everything-claude-code/
 |   |-- multi-workflow.md   # /multi-workflow - General multi-service workflows (NEW)
 |   |-- orchestrate.md      # /orchestrate - Multi-agent coordination
 |   |-- sessions.md         # /sessions - Session history management
+|   |-- save-session.md     # /save-session - Save current session
+|   |-- resume-session.md   # /resume-session - Resume saved session
 |   |-- eval.md             # /eval - Evaluate against criteria
 |   |-- test-coverage.md    # /test-coverage - Test coverage analysis
 |   |-- update-docs.md      # /update-docs - Update documentation
 |   |-- update-codemaps.md  # /update-codemaps - Update codemaps
+|   |-- harness-audit.md    # /harness-audit - Audit harness reliability
+|   |-- loop-start.md       # /loop-start - Start agentic loop execution
+|   |-- loop-status.md      # /loop-status - Check active loop status
+|   |-- quality-gate.md     # /quality-gate - Run quality gate checks
+|   |-- model-route.md      # /model-route - Route tasks by complexity
+|   |-- prompt-optimize.md  # /prompt-optimize - Optimize prompts
 |   |-- python-review.md    # /python-review - Python code review (NEW)
+|   |-- kotlin-review.md    # /kotlin-review - Kotlin code review
+|   |-- kotlin-test.md      # /kotlin-test - Kotlin TDD workflow
+|   |-- kotlin-build.md     # /kotlin-build - Kotlin build error fix
 |
-|-- rules/            # Always-follow guidelines (copy to ~/.claude/rules/)
+|-- rules/            # 46 always-follow guidelines (copy to ~/.claude/rules/)
 |   |-- README.md            # Structure overview and installation guide
 |   |-- common/              # Language-agnostic principles
 |   |   |-- coding-style.md    # Immutability, file organization
@@ -367,7 +395,9 @@ everything-claude-code/
 |   |-- python/              # Python specific
 |   |-- golang/              # Go specific
 |   |-- swift/               # Swift specific
-|   |-- php/                 # PHP specific (NEW)
+|   |-- php/                 # PHP specific
+|   |-- kotlin/              # Kotlin specific
+|   |-- perl/                # Perl specific
 |
 |-- hooks/            # Trigger-based automations
 |   |-- README.md                 # Hook documentation, recipes, and customization guide
@@ -597,6 +627,8 @@ cp -r everything-claude-code/rules/typescript/* ~/.claude/rules/   # pick your s
 cp -r everything-claude-code/rules/python/* ~/.claude/rules/
 cp -r everything-claude-code/rules/golang/* ~/.claude/rules/
 cp -r everything-claude-code/rules/php/* ~/.claude/rules/
+cp -r everything-claude-code/rules/kotlin/* ~/.claude/rules/
+cp -r everything-claude-code/rules/perl/* ~/.claude/rules/
 
 # Copy commands
 cp everything-claude-code/commands/*.md ~/.claude/commands/
@@ -681,6 +713,8 @@ rules/
   golang/          # Go specific patterns and tools
   swift/           # Swift specific patterns and tools
   php/             # PHP specific patterns and tools
+  kotlin/          # Kotlin specific patterns and tools
+  perl/            # Perl specific patterns and tools
 ```
 
 See [`rules/README.md`](rules/README.md) for installation and structure details.
@@ -704,6 +738,7 @@ Not sure where to start? Use this quick reference:
 | Update documentation | `/update-docs` | doc-updater |
 | Review Go code | `/go-review` | go-reviewer |
 | Review Python code | `/python-review` | python-reviewer |
+| Review Kotlin code | `/kotlin-review` | kotlin-reviewer |
 | Audit database queries | *(auto-delegated)* | database-reviewer |
 
 ### Common Workflows
@@ -860,7 +895,7 @@ Please contribute! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ### Ideas for Contributions
 
-- Language-specific skills (Rust, C#, Kotlin, Java) — Go, Python, Perl, Swift, and TypeScript already included
+- Language-specific skills (Rust, C#, Java) — Go, Python, Perl, Swift, Kotlin, PHP, C++, and TypeScript already included
 - Framework-specific configs (Rails, Laravel, FastAPI, NestJS) — Django, Spring Boot already included
 - DevOps agents (Kubernetes, Terraform, AWS, Docker)
 - Testing strategies (different frameworks, visual regression)
@@ -886,7 +921,7 @@ ECC provides **full Cursor IDE support** with hooks, rules, agents, skills, comm
 |-----------|-------|---------|
 | Hook Events | 15 | sessionStart, beforeShellExecution, afterFileEdit, beforeMCPExecution, beforeSubmitPrompt, and 10 more |
 | Hook Scripts | 16 | Thin Node.js scripts delegating to `scripts/hooks/` via shared adapter |
-| Rules | 34 | 9 common (alwaysApply) + 25 language-specific (TypeScript, Python, Go, Swift, PHP) |
+| Rules | 46 | 9 common (alwaysApply) + 35 language-specific (TypeScript, Python, Go, Swift, PHP, Kotlin, Perl) |
 | Agents | Shared | Via AGENTS.md at root (read by Cursor natively) |
 | Skills | Shared + Bundled | Via AGENTS.md at root and `.cursor/skills/` for translated additions |
 | Commands | Shared | `.cursor/commands/` if installed |
@@ -1020,11 +1055,11 @@ The configuration is automatically detected from `.opencode/opencode.json`.
 
 | Feature | Claude Code | OpenCode | Status |
 |---------|-------------|----------|--------|
-| Agents | ✅ 16 agents | ✅ 12 agents | **Claude Code leads** |
-| Commands | ✅ 40 commands | ✅ 31 commands | **Claude Code leads** |
-| Skills | ✅ 65 skills | ✅ 37 skills | **Claude Code leads** |
+| Agents | ✅ 18 agents | ✅ 12 agents | **Claude Code leads** |
+| Commands | ✅ 48 commands | ✅ 31 commands | **Claude Code leads** |
+| Skills | ✅ 94 skills | ✅ 37 skills | **Claude Code leads** |
 | Hooks | ✅ 8 event types | ✅ 11 events | **OpenCode has more!** |
-| Rules | ✅ 29 rules | ✅ 13 instructions | **Claude Code leads** |
+| Rules | ✅ 46 rules | ✅ 13 instructions | **Claude Code leads** |
 | MCP Servers | ✅ 14 servers | ✅ Full | **Full parity** |
 | Custom Tools | ✅ Via hooks | ✅ 6 native tools | **OpenCode is better** |
 
@@ -1128,12 +1163,12 @@ ECC is the **first plugin to maximize every major AI coding tool**. Here's how e
 
 | Feature | Claude Code | Cursor IDE | Codex CLI | OpenCode |
 |---------|------------|------------|-----------|----------|
-| **Agents** | 16 | Shared (AGENTS.md) | Shared (AGENTS.md) | 12 |
-| **Commands** | 40 | Shared | Instruction-based | 31 |
-| **Skills** | 65 | Shared | 10 (native format) | 37 |
+| **Agents** | 18 | Shared (AGENTS.md) | Shared (AGENTS.md) | 12 |
+| **Commands** | 48 | Shared | Instruction-based | 31 |
+| **Skills** | 94 | Shared | 10 (native format) | 37 |
 | **Hook Events** | 8 types | 15 types | None yet | 11 types |
-| **Hook Scripts** | 20+ scripts | 16 scripts (DRY adapter) | N/A | Plugin hooks |
-| **Rules** | 34 (common + lang) | 34 (YAML frontmatter) | Instruction-based | 13 instructions |
+| **Hook Scripts** | 32+ scripts | 16 scripts (DRY adapter) | N/A | Plugin hooks |
+| **Rules** | 46 (common + 7 langs) | 34 (YAML frontmatter) | Instruction-based | 13 instructions |
 | **Custom Tools** | Via hooks | Via hooks | N/A | 6 native tools |
 | **MCP Servers** | 14 | Shared (mcp.json) | 4 (command-based) | Full |
 | **Config Format** | settings.json | hooks.json + rules/ | config.toml | opencode.json |
