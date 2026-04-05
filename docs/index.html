@@ -775,13 +775,13 @@ section { padding: var(--space-5xl) 0; }
     <div class="terminal-preview anim fade-up" style="transition-delay:500ms">
       <div class="terminal-header">
         <div class="terminal-dots"><span></span><span></span><span></span></div>
-        <button class="copy-btn" onclick="copyText('git clone https://github.com/istarwyh/cc4pm.git', this)" aria-label="复制命令">
+        <button class="copy-btn" onclick="copyText('/cc4pm-guide', this)" aria-label="复制命令">
           <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         </button>
       </div>
       <div class="terminal-line">
-        <span class="terminal-prompt">$</span>
-        <span class="terminal-cmd">git clone https://github.com/istarwyh/cc4pm.git</span>
+        <span class="terminal-prompt">cc4pm $</span>
+        <span class="terminal-cmd">/cc4pm-guide</span>
       </div>
     </div>
   </div>
@@ -885,7 +885,7 @@ section { padding: var(--space-5xl) 0; }
       </div>
       <div class="section-label">安装</div>
       <h2 class="section-title">三步上手</h2>
-      <p class="section-subtitle">克隆仓库，即刻解锁 200+ Skills 全部能力</p>
+      <p class="section-subtitle">克隆仓库，输入 <code style="background:rgba(255,255,255,.08);padding:2px 8px;border-radius:4px;font-size:inherit">/cc4pm-guide</code> 即刻开启交互式教学</p>
     </div>
 
     <div class="install-terminal anim fade-up" id="installTerminal">
@@ -904,15 +904,15 @@ section { padding: var(--space-5xl) 0; }
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:20px;height:20px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
         GitHub 仓库
       </a>
-      <button class="btn-secondary" onclick="copyText('git clone https://github.com/istarwyh/cc4pm.git', this)">
-        复制 Clone 命令
+      <button class="btn-secondary" onclick="copyText('/cc4pm-guide', this)">
+        复制启动命令
       </button>
       <a href="https://github.com/istarwyh/cc4pm/archive/refs/heads/main.zip" class="btn-secondary" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         下载 ZIP 安装包
       </a>
     </div>
-    <p class="install-note">支持 Claude Code / Cursor / Codex / OpenCode 多平台<br><span style="color:var(--text-muted);font-size:13px">没有 Git？点击「下载 ZIP 安装包」直接获取源码，解压后在 Claude Code 中打开即可使用</span></p>
+    <p class="install-note">支持 Claude Code / Cursor / Codex / OpenCode 多平台<br><span style="color:var(--text-muted);font-size:13px">克隆仓库后在 Claude Code 中打开，输入 <code>/cc4pm-guide</code> 即可开始交互式教学</span></p>
   </div>
 </section>
 
@@ -1016,13 +1016,13 @@ section { padding: var(--space-5xl) 0; }
     <div class="terminal-preview anim fade-up" style="transition-delay:300ms;margin:24px auto 0;">
       <div class="terminal-header">
         <div class="terminal-dots"><span></span><span></span><span></span></div>
-        <button class="copy-btn" onclick="copyText('git clone https://github.com/istarwyh/cc4pm.git', this)" aria-label="复制命令">
+        <button class="copy-btn" onclick="copyText('/cc4pm-guide', this)" aria-label="复制命令">
           <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         </button>
       </div>
       <div class="terminal-line">
-        <span class="terminal-prompt">$</span>
-        <span class="terminal-cmd">git clone https://github.com/istarwyh/cc4pm.git</span>
+        <span class="terminal-prompt">cc4pm $</span>
+        <span class="terminal-cmd">/cc4pm-guide</span>
       </div>
     </div>
   </div>
@@ -1386,16 +1386,14 @@ section { padding: var(--space-5xl) 0; }
     { type: 'out', html: '<span class="term-muted">Cloning into \'cc4pm\'...</span>', delay: 600 },
     { type: 'out', html: '<span class="term-success">done.</span>', delay: 400 },
     { type: 'cmd', prompt: '~ $ ', text: 'cd cc4pm', delay: 400 },
-    { type: 'cmd', prompt: 'cc4pm $ ', text: 'ls .claude/skills/ | wc -l', delay: 400 },
-    { type: 'out', html: '<span class="term-info">110 skills loaded</span>', delay: 300 },
+    { type: 'cmd', prompt: 'cc4pm $ ', text: '/cc4pm-guide', cmdClass: 'term-cmd-color', delay: 600 },
+    { type: 'out', html: '<span class="term-info">启动 cc4pm 交互式教学...</span>', delay: 400 },
     { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">BMM (44) - 业务建模方法论</span>', delay: 200 },
     { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">CIS (10) - 创意智能系统</span>', delay: 200 },
     { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">WDS (50) - Web 设计系统</span>', delay: 200 },
     { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">工程 (94+) - 工程工具链</span>', delay: 200 },
-    { type: 'out', html: '<span class="term-warn">cc4pm v2.0 ready! 200+ skills at your service.</span>', delay: 600 },
-    { type: 'cmd', prompt: 'cc4pm $ ', text: '/bmad-create-prd', cmdClass: 'term-cmd-color', delay: 800 },
-    { type: 'out', html: '<span class="term-info">启动 PRD 创建工作流...</span>', delay: 400 },
-    { type: 'out', html: '<span class="term-success">\u2713 产品需求文档已就绪</span>', delay: 200 }
+    { type: 'out', html: '<span class="term-warn">cc4pm ready! 200+ skills at your service.</span>', delay: 600 },
+    { type: 'out', html: '<span class="term-muted">请选择你想学习的模块，或输入你的产品想法开始实战 \u2728</span>', delay: 400 }
   ];
 
   function addLine(html) {
