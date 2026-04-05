@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 6
+  supplementary_lessons: 7
   default_max_lines: 400
 
 stages:
@@ -50,6 +50,7 @@ stages:
           - btw-side-question
           - rewind-checkpoints-esc
           - memory-command
+          - escape-memory-combo
 
       - id: lesson-3.1
         file: lesson-3.1.md
@@ -72,6 +73,7 @@ stages:
           - keyboard-shortcuts
           - shift-enter-multiline
           - tab-toggle-thinking
+          - plan-vs-thinking
           - editor-integration
           - zed-vscode-cursor
           - tmux-sessions
@@ -88,8 +90,26 @@ stages:
         topics:
           - prompt-precision
           - rich-input
+          - screenshot-paste
           - claude-interview
+          - llm-emotional-vectors
+          - pua-vs-encouragement
           - first-hands-on
+
+      - id: lesson-4.1
+        file: lesson-4.1.md
+        number: 4.1
+        title: "压力光谱——用大厂 PUA 话术驱动 AI"
+        short_title: "压力光谱"
+        supplementary: true
+        topics:
+          - pua-pressure-spectrum
+          - three-red-lines
+          - 13-pua-flavors
+          - pressure-level-selection
+          - pua-skills-plugin
+          - agency-activation
+          - anthropic-emotion-research
 
       - id: lesson-5
         file: lesson-5.md
@@ -165,6 +185,7 @@ stages:
           - rules-system
           - five-event-types
           - exit-code-mechanism
+          - env-file-block-hook
           - 21-hooks
           - 44-rules
           - memory-persistence-hooks
@@ -374,6 +395,7 @@ stages:
           - hook-triggers-6
           - hook-exit-codes
           - hook-profiles
+          - hook-feedback-loops
           - rules-layered-architecture
           - quality-gate
           - three-layer-automation
@@ -392,6 +414,8 @@ stages:
           - sprint-contracts
           - harness-evolution
           - harness-cost-data
+          - evaluator-value-boundary
+          - criteria-shape-outputs
 
       - id: lesson-3.2
         file: lesson-3.2.md
@@ -423,6 +447,8 @@ stages:
         topics:
           - mcp-servers
           - mcp-three-tiers
+          - mcp-permission-auto-approve
+          - claude-code-sdk
           - learn-command
           - skill-create-command
           - continuous-learning

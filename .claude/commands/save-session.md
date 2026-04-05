@@ -1,5 +1,5 @@
 ---
-description: Save current session state to a dated file in ~/.claude/sessions/ so work can be resumed in a future session with full context.
+description: Save current session state to a dated file in the project's .claude/sessions/ directory so work can be resumed in a future session with full context.
 ---
 
 # Save Session Command
@@ -24,36 +24,48 @@ Before writing the file, collect:
 - Note any errors encountered and how they were resolved (or not)
 - Check current test/build status if relevant
 
-### Step 2: Create the sessions folder if it doesn't exist
+### Step 2: Resolve the absolute sessions directory path
 
-Create the canonical sessions folder in the user's Claude home directory:
+Resolve the sessions directory relative to the **project root** (the git repository root or current working directory):
 
 ```bash
-mkdir -p ~/.claude/sessions
+PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+SESSIONS_DIR="$PROJECT_ROOT/.claude/sessions"
+mkdir -p "$SESSIONS_DIR"
 ```
+
+Use the resolved absolute path for ALL subsequent file operations. Never use `~` or relative paths in Write tool calls.
 
 ### Step 3: Write the session file
 
-Create `~/.claude/sessions/YYYY-MM-DD-<short-id>-session.tmp`, using today's actual date and a short-id that satisfies the rules enforced by `SESSION_FILENAME_REGEX` in `session-manager.js`:
+Create `$SESSIONS_DIR/YYYY-MM-DD-<short-id>-session.md`, using today's actual date and a descriptive short-id.
 
-- Allowed characters: lowercase `a-z`, digits `0-9`, hyphens `-`
-- Minimum length: 8 characters
-- No uppercase letters, no underscores, no spaces
+Rules for the short-id:
+- First character: letter (a-z, A-Z), digit (0-9), or underscore
+- Remaining characters: letters, digits, underscores, or hyphens
+- Minimum length: 1 character (no maximum)
+- Must NOT start with a hyphen
+- Should be descriptive of the session topic (e.g., `auth-flow`, `fix-nav-bug`, `refactor-api`)
 
-Valid examples: `abc123de`, `a1b2c3d4`, `frontend-worktree-1`
-Invalid examples: `ABC123de` (uppercase), `short` (under 8 chars), `test_id1` (underscore)
-
-Full valid filename example: `2024-01-15-abc123de-session.tmp`
-
-The legacy filename `YYYY-MM-DD-session.tmp` is still valid, but new session files should prefer the short-id form to avoid same-day collisions.
+Full valid filename example: `2024-01-15-auth-flow-session.md`
 
 ### Step 4: Populate the file with all sections below
 
 Write every section honestly. Do not skip sections — write "Nothing yet" or "N/A" if a section genuinely has no content. An incomplete file is worse than an honest empty section.
 
-### Step 5: Show the file to the user
+### Step 5: Verify the file was written
 
-After writing, display the full contents and ask:
+After writing, immediately verify the file exists and has content:
+
+```bash
+ls -la "$SESSIONS_DIR/YYYY-MM-DD-<short-id>-session.md"
+```
+
+If the file does not exist or is empty, report the error to the user and retry with the Write tool using the absolute path.
+
+### Step 6: Show the file to the user
+
+After writing and verifying, display the full contents and ask:
 
 ```
 Session saved to [actual resolved path to the session file]
@@ -271,5 +283,5 @@ Then test with Postman — the response should include a `Set-Cookie` header.
 - The "What Did NOT Work" section is the most critical — future sessions will blindly retry failed approaches without it
 - If the user asks to save mid-session (not just at the end), save what's known so far and mark in-progress items clearly
 - The file is meant to be read by Claude at the start of the next session via `/resume-session`
-- Use the canonical global session store: `~/.claude/sessions/`
-- Prefer the short-id filename form (`YYYY-MM-DD-<short-id>-session.tmp`) for any new session file
+- Use the project-local session store: `<project-root>/.claude/sessions/`
+- Prefer the short-id filename form (`YYYY-MM-DD-<short-id>-session.md`) for any new session file

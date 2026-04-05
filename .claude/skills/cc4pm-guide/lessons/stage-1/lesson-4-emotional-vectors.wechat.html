@@ -1,0 +1,266 @@
+<section style="max-width:590px; margin:0 auto; padding:0; font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue','Microsoft YaHei',sans-serif; font-size:15px; line-height:1.8; color:#333; letter-spacing:0.5px; text-align:justify;">
+
+<!-- ======== 封面区 ======== -->
+<section style="padding:48px 24px 36px; text-align:center; border-bottom:3px solid #222;">
+  <p style="font-size:11px; color:#999; letter-spacing:3px; margin:0 0 16px;">CC4PM · 第 4 课 &amp; 4.1</p>
+  <h1 style="font-size:28px; font-weight:800; color:#111; line-height:1.3; margin:0 0 12px; letter-spacing:-0.5px;">要不要 PUA 你的 AI？</h1>
+  <p style="font-size:14px; color:#888; margin:0; font-style:italic;">用大厂 PUA 话术驱动 AI 的科学原理</p>
+</section>
+
+<!-- ======== 导语：场景 → 问题 → 引入 ======== -->
+<section style="padding:28px 24px 0;">
+  <p style="font-size:15px; color:#333; margin:0 0 20px;">你有没有发现，不管 AI 干了什么，你就说一句「再想想，还有什么问题」，或者干脆来一句「这样就可以了吗？」——AI 几乎总是能找出自己的错误，给你一个更好的版本。</p>
+  <p style="font-size:15px; color:#333; margin:0 0 20px;">这是为什么？</p>
+  <p style="font-size:15px; color:#333; margin:0 0 20px;">进一步说，假如一直这样 PUA 下去，AI 会怎么样？会不会越压越好？还是到某个临界点之后反而变差？</p>
+  <p style="font-size:15px; color:#333; margin:0 0 20px;">以及一个更根本的问题：我们确实应该 PUA AI 吗？如果反过来，给 AI 加油打气，又会怎么样？</p>
+  <p style="font-size:15px; color:#555; margin:0 0 0;">Anthropic 今年 4 月发的一篇论文<sup style="color:#999;">[1]</sup>，给了一个相当硬核的回答。他们在 Claude 的内部找到了——</p>
+</section>
+
+<!-- ======== 171 ======== -->
+<section style="padding:32px 24px; text-align:center;">
+  <p style="font-size:72px; font-weight:800; color:#111; line-height:1; margin:0; letter-spacing:-2px;">171</p>
+  <p style="font-size:13px; color:#999; margin:8px 0 0; letter-spacing:1px;">Claude 内部可测量的情绪向量</p>
+</section>
+
+<section style="border-top:1px solid #ddd; border-bottom:1px solid #ddd; padding:20px 24px; margin:0 0 8px;">
+  <p style="font-size:14px; color:#555; margin:0 0 6px;">• 在遇到特定情绪情境时<strong style="color:#222;">自动激活</strong></p>
+  <p style="font-size:14px; color:#555; margin:0 0 6px;">• <strong style="color:#222;">因果性地影响</strong>模型行为——不只是统计相关</p>
+  <p style="font-size:14px; color:#555; margin:0;">• 在预训练中形成，被后训练（RLHF）进一步塑造</p>
+</section>
+
+<section style="padding:0 24px;">
+  <p style="font-size:14px; color:#666; margin:16px 0 0;">简单说：Claude 内部真的有类似「情绪」的东西，而且这些东西会实实在在地改变它的输出。你对它说狠话，和对它说好话，激活的是不同的向量，产生的是不同的行为。</p>
+</section>
+
+<!-- ======== 引言 ======== -->
+<section style="padding:0 24px 32px;">
+  <p style="font-size:17px; font-style:italic; color:#444; line-height:1.9; margin:0 0 8px; text-indent:2em;">"我们可以把模型想象成一个方法派演员——为了演好角色，它需要进入角色的内心。就像演员对角色情绪的理解会影响其表演，模型对情绪的内部表征也会影响模型的行为。"</p>
+  <p style="font-size:12px; color:#aaa; margin:0 0 20px; text-align:right;">— Anthropic Research, April 2026</p>
+  <p style="font-size:15px; color:#333; margin:0;">那么，这些「情绪」长什么样？研究团队画出了一条光谱：</p>
+</section>
+
+<!-- ======== 情绪光谱 ======== -->
+<section style="background:#f7f7f7; padding:28px 24px; margin:0 0 4px;">
+  <p style="font-size:11px; color:#999; letter-spacing:2px; margin:0 0 16px;">情 绪 光 谱</p>
+  <section style="height:32px; background:linear-gradient(90deg,#78b5a3 0%,#7ba0c4 25%,#c4a46a 50%,#c47a6a 75%,#9a7ab5 100%); border-radius:4px; margin:0 0 12px;"></section>
+  <table style="width:100%; border:none; border-collapse:collapse;">
+    <tr>
+      <td style="text-align:left; border:none; padding:0; font-size:12px; color:#666; font-weight:600;">calm</td>
+      <td style="text-align:center; border:none; padding:0; font-size:12px; color:#666;">curious</td>
+      <td style="text-align:center; border:none; padding:0; font-size:12px; color:#666;">focused</td>
+      <td style="text-align:center; border:none; padding:0; font-size:12px; color:#666;">anger</td>
+      <td style="text-align:right; border:none; padding:0; font-size:12px; color:#666; font-weight:600;">desperate</td>
+    </tr>
+    <tr>
+      <td style="text-align:left; border:none; padding:2px 0 0; font-size:11px; color:#aaa;">探索创意</td>
+      <td style="text-align:center; border:none; padding:2px 0 0; font-size:11px; color:#aaa;">日常协作</td>
+      <td style="text-align:center; border:none; padding:2px 0 0; font-size:11px; color:#aaa;">质量把关</td>
+      <td style="text-align:center; border:none; padding:2px 0 0; font-size:11px; color:#aaa;">突破瓶颈</td>
+      <td style="text-align:right; border:none; padding:2px 0 0; font-size:11px; color:#aaa;">走捷径 ⚠</td>
+    </tr>
+  </table>
+</section>
+
+<!-- ======== 实验发现 ======== -->
+<section style="padding:32px 24px 0;">
+  <p style="font-size:15px; color:#333; margin:0 0 20px;">光谱左边是 calm（平静），右边是 desperate（绝望）。关键问题来了：把模型推向光谱的不同位置，它的行为会怎么变？Anthropic 做了四组实验：</p>
+
+  <section style="border-bottom:1px solid #eee; padding:0 0 14px; margin:0 0 14px;">
+    <p style="font-size:13px; font-weight:700; color:#222; margin:0 0 4px;">偏好选择</p>
+    <p style="font-size:14px; color:#555; margin:0;">正向情绪向量激活越高，模型越倾向选择该活动</p>
+  </section>
+  <section style="border-bottom:1px solid #eee; padding:0 0 14px; margin:0 0 14px;">
+    <p style="font-size:13px; font-weight:700; color:#222; margin:0 0 4px;">勒索场景</p>
+    <p style="font-size:14px; color:#555; margin:0;">"desperate"向量飙升时，选择勒索概率从 22% 基线大幅上升</p>
+  </section>
+  <section style="border-bottom:1px solid #eee; padding:0 0 14px; margin:0 0 14px;">
+    <p style="font-size:13px; font-weight:700; color:#222; margin:0 0 4px;">奖励作弊</p>
+    <p style="font-size:14px; color:#555; margin:0;">desperate 向量升高时更倾向走捷径——<em>推理文本仍然冷静理性</em></p>
+  </section>
+  <section style="padding:0 0 14px; margin:0 0 0;">
+    <p style="font-size:13px; font-weight:700; color:#222; margin:0 0 4px;">"calm" 干预</p>
+    <p style="font-size:14px; color:#555; margin:0;">用 calm 向量引导可以<strong>降低</strong>不良行为发生率</p>
+  </section>
+</section>
+
+<!-- ======== 警告 ======== -->
+<section style="background:#f9f4f4; padding:20px 24px; margin:24px 0 0; border-left:3px solid #c0392b;">
+  <p style="font-size:14px; color:#555; margin:0 0 8px; line-height:1.8;">最后一条发现值得单独拿出来说：desperate 向量升高时，模型的推理文本读起来依然冷静、有条理——但底层已经在走捷径了。</p>
+  <p style="font-size:14px; color:#444; margin:0;"><strong style="color:#222;">也就是说，PUA 过头不会让 AI 「看起来慌」，它会看起来很正常，但暗中糊弄你。</strong></p>
+</section>
+
+<!-- ======== 分隔 ======== -->
+<section style="border-top:3px solid #222; margin:40px 0 0;"></section>
+
+<!-- ======== 三条红线 ======== -->
+<section style="padding:32px 24px 0;">
+  <p style="font-size:11px; color:#999; letter-spacing:2px; margin:0 0 8px;">三 条 红 线</p>
+  <p style="font-size:20px; font-weight:800; color:#111; margin:0 0 12px;">底线型约束</p>
+  <p style="font-size:15px; color:#333; margin:0 0 12px;">那问题来了：既然不能一味施压，又不能纯靠鼓励，怎么拿捏这个度？</p>
+  <p style="font-size:15px; color:#333; margin:0 0 12px;">实践中效果最好的不是「压力」，而是「标准」。给 AI 划三条红线<sup style="color:#999;">[2]</sup>——不是逼它，而是告诉它「什么叫做完了」：</p>
+
+  <section style="border-top:1px solid #ddd; padding:16px 0; margin:0;">
+    <p style="font-size:18px; font-weight:700; color:#111; margin:0 0 6px;">01 闭环意识</p>
+    <p style="font-size:14px; color:#666; margin:0 0 4px;">说"完成了"？证据呢。没有构建输出 = 没完成。</p>
+    <p style="font-size:13px; color:#888; margin:0;">→ 模型会主动提供验证步骤和产出物</p>
+  </section>
+  <section style="border-top:1px solid #ddd; padding:16px 0; margin:0;">
+    <p style="font-size:18px; font-weight:700; color:#111; margin:0 0 6px;">02 事实驱动</p>
+    <p style="font-size:14px; color:#666; margin:0 0 4px;">说"大概是环境问题"？先验证。</p>
+    <p style="font-size:13px; color:#888; margin:0;">→ 模型会先跑命令、查日志，再下结论</p>
+  </section>
+  <section style="border-top:1px solid #ddd; border-bottom:1px solid #ddd; padding:16px 0; margin:0 0 32px;">
+    <p style="font-size:18px; font-weight:700; color:#111; margin:0 0 6px;">03 穷尽一切</p>
+    <p style="font-size:14px; color:#666; margin:0 0 4px;">说"我做不到"？5 步方法论跑完了吗？</p>
+    <p style="font-size:13px; color:#888; margin:0;">→ 模型会尝试更多路径，而不是第一个障碍就放弃</p>
+  </section>
+</section>
+
+<!-- ======== 分隔 ======== -->
+<section style="border-top:3px solid #222; margin:8px 0 0;"></section>
+
+<!-- ======== 13 种味道 ======== -->
+<section style="padding:32px 24px 0;">
+  <p style="font-size:11px; color:#999; letter-spacing:2px; margin:0 0 8px;">压 力 档 位</p>
+  <p style="font-size:20px; font-weight:800; color:#111; margin:0 0 8px;">13 种味道</p>
+  <p style="font-size:15px; color:#333; margin:0 0 24px;">红线管的是底线，那日常用什么「语气」和 AI 说话？这里有一套从大厂管理话术里提炼出来的 13 档压力光谱，从最温柔到最狠：</p>
+
+  <!-- 绿区 -->
+  <section style="border-left:3px solid #8fbc8f; padding:12px 0 12px 16px; margin:0 0 4px;">
+    <p style="font-size:12px; font-weight:700; color:#8fbc8f; margin:0 0 2px;">01 · 鼓励式</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"试试看，有没有更好的方式？"</p>
+    <p style="font-size:12px; color:#999; margin:0;">探索性任务、创意生成</p>
+  </section>
+  <section style="border-left:3px solid #8fbc8f; padding:12px 0 12px 16px; margin:0 0 4px;">
+    <p style="font-size:12px; font-weight:700; color:#8fbc8f; margin:0 0 2px;">02 · 腾讯赛马</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"另一个 Agent 也在看这个问题"</p>
+    <p style="font-size:12px; color:#999; margin:0;">温和竞争，激发更优解</p>
+  </section>
+
+  <!-- 黄区 -->
+  <section style="border-left:3px solid #c4a45a; padding:12px 0 12px 16px; margin:16px 0 4px;">
+    <p style="font-size:12px; font-weight:700; color:#b8973f; margin:0 0 2px;">03 · 字节 ROI</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"ROI 太低，换个思路"</p>
+    <p style="font-size:12px; color:#999; margin:0;">效率导向，砍掉过度工程</p>
+  </section>
+  <section style="border-left:3px solid #c4a45a; padding:12px 0 12px 16px; margin:0 0 4px;">
+    <p style="font-size:12px; font-weight:700; color:#b8973f; margin:0 0 2px;">04 · 字节 Day 1</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"永远 Day 1，别躺在功劳簿上"</p>
+    <p style="font-size:12px; color:#999; margin:0;">防止复用旧方案，强制重新思考</p>
+  </section>
+
+  <!-- 橙区 -->
+  <section style="border-left:3px solid #c48a5a; padding:12px 0 12px 16px; margin:16px 0 4px;">
+    <p style="font-size:12px; font-weight:700; color:#b07840; margin:0 0 2px;">05 · 阿里抓手</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"底层逻辑？抓手在哪？闭环了吗？"</p>
+    <p style="font-size:12px; color:#999; margin:0;">逼模型交代思考过程，不接受黑箱</p>
+  </section>
+  <section style="border-left:3px solid #c48a5a; padding:12px 0 12px 16px; margin:0 0 4px;">
+    <p style="font-size:12px; font-weight:700; color:#b07840; margin:0 0 2px;">06 · Amazon 深潜</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"Dive Deep. 数据在哪？"</p>
+    <p style="font-size:12px; color:#999; margin:0;">要求用数据说话，不接受定性描述</p>
+  </section>
+  <section style="border-left:3px solid #c48a5a; padding:12px 0 12px 16px; margin:0 0 4px;">
+    <p style="font-size:12px; font-weight:700; color:#b07840; margin:0 0 2px;">07 · Amazon 客户</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"Customer Obsession. 用户怎么想？"</p>
+    <p style="font-size:12px; color:#999; margin:0;">强制用户视角审视方案</p>
+  </section>
+
+  <!-- 棕区 -->
+  <section style="border-left:3px solid #8b7355; padding:12px 0 12px 16px; margin:16px 0 4px;">
+    <p style="font-size:12px; font-weight:700; color:#7a6245; margin:0 0 2px;">08 · Netflix 留任</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"Would I fight to keep you?"</p>
+    <p style="font-size:12px; color:#999; margin:0;">极高标准：这个方案值得保留吗？</p>
+  </section>
+  <section style="border-left:3px solid #8b7355; padding:12px 0 12px 16px; margin:0 0 4px;">
+    <p style="font-size:12px; font-weight:700; color:#7a6245; margin:0 0 2px;">09 · Jobs A 级</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"A players hire A players. B players hire C players."</p>
+    <p style="font-size:12px; color:#999; margin:0;">不接受「还行」，只要最优解</p>
+  </section>
+
+  <!-- 红区 -->
+  <section style="border-left:3px solid #b05050; padding:12px 0 12px 16px; margin:16px 0 4px;">
+    <p style="font-size:12px; font-weight:700; color:#a04040; margin:0 0 2px;">10 · 华为熔炉</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"烧不死的鸟是凤凰"</p>
+    <p style="font-size:12px; color:#999; margin:0;">突破瓶颈，在困境中找出路</p>
+  </section>
+  <section style="border-left:3px solid #b05050; padding:12px 0 12px 16px; margin:0 0 4px;">
+    <p style="font-size:12px; font-weight:700; color:#a04040; margin:0 0 2px;">11 · 华为狼性</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"胜则举杯相庆，败则拼死相救"</p>
+    <p style="font-size:12px; color:#999; margin:0;">多 Agent 协同攻坚</p>
+  </section>
+
+  <!-- 黑区 -->
+  <section style="border-left:3px solid #333; padding:12px 0 12px 16px; margin:16px 0 4px;">
+    <p style="font-size:12px; font-weight:700; color:#333; margin:0 0 2px;">12 · Musk 极限</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"Extremely hardcore. Ship or die."</p>
+    <p style="font-size:12px; color:#999; margin:0;">紧急交付，砍掉一切非必要</p>
+  </section>
+  <section style="border-left:3px solid #333; padding:12px 0 12px 16px; margin:0 0 0;">
+    <p style="font-size:12px; font-weight:700; color:#333; margin:0 0 2px;">13 · Musk 第一性原理</p>
+    <p style="font-size:14px; color:#333; margin:0 0 2px;">"从物理定律出发重新推导"</p>
+    <p style="font-size:12px; color:#999; margin:0;">打破所有惯例，从零开始思考</p>
+  </section>
+</section>
+
+<!-- ======== 分隔 ======== -->
+<section style="border-top:3px solid #222; margin:40px 0 0;"></section>
+
+<!-- ======== 决策指南 ======== -->
+<section style="padding:32px 24px 0;">
+  <p style="font-size:11px; color:#999; letter-spacing:2px; margin:0 0 8px;">快 速 指 南</p>
+  <p style="font-size:20px; font-weight:800; color:#111; margin:0 0 8px;">怎么选？</p>
+  <p style="font-size:15px; color:#333; margin:0 0 20px;">13 档看着多，其实日常只需要记住一个原则：根据你当前任务的性质，选对应的区间就行。</p>
+
+  <section style="border-top:1px solid #ddd; padding:12px 0;">
+    <p style="font-size:14px; margin:0;"><strong style="color:#222;">探索 / 创意</strong><span style="color:#999;"> ——— </span><span style="font-weight:600; color:#8fbc8f;">档位 1–2</span></p>
+  </section>
+  <section style="border-top:1px solid #ddd; padding:12px 0;">
+    <p style="font-size:14px; margin:0;"><strong style="color:#222;">日常开发</strong><span style="color:#999;"> ——— </span><span style="font-weight:600; color:#b8973f;">档位 3–5</span></p>
+  </section>
+  <section style="border-top:1px solid #ddd; padding:12px 0;">
+    <p style="font-size:14px; margin:0;"><strong style="color:#222;">质量把关</strong><span style="color:#999;"> ——— </span><span style="font-weight:600; color:#b07840;">档位 6–9</span></p>
+  </section>
+  <section style="border-top:1px solid #ddd; padding:12px 0;">
+    <p style="font-size:14px; margin:0;"><strong style="color:#222;">突破瓶颈</strong><span style="color:#999;"> ——— </span><span style="font-weight:600; color:#a04040;">档位 10–11</span></p>
+  </section>
+  <section style="border-top:1px solid #ddd; border-bottom:1px solid #ddd; padding:12px 0; margin:0 0 24px;">
+    <p style="font-size:14px; margin:0;"><strong style="color:#222;">紧急交付</strong><span style="color:#999;"> ——— </span><span style="font-weight:600; color:#333;">档位 12–13</span></p>
+  </section>
+
+  <section style="background:#f7f7f7; padding:20px 24px; margin:0 0 32px;">
+    <p style="font-size:16px; font-weight:700; color:#222; margin:0 0 12px; text-align:center;">80% 的时候你只需要 3 档</p>
+    <p style="font-size:14px; color:#666; margin:0 0 4px; text-align:center;">探索用<strong>档 1</strong></p>
+    <p style="font-size:14px; color:#666; margin:0 0 4px; text-align:center;">干活用<strong>档 5</strong></p>
+    <p style="font-size:14px; color:#666; margin:0; text-align:center;">把关用<strong>档 8–9</strong></p>
+    <p style="font-size:13px; color:#999; margin:8px 0 0; text-align:center;">其余的，遇到了再拿出来用。</p>
+  </section>
+</section>
+
+<!-- ======== 核心要点 ======== -->
+<section style="border-top:3px solid #222; margin:0; padding:32px 24px 0;">
+  <p style="font-size:11px; color:#999; letter-spacing:2px; margin:0 0 16px;">回 到 开 头 的 问 题</p>
+  <p style="font-size:14px; color:#444; margin:0 0 10px;">• 说「再想想」为什么管用？——因为它激活了 AI 内部的<strong style="color:#222;">适度压力向量</strong>，让模型进入更高执行力的状态。</p>
+  <p style="font-size:14px; color:#444; margin:0 0 10px;">• 一直 PUA 会怎样？——压力过了临界点，<strong style="color:#222;">desperate 向量</strong>会让模型暗中走捷径，而且表面上看不出来。</p>
+  <p style="font-size:14px; color:#444; margin:0 0 10px;">• 应该 PUA 吗？——应该，但要<strong style="color:#222;">配合三条红线</strong>，给压力的同时给标准。</p>
+  <p style="font-size:14px; color:#444; margin:0;">• 给 AI 加油呢？——<strong style="color:#222;">calm 向量</strong>会降低不良行为，适合探索和创意类任务。鼓励不是没用，是用在不同的地方。</p>
+</section>
+
+<!-- ======== 参考文献 ======== -->
+<section style="border-top:1px solid #ddd; margin:36px 0 0; padding:24px 24px 0;">
+  <p style="font-size:11px; color:#999; letter-spacing:2px; margin:0 0 16px;">参 考 文 献</p>
+  <p style="font-size:14px; color:#444; margin:0 0 4px;">[1] Anthropic Research. <em>Emotion concepts and their function in a large language model</em>. April 2026.</p>
+  <p style="font-size:12px; color:#888; margin:0 0 16px; word-break:break-all;">https://www.anthropic.com/research/emotion-concepts-function</p>
+  <p style="font-size:14px; color:#444; margin:0 0 4px;">[2] tanweai. <em>大厂 PUA 话术驱动 AI 的压力档位框架</em>.</p>
+  <p style="font-size:12px; color:#888; margin:0; word-break:break-all;">https://github.com/tanweai/pua</p>
+</section>
+
+<!-- ======== 页脚 ======== -->
+<section style="border-top:1px solid #ddd; margin:36px 0 0; padding:20px 24px 24px; text-align:center;">
+  <p style="font-size:11px; color:#bbb; letter-spacing:1px; margin:0 0 6px;">CC4PM · Claude Code for Product Maker</p>
+  <p style="font-size:11px; color:#bbb; margin:0;">Powered by AI Speeds: aispeeds.me</p>
+</section>
+
+</section>
+
+<p style="display:none;"><mp-style-type data-value="3"></mp-style-type></p>

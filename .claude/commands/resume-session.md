@@ -1,5 +1,5 @@
 ---
-description: Load the most recent session file from ~/.claude/sessions/ and resume work with full context from where the last session ended.
+description: Load the most recent session file from the project's .claude/sessions/ directory and resume work with full context from where the last session ended.
 ---
 
 # Resume Session Command
@@ -19,8 +19,8 @@ This command is the counterpart to `/save-session`.
 ```
 /resume-session                                                      # loads most recent file in ~/.claude/sessions/
 /resume-session 2024-01-15                                           # loads most recent session for that date
-/resume-session ~/.claude/sessions/2024-01-15-session.tmp           # loads a specific legacy-format file
-/resume-session ~/.claude/sessions/2024-01-15-abc123de-session.tmp  # loads a current short-id session file
+/resume-session ~/.claude/sessions/2024-01-15-session.md           # loads a specific legacy-format file
+/resume-session ~/.claude/sessions/2024-01-15-abc123de-session.md  # loads a current short-id session file
 ```
 
 ## Process
@@ -29,19 +29,20 @@ This command is the counterpart to `/save-session`.
 
 If no argument provided:
 
-1. Check `~/.claude/sessions/`
-2. Pick the most recently modified `*-session.tmp` file
+1. Resolve project root: `PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"`
+2. Check `$PROJECT_ROOT/.claude/sessions/`
+3. Pick the most recently modified `*-session.md` file
 3. If the folder does not exist or has no matching files, tell the user:
    ```
-   No session files found in ~/.claude/sessions/
+   No session files found in .claude/sessions/
    Run /save-session at the end of a session to create one.
    ```
    Then stop.
 
 If an argument is provided:
 
-- If it looks like a date (`YYYY-MM-DD`), search `~/.claude/sessions/` for files matching
-  `YYYY-MM-DD-session.tmp` (legacy format) or `YYYY-MM-DD-<shortid>-session.tmp` (current format)
+- If it looks like a date (`YYYY-MM-DD`), search `$PROJECT_ROOT/.claude/sessions/` for files matching
+  `YYYY-MM-DD-session.md` (legacy format) or `YYYY-MM-DD-<shortid>-session.md` (current format)
   and load the most recently modified variant for that date
 - If it looks like a file path, read that file directly
 - If not found, report clearly and stop
@@ -94,7 +95,7 @@ If no next step is defined — ask the user where to start, and optionally sugge
 
 ## Edge Cases
 
-**Multiple sessions for the same date** (`2024-01-15-session.tmp`, `2024-01-15-abc123de-session.tmp`):
+**Multiple sessions for the same date** (`2024-01-15-session.md`, `2024-01-15-abc123de-session.md`):
 Load the most recently modified matching file for that date, regardless of whether it uses the legacy no-id format or the current short-id format.
 
 **Session file references files that no longer exist:**
@@ -114,7 +115,7 @@ Report: "Session file found but appears empty or unreadable. You may need to cre
 ## Example Output
 
 ```
-SESSION LOADED: /Users/you/.claude/sessions/2024-01-15-abc123de-session.tmp
+SESSION LOADED: /Users/you/.claude/sessions/2024-01-15-abc123de-session.md
 ════════════════════════════════════════════════
 
 PROJECT: my-app — JWT Authentication

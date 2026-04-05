@@ -129,7 +129,7 @@
 
 | 缩写 | 全称 | 中文 |
 |------|------|------|
-| cc4pm | Claude Code for Product Managers | 产品主理人的 Claude Code |
+| cc4pm | Claude Code for Product Maker | 产品主理人的 Claude Code |
 | CIS | Creative & Innovation Suite | 创意创新套件 |
 | BMM | BMAD Method | BMAD 方法论 |
 | WDS | Web Design System | 网页设计系统 |

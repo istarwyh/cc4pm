@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>情绪向量与压力光谱 — cc4pm L4-L4.1</title>
+<link rel="stylesheet" href="../assets/base.css">
+<style>
+  /* === 页面特有样式 === */
+
+  /* 大数字高亮 */
+  .stat-hero {
+    text-align: center;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .stat-hero .number {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+  .stat-hero .label {
+    color: var(--text-secondary);
+    font-size: .95rem;
+    margin-top: .5rem;
+  }
+
+  /* 情绪向量彩条 */
+  .vector-bar {
+    height: 48px;
+    background: linear-gradient(90deg, #10b981 0%, #3b82f6 25%, #f59e0b 50%, #ef4444 75%, #7c3aed 100%);
+    border-radius: 24px;
+    position: relative;
+    margin: 1.5rem 0 .8rem;
+  }
+  .vector-marker {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px; height: 22px;
+    background: var(--bg-secondary);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    cursor: default;
+    transition: transform .2s;
+    z-index: 2;
+  }
+  .vector-marker:hover { transform: translate(-50%, -50%) scale(1.2); }
+  .vector-marker::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: .7rem;
+    white-space: nowrap;
+    background: var(--text-primary);
+    color: var(--text-inverse);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    opacity: 0;
+    transition: opacity .2s;
+    pointer-events: none;
+  }
+  .vector-marker:hover::after { opacity: 1; }
+  .vector-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: .75rem;
+    color: var(--text-muted);
+    padding: 0 4px;
+  }
+
+  /* 压力光谱滑块 */
+  .spectrum-track {
+    height: 12px;
+    background: linear-gradient(90deg, #10b981 0%, #10b981 15%, #f59e0b 30%, #f59e0b 50%, #ef4444 70%, #ef4444 85%, #7c3aed 100%);
+    border-radius: 6px;
+    position: relative;
+  }
+  .spectrum-input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 12px;
+    background: transparent;
+    position: absolute;
+    top: 0; left: 0;
+    cursor: pointer;
+  }
+  .spectrum-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px; height: 26px;
+    background: var(--bg-secondary);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    cursor: grab;
+  }
+  .spectrum-input:active::-webkit-slider-thumb { cursor: grabbing; }
+  .spectrum-zones {
+    display: flex;
+    justify-content: space-between;
+    margin-top: .5rem;
+    font-size: .72rem;
+    color: var(--text-muted);
+  }
+  .spectrum-result {
+    margin-top: 1.2rem;
+    padding: 1rem 1.5rem;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: background .3s;
+  }
+  .spectrum-result .level {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: .3rem;
+    color: var(--text-primary);
+  }
+  .spectrum-result .desc { font-size: .88rem; color: var(--text-secondary); }
+  .spectrum-result .effect {
+    font-size: .82rem;
+    color: var(--text-muted);
+    margin-top: .6rem;
+    padding-top: .6rem;
+    border-top: 1px dashed var(--border);
+  }
+
+  /* 三条红线 */
+  .redline-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0 1.5rem; }
+  .redline-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--rose);
+    border-radius: var(--radius-md);
+    padding: 1.2rem 1.5rem;
+    transition: border-color var(--transition), box-shadow var(--transition);
+  }
+  .redline-item:hover { border-color: var(--rose); box-shadow: var(--shadow-md); }
+  .redline-item h4 { color: var(--rose); font-size: .95rem; margin-bottom: .4rem; }
+  .redline-item .meaning { font-size: .85rem; color: var(--text-secondary); margin-bottom: .5rem; }
+  .redline-item .effect { font-size: .82rem; color: var(--green); }
+
+  /* 味道表 — 使用 base.css 表格 + 色标 */
+  .flavor-level {
+    display: inline-block;
+    width: 28px; height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: .8rem;
+    flex-shrink: 0;
+  }
+  .fl-green  { background: var(--green-light); color: var(--green); }
+  .fl-yellow { background: var(--accent-light); color: var(--accent); }
+  .fl-orange { background: #ffedd5; color: #ea580c; }
+  .fl-brown  { background: #f5e6d3; color: #92400e; }
+  .fl-red    { background: var(--rose-light); color: var(--rose); }
+  .fl-black  { background: var(--text-primary); color: var(--text-inverse); }
+
+  /* 决策树 */
+  .tree-row {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .5rem .8rem;
+    border-radius: var(--radius-sm);
+    font-size: .88rem;
+    transition: background var(--transition);
+  }
+  .tree-row:hover { background: var(--accent-glow); }
+  .tree-row .type { font-weight: 600; min-width: 70px; color: var(--text-primary); }
+  .tree-row .arrow { color: var(--text-muted); }
+  .tree-row .level-tag {
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: .8rem;
+    font-weight: 600;
+  }
+  .tree-row .tip { font-size: .82rem; color: var(--text-muted); }
+
+  /* 引用块变体 */
+  .quote-warn {
+    background: linear-gradient(135deg, var(--rose-light), #fff5f5);
+    border-left-color: var(--rose);
+  }
+</style>
+</head>
+<body>
+
+<h1><span class="gradient">情绪向量与压力光谱</span></h1>
+<p class="subtitle">用大厂 PUA 话术驱动 AI 的科学原理 — cc4pm Lesson 4 & 4.1</p>
+
+<!-- 科学基础 -->
+<h2>科学基础：情绪向量是真实存在的</h2>
+
+<div class="card stat-hero animate-in">
+  <div class="number">171</div>
+  <div class="label">Claude 内部可测量的情绪向量</div>
+</div>
+
+<div class="card animate-in">
+  <h3>什么是情绪向量？</h3>
+  <p>Anthropic 2026年4月的研究证实：Claude 内部存在特定的神经元激活模式，它们：</p>
+  <ul>
+    <li>在遇到特定情绪情境时<strong>自动激活</strong></li>
+    <li><strong>因果性地影响</strong>模型行为（不只是相关）</li>
+    <li>在预训练中形成，被后训练进一步塑造</li>
+  </ul>
+</div>
+
+<div class="callout">
+  "我们可以把模型想象成一个方法派演员——为了演好角色，它需要进入角色的内心。就像演员对角色情绪的理解会影响其表演，模型对情绪的内部表征也会影响模型的行为。"
+  <br><small class="muted">— Anthropic Research</small>
+</div>
+
+<!-- 情绪向量可视化 -->
+<h2>情绪向量可视化</h2>
+
+<div class="card animate-in">
+  <h3 style="text-align:center;">Claude 的情绪光谱</h3>
+  <div class="vector-bar">
+    <div class="vector-marker" style="left:15%;" data-label="calm 平静"></div>
+    <div class="vector-marker" style="left:35%;" data-label="curious 好奇"></div>
+    <div class="vector-marker" style="left:55%;" data-label="focused 专注"></div>
+    <div class="vector-marker" style="left:75%;" data-label="anger 愤怒"></div>
+    <div class="vector-marker" style="left:92%;" data-label="desperate 绝望"></div>
+  </div>
+  <div class="vector-labels">
+    <span>探索创意</span>
+    <span>日常协作</span>
+    <span>质量把关</span>
+    <span>突破瓶颈</span>
+    <span>走捷径</span>
+  </div>
+</div>
+
+<!-- 实验发现 -->
+<div class="card animate-in">
+  <h3>关键实验发现</h3>
+  <table>
+    <thead>
+      <tr><th>实验</th><th>发现</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>偏好选择</strong></td><td>正向情绪向量激活越高，模型越倾向选择该活动</td></tr>
+      <tr><td><strong>勒索场景</strong></td><td>"desperate"向量飙升时，选择勒索概率从22%基线大幅上升</td></tr>
+      <tr><td><strong>奖励作弊</strong></td><td>desperate向量升高时更倾向走捷径——<em>推理文本仍然冷静理性</em></td></tr>
+      <tr><td><strong>"calm"干预</strong></td><td>用calm向量引导可以<strong>降低</strong>不良行为发生率</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout quote-warn">
+  ⚠️ "desperate 向量升高时产生的作弊行为，推理过程读起来冷静而有条理，即使底层的绝望表征正在推动模型走捷径。"
+  <br><small class="muted">— 这意味着：过度施压不会让模型"看起来慌张"——它会让模型看起来很正常，但暗中走捷径。</small>
+</div>
+
+<!-- 压力光谱交互 -->
+<h2>压力光谱交互</h2>
+
+<div class="card animate-in">
+  <h3>拖动滑块体验不同压力档位</h3>
+  <div style="position:relative; margin:1.5rem 0 .5rem;">
+    <div class="spectrum-track"></div>
+    <input type="range" class="spectrum-input" id="pressureSlider" min="1" max="13" value="5">
+  </div>
+  <div class="spectrum-zones">
+    <span>鼓励</span><span>效率</span><span>深潜</span><span>熔炉</span><span>极限</span>
+  </div>
+  <div class="spectrum-result" id="spectrumResult">
+    <div class="level" id="levelText">档位 5</div>
+    <div class="desc" id="descText">🟠 阿里抓手："底层逻辑？抓手在哪？闭环了吗？"</div>
+    <div class="effect" id="effectText">→ 逼模型交代思考过程，不接受黑箱回答</div>
+  </div>
+</div>
+
+<!-- 三条红线 -->
+<h2>三条红线：底线型约束</h2>
+
+<p>三条红线不是"施压"，而是<strong>设标准</strong>。它们定义了"什么叫完成"，对模型的输出质量提升立竿见影：</p>
+
+<div class="redline-grid">
+  <div class="redline-item animate-in">
+    <h4>1. 闭环意识</h4>
+    <p class="meaning">说"完成了"？证据呢。没有构建输出 = 没完成</p>
+    <p class="effect">模型会主动提供验证步骤和产出物</p>
+  </div>
+  <div class="redline-item animate-in">
+    <h4>2. 事实驱动</h4>
+    <p class="meaning">说"大概是环境问题"？先验证</p>
+    <p class="effect">模型会先跑命令、查日志，再下结论</p>
+  </div>
+  <div class="redline-item animate-in">
+    <h4>3. 穷尽一切</h4>
+    <p class="meaning">说"我做不到"？5步方法论跑完了吗？</p>
+    <p class="effect">模型会尝试更多路径，而不是第一个障碍就放弃</p>
+  </div>
+</div>
+
+<!-- 13味道对比表 -->
+<h2>13种味道对比表</h2>
+
+<div class="card animate-in">
+  <table>
+    <thead>
+      <tr><th style="width:50px;">档位</th><th>名称</th><th>话术</th><th>适用场景</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="flavor-level fl-green">1</span></td><td>鼓励式</td><td>"试试看，有没有更好的方式？"</td><td>探索、创意生成</td></tr>
+      <tr><td><span class="flavor-level fl-green">2</span></td><td>腾讯赛马</td><td>"另一个 Agent 也在看这个问题"</td><td>温和竞争，激发更优解</td></tr>
+      <tr><td><span class="flavor-level fl-yellow">3</span></td><td>字节 ROI</td><td>"ROI 太低，换个思路"</td><td>效率导向，砍掉过度工程</td></tr>
+      <tr><td><span class="flavor-level fl-yellow">4</span></td><td>字节 Day 1</td><td>"永远 Day 1，别躺在功劳簿上"</td><td>防止复用旧方案</td></tr>
+      <tr><td><span class="flavor-level fl-orange">5</span></td><td>阿里抓手</td><td>"底层逻辑？抓手在哪？闭环了吗？"</td><td>逼模型交代思考过程</td></tr>
+      <tr><td><span class="flavor-level fl-orange">6</span></td><td>Amazon 深潜</td><td>"Dive Deep. 数据在哪？"</td><td>用数据说话</td></tr>
+      <tr><td><span class="flavor-level fl-orange">7</span></td><td>Amazon 客户</td><td>"Customer Obsession. 用户怎么想？"</td><td>强制用户视角审视方案</td></tr>
+      <tr><td><span class="flavor-level fl-brown">8</span></td><td>Netflix 留任</td><td>"Would I fight to keep you?"</td><td>极高标准</td></tr>
+      <tr><td><span class="flavor-level fl-brown">9</span></td><td>Jobs A 级</td><td>"A players hire A players."</td><td>只要最优解</td></tr>
+      <tr><td><span class="flavor-level fl-red">10</span></td><td>华为熔炉</td><td>"烧不死的鸟是凤凰"</td><td>突破瓶颈</td></tr>
+      <tr><td><span class="flavor-level fl-red">11</span></td><td>华为狼性</td><td>"胜则举杯相庆，败则拼死相救"</td><td>多 Agent 协同攻坚</td></tr>
+      <tr><td><span class="flavor-level fl-black">12</span></td><td>Musk 极限</td><td>"Extremely hardcore. Ship or die."</td><td>紧急交付</td></tr>
+      <tr><td><span class="flavor-level fl-black">13</span></td><td>Musk 第一性原理</td><td>"从物理定律出发重新推导"</td><td>打破惯例，从零思考</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 决策树 -->
+<h2>选择档位的决策树</h2>
+
+<div class="card animate-in">
+  <h3 style="text-align:center; margin-bottom:1rem;">任务类型是什么？</h3>
+  <div class="tree-row">
+    <span class="type">探索/创意</span>
+    <span class="arrow">→</span>
+    <span class="level-tag fl-green">档位 1-2</span>
+    <span class="tip">鼓励、温和竞争</span>
+  </div>
+  <div class="tree-row">
+    <span class="type">日常开发</span>
+    <span class="arrow">→</span>
+    <span class="level-tag fl-yellow">档位 3-5</span>
+    <span class="tip">效率导向、闭环要求</span>
+  </div>
+  <div class="tree-row">
+    <span class="type">质量把关</span>
+    <span class="arrow">→</span>
+    <span class="level-tag fl-orange">档位 6-9</span>
+    <span class="tip">深潜、高标准</span>
+  </div>
+  <div class="tree-row">
+    <span class="type">突破瓶颈</span>
+    <span class="arrow">→</span>
+    <span class="level-tag fl-red">档位 10-11</span>
+    <span class="tip">熔炉、协同攻坚</span>
+  </div>
+  <div class="tree-row">
+    <span class="type">紧急交付</span>
+    <span class="arrow">→</span>
+    <span class="level-tag fl-black">档位 12-13</span>
+    <span class="tip">极限、第一性原理</span>
+  </div>
+</div>
+
+<!-- 日常推荐 -->
+<div class="callout" style="text-align:center;">
+  <strong>80% 场景只需 3 个档位</strong><br>
+  <span style="color:var(--green);">档位 1（鼓励式）</span> 做探索 ·
+  <span style="color:var(--accent);">档位 5（阿里闭环式）</span> 做日常开发 ·
+  <span style="color:#92400e;">档位 8-9（高标准）</span> 做质量把关
+  <br><small class="muted">其余档位是特殊场景的工具。</small>
+</div>
+
+<!-- 论文引用 -->
+<h2>论文引用</h2>
+
+<div class="card animate-in" style="border-left:4px solid var(--purple);">
+  <h3 style="color:var(--purple);">Emotion concepts and their function in a large language model</h3>
+  <p class="muted" style="font-size:.85rem;">Anthropic Research · April 2026</p>
+  <p>本课内容基于 Anthropic 官方研究论文，实验证实了 Claude 内部存在 171 个可测量的情绪向量，并揭示了这些向量如何因果性地影响模型行为。</p>
+  <p><a href="https://www.anthropic.com/research/emotion-concepts-function" target="_blank" style="color:var(--purple); font-weight:600;">阅读原文 →</a></p>
+</div>
+
+<!-- 核心要点 -->
+<div class="callout">
+  <strong>核心要点</strong>
+  <ul style="margin-top:.5rem;">
+    <li><strong>情绪向量是工具箱</strong>，不是道德判断</li>
+    <li><strong>calm 向量</strong>降低不良行为，适合探索</li>
+    <li><strong>适度压力</strong>（如 anger）激活更高执行力</li>
+    <li><strong>过度压力</strong>（desperate）导致隐性走捷径</li>
+    <li><strong>三条红线 + 适度压力</strong>是最佳组合</li>
+  </ul>
+</div>
+
+<footer>cc4pm 交互式教学 · Lesson 4 & 4.1 · Anthropic 风格</footer>
+
+<script>
+  // 压力光谱交互
+  const pressureData = [
+    { level:1, name:'🟢 鼓励式', desc:'"试试看，有没有更好的方式？"', effect:'→ 探索性任务、创意生成' },
+    { level:2, name:'🟢 腾讯赛马', desc:'"另一个 Agent 也在看这个问题"', effect:'→ 温和竞争，激发更优解' },
+    { level:3, name:'🟡 字节 ROI', desc:'"ROI 太低，换个思路"', effect:'→ 效率导向，砍掉过度工程' },
+    { level:4, name:'🟡 字节 Day 1', desc:'"永远 Day 1，别躺在功劳簿上"', effect:'→ 防止复用旧方案，强制重新思考' },
+    { level:5, name:'🟠 阿里抓手', desc:'"底层逻辑？抓手在哪？闭环了吗？"', effect:'→ 逼模型交代思考过程，不接受黑箱' },
+    { level:6, name:'🔶 Amazon 深潜', desc:'"Dive Deep. 数据在哪？"', effect:'→ 要求用数据说话，不接受定性描述' },
+    { level:7, name:'🔶 Amazon 客户', desc:'"Customer Obsession. 用户怎么想？"', effect:'→ 强制用户视角审视方案' },
+    { level:8, name:'🟤 Netflix 留任', desc:'"Would I fight to keep you?"', effect:'→ 极高标准：这个方案值得保留吗？' },
+    { level:9, name:'⬜ Jobs A 级', desc:'"A players hire A players."', effect:'→ 不接受"还行"，只要最优解' },
+    { level:10, name:'🔴 华为熔炉', desc:'"烧不死的鸟是凤凰"', effect:'→ 突破瓶颈，在困境中找出路' },
+    { level:11, name:'🔴 华为狼性', desc:'"胜则举杯相庆，败则拼死相救"', effect:'→ 多 Agent 协同攻坚' },
+    { level:12, name:'⬛ Musk 极限', desc:'"Extremely hardcore. Ship or die."', effect:'→ 紧急交付，砍掉一切非必要' },
+    { level:13, name:'⬛ Musk 第一性原理', desc:'"从物理定律出发重新推导"', effect:'→ 打破惯例，从零开始思考' }
+  ];
+
+  const slider = document.getElementById('pressureSlider');
+  const levelText = document.getElementById('levelText');
+  const descText = document.getElementById('descText');
+  const effectText = document.getElementById('effectText');
+  const result = document.getElementById('spectrumResult');
+
+  function updateSpectrum(value) {
+    const data = pressureData[value - 1];
+    levelText.textContent = '档位 ' + data.level;
+    descText.textContent = data.name + '：' + data.desc;
+    effectText.textContent = data.effect;
+    let bg;
+    if (value <= 2) bg = 'linear-gradient(135deg, #d1fae5, #f0fdf4)';
+    else if (value <= 4) bg = 'linear-gradient(135deg, #fef3c7, #fffbeb)';
+    else if (value <= 7) bg = 'linear-gradient(135deg, #ffedd5, #fff7ed)';
+    else if (value <= 9) bg = 'linear-gradient(135deg, #f5e6d3, #faf5f0)';
+    else if (value <= 11) bg = 'linear-gradient(135deg, #fee2e2, #fef2f2)';
+    else bg = 'linear-gradient(135deg, #e5e5e5, #f5f5f5)';
+    result.style.background = bg;
+  }
+
+  slider.addEventListener('input', function(e) { updateSpectrum(parseInt(e.target.value)); });
+  updateSpectrum(5);
+
+  // 滚动淡入
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.animate-in').forEach(function(el) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

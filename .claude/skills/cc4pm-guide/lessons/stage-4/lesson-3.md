@@ -157,6 +157,37 @@ exit 2  → 阻止操作（工具不会执行！）
 
 **真实例子**：`insaits-security-wrapper.js` 检测到凭证泄露时返回 `exit 2`，直接阻止代码写入。`doc-file-warning.js` 发现非标准文档时返回 `exit 0`——只警告，不阻止。
 
+#### 进阶 Hook 模式：自动反馈循环
+
+两种高价值的 Hook 模式，解决 Claude 最常见的"马虎"问题：
+
+**模式 1：TypeScript 类型检查器 Hook**
+
+Claude 修改函数签名时经常忘记更新调用方。这个 PostToolUse Hook 会在每次编辑 `.ts` 文件后自动运行 `tsc --noEmit`，将类型错误反馈给 Claude：
+
+```
+Claude 修改函数签名 → PostToolUse Hook 触发
+  → tsc --noEmit 发现 3 处类型错误
+  → 错误信息通过 stderr 反馈给 Claude
+  → Claude 自动修复调用方
+```
+
+cc4pm 已内置此功能（`post-edit-typecheck.js`）。对于非 TypeScript 项目，可以替换为相应的类型检查器（如 Python 的 mypy、Go 的 go vet）。
+
+**模式 2：重复代码预防 Hook**
+
+Claude 在复杂任务中容易"重新发明轮子"——创建新的查询函数而不复用已有的。解决方案是监控关键目录的变更，用另一个 Claude 实例检查是否有重复：
+
+```
+Claude 编辑 queries/ 目录 → PostToolUse Hook 触发
+  → 启动独立 Claude 实例审查变更
+  → 对比新代码与已有代码
+  → 发现重复？→ Exit 2 阻止 + 反馈"请使用已有的 getUserById()"
+  → 无重复？→ Exit 0 放行
+```
+
+**取舍**：这个模式会增加时间和成本，建议只在关键目录（如 queries/、utils/）上启用。
+
 #### Hook Profile 环境变量
 
 ```

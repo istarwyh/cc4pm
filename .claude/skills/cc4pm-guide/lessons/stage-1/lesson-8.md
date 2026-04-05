@@ -31,6 +31,45 @@
 
 **原则：对于必须保证执行的事情，用 Hook；对于指导性的建议，用 Rules/CLAUDE.md。**
 
+### 实战示例：阻止读取 .env 文件
+
+这是 Hook 最经典的用例——**阻止 Claude 读取包含敏感信息的 .env 文件**：
+
+```javascript
+// hooks/read_hook.js — PreToolUse Hook
+const data = JSON.parse(require('fs').readFileSync('/dev/stdin', 'utf8'));
+
+// 检查 read 或 grep 工具是否试图访问 .env
+if (data.tool_input?.file_path?.includes('.env') ||
+    data.tool_input?.path?.includes('.env')) {
+  console.error('🚫 禁止访问 .env 文件——包含敏感凭证');
+  process.exit(2);  // Exit 2 = 阻止操作
+}
+
+process.exit(0);  // 其他文件正常放行
+```
+
+配置（在 `settings.local.json` 中）：
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "read|grep",
+      "hooks": [{
+        "type": "command",
+        "command": "node ./hooks/read_hook.js"
+      }]
+    }]
+  }
+}
+```
+
+**关键点**：
+- Hook 通过 stdin 接收 JSON（包含 tool_name 和 tool_input）
+- `console.error()` 的输出会反馈给 Claude，让它知道为什么被阻止
+- 修改 Hook 后需要**重启 Claude**才能生效
+
 ### Hook 事件类型
 
 Hooks 在 Claude 工作流的不同节点自动触发：

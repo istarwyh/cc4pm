@@ -63,8 +63,9 @@ description: |
 | 2 | 上下文窗口：你最重要的资源 | context-window、clear-command、compact-command、cost-command |
 | 3 | 主动管理上下文 | context-management、session-lifecycle、continue-resume-fork、btw-side-question |
 | 3.1 | Status Line——你的实时仪表盘 | status-line、token-monitoring、statusline-command |
-| 3.2 | 效率工作流：快捷键、编辑器与 tmux | keyboard-shortcuts、shift-enter-multiline、tab-toggle-thinking、editor-integration |
-| 4 | 快速上手：第一次实操 | prompt-precision、rich-input、claude-interview、first-hands-on |
+| 3.2 | 效率工作流：快捷键、编辑器与 tmux | keyboard-shortcuts、shift-enter-multiline、tab-toggle-thinking、plan-vs-thinking |
+| 4 | 快速上手：第一次实操 | prompt-precision、rich-input、screenshot-paste、claude-interview |
+| 4.1 | 压力光谱——用大厂 PUA 话术驱动 AI | pua-pressure-spectrum、three-red-lines、13-pua-flavors、pressure-level-selection |
 | 5 | CLAUDE.md：项目的 AI 记忆 | claude-md、file-hierarchy、six-section-template、memory-md |
 | 6 | 命令与技能系统 | commands-system、skills-system、skill-md-format、context-budget |
 | 6.1 | Skill 深度：新一代交互式软件 | skill-delivery-form、progressive-disclosure、skill-creation-6steps、skill-gotchas-section |
@@ -108,7 +109,7 @@ description: |
 
 | 编号 | 课名 | 核心知识点 |
 |------|------|-----------|
-| 24 | 高级特性：MCP 集成与持续学习 | mcp-servers、mcp-three-tiers、learn-command、skill-create-command |
+| 24 | 高级特性：MCP 集成与持续学习 | mcp-servers、mcp-three-tiers、mcp-permission-auto-approve、claude-code-sdk |
 | 25 | 完整项目实战：从零到发布 | full-workflow、key-handoff-points、project-launch-checklist、agent-collaboration-panorama |
 | 26 | 课程总结：你的 AI 产品主理人工具箱 | knowledge-map、command-cheatsheet、abbreviation-reference、learning-path |
 

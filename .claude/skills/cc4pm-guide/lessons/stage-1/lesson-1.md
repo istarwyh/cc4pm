@@ -169,7 +169,7 @@ Claude 输出：
 
 现在你理解了代理循环，让我们看看 cc4pm 给你准备了什么。
 
-cc4pm 的全称暗示了它的定位：**Claude Code for Product Managers**——但它的能力远不止产品管理。
+cc4pm 的全称暗示了它的定位：**Claude Code for Product Maker**——但它的能力远不止产品管理。
 
 #### 四大模块
 

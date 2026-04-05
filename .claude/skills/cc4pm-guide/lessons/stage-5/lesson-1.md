@@ -188,6 +188,23 @@ HTTP 类型的 MCP 不需要安装任何东西，直接在配置中填 URL：
 禁用方式：在项目 .claude.json 中用 disabledMcpServers 数组按项目禁用
 ```
 
+#### MCP 权限管理
+
+首次使用 MCP 工具时，Claude 会请求你批准每一个操作。手动审批很快就会变得烦人。
+
+**自动批准 MCP 工具**：在 `settings.local.json` 的 `allow` 数组中添加 MCP 工具前缀：
+
+```json
+{
+  "allow": [
+    "mcp__playwright__*",
+    "mcp__github__*"
+  ]
+}
+```
+
+> 格式为 `mcp__<服务器名>__<工具名>`，用 `*` 通配符批准该 MCP 的所有工具。只对你信任的 MCP 使用自动批准。
+
 ### /learn——从会话中提取可复用模式
 
 **/learn 做什么**：分析当前会话中的问题解决过程，提取可复用的模式，保存为技能文件。
@@ -413,6 +430,33 @@ git clone https://github.com/affaan-m/everything-claude-code.git
 | 质量门禁 | `/quality-gate` | 手动触发质量检查 |
 | 验证循环 | `/verify` | 构建+测试+Lint 一键验证 |
 | 性能调优 | `/harness-audit` | 检查代理系统本身的表现 |
+
+### Claude Code SDK——编程式集成
+
+Claude Code 不只是终端工具——它提供 **SDK**（软件开发工具包），支持 CLI、TypeScript 和 Python 三种方式以编程方式调用。
+
+```
+终端版 Claude Code：人类对话式使用
+SDK 版 Claude Code：程序自动调用，集成到工作流中
+```
+
+**核心用途**：把 Claude 集成到自动化管道中——比如 Hook 脚本调 Claude 做代码审查、CI/CD 流水线自动检查。
+
+```bash
+# CLI 方式（最简单）
+claude -p "分析这个文件的安全性" < src/auth.ts
+
+# TypeScript SDK
+import { query } from '@anthropic-ai/claude-code';
+const result = await query({
+  prompt: "审查以下代码的安全性",
+  options: { allowedTools: ["read", "grep"] }
+});
+```
+
+**权限模型**：SDK 默认只有只读权限（读文件、搜索）。需要写入能力时，在 `options.allowedTools` 中显式添加 `"edit"`、`"write"` 等工具。
+
+**PM 何时关心 SDK？** 当你想让 Hook 中的检查更智能时——比如用 SDK 启动一个独立的 Claude 实例来审查代码变更（Lesson 23 的重复代码预防 Hook 就是这么实现的）。
 
 ## 🛠️ 实操练习
 
