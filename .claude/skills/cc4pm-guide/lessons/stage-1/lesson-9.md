@@ -311,6 +311,44 @@ alias claude-research='claude --system-prompt "$(cat ~/.claude/contexts/research
 
 **为什么比放在 CLAUDE.md 好？** 系统提示的权威性高于用户消息，而且不同场景只加载相关上下文，避免无关规则占用上下文窗口。
 
+### 环境变量配置：性能与成本优化
+
+安装目录结构只是第一步。Claude Code 还有一组关键的环境变量，直接影响你的使用成本和体验。把以下配置加入 `~/.zshrc` 或 `~/.bashrc`：
+
+```bash
+# ===== Claude Code 推荐环境变量 =====
+
+# 关闭自动更新（避免工作中被打断）
+export DISABLE_AUTOUPDATER=1
+
+# 调大输出 token 上限（默认较低，复杂任务容易截断）
+export CLAUDE_CODE_MAX_OUTPUT_TOKENS=50000
+
+# 关闭遥测数据上报（减少不必要的网络请求）
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+
+# 禁用归因信息头（API 中转用户必开，见下方说明）
+export CLAUDE_CODE_ATTRIBUTION_HEADER=0
+```
+
+配置后记得 `source ~/.zshrc` 使其生效。
+
+#### API 中转用户必读：缓存失效陷阱
+
+如果你通过 API 中转服务（而非直连 Anthropic）使用 Claude Code，`CLAUDE_CODE_ATTRIBUTION_HEADER` 这个配置**极其重要**。
+
+**问题**：Claude Code 默认会在每次请求中附加一个归因标识头（每次内容不同）。直连 Anthropic 时没有问题，但经过中转站时，这个变化的标识会导致**缓存永远命中不了**——你的每一次请求都被当作全新请求计费。
+
+**解决**：一行搞定——
+
+```bash
+export CLAUDE_CODE_ATTRIBUTION_HEADER=0
+```
+
+**怎么验证缓存是否生效？** 运行 `/cost` 命令，观察是否有 `cache_read` 类型的 token 计数。如果全是 `input` 而没有 `cache_read`，说明缓存没命中，检查这个配置。
+
+> **直连 Anthropic 的用户**：这个变量不影响你，保持默认即可。归因头不会增加额外计费。
+
 ### 升级和更新
 
 cc4pm 是一个活跃的开源项目，持续更新中。保持更新的方法：

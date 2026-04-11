@@ -28,7 +28,7 @@ Return:
 1. `overall_score` out of 70
 2. Category scores and concrete findings
 3. Top 3 actions with exact file paths
-4. Suggested ECC skills to apply next
+4. Suggested cc4pm skills to apply next
 
 ## Checklist
 

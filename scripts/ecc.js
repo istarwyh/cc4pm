@@ -7,7 +7,7 @@ const { listAvailableLanguages } = require('./lib/install-executor');
 const COMMANDS = {
   install: {
     script: 'install-apply.js',
-    description: 'Install ECC content into a supported target',
+    description: 'Install cc4pm content into a supported target',
   },
   plan: {
     script: 'install-plan.js',
@@ -31,7 +31,7 @@ const COMMANDS = {
   },
   'session-inspect': {
     script: 'session-inspect.js',
-    description: 'Emit canonical ECC session snapshots from dmux or Claude history targets',
+    description: 'Emit canonical cc4pm session snapshots from dmux or Claude history targets',
   },
   uninstall: {
     script: 'uninstall.js',
@@ -51,7 +51,7 @@ const PRIMARY_COMMANDS = [
 
 function showHelp(exitCode = 0) {
   console.log(`
-ECC selective-install CLI
+cc4pm selective-install CLI
 
 Usage:
   ecc <command> [args...]

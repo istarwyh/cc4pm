@@ -137,9 +137,9 @@ git merge feat/billing
 | **Claude Code Task 工具** | 进程内子代理生成 | 会话内的程序化并行 |
 | **Codex 多代理** | 内置代理角色 | Codex 特定的并行工作 |
 
-## ECC 助手
+## cc4pm 助手
 
-ECC 现在包含一个助手，用于使用独立的 git worktree 进行外部 tmux 窗格编排：
+cc4pm 现在包含一个助手，用于使用独立的 git worktree 进行外部 tmux 窗格编排：
 
 ```bash
 node scripts/orchestrate-worktrees.js plan.json --execute

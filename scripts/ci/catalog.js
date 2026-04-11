@@ -65,7 +65,7 @@ function run() {
 
   const format = process.argv[2] === '--md' ? 'md' : 'json';
   if (format === 'md') {
-    console.log('# ECC Catalog (generated)\n');
+    console.log('# cc4pm Catalog (generated)\n');
     console.log(`- **Agents:** ${catalog.agents.count}`);
     console.log(`- **Commands:** ${catalog.commands.count}`);
     console.log(`- **Skills:** ${catalog.skills.count}\n`);

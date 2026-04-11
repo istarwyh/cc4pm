@@ -7,7 +7,7 @@ function showHelp(exitCode = 0) {
   console.log(`
 Usage: node scripts/doctor.js [--target <${SUPPORTED_INSTALL_TARGETS.join('|')}>] [--json]
 
-Diagnose drift and missing managed files for ECC install-state in the current context.
+Diagnose drift and missing managed files for cc4pm install-state in the current context.
 `);
   process.exit(exitCode);
 }
@@ -56,7 +56,7 @@ function statusLabel(status) {
 
 function printHuman(report) {
   if (report.results.length === 0) {
-    console.log('No ECC install-state files found for the current home/project context.');
+    console.log('No cc4pm install-state files found for the current home/project context.');
     return;
   }
 

@@ -4,7 +4,7 @@
 
 ***
 
-> **这是《Everything Claude Code 指南系列》的第 3 部分。** 第 1 部分是 [速成指南](the-shortform-guide.md)（设置和配置）。第 2 部分是 [长篇指南](the-longform-guide.md)（高级模式和工作流程）。本指南是关于安全性的——具体来说，当递归智能体基础设施将其视为次要问题时会发生什么。
+> **这是《cc4pm 指南系列》的第 3 部分。** 第 1 部分是 [速成指南](the-shortform-guide.md)（设置和配置）。第 2 部分是 [长篇指南](the-longform-guide.md)（高级模式和工作流程）。本指南是关于安全性的——具体来说，当递归智能体基础设施将其视为次要问题时会发生什么。
 
 我使用 OpenClaw 一周。以下是我的发现。
 
@@ -302,7 +302,7 @@ Mac Mini (headless, 24/7)
 ├── SSH access only (ed25519 key auth, no passwords)
 ├── Tailscale mesh (no exposed ports to public internet)
 ├── tmux session (persistent, survives disconnects)
-├── Claude Code with ECC configuration
+├── Claude Code with cc4pm configuration
 │   ├── Sanitized skills (every skill manually reviewed)
 │   ├── Hooks for quality gates (not for external channel access)
 │   └── Agents with scoped permissions (read-only by default)

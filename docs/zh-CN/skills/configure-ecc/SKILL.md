@@ -1,18 +1,18 @@
 ---
 name: configure-ecc
-description: Everything Claude Code 的交互式安装程序 — 引导用户选择并安装技能和规则到用户级或项目级目录，验证路径，并可选择优化已安装文件。
+description: cc4pm 的交互式安装程序 — 引导用户选择并安装技能和规则到用户级或项目级目录，验证路径，并可选择优化已安装文件。
 origin: ECC
 ---
 
-# 配置 Everything Claude Code (ECC)
+# 配置 cc4pm (ECC)
 
-一个交互式、分步安装向导，用于 Everything Claude Code 项目。使用 `AskUserQuestion` 引导用户选择性安装技能和规则，然后验证正确性并提供优化。
+一个交互式、分步安装向导，用于 cc4pm 项目。使用 `AskUserQuestion` 引导用户选择性安装技能和规则，然后验证正确性并提供优化。
 
 ## 何时激活
 
 * 用户说 "configure ecc"、"install ecc"、"setup everything claude code" 或类似表述
 * 用户想要从此项目中选择性安装技能或规则
-* 用户想要验证或修复现有的 ECC 安装
+* 用户想要验证或修复现有的 cc4pm 安装
 * 用户想要为其项目优化已安装的技能或规则
 
 ## 先决条件
@@ -24,18 +24,18 @@ origin: ECC
 
 ***
 
-## 步骤 0：克隆 ECC 仓库
+## 步骤 0：克隆 cc4pm 仓库
 
-在任何安装之前，将最新的 ECC 源代码克隆到 `/tmp`：
+在任何安装之前，将最新的 cc4pm 源代码克隆到 `/tmp`：
 
 ```bash
 rm -rf /tmp/everything-claude-code
-git clone https://github.com/affaan-m/everything-claude-code.git /tmp/everything-claude-code
+git clone https://github.com/istarwyh/cc4pm.git /tmp/everything-claude-code
 ```
 
 将 `ECC_ROOT=/tmp/everything-claude-code` 设置为所有后续复制操作的源。
 
-如果克隆失败（网络问题等），使用 `AskUserQuestion` 要求用户提供现有 ECC 克隆的本地路径。
+如果克隆失败（网络问题等），使用 `AskUserQuestion` 要求用户提供现有 cc4pm 克隆的本地路径。
 
 ***
 
@@ -44,7 +44,7 @@ git clone https://github.com/affaan-m/everything-claude-code.git /tmp/everything
 使用 `AskUserQuestion` 询问用户安装位置：
 
 ```
-Question: "Where should ECC components be installed?"
+Question: "Where should cc4pm components be installed?"
 Options:
   - "User-level (~/.claude/)" — "Applies to all your Claude Code projects"
   - "Project-level (.claude/)" — "Applies only to the current project"
@@ -322,7 +322,7 @@ Options:
    * 安全要求
 3. 在安装目标处就地编辑规则文件
 
-**关键**：只修改安装目标（`$TARGET/`）中的文件，**绝不**修改源 ECC 仓库（`$ECC_ROOT/`）中的文件。
+**关键**：只修改安装目标（`$TARGET/`）中的文件，**绝不**修改源 cc4pm 仓库（`$ECC_ROOT/`）中的文件。
 
 ***
 
@@ -337,7 +337,7 @@ rm -rf /tmp/everything-claude-code
 然后打印摘要报告：
 
 ```
-## ECC Installation Complete
+## cc4pm Installation Complete
 
 ### Installation Target
 - Level: [user-level / project-level / both]

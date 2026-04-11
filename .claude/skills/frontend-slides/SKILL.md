@@ -168,7 +168,7 @@ Use these maxima unless the user explicitly asks for denser slides and readabili
 - fixed-height content boxes that break on short screens
 - invalid negated CSS functions like `-clamp(...)`
 
-## Related ECC Skills
+## Related cc4pm Skills
 
 - `frontend-patterns` for component and interaction patterns around the deck
 - `liquid-glass-design` when a presentation intentionally borrows Apple glass aesthetics

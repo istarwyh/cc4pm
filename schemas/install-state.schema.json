@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "ECC install state",
+  "title": "cc4pm install state",
   "type": "object",
   "additionalProperties": false,
   "required": [

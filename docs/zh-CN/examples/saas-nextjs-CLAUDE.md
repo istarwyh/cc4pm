@@ -140,7 +140,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 3. 升级计划 → Stripe 结账 → 订阅激活
 4. Webhook：订阅取消 → 降级到免费层
 
-## ECC 工作流
+## cc4pm 工作流
 
 ```bash
 # Planning a feature

@@ -63,17 +63,17 @@ Blueprint 自动检测 git/gh 可用性。如果具备 git + GitHub CLI，它会
 
 ## 安装
 
-此技能随 Everything Claude Code 附带。安装 ECC 时无需单独安装。
+此技能随 cc4pm 附带。安装 cc4pm 时无需单独安装。
 
-### 完整 ECC 安装
+### 完整 cc4pm 安装
 
-如果您从 ECC 仓库检出中工作，请验证技能是否存在：
+如果您从 cc4pm 仓库检出中工作，请验证技能是否存在：
 
 ```bash
 test -f skills/blueprint/SKILL.md
 ```
 
-后续更新时，请在更新前查看 ECC 的差异：
+后续更新时，请在更新前查看 cc4pm 的差异：
 
 ```bash
 cd /path/to/everything-claude-code
@@ -84,7 +84,7 @@ git checkout <reviewed-full-sha>          # pin to a specific reviewed commit
 
 ### 独立安装（内嵌副本）
 
-如果您在完整 ECC 安装之外仅内嵌此技能，请将 ECC 仓库中已审查的文件复制到 `~/.claude/skills/blueprint/SKILL.md`。内嵌副本没有 git 远程仓库，因此应通过从已审查的 ECC 提交中重新复制文件来更新，而不是运行 `git pull`。
+如果您在完整 cc4pm 安装之外仅内嵌此技能，请将 cc4pm 仓库中已审查的文件复制到 `~/.claude/skills/blueprint/SKILL.md`。内嵌副本没有 git 远程仓库，因此应通过从已审查的 cc4pm 提交中重新复制文件来更新，而不是运行 `git pull`。
 
 ## 要求
 

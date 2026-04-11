@@ -41,7 +41,7 @@ cleanup() {
 trap cleanup EXIT
 
 cat > "$prompt_file" <<EOF
-You are one worker in an ECC tmux/worktree swarm.
+You are one worker in an cc4pm tmux/worktree swarm.
 
 Rules:
 - Work only in the current git worktree.

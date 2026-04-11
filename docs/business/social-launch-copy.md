@@ -5,7 +5,7 @@ Use these templates as launch-ready starting points. Replace placeholders before
 ## X Post: Release Announcement
 
 ```text
-ECC v1.8.0 is live.
+cc4pm v1.8.0 is live.
 
 We moved from “config pack” to an agent harness performance system:
 - hook reliability fixes
@@ -19,7 +19,7 @@ Start here: <repo-link>
 
 ```text
 If you evaluate agent tooling, use blended distribution metrics:
-- npm installs (`ecc-universal`, `ecc-agentshield`)
+- npm installs (`cc4pm`, `ecc-agentshield`)
 - GitHub App installs
 - repo adoption (stars/forks/contributors)
 
@@ -31,7 +31,7 @@ We now track this monthly in-repo for sponsor transparency.
 ```text
 Strong point on eval discipline.
 
-In ECC we turned this into production checks via:
+In cc4pm we turned this into production checks via:
 - /harness-audit
 - /quality-gate
 - Stop-phase session summaries
@@ -50,7 +50,7 @@ Our v1.8.0 focus was reliability + parity + measurable quality gates across tool
 ## LinkedIn Post: Partner-Friendly Summary
 
 ```text
-We shipped ECC v1.8.0 with one objective: improve agent harness performance in production.
+We shipped cc4pm v1.8.0 with one objective: improve agent harness performance in production.
 
 Highlights:
 - more reliable hook lifecycle behavior

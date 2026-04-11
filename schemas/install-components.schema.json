@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "ECC Install Components",
+  "title": "cc4pm Install Components",
   "type": "object",
   "additionalProperties": false,
   "required": [

@@ -1,4 +1,4 @@
-# Contributing to Everything Claude Code
+# Contributing to cc4pm
 
 Thanks for wanting to contribute! This repo is a community resource for Claude Code users.
 
@@ -50,7 +50,7 @@ Slash commands that invoke useful workflows:
 
 ```bash
 # 1. Fork and clone
-gh repo fork affaan-m/everything-claude-code --clone
+gh repo fork istarwyh/cc4pm --clone
 cd everything-claude-code
 
 # 2. Create a branch
@@ -353,7 +353,7 @@ What the user receives.
 
 ### Skill subsets (Codex and Cursor)
 
-ECC ships skill subsets for other harnesses:
+cc4pm ships skill subsets for other harnesses:
 
 - **Codex:** `.agents/skills/` — skills listed in `agents/openai.yaml` are loaded by Codex.
 - **Cursor:** `.cursor/skills/` — a subset of skills is bundled for Cursor.
@@ -441,7 +441,7 @@ How you tested this.
 
 ## Questions?
 
-- **Issues:** [github.com/affaan-m/everything-claude-code/issues](https://github.com/affaan-m/everything-claude-code/issues)
+- **Issues:** [github.com/istarwyh/cc4pm/issues](https://github.com/istarwyh/cc4pm/issues)
 - **X/Twitter:** [@affaanmustafa](https://x.com/affaanmustafa)
 
 ---

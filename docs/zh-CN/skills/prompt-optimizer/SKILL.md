@@ -8,7 +8,7 @@ metadata:
 
 # Prompt 优化器
 
-分析一个草稿提示，对其进行评估，匹配到 ECC 生态系统组件，并输出一个完整的优化提示供用户复制粘贴并运行。
+分析一个草稿提示，对其进行评估，匹配到 cc4pm 生态系统组件，并输出一个完整的优化提示供用户复制粘贴并运行。
 
 ## 何时使用
 
@@ -18,14 +18,14 @@ metadata:
 * 用户说“优化prompt”、“改进prompt”、“怎么写prompt”、“帮我优化这个指令”
 * 用户粘贴一个草稿提示并要求反馈或改进
 * 用户说“我不知道如何为此编写提示”
-* 用户说“我应该如何使用 ECC 来...”
+* 用户说“我应该如何使用 cc4pm 来...”
 * 用户明确调用 `/prompt-optimize`
 
 ### 不要用于
 
 * 用户希望直接执行任务（直接执行即可）
 * 用户说“优化代码”、“优化性能”、“optimize this code”、“optimize performance”——这些是重构任务，不是提示优化
-* 用户询问 ECC 配置（改用 `configure-ecc`）
+* 用户询问 cc4pm 配置（改用 `configure-ecc`）
 * 用户想要技能清单（改用 `skill-stocktake`）
 * 用户说“直接做”或“just do it”
 
@@ -90,9 +90,9 @@ metadata:
 | 高 | 跨领域，5+ 个文件 | 先使用 /plan，然后分阶段执行 |
 | 史诗级 | 多会话，多 PR，架构性变更 | 使用蓝图技能制定多会话计划 |
 
-### 阶段 3：ECC 组件匹配
+### 阶段 3：cc4pm 组件匹配
 
-将意图 + 范围 + 技术栈（来自阶段 0）映射到特定的 ECC 组件。
+将意图 + 范围 + 技术栈（来自阶段 0）映射到特定的 cc4pm 组件。
 
 #### 按意图类型
 
@@ -188,7 +188,7 @@ Research → Plan → Implement (TDD) → Review → Verify → Commit
 
 **需要澄清：** 用户应回答的问题编号列表。如果阶段 0 自动检测到答案，请陈述该答案而不是提问。
 
-### 第 2 部分：推荐的 ECC 组件
+### 第 2 部分：推荐的 cc4pm 组件
 
 | 类型 | 组件 | 目的 |
 |------|-----------|---------|
@@ -212,7 +212,7 @@ Research → Plan → Implement (TDD) → Review → Verify → Commit
 
 ### 第 4 部分：优化提示 —— 快速版本
 
-为有经验的 ECC 用户提供的紧凑版本。根据意图类型而变化：
+为有经验的 cc4pm 用户提供的紧凑版本。根据意图类型而变化：
 
 | 意图 | 快速模式 |
 |--------|--------------|
@@ -244,7 +244,7 @@ Research → Plan → Implement (TDD) → Review → Verify → Commit
 * "Optimize this prompt for ECC"
 * "Rewrite this prompt so Claude Code uses the right commands"
 * "帮我优化这个指令"
-* "How should I prompt ECC for this task?"
+* "How should I prompt cc4pm for this task?"
 
 ### 示例 1：模糊的中文提示（检测到项目）
 
@@ -370,7 +370,7 @@ Recommended: Opus 4.6 for blueprint planning, Sonnet 4.6 for phase execution.
 
 | 组件 | 何时引用 |
 |-----------|------------------|
-| `configure-ecc` | 用户尚未设置 ECC |
+| `configure-ecc` | 用户尚未设置 cc4pm |
 | `skill-stocktake` | 审计安装了哪些组件（使用它而不是硬编码的目录） |
 | `search-first` | 优化提示中的研究阶段 |
 | `blueprint` | 史诗级范围的优化提示（作为技能调用，而非命令） |

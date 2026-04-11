@@ -13,7 +13,7 @@
       ]
     },
     "developer": {
-      "description": "Default engineering profile for most ECC users working across app codebases.",
+      "description": "Default engineering profile for most cc4pm users working across app codebases.",
       "modules": [
         "rules-core",
         "agents-core",
@@ -53,7 +53,7 @@
       ]
     },
     "full": {
-      "description": "Complete ECC install with all currently classified modules.",
+      "description": "Complete cc4pm install with all currently classified modules.",
       "modules": [
         "rules-core",
         "agents-core",

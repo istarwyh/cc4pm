@@ -1,4 +1,4 @@
-# Everything Claude Code
+# cc4pm
 
 Use this skill when working inside the `everything-claude-code` repository and you need repo-specific guidance instead of generic coding advice.
 

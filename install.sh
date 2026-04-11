@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh — Legacy shell entrypoint for the ECC installer.
+# install.sh — Legacy shell entrypoint for the cc4pm installer.
 #
 # This wrapper resolves the real repo/package root when invoked through a
 # symlinked npm bin, then delegates to the Node-based installer runtime.

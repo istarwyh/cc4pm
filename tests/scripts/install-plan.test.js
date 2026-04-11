@@ -46,7 +46,7 @@ function runTests() {
   if (test('shows help with no arguments', () => {
     const result = run();
     assert.strictEqual(result.code, 0);
-    assert.ok(result.stdout.includes('Inspect ECC selective-install manifests'));
+    assert.ok(result.stdout.includes('Inspect cc4pm selective-install manifests'));
   })) passed++; else failed++;
 
   if (test('lists install profiles', () => {

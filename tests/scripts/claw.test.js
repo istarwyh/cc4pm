@@ -129,7 +129,7 @@ function runTests() {
   })) passed++; else failed++;
 
   if (test('loadECCContext() concatenates multiple skill files', () => {
-    // Use real skills from the ECC repo if they exist
+    // Use real skills from the cc4pm repo if they exist
     const skillsDir = path.join(process.cwd(), 'skills');
     if (!fs.existsSync(skillsDir)) {
       console.log('    (skipped — no skills/ directory in CWD)');

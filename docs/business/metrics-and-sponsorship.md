@@ -17,26 +17,26 @@ Use four categories in every update:
 
 ```bash
 # Weekly downloads
-curl -s https://api.npmjs.org/downloads/point/last-week/ecc-universal
+curl -s https://api.npmjs.org/downloads/point/last-week/cc4pm
 curl -s https://api.npmjs.org/downloads/point/last-week/ecc-agentshield
 
 # Last 30 days
-curl -s https://api.npmjs.org/downloads/point/last-month/ecc-universal
+curl -s https://api.npmjs.org/downloads/point/last-month/cc4pm
 curl -s https://api.npmjs.org/downloads/point/last-month/ecc-agentshield
 ```
 
 ### GitHub repository adoption
 
 ```bash
-gh api repos/affaan-m/everything-claude-code \
+gh api repos/istarwyh/cc4pm \
   --jq '{stars:.stargazers_count,forks:.forks_count,contributors_url:.contributors_url,open_issues:.open_issues_count}'
 ```
 
 ### GitHub traffic (maintainer access required)
 
 ```bash
-gh api repos/affaan-m/everything-claude-code/traffic/views
-gh api repos/affaan-m/everything-claude-code/traffic/clones
+gh api repos/istarwyh/cc4pm/traffic/views
+gh api repos/istarwyh/cc4pm/traffic/clones
 ```
 
 ### GitHub App installs
@@ -44,7 +44,7 @@ gh api repos/affaan-m/everything-claude-code/traffic/clones
 GitHub App install count is currently most reliable in the Marketplace/App dashboard.
 Use the latest value from:
 
-- [ECC Tools Marketplace](https://github.com/marketplace/ecc-tools)
+- [cc4pm Tools Marketplace](https://github.com/marketplace/ecc-tools)
 
 ## What Cannot Be Measured Publicly (Yet)
 
@@ -66,7 +66,7 @@ Use these as starting points in negotiation:
 
 Use this on calls:
 
-> ECC is now positioned as an agent harness performance system, not a config repo.  
+> cc4pm is now positioned as an agent harness performance system, not a config repo.  
 > We track adoption through npm distribution, GitHub App installs, and repository growth.  
 > Claude plugin installs are structurally undercounted publicly, so we use a blended metrics model.  
 > The project supports Claude Code, Cursor, OpenCode, and Codex app/CLI with production-grade hook reliability and a large passing test suite.

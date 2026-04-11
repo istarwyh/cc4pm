@@ -1,4 +1,4 @@
-# ECC Selective Install Design
+# cc4pm Selective Install Design
 
 ## Purpose
 
@@ -10,15 +10,15 @@ architecture and code boundaries.
 
 This document answers the product and operator questions first:
 
-- how users choose ECC components
+- how users choose cc4pm components
 - what the CLI should feel like
 - what config file should exist
 - how installation should behave across harness targets
-- how the design maps onto the current ECC codebase without requiring a rewrite
+- how the design maps onto the current cc4pm codebase without requiring a rewrite
 
 ## Problem
 
-Today ECC still feels like a large payload installer even though the repo now
+Today cc4pm still feels like a large payload installer even though the repo now
 has first-pass manifest and lifecycle support.
 
 Users need a simpler mental model:
@@ -28,7 +28,7 @@ Users need a simpler mental model:
 - add the framework configs they actually want
 - add optional capability packs like security, research, or orchestration
 
-The selective-install system should make ECC feel composable instead of
+The selective-install system should make cc4pm feel composable instead of
 all-or-nothing.
 
 In the current substrate, user-facing components are still an alias layer over
@@ -38,7 +38,7 @@ until the underlying module graph is split more finely.
 
 ## Goals
 
-1. Let users install a small default ECC footprint quickly.
+1. Let users install a small default cc4pm footprint quickly.
 2. Let users compose installs from reusable component families:
    - core rules
    - language packs
@@ -53,7 +53,7 @@ until the underlying module graph is split more finely.
 
 ## Non-Goals
 
-- packaging ECC into multiple npm packages in the first phase
+- packaging cc4pm into multiple npm packages in the first phase
 - building a remote marketplace
 - full control-plane UI in the same phase
 - solving every skill-classification problem before selective install ships
@@ -62,7 +62,7 @@ until the underlying module graph is split more finely.
 
 ### 1. Start Small
 
-A user should be able to get a useful ECC install with one command:
+A user should be able to get a useful cc4pm install with one command:
 
 ```bash
 ecc install --target claude --profile core
@@ -121,7 +121,7 @@ module granularity in later phases.
 
 ### 1. Baseline
 
-These are the default ECC building blocks:
+These are the default cc4pm building blocks:
 
 - core rules
 - baseline agents
@@ -172,7 +172,7 @@ primitives where appropriate.
 
 ### 4. Capability Packs
 
-Capability packs are cross-cutting ECC feature bundles.
+Capability packs are cross-cutting cc4pm feature bundles.
 
 Examples:
 
@@ -363,7 +363,7 @@ The important UX property is that the exact same flow powers:
 - `repair`
 - `uninstall`
 
-The commands differ in action, not in how ECC understands the selected install.
+The commands differ in action, not in how cc4pm understands the selected install.
 
 ## Target Behavior
 
@@ -374,7 +374,7 @@ targets, while letting target adapters decide how content lands.
 
 Best fit for:
 
-- home-scoped ECC baseline
+- home-scoped cc4pm baseline
 - commands, agents, rules, hooks, platform config, orchestration
 
 ### Cursor
@@ -431,7 +431,7 @@ the current substrate into a cleaner user-facing component model.
 - generated slim bundles
 - remote component fetch
 
-## Mapping To Current ECC Manifests
+## Mapping To Current cc4pm Manifests
 
 The current manifests do not yet expose a true user-facing `lang:*` /
 `framework:*` / `capability:*` taxonomy. That should be introduced as a
@@ -485,5 +485,5 @@ It should be:
 3. add `include` / `exclude` selection and catalog discovery
 4. let the existing planner and lifecycle stack consume that model
 
-That is the shortest path from the current ECC codebase to a real selective
-install experience that feels like ECC 2.0 instead of a large legacy installer.
+That is the shortest path from the current cc4pm codebase to a real selective
+install experience that feels like cc4pm 2.0 instead of a large legacy installer.

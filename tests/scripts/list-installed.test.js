@@ -84,7 +84,7 @@ function runTests() {
     try {
       const result = run([], { cwd: projectRoot, homeDir });
       assert.strictEqual(result.code, 0);
-      assert.ok(result.stdout.includes('No ECC install-state files found'));
+      assert.ok(result.stdout.includes('No cc4pm install-state files found'));
     } finally {
       cleanup(homeDir);
       cleanup(projectRoot);

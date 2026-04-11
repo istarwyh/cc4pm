@@ -1,9 +1,9 @@
-# ECC 2.0 Selective Install Discovery
+# cc4pm 2.0 Selective Install Discovery
 
 ## Purpose
 
 This document turns the March 11 mega-plan selective-install requirement into a
-concrete ECC 2.0 discovery design.
+concrete cc4pm 2.0 discovery design.
 
 The goal is not just "fewer files copied during install." The actual target is
 an install system that can answer, deterministically:
@@ -12,9 +12,9 @@ an install system that can answer, deterministically:
 - what was resolved
 - what was copied or generated
 - what target-specific transforms were applied
-- what ECC owns and may safely remove or repair later
+- what cc4pm owns and may safely remove or repair later
 
-That is the missing contract between ECC 1.x installation and an ECC 2.0
+That is the missing contract between cc4pm 1.x installation and an cc4pm 2.0
 control plane.
 
 ## Current Implemented Foundation
@@ -296,7 +296,7 @@ Responsibility:
 This is the missing architectural seam in the current installer.
 
 Today, operations are partly scaffold-level and partly executor-specific.
-ECC 2.0 should make operation planning a standalone phase so that:
+cc4pm 2.0 should make operation planning a standalone phase so that:
 
 - `plan` becomes a true preview of execution
 - `doctor` can validate intended behavior, not just current files
@@ -425,7 +425,7 @@ The lowest-risk migration path is evolutionary, not a rewrite.
 
 ## Immediate Architecture Changes To Make Next
 
-If the goal is ECC 2.0 and not just “working enough,” the next modularization
+If the goal is cc4pm 2.0 and not just “working enough,” the next modularization
 steps should be:
 
 1. split `install-executor.js` into request normalization, operation planning,
@@ -440,7 +440,7 @@ steps should be:
 
 ## Why The Current Model Is Not Enough
 
-Today ECC still behaves like a broad payload copier:
+Today cc4pm still behaves like a broad payload copier:
 
 - `install.sh` is language-first and target-branch-heavy
 - targets are partly implicit in directory layout
@@ -456,7 +456,7 @@ That creates the problems already called out in the mega plan:
 - future targets like Codex or OpenCode require more special-case logic instead
   of reusing a stable install contract
 
-## ECC 2.0 Design Thesis
+## cc4pm 2.0 Design Thesis
 
 Selective install should be modeled as:
 
@@ -465,7 +465,7 @@ Selective install should be modeled as:
 3. execute a deterministic install operation set
 4. write install-state as the durable source of truth
 
-That means ECC 2.0 needs two contracts, not one:
+That means cc4pm 2.0 needs two contracts, not one:
 
 - a content contract
   what modules exist and how they depend on each other
@@ -503,12 +503,12 @@ Current fields already implemented:
 - `cost`
 - `stability`
 
-Fields still needed for ECC 2.0:
+Fields still needed for cc4pm 2.0:
 
 - `installStrategy`
   for example `copy`, `flatten-rules`, `generate`, `merge-config`
 - `ownership`
-  whether ECC fully owns the target path or only generated files under it
+  whether cc4pm fully owns the target path or only generated files under it
 - `pathMode`
   for example `preserve`, `flatten`, `target-template`
 - `conflicts`
@@ -555,7 +555,7 @@ Fields still needed:
 - `excludes`
 - `requiresConfirmation`
 
-That lets ECC 2.0 say things like:
+That lets cc4pm 2.0 say things like:
 
 - `developer` is the recommended default for Claude and Cursor
 - `research` may be heavy for narrow local installs
@@ -607,7 +607,7 @@ doc: canonical contract first, harness-specific adapter second.
 The current `scripts/install-plan.js` CLI proves the repo can resolve requested
 modules into a filtered module set.
 
-ECC 2.0 needs the next layer: operation planning.
+cc4pm 2.0 needs the next layer: operation planning.
 
 Suggested phases:
 
@@ -659,7 +659,7 @@ Other operation kinds:
 
 ## Install-State Contract
 
-Install-state is the durable contract that ECC 1.x is missing.
+Install-state is the durable contract that cc4pm 1.x is missing.
 
 Suggested path conventions:
 
@@ -786,7 +786,7 @@ Current `install.sh` accepts:
 
 That behavior cannot disappear in one cut because users already depend on it.
 
-ECC 2.0 should translate legacy language arguments into a compatibility request.
+cc4pm 2.0 should translate legacy language arguments into a compatibility request.
 
 Suggested approach:
 
@@ -815,7 +815,7 @@ contract.
 
 The current npm package still publishes a broad payload through `package.json`.
 
-ECC 2.0 should improve this carefully.
+cc4pm 2.0 should improve this carefully.
 
 Recommended sequence:
 
@@ -929,5 +929,5 @@ Treat the current manifest resolver as adapter `0` for installs:
 4. make uninstall, doctor, and repair depend only on install-state
 5. only then shrink packaging or add more targets
 
-That is the shortest path from ECC 1.x installer sprawl to an ECC 2.0
+That is the shortest path from cc4pm 1.x installer sprawl to an cc4pm 2.0
 install/control contract that is deterministic, supportable, and extensible.

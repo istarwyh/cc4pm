@@ -4,7 +4,7 @@
 
 ---
 
-> **This is Part 3 of the Everything Claude Code guide series.** Part 1 is [The Shorthand Guide](./the-shortform-guide.md) (setup and configuration). Part 2 is [The Longform Guide](./the-longform-guide.md) (advanced patterns and workflows). This guide is about security — specifically, what happens when recursive agent infrastructure treats it as an afterthought.
+> **This is Part 3 of the cc4pm guide series.** Part 1 is [The Shorthand Guide](./the-shortform-guide.md) (setup and configuration). Part 2 is [The Longform Guide](./the-longform-guide.md) (advanced patterns and workflows). This guide is about security — specifically, what happens when recursive agent infrastructure treats it as an afterthought.
 
 I used OpenClaw for a week. This is what I found.
 
@@ -302,7 +302,7 @@ Mac Mini (headless, 24/7)
 ├── SSH access only (ed25519 key auth, no passwords)
 ├── Tailscale mesh (no exposed ports to public internet)
 ├── tmux session (persistent, survives disconnects)
-├── Claude Code with ECC configuration
+├── Claude Code with cc4pm configuration
 │   ├── Sanitized skills (every skill manually reviewed)
 │   ├── Hooks for quality gates (not for external channel access)
 │   └── Agents with scoped permissions (read-only by default)
@@ -460,8 +460,8 @@ Build secure by design. Not secure by accident.
 - [AgentShield on npm](https://www.npmjs.com/package/ecc-agentshield) — Zero-install agent security scanning
 
 > **Series navigation:**
-> - Part 1: [The Shorthand Guide to Everything Claude Code](./the-shortform-guide.md) — Setup and configuration
-> - Part 2: [The Longform Guide to Everything Claude Code](./the-longform-guide.md) — Advanced patterns and workflows
+> - Part 1: [The Shorthand Guide to cc4pm](./the-shortform-guide.md) — Setup and configuration
+> - Part 2: [The Longform Guide to cc4pm](./the-longform-guide.md) — Advanced patterns and workflows
 > - Part 3: The Hidden Danger of OpenClaw (this article) — Security lessons from the agent frontier
 > - Part 4: [The Shorthand Guide to Securing Your Agent](./the-security-guide.md) — Practical agent security
 

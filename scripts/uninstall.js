@@ -43,7 +43,7 @@ function parseArgs(argv) {
 
 function printHuman(result) {
   if (result.results.length === 0) {
-    console.log('No ECC install-state files found for the current home/project context.');
+    console.log('No cc4pm install-state files found for the current home/project context.');
     return;
   }
 

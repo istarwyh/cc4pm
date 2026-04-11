@@ -1,4 +1,4 @@
-# Everything Claude Code -- Showcase 页面完整设计规格
+# cc4pm -- Showcase 页面完整设计规格
 
 > 本文档为 Builder 的唯一实现依据。所有数值、颜色、间距、动画参数均为最终值，无需猜测。
 
@@ -472,7 +472,7 @@ transition: all 250ms ease-out;
   "✓ 已配置 hooks 和 MCP"
 
 场景 7 (场景6后延迟 600ms):
-  整行: "🎉 ecc-universal v1.8.0 安装完成！" (--terminal-yellow 色)
+  整行: "🎉 cc4pm v1.8.0 安装完成！" (--terminal-yellow 色)
 
 场景 8 (场景7后延迟 800ms):
   提示符: "~ $"
@@ -493,7 +493,7 @@ transition: all 250ms ease-out;
 
 - 两个按钮并列(同 Hero CTA 样式但稍小):
   - `Plugin Marketplace 安装` (主 CTA 样式, 点击复制 marketplace 安装命令)
-  - `npm 安装` (次要样式, 点击复制 `npm install -g ecc-universal`)
+  - `npm 安装` (次要样式, 点击复制 `npm install -g cc4pm`)
 - 下方小字: `支持 npm / pnpm / yarn / bun`，`--text-muted`，13px
 
 ---
@@ -572,7 +572,7 @@ transition: all 250ms ease-out;
 ### Footer 底部
 - 分隔线: `1px solid var(--border-default)`，`margin-top: var(--space-4xl);`
 - 内容: `padding: var(--space-xl) 0;`
-  - 左: `ECC v1.8.0`，`--text-muted`，`--font-mono`，13px
+  - 左: `cc4pm v1.8.0`，`--text-muted`，`--font-mono`，13px
   - 中: `MIT License`，`--text-muted`
   - 右: GitHub 图标链接 + Twitter/X 图标链接，`--text-muted`，hover `--text-primary`
 - 移动端: 三部分堆叠居中

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "ECC Install Profiles",
+  "title": "cc4pm Install Profiles",
   "type": "object",
   "properties": {
     "version": {

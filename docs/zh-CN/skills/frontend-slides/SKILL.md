@@ -179,7 +179,7 @@ origin: ECC
 * 在短屏幕上会损坏的固定高度内容框
 * 无效的否定 CSS 函数，如 `-clamp(...)`
 
-## 相关 ECC 技能
+## 相关 cc4pm 技能
 
 * `frontend-patterns` 用于围绕文稿的组件和交互模式
 * `liquid-glass-design` 当演示文稿有意借鉴苹果玻璃美学时

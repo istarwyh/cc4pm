@@ -202,6 +202,9 @@ stages:
           - role-based-install
           - verification-checklist
           - dynamic-system-prompt
+          - env-var-optimization
+          - attribution-header-cache
+          - api-proxy-config
 
       - id: lesson-10
         file: lesson-10.md

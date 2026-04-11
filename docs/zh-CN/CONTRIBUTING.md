@@ -1,4 +1,4 @@
-# 为 Everything Claude Code 做贡献
+# 为 cc4pm 做贡献
 
 感谢您想要贡献！这个仓库是 Claude Code 用户的社区资源。
 
@@ -58,7 +58,7 @@
 
 ```bash
 # 1. Fork and clone
-gh repo fork affaan-m/everything-claude-code --clone
+gh repo fork istarwyh/cc4pm --clone
 cd everything-claude-code
 
 # 2. Create a branch
@@ -354,7 +354,7 @@ description: 在 /help 中显示的简要描述
 
 ### 技能子集 (Codex 和 Cursor)
 
-ECC 为其他平台提供了技能子集：
+cc4pm 为其他平台提供了技能子集：
 
 * **Codex:** `.agents/skills/` — `agents/openai.yaml` 中列出的技能会被 Codex 加载。
 * **Cursor:** `.cursor/skills/` — 为 Cursor 打包了一个技能子集。
@@ -445,7 +445,7 @@ docs: improve contributing guide
 
 ## 有问题吗？
 
-* **问题：** [github.com/affaan-m/everything-claude-code/issues](https://github.com/affaan-m/everything-claude-code/issues)
+* **问题：** [github.com/istarwyh/cc4pm/issues](https://github.com/istarwyh/cc4pm/issues)
 * **X/Twitter：** [@affaanmustafa](https://x.com/affaanmustafa)
 
 ***

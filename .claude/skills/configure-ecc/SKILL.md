@@ -1,18 +1,18 @@
 ---
 name: configure-ecc
-description: Interactive installer for Everything Claude Code — guides users through selecting and installing skills and rules to user-level or project-level directories, verifies paths, and optionally optimizes installed files.
+description: Interactive installer for cc4pm — guides users through selecting and installing skills and rules to user-level or project-level directories, verifies paths, and optionally optimizes installed files.
 origin: ECC
 ---
 
-# Configure Everything Claude Code (ECC)
+# Configure cc4pm (cc4pm)
 
-An interactive, step-by-step installation wizard for the Everything Claude Code project. Uses `AskUserQuestion` to guide users through selective installation of skills and rules, then verifies correctness and offers optimization.
+An interactive, step-by-step installation wizard for the cc4pm project. Uses `AskUserQuestion` to guide users through selective installation of skills and rules, then verifies correctness and offers optimization.
 
 ## When to Activate
 
 - User says "configure ecc", "install ecc", "setup everything claude code", or similar
 - User wants to selectively install skills or rules from this project
-- User wants to verify or fix an existing ECC installation
+- User wants to verify or fix an existing cc4pm installation
 - User wants to optimize installed skills or rules for their project
 
 ## Prerequisites
@@ -23,18 +23,18 @@ This skill must be accessible to Claude Code before activation. Two ways to boot
 
 ---
 
-## Step 0: Clone ECC Repository
+## Step 0: Clone cc4pm Repository
 
-Before any installation, clone the latest ECC source to `/tmp`:
+Before any installation, clone the latest cc4pm source to `/tmp`:
 
 ```bash
 rm -rf /tmp/everything-claude-code
-git clone https://github.com/affaan-m/everything-claude-code.git /tmp/everything-claude-code
+git clone https://github.com/istarwyh/cc4pm.git /tmp/everything-claude-code
 ```
 
 Set `ECC_ROOT=/tmp/everything-claude-code` as the source for all subsequent copy operations.
 
-If the clone fails (network issues, etc.), use `AskUserQuestion` to ask the user to provide a local path to an existing ECC clone.
+If the clone fails (network issues, etc.), use `AskUserQuestion` to ask the user to provide a local path to an existing cc4pm clone.
 
 ---
 
@@ -43,7 +43,7 @@ If the clone fails (network issues, etc.), use `AskUserQuestion` to ask the user
 Use `AskUserQuestion` to ask the user where to install:
 
 ```
-Question: "Where should ECC components be installed?"
+Question: "Where should cc4pm components be installed?"
 Options:
   - "User-level (~/.claude/)" — "Applies to all your Claude Code projects"
   - "Project-level (.claude/)" — "Applies only to the current project"
@@ -307,7 +307,7 @@ Options:
    - Security requirements
 3. Edit the rule files in-place at the installation target
 
-**Critical**: Only modify files in the installation target (`$TARGET/`), NEVER modify files in the source ECC repository (`$ECC_ROOT/`).
+**Critical**: Only modify files in the installation target (`$TARGET/`), NEVER modify files in the source cc4pm repository (`$ECC_ROOT/`).
 
 ---
 
@@ -322,7 +322,7 @@ rm -rf /tmp/everything-claude-code
 Then print a summary report:
 
 ```
-## ECC Installation Complete
+## cc4pm Installation Complete
 
 ### Installation Target
 - Level: [user-level / project-level / both]

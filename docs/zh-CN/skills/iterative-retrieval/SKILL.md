@@ -212,4 +212,4 @@ Result: throttle.ts, middleware/index.ts, router-setup.ts
 
 * [长篇指南](https://x.com/affaanmustafa/status/2014040193557471352) - 子代理编排章节
 * `continuous-learning` 技能 - 适用于随时间改进的模式
-* 与 ECC 捆绑的代理定义（手动安装路径：`agents/`）
+* 与 cc4pm 捆绑的代理定义（手动安装路径：`agents/`）

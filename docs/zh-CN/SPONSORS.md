@@ -1,6 +1,6 @@
 # 赞助者
 
-感谢所有赞助本项目的各位！你们的支持让 ECC 生态系统持续成长。
+感谢所有赞助本项目的各位！你们的支持让 cc4pm 生态系统持续成长。
 
 ## 企业赞助者
 
@@ -33,7 +33,7 @@
 
 在赞助者对话中使用这些证明点：
 
-* `ecc-universal` 和 `ecc-agentshield` 的实时 npm 安装/下载指标
+* `cc4pm` 和 `ecc-agentshield` 的实时 npm 安装/下载指标
 * 通过 Marketplace 安装的 GitHub App 分发
 * 公开采用信号：星标、分叉、贡献者、发布节奏
 * 跨平台支持：Claude Code、Cursor、OpenCode、Codex 应用/CLI

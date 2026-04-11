@@ -328,7 +328,7 @@ Plugin 可以做很多事：
 
 ```bash
 # 添加一个插件市场
-claude plugin marketplace add affaan-m/everything-claude-code
+claude plugin marketplace add istarwyh/cc4pm
 
 # 查看已安装的插件
 /plugins
@@ -400,11 +400,11 @@ claude plugin marketplace add mixedbread-ai/mgrep
 
 ```bash
 # 方式 1：插件市场（推荐）
-/plugin marketplace add affaan-m/everything-claude-code
+/plugin marketplace add istarwyh/cc4pm
 /plugin install everything-claude-code@everything-claude-code
 
 # 方式 2：手动安装
-git clone https://github.com/affaan-m/everything-claude-code.git
+git clone https://github.com/istarwyh/cc4pm.git
 ./install.sh typescript python  # 按需选择语言规则
 ```
 

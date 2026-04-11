@@ -160,7 +160,7 @@ RECOMMENDATION
 
 对于使用独立 git worktree 的外部 tmux-pane 工作器，请使用 `node scripts/orchestrate-worktrees.js plan.json --execute`。内置的编排模式保持进程内运行；此辅助工具适用于长时间运行或跨测试框架的会话。
 
-当工作器需要查看主检出目录中的脏文件或未跟踪的本地文件时，请在计划文件中添加 `seedPaths`。ECC 仅在 `git worktree add` 之后，将那些选定的路径覆盖到每个工作器的工作树中，这既能保持分支隔离，又能暴露正在处理的本地脚本、计划或文档。
+当工作器需要查看主检出目录中的脏文件或未跟踪的本地文件时，请在计划文件中添加 `seedPaths`。cc4pm 仅在 `git worktree add` 之后，将那些选定的路径覆盖到每个工作器的工作树中，这既能保持分支隔离，又能暴露正在处理的本地脚本、计划或文档。
 
 ```json
 {

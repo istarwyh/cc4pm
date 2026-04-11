@@ -109,7 +109,7 @@ claude -p --allowedTools "Read,Write,Edit,Bash" "Implement the fixes from securi
 
 ## 2. NanoClaw REPL
 
-**ECC 内置的持久循环。** 一个具有会话感知的 REPL，它使用完整的对话历史同步调用 `claude -p`。
+**cc4pm 内置的持久循环。** 一个具有会话感知的 REPL，它使用完整的对话历史同步调用 `claude -p`。
 
 ```bash
 # Start the default session
@@ -579,7 +579,7 @@ Is the task a single focused change?
 
 2. **连续 Claude + 去草率化** — 为每次迭代添加带有去草率化指令的 `--review-prompt`。
 
-3. **任何循环 + 验证** — 在提交前，使用 ECC 的 `/verify` 命令或 `verification-loop` 技能作为关卡。
+3. **任何循环 + 验证** — 在提交前，使用 cc4pm 的 `/verify` 命令或 `verification-loop` 技能作为关卡。
 
 4. **Ralphinho 在简单循环中的分层方法** — 即使在顺序流水线中，你也可以将简单任务路由到 Haiku，复杂任务路由到 Opus：
    ```bash
@@ -617,5 +617,5 @@ Is the task a single focused change?
 | Ralphinho | enitrat | credit: @enitrat |
 | Infinite Agentic Loop | disler | credit: @disler |
 | Continuous Claude | AnandChowdhary | credit: @AnandChowdhary |
-| NanoClaw | ECC | 此仓库中的 `/claw` 命令 |
-| Verification Loop | ECC | 此仓库中的 `skills/verification-loop/` |
+| NanoClaw | cc4pm | 此仓库中的 `/claw` 命令 |
+| Verification Loop | cc4pm | 此仓库中的 `skills/verification-loop/` |

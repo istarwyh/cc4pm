@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Refactored ECC installer runtime.
+ * Refactored cc4pm installer runtime.
  *
  * Keeps the legacy language-based install entrypoint intact while moving
  * target-specific mutation logic into testable Node code.

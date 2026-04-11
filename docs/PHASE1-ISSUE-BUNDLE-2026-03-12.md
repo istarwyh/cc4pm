@@ -11,8 +11,8 @@ blocked by missing GitHub authentication in the MCP session.
 These drafts were later posted via `gh`:
 
 - `#423` Implement manifest-driven selective install profiles for ECC
-- `#421` Add ECC install-state plus uninstall / doctor / repair lifecycle
-- `#424` Define canonical session adapter contract for ECC 2.0 control plane
+- `#421` Add cc4pm install-state plus uninstall / doctor / repair lifecycle
+- `#424` Define canonical session adapter contract for cc4pm 2.0 control plane
 - `#422` Define generated skill placement and provenance policy
 - `#425` Define governance and visibility past the tool call
 
@@ -34,7 +34,7 @@ Implement manifest-driven selective install profiles for ECC
 ```md
 ## Problem
 
-ECC still installs primarily by target and language. The repo now has first-pass
+cc4pm still installs primarily by target and language. The repo now has first-pass
 selective-install manifests and a non-mutating plan resolver, but the installer
 itself does not yet consume those profiles.
 
@@ -52,7 +52,7 @@ preserving backward compatibility.
 
 ## Scope
 
-Implement manifest-driven install execution for current ECC targets:
+Implement manifest-driven install execution for current cc4pm targets:
 
 - `claude`
 - `cursor`
@@ -85,7 +85,7 @@ Add first-pass support for:
 
 ### Title
 
-Add ECC install-state plus uninstall / doctor / repair lifecycle
+Add cc4pm install-state plus uninstall / doctor / repair lifecycle
 
 ### Labels
 
@@ -96,7 +96,7 @@ Add ECC install-state plus uninstall / doctor / repair lifecycle
 ```md
 ## Problem
 
-ECC has no canonical installed-state record. That makes uninstall, repair, and
+cc4pm has no canonical installed-state record. That makes uninstall, repair, and
 post-install inspection nondeterministic.
 
 Today the repo can classify installable content, but it still cannot reliably
@@ -104,7 +104,7 @@ answer:
 
 - what profile/modules were installed
 - what target they were installed into
-- what paths ECC owns
+- what paths cc4pm owns
 - how to remove or repair only ECC-managed files
 
 Without install-state, lifecycle commands are guesswork.
@@ -156,7 +156,7 @@ The state file should capture at minimum:
 
 ### Title
 
-Define canonical session adapter contract for ECC 2.0 control plane
+Define canonical session adapter contract for cc4pm 2.0 control plane
 
 ### Labels
 
@@ -167,7 +167,7 @@ Define canonical session adapter contract for ECC 2.0 control plane
 ```md
 ## Problem
 
-ECC now has real orchestration/session substrate, but it is still
+cc4pm now has real orchestration/session substrate, but it is still
 implementation-specific.
 
 Current state:
@@ -185,7 +185,7 @@ session/task state across:
 - OpenCode sessions
 - later remote or GitHub-integrated operator surfaces
 
-Without that adapter contract, any future ECC 2.0 operator shell will be forced
+Without that adapter contract, any future cc4pm 2.0 operator shell will be forced
 to read tmux-specific and markdown-coordination details directly.
 
 ## Scope
@@ -202,7 +202,7 @@ Suggested deliverables:
 
 ## Non-Goals
 
-- Full ECC 2.0 UI in the same issue
+- Full cc4pm 2.0 UI in the same issue
 - Monetization/GitHub App implementation
 - Remote multi-user control plane
 
@@ -232,7 +232,7 @@ Define generated skill placement and provenance policy
 ```md
 ## Problem
 
-ECC now has a large and growing skill surface, but generated/imported/learned
+cc4pm now has a large and growing skill surface, but generated/imported/learned
 skills do not yet have a clear long-term placement and provenance policy.
 
 This creates several problems:
@@ -242,7 +242,7 @@ This creates several problems:
 - weak provenance for imported or machine-generated skill content
 - uncertainty about where future automated learning outputs should live
 
-As ECC grows, the repo needs explicit rules for where generated skill artifacts
+As cc4pm grows, the repo needs explicit rules for where generated skill artifacts
 belong and how they are identified.
 
 ## Scope

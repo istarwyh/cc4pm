@@ -1,0 +1,22 @@
+{
+  "name": "@cc4pm/homepage",
+  "version": "1.0.0",
+  "description": "cc4pm 官网首页 — 可嵌入其他网站的独立 HTML 页面",
+  "main": "index.js",
+  "files": [
+    "index.html",
+    "index.js"
+  ],
+  "keywords": [
+    "cc4pm",
+    "claude-code",
+    "product-maker",
+    "homepage"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/istarwyh/cc4pm.git",
+    "directory": "packages/homepage"
+  }
+}

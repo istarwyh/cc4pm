@@ -260,7 +260,7 @@ cargo clippy -- -D warnings
 cargo fmt -- --check
 ```
 
-## ECC 工作流
+## cc4pm 工作流
 
 ```bash
 # Planning

@@ -113,11 +113,11 @@ claude
 | TOML | `taplo` | — |
 | JSON | `jaq` | — |
 
-## 与 ECC 配对使用
+## 与 cc4pm 配对使用
 
 ### 互补而非重叠
 
-| 关注点 | ECC | Plankton |
+| 关注点 | cc4pm | Plankton |
 |---------|-----|----------|
 | 代码质量强制执行 | PostToolUse 钩子 (Prettier, tsc) | PostToolUse 钩子 (20+ linter + 子进程修复) |
 | 安全扫描 | AgentShield, security-reviewer 代理 | Bandit (Python), Semgrep (TypeScript) |
@@ -128,18 +128,18 @@ claude
 
 ### 推荐组合
 
-1. 将 ECC 安装为你的插件（代理、技能、命令、规则）
+1. 将 cc4pm 安装为你的插件（代理、技能、命令、规则）
 2. 添加 Plankton 钩子以实现编写时质量强制执行
 3. 使用 AgentShield 进行安全审计
-4. 在 PR 之前使用 ECC 的 verification-loop 作为最后一道关卡
+4. 在 PR 之前使用 cc4pm 的 verification-loop 作为最后一道关卡
 
 ### 避免钩子冲突
 
-如果同时运行 ECC 和 Plankton 钩子：
+如果同时运行 cc4pm 和 Plankton 钩子：
 
-* ECC 的 Prettier 钩子和 Plankton 的 biome 格式化程序可能在 JS/TS 文件上冲突
-* 解决方案：使用 Plankton 时禁用 ECC 的 Prettier PostToolUse 钩子（Plankton 的 biome 更全面）
-* 两者可以在不同的文件类型上共存（ECC 处理 Plankton 未覆盖的内容）
+* cc4pm 的 Prettier 钩子和 Plankton 的 biome 格式化程序可能在 JS/TS 文件上冲突
+* 解决方案：使用 Plankton 时禁用 cc4pm 的 Prettier PostToolUse 钩子（Plankton 的 biome 更全面）
+* 两者可以在不同的文件类型上共存（cc4pm 处理 Plankton 未覆盖的内容）
 
 ## 配置参考
 
@@ -198,7 +198,7 @@ Plankton 的 `.claude/hooks/config.json` 控制所有行为：
 * Plankton REFERENCE.md — 完整的架构文档（作者：@alxfazio）
 * Plankton SETUP.md — 详细的安装指南（作者：@alxfazio）
 
-## ECC v1.8 新增内容
+## cc4pm v1.8 新增内容
 
 ### 可复制的钩子配置文件
 

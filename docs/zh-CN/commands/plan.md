@@ -112,7 +112,7 @@ Agent (planner):
 
 ## 相关代理
 
-此命令调用由 ECC 提供的 `planner` 代理。
+此命令调用由 cc4pm 提供的 `planner` 代理。
 
 对于手动安装，源文件位于：
 `agents/planner.md`

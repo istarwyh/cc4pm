@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-Common issues and solutions for Everything Claude Code (ECC) plugin.
+Common issues and solutions for cc4pm (ECC) plugin.
 
 ## Table of Contents
 
@@ -256,7 +256,7 @@ mv ~/.claude/plugins/cache ~/.claude/plugins/cache.backup.$(date +%Y%m%d-%H%M%S)
 mkdir -p ~/.claude/plugins/cache
 
 # Reinstall from marketplace
-# Claude Code → Extensions → Everything Claude Code → Uninstall
+# Claude Code → Extensions → cc4pm → Uninstall
 # Then reinstall from marketplace
 
 # Check Claude Code version
@@ -264,7 +264,7 @@ claude --version
 # Requires Claude Code 2.0+
 
 # Manual install (if marketplace fails)
-git clone https://github.com/affaan-m/everything-claude-code.git
+git clone https://github.com/istarwyh/cc4pm.git
 cp -r everything-claude-code ~/.claude/plugins/ecc
 ```
 
@@ -396,7 +396,7 @@ find ~/.claude/plugins -name "*.sh" -exec dos2unix {} \;
 
  If you're still experiencing issues:
 
-1. **Check GitHub Issues**: [github.com/affaan-m/everything-claude-code/issues](https://github.com/affaan-m/everything-claude-code/issues)
+1. **Check GitHub Issues**: [github.com/istarwyh/cc4pm/issues](https://github.com/istarwyh/cc4pm/issues)
 2. **Enable Debug Logging**:
    ```bash
    export CLAUDE_DEBUG=1

@@ -562,10 +562,10 @@ Grade A (Score: 94) after second pass
 
 ## 参考资料
 
-**ECC 生态系统：**
+**cc4pm 生态系统：**
 
 * [AgentShield on npm](https://www.npmjs.com/package/ecc-agentshield) — 零安装代理安全扫描
-* [Everything Claude Code](https://github.com/affaan-m/everything-claude-code) — 50K+ 星标，生产就绪的代理配置
+* [cc4pm](https://github.com/istarwyh/cc4pm) — 50K+ 星标，生产就绪的代理配置
 * [速成指南](the-shortform-guide.md) — 设置和配置基础
 * [详细指南](the-longform-guide.md) — 高级模式和优化
 * [OpenClaw 指南](the-openclaw-guide.md) — 来自代理前沿的安全经验教训
@@ -590,4 +590,4 @@ Grade A (Score: 94) after second pass
 
 *基于 10 个月维护 GitHub 上最受分叉的代理配置、审计数千个社区贡献以及构建工具来自动化人类无法大规模捕捉的问题的经验而构建。*
 
-*Affaan Mustafa ([@affaanmustafa](https://x.com/affaanmustafa)) — Everything Claude Code 和 AgentShield 的创建者*
+*Affaan Mustafa ([@affaanmustafa](https://x.com/affaanmustafa)) — cc4pm 和 AgentShield 的创建者*

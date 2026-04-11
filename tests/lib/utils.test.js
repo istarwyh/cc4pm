@@ -466,7 +466,7 @@ function runTests() {
   console.log('\nisGitRepo():');
 
   if (test('isGitRepo returns true in a git repo', () => {
-    // We're running from within the ECC repo, so this should be true
+    // We're running from within the cc4pm repo, so this should be true
     assert.strictEqual(utils.isGitRepo(), true);
   })) passed++; else failed++;
 

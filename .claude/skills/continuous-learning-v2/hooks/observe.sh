@@ -85,8 +85,8 @@ if [ -f "$CONFIG_DIR/disabled" ]; then
 fi
 
 # Prevent observe.sh from firing on non-human sessions to avoid:
-#   - ECC observing its own Haiku observer sessions (self-loop)
-#   - ECC observing other tools' automated sessions
+#   - cc4pm observing its own Haiku observer sessions (self-loop)
+#   - cc4pm observing other tools' automated sessions
 #   - automated sessions creating project-scoped homunculus metadata
 
 # Layer 1: entrypoint. Only interactive terminal sessions should continue.

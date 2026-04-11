@@ -51,7 +51,7 @@ function main() {
     ['shows top-level help', () => {
       const result = runCli(['--help']);
       assert.strictEqual(result.status, 0);
-      assert.match(result.stdout, /ECC selective-install CLI/);
+      assert.match(result.stdout, /cc4pm selective-install CLI/);
       assert.match(result.stdout, /list-installed/);
       assert.match(result.stdout, /doctor/);
     }],
@@ -95,7 +95,7 @@ function main() {
       fs.mkdirSync(sessionsDir, { recursive: true });
       fs.writeFileSync(
         path.join(sessionsDir, '2026-03-13-a1b2c3d4-session.tmp'),
-        '# ECC Session\n\n**Branch:** feat/ecc-cli\n'
+        '# cc4pm Session\n\n**Branch:** feat/ecc-cli\n'
       );
 
       const result = runCli(['session-inspect', 'claude:latest'], {

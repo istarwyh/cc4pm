@@ -241,7 +241,7 @@ go tool cover -html=coverage.out  # browser
 go test ./... -race -count=1
 ```
 
-## ECC 工作流
+## cc4pm 工作流
 
 ```bash
 # Planning

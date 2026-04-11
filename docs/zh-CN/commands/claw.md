@@ -1,5 +1,5 @@
 ---
-description: 启动 NanoClaw v2 — ECC 的持久、零依赖 REPL，具备模型路由、技能热加载、分支、压缩、导出和指标功能。
+description: 启动 NanoClaw v2 — cc4pm 的持久、零依赖 REPL，具备模型路由、技能热加载、分支、压缩、导出和指标功能。
 ---
 
 # Claw 命令
