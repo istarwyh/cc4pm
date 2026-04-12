@@ -115,8 +115,8 @@ class cc4pmGuideUI {
                    ${chalk.yellow('@|     |@')}
                     ${chalk.yellow('-------')}
                   ${chalk.yellow('/         \\')}
-                 ${chalk.yellow('|   ${chalk.bold('cc4pm')}   |')}
-                 ${chalk.yellow('|  ${chalk.bold('GRAD')}   |')}
+                 ${chalk.yellow(`|   ${chalk.bold('cc4pm')}   |`)}
+                 ${chalk.yellow(`|  ${chalk.bold('GRAD')}   |`)}
                   ${chalk.yellow('\\         /')}
                    ${chalk.yellow('-------')}
     `;

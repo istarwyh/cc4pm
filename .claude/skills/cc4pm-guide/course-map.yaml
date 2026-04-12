@@ -5,8 +5,8 @@
 meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
-  total_lessons: 27
-  supplementary_lessons: 9
+  total_lessons: 28
+  supplementary_lessons: 12
   default_max_lines: 400
 
 stages:
@@ -432,6 +432,19 @@ stages:
           - verification-loops
           - pass-at-k
 
+      - id: lesson-2.1
+        file: lesson-22.1.md
+        number: 22.1
+        title: "Eval-Driven Development (EDD)——量化 AI 的表现"
+        short_title: "EDD 实战"
+        supplementary: true
+        topics:
+          - eval-driven-development
+          - pass-at-k-metrics
+          - generator-evaluator-split
+          - capability-vs-regression-evals
+          - code-vs-model-graders
+
       - id: lesson-3
         file: lesson-3.md
         number: 23
@@ -484,6 +497,36 @@ stages:
           - cost-control-limits
           - de-sloppify-pattern
 
+      - id: lesson-3.3
+        file: lesson-3.3.md
+        number: 23.3
+        title: "实战案例：HelixVerify 的 114 次自举迭代"
+        short_title: "实战案例"
+        supplementary: true
+        topics:
+          - agent-bootstrapping
+          - hybrid-verification-engine
+          - e2e-for-agents
+          - verify-bench
+          - badcase-auto-diagnosis
+          - tp-adversarial-validation
+          - staircase-validation
+          - loop-infrastructure
+
+      - id: lesson-3.4
+        file: lesson-3.4.md
+        number: 23.4
+        title: "架构演进：解耦大脑、双手与会话"
+        short_title: "架构演进"
+        supplementary: true
+        topics:
+          - agent-architecture-decoupling
+          - brain-hands-session-abstraction
+          - cattle-vs-pets-agent
+          - token-isolation-security
+          - session-log-as-context
+          - lazy-provisioning-ttft
+
   - id: stage-5
     title: "高级应用与持续优化"
     lessons:
@@ -507,6 +550,19 @@ stages:
           - plugins-system
           - plugin-marketplace
           - mgrep
+
+      - id: lesson-1.1
+        file: lesson-1.1.md
+        number: 24.1
+        title: "Karpathy's LLM Wiki——知识编译与 Agentic 知识库"
+        short_title: "LLM Wiki"
+        supplementary: true
+        topics:
+          - llm-wiki
+          - knowledge-compilation
+          - agentic-knowledge-management
+          - knowledge-ingest-query-inspect
+          - obsidain-as-ide
 
       - id: lesson-2
         file: lesson-2.md

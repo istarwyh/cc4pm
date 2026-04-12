@@ -31,7 +31,7 @@ description: |
 
 欢迎来到 cc4pm 交互式教学！
 
-**cc4pm** 是 Anthropic 黑客马拉松获奖项目（50K+ Stars），是一套**完整的 AI 驱动产品全生命周期系统**。它不只是写代码的工具——而是从**产品灵感→市场验证→UX设计→开发→上线发布**的全流程 AI 协作平台。
+**cc4pm** 基于 Anthropic 黑客马拉松获奖项目 ECC (50K+ Stars) 演进而来，是一套**完整的 AI 驱动产品全生命周期系统**。它不只是写代码的工具——而是从**产品灵感→市场验证→UX设计→开发→上线发布**的全流程 AI 协作平台。
 
 **对产品主理人来说**：你可以直接使用 AI 代理来完成头脑风暴、市场验证、PRD 创建、用户心理分析、设计系统、冲刺规划到代码交付——一个人就是一支完整的产品团队。
 
@@ -119,15 +119,19 @@ description: |
 |------|------|-----------|
 | 21 | 工程协作概览：产品主理人的交付引擎 | plan-command、18-agents-overview、model-selection-logic、plan-test-dev-review |
 | 22 | 测试与代码审查：质量保障三板斧 | tdd-command、e2e-command、code-review-command、build-fix-command |
+| 22.1 | Eval-Driven Development (EDD)——量化 AI 的表现 | eval-driven-development、pass-at-k-metrics、generator-evaluator-split、capability-vs-regression-evals |
 | 23 | 自动化工作流：Hooks、Rules 和质量门禁 | hooks-deep-dive、hook-triggers-6、hook-exit-codes、hook-profiles |
 | 23.1 | Harness 设计哲学：来自 Anthropic 工程团队的实战经验 | harness-engineering-philosophy、generator-evaluator-pattern、context-anxiety、context-reset-vs-compaction |
 | 23.2 | Harness 实操：循环模式、编排与审计 | continuous-agent-loop、loop-patterns-4、relay-running、shared-task-notes |
+| 23.3 | 实战案例：HelixVerify 的 114 次自举迭代 | agent-bootstrapping、hybrid-verification-engine、e2e-for-agents、verify-bench |
+| 23.4 | 架构演进：解耦大脑、双手与会话 | agent-architecture-decoupling、brain-hands-session-abstraction、cattle-vs-pets-agent、token-isolation-security |
 
 ### 阶段 5：高级应用与持续优化（3 节课）
 
 | 编号 | 课名 | 核心知识点 |
 |------|------|-----------|
 | 24 | 高级特性：MCP 集成与持续学习 | mcp-servers、mcp-three-tiers、mcp-permission-auto-approve、claude-code-sdk |
+| 24.1 | Karpathy's LLM Wiki——知识编译与 Agentic 知识库 | llm-wiki、knowledge-compilation、agentic-knowledge-management、knowledge-ingest-query-inspect |
 | 25 | 完整项目实战：从零到发布 | full-workflow、key-handoff-points、project-launch-checklist、agent-collaboration-panorama |
 | 26 | 课程总结：你的 AI 产品主理人工具箱 | knowledge-map、command-cheatsheet、abbreviation-reference、learning-path |
 
