@@ -159,6 +159,29 @@ VSCode 和 Cursor 也是很好的选择，生态更丰富。
 
 **Cursor 用户**：Cursor 自带 AI 编辑能力，但 cc4pm 的代理、技能、Hook 系统只能通过 Claude Code 使用。两者可以互补——Cursor 做快速的单文件编辑，Claude Code 做跨文件的复杂工作流。
 
+### Web 可视化交互层——Claude Code Viewer
+
+如果你更喜欢在浏览器中操作，或者需要更直观地查看 Claude 的执行过程，可以使用社区提供的 Web 可视化层。
+
+**Claude Code Viewer**（由 kimuson 开发）是一个基于 Claude Agent ADK 的本地 Web UI，它能让你在浏览器中与 Claude Code 交互。
+
+#### 快速启动
+
+在你的项目根目录下运行：
+
+```bash
+npx @kimuson/claude-code-viewer @latest --port 3400
+```
+
+#### 核心优势
+
+- **直观的可视化**：比终端更清晰地展示文件修改、思考过程和执行状态。
+- **操作便捷**：支持鼠标操作，适合不习惯纯命令行环境的用户。
+- **基于 ADK**：基于官方 Claude Agent ADK 构建，兼容性好。
+- **可扩展性**：开发者可以方便地基于此进行二次开发和功能扩展。
+
+> **提示**：这与终端版 Claude Code 共享同一个会话逻辑，你可以随时在终端和 Web UI 之间切换（或同时开启以获得不同视角）。
+
 ### tmux——长时间任务不断线
 
 #### 为什么需要 tmux
@@ -305,6 +328,7 @@ git worktree remove ../feature-auth
 │  编辑器                                              │
 │  Zed             速度快、资源少、有 Agent Panel      │
 │  VSCode/Cursor   生态丰富、扩展支持                  │
+│  Viewer (Web)    npx @kimuson/claude-code-viewer     │
 │  关键：auto-save + file watcher + git 集成           │
 │                                                      │
 │  会话持久化                                          │
