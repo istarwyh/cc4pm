@@ -1,0 +1,83 @@
+name: Publish @cc4pm/homepage & Notify Downstream
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - packages/homepage/**
+      - docs/index.html
+  workflow_dispatch:
+    inputs:
+      force_notify:
+        description: "Force notify downstream even without version bump"
+        type: boolean
+        default: false
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.publish.outputs.published }}
+      version: ${{ steps.publish.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Sync docs/index.html → packages/homepage/index.html
+        run: cp docs/index.html packages/homepage/index.html
+
+      - name: Check if version already published
+        id: check
+        working-directory: packages/homepage
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "version=$PKG_VERSION" >> "$GITHUB_OUTPUT"
+          if npm view "@cc4pm/homepage@$PKG_VERSION" version 2>/dev/null; then
+            echo "already_published=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "already_published=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish to npm
+        id: publish
+        if: steps.check.outputs.already_published == 'false'
+        working-directory: packages/homepage
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm publish --access public
+          echo "published=true" >> "$GITHUB_OUTPUT"
+          echo "version=${{ steps.check.outputs.version }}" >> "$GITHUB_OUTPUT"
+
+      - name: Skip (already published)
+        if: steps.check.outputs.already_published == 'true'
+        run: |
+          echo "::notice::@cc4pm/homepage@${{ steps.check.outputs.version }} already on npm, skipping publish."
+          echo "published=false" >> "$GITHUB_OUTPUT"
+          echo "version=${{ steps.check.outputs.version }}" >> "$GITHUB_OUTPUT"
+
+  notify-downstream:
+    name: Notify ai-speeds to upgrade
+    needs: publish
+    if: needs.publish.outputs.published == 'true' || inputs.force_notify == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch to istarwyh/ai-speeds
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.CROSS_REPO_TOKEN }}
+          repository: istarwyh/ai-speeds
+          event-type: cc4pm-homepage-released
+          client-payload: |
+            {
+              "version": "${{ needs.publish.outputs.version }}",
+              "package": "@cc4pm/homepage",
+              "triggered_by": "${{ github.actor }}",
+              "source_sha": "${{ github.sha }}"
+            }
