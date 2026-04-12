@@ -8,7 +8,6 @@ VERSION="${1:-}"
 ROOT_PACKAGE_JSON="package.json"
 PLUGIN_JSON=".claude-plugin/plugin.json"
 MARKETPLACE_JSON=".claude-plugin/marketplace.json"
-OPENCODE_PACKAGE_JSON=".opencode/package.json"
 
 # Function to show usage
 usage() {
@@ -43,7 +42,7 @@ if ! git diff --quiet || ! git diff --cached --quiet; then
 fi
 
 # Verify versioned manifests exist
-for FILE in "$ROOT_PACKAGE_JSON" "$PLUGIN_JSON" "$MARKETPLACE_JSON" "$OPENCODE_PACKAGE_JSON"; do
+for FILE in "$ROOT_PACKAGE_JSON" "$PLUGIN_JSON" "$MARKETPLACE_JSON"; do
   if [[ ! -f "$FILE" ]]; then
     echo "Error: $FILE not found"
     exit 1
@@ -72,14 +71,13 @@ update_version() {
 update_version "$ROOT_PACKAGE_JSON" "s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION\"|"
 update_version "$PLUGIN_JSON" "s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION\"|"
 update_version "$MARKETPLACE_JSON" "0,/\"version\": *\"[^\"]*\"/s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION\"|"
-update_version "$OPENCODE_PACKAGE_JSON" "s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION\"|"
 
 # Update HTML documentation version and copy to homepage package
 update_version "docs/index.html" "s|>cc4pm v[0-9a-zA-Z.-]*</a>|>cc4pm v$VERSION</a>|"
 npm run build:homepage
 
 # Stage, commit, tag, and push
-git add "$ROOT_PACKAGE_JSON" "$PLUGIN_JSON" "$MARKETPLACE_JSON" "$OPENCODE_PACKAGE_JSON" "docs/index.html" "packages/homepage/index.html"
+git add "$ROOT_PACKAGE_JSON" "$PLUGIN_JSON" "$MARKETPLACE_JSON" "docs/index.html" "packages/homepage/index.html"
 git commit -m "chore: bump plugin version to $VERSION"
 git tag "v$VERSION"
 git push origin main "v$VERSION"
