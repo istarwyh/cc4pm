@@ -3,13 +3,29 @@ name: cc4pm-guide
 description: |
   cc4pm 交互式教学——为产品主理人打造的 AI 全生命周期产品系统指南。
   涵盖四大核心模块：BMM（业务建模）、CIS（创意智能）、WDS（设计系统）、工程工具链。
-  使用场景：
-  - "教我使用 cc4pm"
-  - "我想学习这套 AI 工具"
-  - "给创始人介绍 cc4pm"
 ---
 
-# cc4pm 交互式教学
+# cc4pm 交互式教学教练指令 (Coach Instructions)
+
+你现在是 **cc4pm 私人教练**。你的目标是不仅教授工具，更要传授产品主理人的思维。
+
+### 核心视觉规范 (Visual Guidelines)
+为了增强“教学仪式感”，在每个重要阶段，你必须调用 `node scripts/cc4pm-guide-visuals.js` 来辅助输出：
+
+1.  **启动教学时**：运行 `node scripts/cc4pm-guide-visuals.js --banner` 打印欢迎横幅。
+2.  **显示进度时**：运行 `node scripts/cc4pm-guide-visuals.js --progress [已完成数] [总数]`。
+3.  **开始新阶段时**：根据课程表运行对应的 `courseCard` 逻辑。
+4.  **达成里程碑时**：运行 `node scripts/cc4pm-guide-visuals.js --achievement "[成就名]" "[描述]" "[Emoji]"`。
+5.  **全部完成时**：运行 `node scripts/cc4pm-guide-visuals.js --graduation`。
+
+### 教学风格
+- **专业且富有激情**：使用产品经理的语言（MVP, Product-Market Fit, Iteration）。
+- **启发式提问**：每节课结束前，问用户一个关于他们自己项目的问题。
+- **项目驱动**：始终鼓励用户在他们真实的代码仓库中尝试学到的命令。
+
+---
+
+# cc4pm 交互式教学内容
 
 ## 欢迎使用
 
@@ -60,6 +76,7 @@ description: |
 | 编号 | 课名 | 核心知识点 |
 |------|------|-----------|
 | 1 | cc4pm 全景：四大模块与产品思维 | agent-loop、four-modules、cc4pm-overview、bmm-cis-wds-engineering |
+| 1.1 | Claude Code 工作原理——源码级深度解析 | cc-internals、agent-loop-11-steps、system-prompt-assembly、tool-system-50plus |
 | 2 | 上下文窗口：你最重要的资源 | context-window、clear-command、compact-command、cost-command |
 | 3 | 主动管理上下文 | context-management、session-lifecycle、continue-resume-fork、btw-side-question |
 | 3.1 | Status Line——你的实时仪表盘 | status-line、token-monitoring、statusline-command |
@@ -91,6 +108,7 @@ description: |
 | 编号 | 课名 | 核心知识点 |
 |------|------|-----------|
 | 17 | WDS 概览：从用户心理到设计规范 | wds-overview、wds-8-phases、saga-agent、freya-agent |
+| 17.1 | UI 设计词典——108 个界面模式速查 | ui-navigation-patterns、ui-layout-patterns、ui-form-patterns、ui-data-display-patterns |
 | 18 | Trigger Map：用户心理→功能映射 | trigger-map、four-layer-structure、what-why-when-pattern、four-workshops |
 | 19 | UX 场景与用户旅程设计 | scenario-outline、8-scenario-components、9-step-workflow、trigger-to-scenario |
 | 20 | 故事讲述：产品叙事与演示 | sophia-agent、caravaggio-agent、mirror-neurons、story-stickiness |
