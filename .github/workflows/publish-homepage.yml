@@ -20,6 +20,7 @@ jobs:
     outputs:
       published: ${{ steps.publish.outputs.published }}
       version: ${{ steps.publish.outputs.version }}
+      changed: ${{ steps.sync.outputs.changed }}
     steps:
       - uses: actions/checkout@v4
 
@@ -30,7 +31,16 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Sync docs/index.html → packages/homepage/index.html
-        run: cp docs/index.html packages/homepage/index.html
+        id: sync
+        run: |
+          if ! diff -q docs/index.html packages/homepage/index.html > /dev/null 2>&1; then
+            cp docs/index.html packages/homepage/index.html
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::docs/index.html changed, syncing to packages/homepage/"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::docs/index.html unchanged"
+          fi
 
       - name: Check if version already published
         id: check
@@ -65,7 +75,7 @@ jobs:
   notify-downstream:
     name: Notify ai-speeds to upgrade
     needs: publish
-    if: needs.publish.outputs.published == 'true' || inputs.force_notify == true
+    if: needs.publish.outputs.published == 'true' || needs.publish.outputs.changed == 'true' || inputs.force_notify == true
     runs-on: ubuntu-latest
     steps:
       - name: Dispatch to istarwyh/ai-speeds
