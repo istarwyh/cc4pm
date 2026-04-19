@@ -142,6 +142,11 @@
       "command": "qmd",
       "args": ["mcp"],
       "description": "Local markdown semantic search via QMD — search notes, docs, and knowledge bases without uploading to cloud. Install: npm install -g @tobilu/qmd"
+    },
+    "drawio": {
+      "command": "npx",
+      "args": ["-y", "@next-ai-drawio/mcp-server@latest"],
+      "description": "AI-powered diagram generation and modification via draw.io"
     }
   },
   "_comments": {

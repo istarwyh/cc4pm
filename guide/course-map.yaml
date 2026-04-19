@@ -5,8 +5,8 @@
 meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
-  total_lessons: 28
-  supplementary_lessons: 12
+  total_lessons: 30
+  supplementary_lessons: 17
   default_max_lines: 400
 
 stages:
@@ -363,6 +363,19 @@ stages:
           - ui-auth-patterns
           - ui-error-patterns
 
+      - id: lesson-1.2
+        file: lesson-1.2.md
+        number: 17.2
+        title: "AI 原型实验室——从场景到交互式 HTML"
+        short_title: "AI 原型实验室"
+        supplementary: true
+        topics:
+          - design-agent-workflow
+          - html-prototyping
+          - react-babel-inline
+          - prototype-persistence
+          - design-questions-ui
+
       - id: lesson-2
         file: lesson-2.md
         number: 18
@@ -444,6 +457,18 @@ stages:
           - generator-evaluator-split
           - capability-vs-regression-evals
           - code-vs-model-graders
+
+      - id: lesson-2.2
+        file: lesson-22.2.md
+        number: 22.2
+        title: "视觉校验——让 AI 拥有“眼睛”"
+        short_title: "视觉校验"
+        supplementary: true
+        topics:
+          - design-verification
+          - fork-verifier-agent
+          - mentioned-element-feedback
+          - screen-labeling
 
       - id: lesson-3
         file: lesson-3.md
@@ -578,6 +603,18 @@ stages:
           - obsidain-as-ide
           - qmd-local-rag
           - qmd-mcp-integration
+
+      - id: lesson-1.2
+        file: lesson-1.2.md
+        number: 24.2
+        title: "Next AI Draw.io：AI 驱动的架构绘图专家"
+        short_title: "AI 绘图 (Draw.io)"
+        supplementary: true
+        topics:
+          - next-ai-drawio
+          - ai-diagramming
+          - drawio-mcp
+          - visual-architecture
 
       - id: lesson-2
         file: lesson-2.md

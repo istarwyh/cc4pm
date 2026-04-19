@@ -299,4 +299,4 @@ A: 当然。比如"展示商品列表"可以用 Grid Layout、Masonry Layout 或
 - [3] 退出学习
 
 ---
-*阶段 3 | Lesson 17.1/26 | 上一课: Lesson 17 - WDS 概览 | 下一课: Lesson 18 - Trigger Map*
+*阶段 3 | Lesson 17.1/26 | 上一课: Lesson 17 - WDS 概览 | 下一课: Lesson 17.2 - AI 原型实验室*
