@@ -33,10 +33,10 @@ claude
 在 Plan Mode 下，让 Claude 帮你了解项目现状：
 
 ```
-"读一下 .claude/skills/cc4pm-guide/ 的结构，理解目前的教学系统是怎么组织的。
+"读一下 cc4pm-guide 教学系统的结构，理解它是怎么组织的。
  特别关注：
- 1. SKILL.md 的格式和内容结构
- 2. lessons/ 目录下有哪些课程
+ 1. .claude/skills/cc4pm-guide/SKILL.md 的格式和内容结构
+ 2. guide/lessons/ 目录下有哪些课程
  3. 课程文件的 Markdown 格式规范"
 ```
 
@@ -110,7 +110,7 @@ R（反转）：让用户教 Claude（费曼学习法）
 1. 记录用户完成了哪些课程
 2. 显示成就徽章（初学者、入门者、产品达人等）
 3. 支持从上次中断的地方继续学习
-参考 .claude/skills/cc4pm-guide/SKILL.md 的现有格式"
+参考 .claude/skills/cc4pm-guide/SKILL.md 和 guide/ 目录的现有格式"
 ```
 
 **预期输出**：

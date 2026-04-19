@@ -137,6 +137,11 @@
         "CONFLUENCE_API_TOKEN": "YOUR_CONFLUENCE_TOKEN_HERE"
       },
       "description": "Confluence Cloud integration — search pages, retrieve content, explore spaces"
+    },
+    "qmd": {
+      "command": "qmd",
+      "args": ["mcp"],
+      "description": "Local markdown semantic search via QMD — search notes, docs, and knowledge bases without uploading to cloud. Install: npm install -g @tobilu/qmd"
     }
   },
   "_comments": {

@@ -527,6 +527,19 @@ stages:
           - session-log-as-context
           - lazy-provisioning-ttft
 
+      - id: lesson-3.5
+        file: lesson-23.5.md
+        number: 23.5
+        title: "ccc 实战：国产大模型切换与严格 Supervisor 模式"
+        short_title: "ccc 实战"
+        supplementary: true
+        topics:
+          - ccc-supervisor-mode
+          - ccc-fork-evaluation
+          - ccc-provider-switching
+          - kimi-glm-integration
+          - ccc-patch-claude
+
   - id: stage-5
     title: "高级应用与持续优化"
     lessons:
@@ -563,6 +576,8 @@ stages:
           - agentic-knowledge-management
           - knowledge-ingest-query-inspect
           - obsidain-as-ide
+          - qmd-local-rag
+          - qmd-mcp-integration
 
       - id: lesson-2
         file: lesson-2.md

@@ -121,7 +121,24 @@ Team Lead（你）
   └── 中立方：综合双方观点，给出平衡建议
 ```
 
-**最佳实践**：3-5 个成员最合适，给每个成员明确的角色和对立观点。太多成员会导致讨论发散、上下文消耗大。
+**最佳实践**：3-5 个成员最合适，给每个成员明确的角色 and 对立观点。太多成员会导致讨论发散、上下文消耗大。
+
+### 进阶：使用 ccc 实现多 Provider 团队
+
+在 Agent Teams 中，如果所有成员都用 Opus，成本会很高。你可以利用 `ccc` (Claude Code Supervisor) 实现国产大模型切换，组建一个“高性价比团队”：
+
+```bash
+# 1. 在 ~/.claude/ccc.json 中配置国产模型 (Kimi / GLM)
+# 2. 启动时指定 Provider
+ccc kimi --teammate-mode tmux
+```
+
+**推荐配置：**
+- **Lead (主会话)**: 保持使用 Anthropic 原厂 Opus 4.6（决策最强）。
+- **Teammate A (Kimi)**: 负责处理超长文档或中文语境理解。
+- **Teammate B (GLM)**: 负责快速生成单元测试或简单脚本。
+
+通过 `ccc` 的 Provider 切换能力，你可以让 Teammates 跑在更便宜、响应更快的本地/国产模型上，而核心决策依然由 Opus 把控。
 
 ### 动手试试
 

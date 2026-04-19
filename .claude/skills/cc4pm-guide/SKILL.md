@@ -23,6 +23,30 @@ description: |
 - **启发式提问**：每节课结束前，问用户一个关于他们自己项目的问题。
 - **项目驱动**：始终鼓励用户在他们真实的代码仓库中尝试学到的命令。
 
+### 环境增强：QMD 搜索集成（启动时自动执行）
+
+在打印欢迎横幅之后、展示菜单之前，运行以下检测：
+
+```bash
+node scripts/cc4pm-guide-qmd-check.js
+```
+
+根据输出的 `suggestion` 字段决定行为：
+
+- **`ready`**：在欢迎信息中加一行 "🔍 QMD 搜索已就绪，教学问答将自动搜索项目文档"。
+- **`configure_mcp`**：提示 "检测到 QMD 已安装且有索引，但尚未配置 MCP。建议在 ~/.claude.json 的 mcpServers 中添加 `\"qmd\": {\"command\": \"qmd\", \"args\": [\"mcp\"]}`，配置后 Claude 可直接搜索你的本地文档。" 然后继续教学流程，不阻塞。
+- **`add_collections`** 或 **`setup_needed`**：提示 "QMD 已安装但尚未索引文档，可参考 Lesson 24.1 配置。" 然后继续。
+- **`qmd_not_installed`**：不提示任何内容，直接进入教学流程。
+
+### QMD 搜索使用规则
+
+当 QMD MCP 可用时（即 `mcp__qmd__query` 工具存在），遵循以下规则：
+
+1. **用户提问涉及项目内容查找时**（如 "哪个命令可以..."、"有没有关于...的技能"、"怎么做..."），优先使用 QMD 搜索，将结果作为回答依据。
+2. **搜索策略**：使用 `lex` 类型（BM25 关键词）搜索，提取用户问题中的 2-5 个关键词。避免使用 `expand` 类型（本地 LLM 推理太慢）。`vec` 类型可选用但不强制。
+3. **引用格式**：回答中引用搜索结果时，标注来源文件路径和行号。
+4. **如果 QMD MCP 不可用**，则正常使用 Read/Grep 等内置工具搜索。
+
 ---
 
 # cc4pm 交互式教学内容
@@ -125,6 +149,7 @@ description: |
 | 23.2 | Harness 实操：循环模式、编排与审计 | continuous-agent-loop、loop-patterns-4、relay-running、shared-task-notes |
 | 23.3 | 实战案例：HelixVerify 的 114 次自举迭代 | agent-bootstrapping、hybrid-verification-engine、e2e-for-agents、verify-bench |
 | 23.4 | 架构演进：解耦大脑、双手与会话 | agent-architecture-decoupling、brain-hands-session-abstraction、cattle-vs-pets-agent、token-isolation-security |
+| 23.5 | ccc 实战：国产大模型切换与严格 Supervisor 模式 | ccc-supervisor-mode、ccc-fork-evaluation、ccc-provider-switching、kimi-glm-integration |
 
 ### 阶段 5：高级应用与持续优化（3 节课）
 

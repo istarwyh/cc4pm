@@ -249,39 +249,18 @@ fi
 
 #### 配方 3：多行仪表盘（全信息）
 
-脚本中每个 `echo` 输出一行：
+... (此处省略部分代码) ...
+
+#### 配方 4：ccc Supervisor 模式监控
+
+如果你安装了 `ccc` (Claude Code Supervisor)，可以实时查看审查器是否开启：
 
 ```bash
-#!/bin/bash
-input=$(cat)
-
-MODEL=$(echo "$input" | jq -r '.model.display_name')
-DIR=$(echo "$input" | jq -r '.workspace.current_dir')
-PCT=$(echo "$input" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)
-COST=$(echo "$input" | jq -r '.cost.total_cost_usd // 0')
-DURATION_MS=$(echo "$input" | jq -r '.cost.total_duration_ms // 0')
-DURATION_MIN=$((DURATION_MS / 60000))
-
-# 第一行：项目 + Git
-BRANCH=$(git branch --show-current 2>/dev/null || echo "no-git")
-echo "[$MODEL] 📁 ${DIR##*/} | 🌿 $BRANCH"
-
-# 第二行：上下文进度条 + 费用 + 时长
-BAR_WIDTH=15
-FILLED=$((PCT * BAR_WIDTH / 100))
-EMPTY=$((BAR_WIDTH - FILLED))
-BAR=""
-[ "$FILLED" -gt 0 ] && printf -v FILL "%${FILLED}s" && BAR="${FILL// /▓}"
-[ "$EMPTY" -gt 0 ] && printf -v PAD "%${EMPTY}s" && BAR="${BAR}${PAD// /░}"
-
-echo "$BAR ${PCT}% | \$${COST} | ${DURATION_MIN}min"
+/statusline 帮我配置statusline脚本，里面调用 `ccc supervisor-mode` 命令。
+输出内容格式：... | 🛡️ Supervisor: [on/off]
 ```
 
-效果：
-```
-[Opus 4.6] 📁 cc4pm | 🌿 main
-▓▓▓▓▓░░░░░░░░░░ 35% | $0.42 | 12min
-```
+效果：`[Opus 4.6] 📁 cc4pm | 🛡️ Supervisor: on`
 
 ### 演示案例：立即配置你的 Status Line
 

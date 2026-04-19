@@ -19,10 +19,10 @@ const path = require('path');
 const yaml = require('js-yaml');
 
 // ── paths ──────────────────────────────────────────────────────────────
-const GUIDE_ROOT = path.join(__dirname, '..', '.claude', 'skills', 'cc4pm-guide');
+const GUIDE_ROOT = path.join(__dirname, '..', 'guide');
 const COURSE_MAP = path.join(GUIDE_ROOT, 'course-map.yaml');
 const LESSONS_DIR = path.join(GUIDE_ROOT, 'lessons');
-const SKILL_MD = path.join(GUIDE_ROOT, 'SKILL.md');
+const SKILL_MD = path.join(__dirname, '..', '.claude', 'skills', 'cc4pm-guide', 'SKILL.md');
 
 // ── args ───────────────────────────────────────────────────────────────
 const args = process.argv.slice(2);

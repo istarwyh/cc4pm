@@ -17,7 +17,7 @@ description: "吸收新知识到课程体系。读取材料，比对 course-map.
   - `relevance`: 与课程受众（产品主理人/独立开发者/创业团队）的相关度（high / medium / low / none）
 
 ### Step 2: 比对 course-map.yaml
-- 读取 `.claude/skills/cc4pm-guide/course-map.yaml`
+- 读取 `guide/course-map.yaml`
 - 对每个提取的知识点，检查是否已在某节课的 `topics` 中存在
 - 生成差距矩阵：
 
