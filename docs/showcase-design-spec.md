@@ -508,24 +508,9 @@ transition: all 250ms ease-out;
 - 主标题: `开源社区驱动`
 - 副标题: `超过 50,000 开发者的共同选择`
 
-### 内容: 三栏布局 (桌面3列, 平板1列, 手机1列)
+### 内容: 二栏布局 (桌面2列, 平板1列, 手机1列)
 
-**栏 1: 里程碑时间线**
-
-- 垂直时间线，左侧竖线(2px, `--border-highlight`)，右侧内容
-- 时间线节点: 8px 圆点，`--cta-from` 色
-
-| 时间 | 事件 |
-|---|---|
-| 2025.05 | v0.1 -- 项目启动，首个 Claude Code 配置集 |
-| 2025.08 | Anthropic 黑客松获奖 |
-| 2025.10 | v1.0 -- 跨平台支持 (Cursor/Codex/OpenCode) |
-| 2026.01 | 50,000 GitHub Stars |
-| 2026.03 | v1.8 -- 自我改进循环、编排引擎 |
-
-- 字号: 时间 13px `--text-muted` `--font-mono`; 事件 16px `--text-primary`; 描述 14px `--text-secondary`
-
-**栏 2: 项目数据**
+**栏 1: 项目数据**
 
 竖向排列的数据卡片:
 
@@ -533,13 +518,12 @@ transition: all 250ms ease-out;
 |---|---|---|
 | GitHub Stars | 50,000+ | 开源社区认可 |
 | 测试覆盖 | 997 tests | 生产级可靠性 |
-| 支持语言 | 8 | TypeScript/Go/Python/Kotlin/Swift/PHP/Perl/Common |
 | MIT 许可 | 完全开源 | 商用友好 |
 
 - 每项: 数字用 `--text-stat`(但小号44px)，标签用 `--text-small`
 - 数字带计数动画
 
-**栏 3: 贡献者与链接**
+**栏 2: 贡献者与链接**
 
 - 贡献引导:
   - `加入我们` 标题，`--text-h3`

@@ -23,9 +23,7 @@
       "kind": "agents",
       "description": "Agent definitions and project-level agent guidance.",
       "paths": [
-        ".agents",
-        "agents",
-        "AGENTS.md"
+        "agents"
       ],
       "targets": [
         "claude",
@@ -81,9 +79,6 @@
       "description": "Baseline platform configs, package-manager setup, and MCP catalog.",
       "paths": [
         ".claude-plugin",
-        ".codex",
-        ".cursor",
-        ".opencode",
         "mcp-configs",
         "scripts/setup-package-manager.js"
       ],

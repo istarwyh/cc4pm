@@ -85,7 +85,7 @@ claude
 
 ### 工程工具链
 
-18 个工程代理，48 个命令，46 条规则，支持 8 种语言（TypeScript、Python、Go、Swift、Kotlin、PHP、Perl、C++）。
+18 个工程代理，48 个命令，46 条规则。
 
 ---
 

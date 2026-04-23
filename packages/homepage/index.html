@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>cc4pm - AI 驱动的全流程产品开发系统</title>
-<meta name="description" content="面向产品主理人的 AI 全生命周期系统。200+ Skills、4 大核心模块，从想法到上线发布。">
+<title>cc4pm - 你的 AI 产品私教 | 手把手带你做产品</title>
+<meta name="description" content="产品主理人的 AI 私教。200+ Skills、4 大核心模块，从灵感到上线全程陪伴，工具帮你装，方法手把手教。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -20,9 +20,9 @@
   --text-muted: #8a8a82;
   --text-disabled: #b0aea5;
   --color-bmm: #d97757;
-  --color-cis: #6a9bcc;
+  --color-cis: #d4a853;
   --color-wds: #788c5d;
-  --color-eng: #9b7db8;
+  --color-eng: #b07d62;
   --cta-from: #d97757;
   --cta-to: #c4623f;
   --cta-hover-from: #e08868;
@@ -31,7 +31,7 @@
   --btn-github-border: #2a2a28;
   --terminal-green: #788c5d;
   --terminal-yellow: #d97757;
-  --terminal-blue: #6a9bcc;
+  --terminal-blue: #d4a853;
   --terminal-cursor: #d97757;
   --link-color: #d97757;
   --link-hover: #c4623f;
@@ -584,7 +584,7 @@ section { padding: var(--space-5xl) 0; }
 #community { background: var(--bg-elevated); }
 
 .community-grid {
-  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-2xl);
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2xl);
 }
 
 .timeline { position: relative; padding-left: 24px; }
@@ -645,6 +645,7 @@ section { padding: var(--space-5xl) 0; }
 .site-footer {
   border-top: 1px solid var(--border-default); margin-top: var(--space-4xl);
   padding: var(--space-xl) 0;
+  position: relative; z-index: 1;
 }
 .footer-inner {
   display: flex; align-items: center; justify-content: space-between;
@@ -683,7 +684,7 @@ section { padding: var(--space-5xl) 0; }
   <div class="container">
     <div class="nav-brand">
       <span class="nav-brand-name">cc4pm</span>
-      <span class="nav-version">v2.0</span>
+      <span class="nav-version">v1.8.1</span>
     </div>
     <nav>
       <ul class="nav-links">
@@ -724,7 +725,7 @@ section { padding: var(--space-5xl) 0; }
   <div class="hero-content">
     <div class="hero-badge anim fade-in">
       <span class="dot-pulse"></span>
-      产品主理人的 AI 产品引擎
+      你的 AI 产品私教
     </div>
     <p class="cc4pm-meaning anim fade-in" style="transition-delay:50ms">
       Claude Code for Product Maker
@@ -732,16 +733,16 @@ section { padding: var(--space-5xl) 0; }
 
     <h1 class="hero-title anim fade-up" style="transition-delay:100ms">
       <span class="hero-title-line1">cc4pm</span>
-      <span class="hero-title-line2">AI 驱动的全流程产品开发系统</span>
+      <span class="hero-title-line2">手把手带你做产品</span>
     </h1>
 
     <p class="hero-sub anim fade-up" style="transition-delay:200ms">
-      200+ Skills 实操指南，从灵感验证到上线发布，一个人就是一支产品团队
+      从灵感到上线，AI 全程陪伴。工具我来装，方法我来教，你只管专注产品本身
     </p>
 
     <div class="hero-origin anim fade-up" style="transition-delay:250ms">
-      基于 <a href="https://github.com/istarwyh/cc4pm" target="_blank" rel="noopener">cc4pm</a>（Anthropic 黑客马拉松获奖项目）<br>
-      融合 <a href="https://github.com/bmad-code-org/BMAD-METHOD" target="_blank" rel="noopener">BMAD Method</a> —— 作者在蚂蚁内部 BI、产品、研发、设计、HR 多团队分享后的方法论沉淀
+      源自 <a href="https://github.com/istarwyh/cc4pm" target="_blank" rel="noopener">cc4pm</a>（Anthropic 黑客马拉松获奖项目），融合 <a href="https://github.com/bmad-code-org/BMAD-METHOD" target="_blank" rel="noopener">BMAD Method</a><br>
+      在蚂蚁内部 BI、产品、研发、设计、HR 多团队验证的产品主理人方法论
     </div>
 
     <div class="hero-stats anim fade-up" style="transition-delay:300ms">
@@ -825,8 +826,8 @@ section { padding: var(--space-5xl) 0; }
   <div class="container">
     <div class="section-header center anim fade-up">
       <div class="section-label">能力</div>
-      <h2 class="section-title">产品主理人的 AI 超能力</h2>
-      <p class="section-subtitle">从需求分析到创意策划，从 UX 设计到工程交付，全链路 AI 赋能</p>
+      <h2 class="section-title">我能教你什么</h2>
+      <p class="section-subtitle">从需求分析到创意策划，从 UX 设计到工程交付，全程手把手带你</p>
     </div>
 
     <div class="tabs anim fade-up" id="capTabs">
@@ -868,7 +869,7 @@ section { padding: var(--space-5xl) 0; }
     <div class="section-header center anim fade-up">
       <div class="section-label">全流程</div>
       <h2 class="section-title">产品开发全生命周期</h2>
-      <p class="section-subtitle">从市场调研到产品交付，cc4pm 让每个阶段都有 AI 助力</p>
+      <p class="section-subtitle">从市场调研到产品交付，每个阶段我都帮你搞定</p>
     </div>
     <div class="workflow-grid" id="workflowGrid"></div>
   </div>
@@ -886,8 +887,8 @@ section { padding: var(--space-5xl) 0; }
         </svg>
       </div>
       <div class="section-label">安装</div>
-      <h2 class="section-title">三步上手</h2>
-      <p class="section-subtitle">克隆仓库，输入 <code style="background:rgba(255,255,255,.08);padding:2px 8px;border-radius:4px;font-size:inherit">/cc4pm-guide</code> 即刻开启交互式教学</p>
+      <h2 class="section-title">三步开始，剩下的交给我</h2>
+      <p class="section-subtitle">克隆仓库，输入 <code style="background:rgba(255,255,255,.08);padding:2px 8px;border-radius:4px;font-size:inherit">/cc4pm-guide</code>，工具配置、环境搭建我来帮你搞定</p>
     </div>
 
     <div class="install-terminal anim fade-up" id="installTerminal">
@@ -914,7 +915,7 @@ section { padding: var(--space-5xl) 0; }
         下载 ZIP 安装包
       </a>
     </div>
-    <p class="install-note">支持 Claude Code / Cursor / Codex / OpenCode 多平台<br><span style="color:var(--text-muted);font-size:13px">克隆仓库后在 Claude Code 中打开，输入 <code>/cc4pm-guide</code> 即可开始交互式教学</span></p>
+    <p class="install-note">支持 Claude Code / Cursor / Codex / OpenCode 多平台<br><span style="color:var(--text-muted);font-size:13px">打开后输入 <code>/cc4pm-guide</code>，你的 AI 私教就位——工具安装、环境配置都交给我</span></p>
   </div>
 </section>
 
@@ -924,35 +925,10 @@ section { padding: var(--space-5xl) 0; }
     <div class="section-header center anim fade-up">
       <div class="section-label">社区</div>
       <h2 class="section-title">开源驱动，持续进化</h2>
-      <p class="section-subtitle">产品主理人和独立开发者的共同选择</p>
+      <p class="section-subtitle">产品主理人和独立开发者一起打造的学习社区</p>
     </div>
 
     <div class="community-grid">
-      <div class="anim fade-up">
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-date">2025.05</div>
-            <div class="timeline-event">cc4pm v0.1 — 项目启动，首个 Claude Code 配置集</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-date">2025.08</div>
-            <div class="timeline-event">Anthropic 黑客松获奖</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-date">2025.10</div>
-            <div class="timeline-event">跨平台支持 (Cursor/Codex/OpenCode)</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-date">2026.01</div>
-            <div class="timeline-event">cc4pm 品牌升级，整合 BMM/CIS/WDS</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-date">2026.03</div>
-            <div class="timeline-event">v2.0 — 200+ Skills，四大模块全面覆盖</div>
-          </div>
-        </div>
-      </div>
-
       <div class="anim fade-up" style="transition-delay:80ms">
         <div class="data-cards">
           <div class="data-card">
@@ -962,10 +938,6 @@ section { padding: var(--space-5xl) 0; }
           <div class="data-card">
             <div class="data-card-number" data-target="4">0</div>
             <div class="data-card-label">核心模块 · BMM / CIS / WDS / 工程</div>
-          </div>
-          <div class="data-card">
-            <div class="data-card-number" data-target="8">0</div>
-            <div class="data-card-label">支持语言 · TS/Go/Python/Kotlin/Swift/PHP/Perl/C++</div>
           </div>
           <div class="data-card">
             <div class="data-card-number">MIT</div>
@@ -1001,8 +973,8 @@ section { padding: var(--space-5xl) 0; }
 <section id="cta-footer">
   <div class="cta-footer-bg"></div>
   <div class="container cta-footer-content">
-    <h2 class="anim fade-up">准备好用 AI 重塑你的产品工作流了吗？</h2>
-    <p class="anim fade-up" style="transition-delay:100ms">200+ Skills，4 大模块，覆盖产品开发全生命周期</p>
+    <h2 class="anim fade-up">准备好让 AI 私教带你做产品了吗？</h2>
+    <p class="anim fade-up" style="transition-delay:100ms">200+ Skills，4 大模块，从灵感到上线全程陪伴</p>
 
     <div class="hero-ctas anim fade-up" style="transition-delay:200ms">
       <a href="#install" class="btn-primary">
@@ -1398,13 +1370,13 @@ section { padding: var(--space-5xl) 0; }
     { type: 'out', html: '<span class="term-success">done.</span>', delay: 400 },
     { type: 'cmd', prompt: '~ $ ', text: 'cd cc4pm', delay: 400 },
     { type: 'cmd', prompt: 'cc4pm $ ', text: '/cc4pm-guide', cmdClass: 'term-cmd-color', delay: 600 },
-    { type: 'out', html: '<span class="term-info">启动 cc4pm 交互式教学...</span>', delay: 400 },
+    { type: 'out', html: '<span class="term-info">你的 AI 产品私教已就位...</span>', delay: 400 },
     { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">BMM (44) - 业务建模方法论</span>', delay: 200 },
     { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">CIS (10) - 创意智能系统</span>', delay: 200 },
     { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">WDS (50) - Web 设计系统</span>', delay: 200 },
     { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">工程 (94+) - 工程工具链</span>', delay: 200 },
-    { type: 'out', html: '<span class="term-warn">cc4pm ready! 200+ skills at your service.</span>', delay: 600 },
-    { type: 'out', html: '<span class="term-muted">请选择你想学习的模块，或输入你的产品想法开始实战 \u2728</span>', delay: 400 }
+    { type: 'out', html: '<span class="term-warn">cc4pm ready! 200+ skills, 全程帮你搞定。</span>', delay: 600 },
+    { type: 'out', html: '<span class="term-muted">告诉我你的产品想法，或者选一个模块开始学习 \u2728</span>', delay: 400 }
   ];
 
   function addLine(html) {
