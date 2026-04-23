@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 30
-  supplementary_lessons: 17
+  supplementary_lessons: 18
   default_max_lines: 400
 
 stages:
@@ -564,6 +564,20 @@ stages:
           - ccc-provider-switching
           - kimi-glm-integration
           - ccc-patch-claude
+
+      - id: lesson-3.6
+        file: lesson-23.6.md
+        number: 23.6
+        title: "CLIProxyAPI 实战：用 Gemini 免费额度驱动 Claude Code"
+        short_title: "CLIProxyAPI 实战"
+        supplementary: true
+        topics:
+          - cliproxyapi
+          - gemini-oauth-free-tier
+          - api-proxy-config
+          - multi-account-rotation
+          - token-cost-optimization
+          - provider-switching
 
   - id: stage-5
     title: "高级应用与持续优化"
