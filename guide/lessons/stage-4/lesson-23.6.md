@@ -14,7 +14,15 @@
 
 ### 1. CLIProxyAPI 是什么？
 
-CLIProxyAPI 是一个轻量级代理服务器，它把多种 AI 模型提供商的接口统一成 OpenAI / Claude 兼容格式：
+CLIProxyAPI（[原项目仓库](https://github.com/router-for-me/CLIProxyAPI)）是一个轻量级代理服务器，它把多种 AI 模型提供商的接口统一成 OpenAI / Claude 兼容格式。
+
+**除了本课重点介绍的 Gemini CLI OAuth 免费额度，它还支持接入和整合以下资源：**
+- **Antigravity**（支持特殊的免 key 渠道）
+- **Google AI Studio**（直接配置 Gemini API Key）
+- **Codex**（GitHub Copilot 补全后端代理）
+- **OpenRouter** 等第三方聚合平台
+
+
 
 ```
 ┌───────────────────────────────────────────────────────┐
