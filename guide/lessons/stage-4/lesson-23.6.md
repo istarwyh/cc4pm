@@ -19,8 +19,9 @@ CLIProxyAPI（[原项目仓库](https://github.com/router-for-me/CLIProxyAPI)）
 **除了本课重点介绍的 Gemini CLI OAuth 免费额度，它还支持接入和整合以下资源：**
 - **Antigravity**（支持特殊的免 key 渠道）
 - **Google AI Studio**（直接配置 Gemini API Key）
-- **Codex**（GitHub Copilot 补全后端代理）
-- **OpenRouter** 等第三方聚合平台
+- **Codex / Codex Compatibility**（GitHub Copilot 补全后端代理）
+- **Gemini Compatibility**（兼容 Gemini 格式的其他平台）
+- **OpenAI / Claude Compatibility** 等第三方聚合平台
 
 
 
