@@ -1,6 +1,6 @@
 {
   "name": "@cc4pm/homepage",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "cc4pm 官网首页 — 可嵌入其他网站的独立 HTML 页面",
   "main": "index.js",
   "files": [
