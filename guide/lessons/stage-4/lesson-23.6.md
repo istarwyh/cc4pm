@@ -200,9 +200,14 @@ export ANTHROPIC_DEFAULT_SONNET_MODEL=gemini-3-flash-preview
 export ANTHROPIC_DEFAULT_HAIKU_MODEL=gemini-2.5-flash-lite
 ```
 
-### 8. 进阶：混合多 Provider
+### 8. 进阶：混合多 Provider 与生态大一统
 
-CLIProxyAPI 的强大之处在于可以同时配置多种 Provider。例如同时使用 Gemini OAuth（免费）+ OpenRouter（付费兜底）：
+CLIProxyAPI 的强大之处在于它可以把**各种前沿大模型的 API 和工具链，全都统一到 Claude Code 的生态下**。
+
+这反映出一个非常重要的趋势：**Claude Code 正在成为目前最强、最通用的 Agent Runtime（代理运行环境）**。围绕着它的生态正在变得越来越强大，它不仅仅是一个只能跑 Anthropic 模型的命令行工具，而是一个可以驱动各种底层 LLM 的超级大脑外壳。
+
+#### 8.1 整合第三方模型 (以 OpenRouter 为例)
+你可以同时配置 Gemini OAuth（免费）+ OpenRouter（付费兜底）：
 
 ```yaml
 # config.yaml 追加
@@ -217,8 +222,17 @@ openai-compatibility:
       - name: "google/gemini-2.5-pro"
         alias: "openrouter-gemini-pro"
 ```
+这样当 Gemini OAuth 额度耗尽时，可以手动或自动切换到 OpenRouter。
 
-这样当 Gemini OAuth 额度耗尽时，可以手动切换到 OpenRouter。
+#### 8.2 代理 GitHub Copilot (Codex)
+如果你在使用带有 Copilot 的编辑器，CLIProxyAPI 甚至能拦截和接管它的后端请求，只需一行命令授权：
+
+```bash
+cliproxyapi --codex-login
+```
+*(如果没有浏览器，加上 `--no-browser` 会打印出带有 token 的验证链接。本地 OAuth 回调端口默认为 `1455`。)*
+
+通过这种方式，你的本地开发工具链（包括 Claude Code、Copilot 等）的底层模型，都可以被你完全掌控和按需切换，再也不必受限于单一平台的配额或定价。
 
 ## 成本对比
 
