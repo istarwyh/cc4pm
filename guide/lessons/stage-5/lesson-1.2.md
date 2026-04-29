@@ -132,4 +132,4 @@ claude mcp add drawio -- npx @next-ai-drawio/mcp-server@latest
 - [3] 返回主菜单
 
 ---
-*阶段 5 | Lesson 24.2/26 | 上一课: Lesson 24.1 - LLM Wiki | 下一课: Lesson 25 - 完整项目实战*
+*阶段 5 | Lesson 24.2/26 | 上一课: Lesson 24.1 - LLM Wiki | 下一课: Lesson 24.3 - graphify 知识图谱*
