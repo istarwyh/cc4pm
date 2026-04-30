@@ -699,25 +699,52 @@ section { padding: var(--space-5xl) 0; }
 /* ========== FOR WHO ========== */
 #for-who { background: var(--bg-base); }
 
+.common-core {
+  background: var(--bg-card); border: 1px solid var(--border-highlight);
+  border-radius: 16px; padding: 28px 32px; margin-bottom: var(--space-2xl);
+  display: flex; align-items: flex-start; gap: 20px;
+}
+.common-core-icon {
+  flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--cta-from), var(--cta-to));
+  display: flex; align-items: center; justify-content: center; color: #fff;
+}
+.common-core-icon svg { width: 22px; height: 22px; }
+.common-core-body h4 { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+.common-core-body p { font-size: 15px; color: var(--text-secondary); line-height: 1.65; }
+.common-core-body code { font-family: var(--font-mono); font-size: 13px; color: var(--cta-from); background: var(--bg-elevated); padding: 1px 6px; border-radius: 4px; }
+@media (max-width: 767px) { .common-core { flex-direction: column; gap: 12px; padding: 20px; } }
+
 .persona-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg);
-  margin-bottom: var(--space-3xl);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-md);
 }
 .persona-card {
   background: var(--bg-card); border: 1px solid var(--border-default);
-  border-radius: 16px; padding: 32px; transition: all 250ms ease-out;
+  border-radius: 16px; padding: 24px; transition: all 250ms ease-out;
 }
 .persona-card:hover {
   transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.06);
   border-color: var(--border-highlight);
 }
-.persona-emoji { font-size: 36px; margin-bottom: 12px; line-height: 1; }
-.persona-role { font-size: 12px; font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--cta-from); margin-bottom: 8px; }
-.persona-title { font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; }
-.persona-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px; border-bottom: 1px solid var(--border-default); padding-bottom: 16px; }
+.persona-emoji { font-size: 32px; margin-bottom: 10px; line-height: 1; }
+.persona-role {
+  font-size: 11px; font-family: var(--font-mono); letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--cta-from); margin-bottom: 6px;
+}
+.persona-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; line-height: 1.3; }
+.persona-desc {
+  font-size: 14px; color: var(--text-secondary); line-height: 1.6;
+  margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border-default);
+}
 .persona-uses { list-style: none; }
-.persona-uses li { font-size: 14px; color: var(--text-muted); padding: 5px 0; line-height: 1.5; }
+.persona-uses li { font-size: 13px; color: var(--text-muted); padding: 4px 0; line-height: 1.5; }
 .persona-uses li::before { content: '→ '; color: var(--cta-from); font-weight: 600; }
+.persona-uses code { font-family: var(--font-mono); font-size: 12px; color: var(--cta-from); background: var(--bg-elevated); padding: 1px 5px; border-radius: 3px; }
+
+@media (max-width: 1200px) { .persona-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 767px) { .persona-grid { grid-template-columns: 1fr; } }
 
 .vs-box {
   background: var(--bg-card); border: 1px solid var(--border-default);
@@ -1001,72 +1028,94 @@ section { padding: var(--space-5xl) 0; }
   <div class="container">
     <div class="section-header center anim fade-up">
       <div class="section-label">适合谁</div>
-      <h2 class="section-title">这门课教的是一种转变</h2>
-      <p class="section-subtitle">不管你现在是什么角色，这门课要帮你完成同一件事</p>
+      <h2 class="section-title">学完能做什么</h2>
+      <p class="section-subtitle">不同岗位，不同侧重——但所有人都会掌握同一个核心能力</p>
     </div>
 
-    <div class="vs-box anim fade-up" style="margin-bottom: var(--space-3xl)">
-      <div class="vs-col">
-        <h4>学习前 · 执行者模式</h4>
-        <ul class="vs-list plain">
-          <li>你写代码、你调试、你找 AI 帮忙改一段</li>
-          <li>每次都要从头给 AI 解释背景</li>
-          <li>产品、设计、开发来回切换消耗精力</li>
-          <li>一个人做不了 6-8 人团队的事</li>
-          <li>不知道 AI 能帮你做哪些你不擅长的工作</li>
-        </ul>
+    <!-- Common core for all roles -->
+    <div class="common-core anim fade-up">
+      <div class="common-core-icon">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
       </div>
-      <div class="vs-divider">
-        <div class="vs-line"></div>
-        <div class="vs-badge">→</div>
-        <div class="vs-line"></div>
-      </div>
-      <div class="vs-col good">
-        <h4>学习后 · 指挥者模式</h4>
-        <ul class="vs-list good">
-          <li>你描述目标，18 个 AI 代理自主执行</li>
-          <li>AI 持续理解你的项目，无需重复解释</li>
-          <li>CIS / BMM / WDS / 工程一套方法论打通</li>
-          <li>一个人完成传统团队才能做的产品全链路</li>
-          <li>知道在每个阶段调用哪个代理、用哪条命令</li>
-        </ul>
+      <div class="common-core-body">
+        <h4>所有岗位的共同基础：Claude Code 高级操作（阶段 1，必修）</h4>
+        <p>无论你是哪个角色，都会系统学习 Claude Code 的工作原理——上下文窗口管理（<code>/compact</code>、<code>/clear</code>）、<code>CLAUDE.md</code> 项目记忆、代理系统与子代理机制、Hooks 与 Rules 自动化，以及何时选择 Opus / Sonnet / Haiku。这是后续所有应用的基础，也是让 AI 真正"懂你项目"的关键。</p>
       </div>
     </div>
 
+    <!-- 5 persona cards -->
     <div class="persona-grid">
+
       <div class="persona-card anim fade-up" style="transition-delay:0ms">
-        <div class="persona-emoji">🚀</div>
-        <div class="persona-role">独立创始人 / 主理人</div>
-        <div class="persona-title">学完能做什么</div>
-        <div class="persona-desc">从一个想法出发，独立完成市场验证、PRD 撰写、UX 设计、开发上线，不需要组建团队。</div>
+        <div class="persona-emoji">📊</div>
+        <div class="persona-role">BI / 数据分析师</div>
+        <div class="persona-title">让数据分析变成可编排的流程</div>
+        <div class="persona-desc">不再每次从零写分析脚本，让 Claude Code 代理记住你的数据结构和分析框架，自动化重复性报告工作。</div>
         <ul class="persona-uses">
-          <li>重点学：阶段 2（BMM + CIS）和阶段 3（WDS）</li>
-          <li>关键命令：<code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/bmad-brainstorming</code>、<code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/bmad-create-prd</code></li>
-          <li>课程亮点：Trigger Map 让你像设计师一样思考</li>
+          <li>用 <code>CLAUDE.md</code> 保存数据字典和分析规范（L5）</li>
+          <li>用 <code>graphify</code> 秒懂复杂数据模型关系（L24.3）</li>
+          <li>用 MCP 直连数据库，代理自主查询出图（L24）</li>
+          <li>用 Hooks 在数据更新时自动触发分析（L8）</li>
+          <li>用 <code>/plan</code> 拆解多步骤数据分析任务（L21）</li>
         </ul>
       </div>
-      <div class="persona-card anim fade-up" style="transition-delay:80ms">
+
+      <div class="persona-card anim fade-up" style="transition-delay:60ms">
         <div class="persona-emoji">📋</div>
-        <div class="persona-role">产品经理 / 产品负责人</div>
-        <div class="persona-title">学完能做什么</div>
-        <div class="persona-desc">把每天重复的需求文档、排期、竞品调研自动化，腾出时间做真正有价值的产品决策。</div>
+        <div class="persona-role">产品经理</div>
+        <div class="persona-title">需求、调研、冲刺全面提速</div>
+        <div class="persona-desc">把每天重复的竞品调研、PRD 撰写、需求拆解自动化，腾出精力做真正有价值的产品决策。</div>
         <ul class="persona-uses">
-          <li>重点学：阶段 2 全部 + 阶段 1 的上下文管理</li>
-          <li>关键命令：<code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/bmad-sprint-planning</code>、<code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/bmad-market-research</code></li>
-          <li>课程亮点：BMAD 方法论确保 PRD 完整性验证</li>
+          <li>用 CIS 36 种技巧头脑风暴 100+ 创意方向（L11）</li>
+          <li>用 Mary 代理完成 Porter 五力竞品分析（L13）</li>
+          <li>用 John 代理生成并验证结构完整的 PRD（L14）</li>
+          <li>用 <code>/bmad-sprint-planning</code> 自动拆解 Epic（L16）</li>
+          <li>用 Trigger Map 从用户心理推导功能优先级（L18）</li>
         </ul>
       </div>
-      <div class="persona-card anim fade-up" style="transition-delay:160ms">
+
+      <div class="persona-card anim fade-up" style="transition-delay:120ms">
+        <div class="persona-emoji">🎨</div>
+        <div class="persona-role">设计师</div>
+        <div class="persona-title">设计决策有依据，原型快速出</div>
+        <div class="persona-desc">不再凭感觉做设计——用 Trigger Map 建立从用户心理到界面逻辑的完整推导链，原型直接从场景生成。</div>
+        <ul class="persona-uses">
+          <li>用 WDS 8 阶段流水线结构化设计过程（L17）</li>
+          <li>用 Trigger Map 把商业目标翻译成用户驱动力（L18）</li>
+          <li>用 AI 原型实验室从 UX 场景生成交互 HTML（L17.2）</li>
+          <li>查 108 个 UI 模式速查词典，秒选组件方案（L17.1）</li>
+          <li>用视觉校验代理检查设计还原度（L22.2）</li>
+        </ul>
+      </div>
+
+      <div class="persona-card anim fade-up" style="transition-delay:180ms">
+        <div class="persona-emoji">👥</div>
+        <div class="persona-role">HR / 职能同学</div>
+        <div class="persona-title">把重复性文档工作交给代理</div>
+        <div class="persona-desc">JD 撰写、政策文档、面试题库、入职材料——用 Claude Code 把这些高重复低创意的工作批量化、模板化。</div>
+        <ul class="persona-uses">
+          <li>用 <code>CLAUDE.md</code> 建立组织知识库，代理随时调用（L5）</li>
+          <li>用 Skills 系统封装常用 HR 场景为一键命令（L6）</li>
+          <li>用代理团队并行处理多岗位 JD（L7）</li>
+          <li>用 Hooks 在特定事件时自动触发文档生成（L8）</li>
+          <li>用 MCP 集成内部 HR 系统，代理直接读写数据（L24）</li>
+        </ul>
+      </div>
+
+      <div class="persona-card anim fade-up" style="transition-delay:240ms">
         <div class="persona-emoji">💻</div>
-        <div class="persona-role">全栈开发者 / 技术创业者</div>
-        <div class="persona-title">学完能做什么</div>
-        <div class="persona-desc">在写代码之前先搞清楚该做什么、为什么做，让工程能力和产品思维协同发挥。</div>
+        <div class="persona-role">研发工程师</div>
+        <div class="persona-title">工程质量和交付速度同步提升</div>
+        <div class="persona-desc">从"让 AI 帮我写段代码"到"让代理团队完成整个功能开发、测试、审查的闭环"——质量可量化，流程可复现。</div>
         <ul class="persona-uses">
-          <li>重点学：阶段 4（工程工具链）+ 阶段 5（高级编排）</li>
-          <li>关键命令：<code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/tdd</code>、<code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/orchestrate</code>、<code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/code-review</code></li>
-          <li>课程亮点：多代理并行编排，解锁真正的 AI 杠杆</li>
+          <li>读懂 Claude Code 源码级工作原理，知道边界在哪（L1.1）</li>
+          <li>用 <code>/tdd</code> <code>/e2e</code> <code>/code-review</code> 工程三板斧（L22）</li>
+          <li>用 EDD 和 Pass@K 指标量化 AI 代码质量（L22.1）</li>
+          <li>用 Harness 构建自运行的代理改进循环（L23.1-23.3）</li>
+          <li>切换 Kimi/GLM 等国产模型，控制成本（L23.5）</li>
         </ul>
       </div>
+
     </div>
   </div>
 </section>
