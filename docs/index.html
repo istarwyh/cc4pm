@@ -624,6 +624,97 @@ section { padding: var(--space-5xl) 0; }
 
 @media (max-width: 1023px) { .community-grid { grid-template-columns: 1fr; } }
 
+/* ========== FOR WHO ========== */
+#for-who { background: var(--bg-base); }
+
+.persona-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg);
+  margin-bottom: var(--space-3xl);
+}
+.persona-card {
+  background: var(--bg-card); border: 1px solid var(--border-default);
+  border-radius: 16px; padding: 32px; transition: all 250ms ease-out;
+}
+.persona-card:hover {
+  transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+  border-color: var(--border-highlight);
+}
+.persona-emoji { font-size: 36px; margin-bottom: 12px; line-height: 1; }
+.persona-role { font-size: 12px; font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--cta-from); margin-bottom: 8px; }
+.persona-title { font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; }
+.persona-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px; border-bottom: 1px solid var(--border-default); padding-bottom: 16px; }
+.persona-uses { list-style: none; }
+.persona-uses li { font-size: 14px; color: var(--text-muted); padding: 5px 0; line-height: 1.5; }
+.persona-uses li::before { content: '→ '; color: var(--cta-from); font-weight: 600; }
+
+.vs-box {
+  background: var(--bg-card); border: 1px solid var(--border-default);
+  border-radius: 16px; padding: 40px;
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 32px; align-items: start;
+}
+.vs-col h4 { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.08em; }
+.vs-col.good h4 { color: var(--cta-from); }
+.vs-list { list-style: none; }
+.vs-list li { font-size: 15px; color: var(--text-secondary); padding: 9px 0; border-bottom: 1px solid var(--border-default); line-height: 1.5; }
+.vs-list li:last-child { border-bottom: none; }
+.vs-list.good li::before { content: '✓  '; color: var(--terminal-green); font-weight: 700; }
+.vs-list.plain li::before { content: '✗  '; color: var(--text-disabled); }
+.vs-divider { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+.vs-badge { background: linear-gradient(135deg, var(--cta-from), var(--cta-to)); color: #fff; font-weight: 700; font-size: 16px; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.vs-line { width: 1px; flex: 1; background: var(--border-default); }
+
+@media (max-width: 1023px) {
+  .persona-grid { grid-template-columns: 1fr; }
+  .vs-box { grid-template-columns: 1fr; gap: 24px; }
+  .vs-divider { flex-direction: row; }
+  .vs-line { width: auto; height: 1px; }
+}
+
+/* ========== SOCIAL PROOF ========== */
+#social-proof { background: var(--bg-elevated); padding: var(--space-3xl) 0; }
+.proof-strip {
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--space-2xl); flex-wrap: wrap;
+}
+.proof-item {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;
+}
+.proof-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--bg-card); border: 1px solid var(--border-highlight);
+  border-radius: 10px; padding: 12px 20px;
+  font-size: 14px; font-weight: 500; color: var(--text-primary);
+}
+.proof-badge svg { width: 18px; height: 18px; color: var(--cta-from); flex-shrink: 0; }
+.proof-sub { font-size: 12px; color: var(--text-muted); }
+.proof-divider { width: 1px; height: 40px; background: var(--border-default); }
+@media (max-width: 767px) { .proof-divider { display: none; } .proof-strip { gap: var(--space-lg); } }
+
+/* ========== FAQ ========== */
+#faq { background: var(--bg-base); }
+.faq-list { max-width: 780px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid var(--border-default); }
+.faq-item:first-child { border-top: 1px solid var(--border-default); }
+.faq-question {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0; cursor: pointer;
+  font-size: 17px; font-weight: 500; color: var(--text-primary);
+  background: none; border: none; width: 100%; text-align: left;
+  font-family: var(--font-sans); gap: 16px; transition: color 200ms;
+}
+.faq-question:hover { color: var(--cta-from); }
+.faq-item.open .faq-question { color: var(--cta-from); }
+.faq-chevron {
+  flex-shrink: 0; width: 20px; height: 20px; color: var(--text-muted);
+  transition: transform 300ms ease;
+}
+.faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--cta-from); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 350ms ease, padding 350ms ease; }
+.faq-item.open .faq-answer { max-height: 500px; padding-bottom: 20px; }
+.faq-answer p { font-size: 16px; color: var(--text-secondary); line-height: 1.75; }
+.faq-answer code { background: var(--bg-elevated); padding: 2px 7px; border-radius: 4px; font-family: var(--font-mono); font-size: 14px; color: var(--cta-from); }
+.faq-answer strong { color: var(--text-primary); }
+
 /* ========== CTA FOOTER ========== */
 #cta-footer {
   background: var(--bg-base); position: relative;
@@ -688,11 +779,11 @@ section { padding: var(--space-5xl) 0; }
     </div>
     <nav>
       <ul class="nav-links">
-        <li><a href="#architecture">架构</a></li>
+        <li><a href="#for-who">适合谁</a></li>
         <li><a href="#capabilities">能力</a></li>
         <li><a href="#workflow">全流程</a></li>
         <li><a href="#install">安装</a></li>
-        <li><a href="#community">社区</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
     </nav>
     <a href="https://github.com/istarwyh/cc4pm" class="nav-github" target="_blank" rel="noopener">
@@ -709,11 +800,11 @@ section { padding: var(--space-5xl) 0; }
   <button class="mobile-close" onclick="toggleMobileMenu()" aria-label="关闭菜单">
     <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </button>
-  <a href="#architecture" onclick="toggleMobileMenu()">架构</a>
+  <a href="#for-who" onclick="toggleMobileMenu()">适合谁</a>
   <a href="#capabilities" onclick="toggleMobileMenu()">能力</a>
   <a href="#workflow" onclick="toggleMobileMenu()">全流程</a>
   <a href="#install" onclick="toggleMobileMenu()">安装</a>
-  <a href="#community" onclick="toggleMobileMenu()">社区</a>
+  <a href="#faq" onclick="toggleMobileMenu()">FAQ</a>
 </div>
 
 <main>
@@ -725,7 +816,7 @@ section { padding: var(--space-5xl) 0; }
   <div class="hero-content">
     <div class="hero-badge anim fade-in">
       <span class="dot-pulse"></span>
-      你的 AI 产品私教
+      Anthropic 黑客马拉松获奖项目 · 蚂蚁集团多团队验证
     </div>
     <p class="cc4pm-meaning anim fade-in" style="transition-delay:50ms">
       Claude Code for Product Maker
@@ -733,17 +824,14 @@ section { padding: var(--space-5xl) 0; }
 
     <h1 class="hero-title anim fade-up" style="transition-delay:100ms">
       <span class="hero-title-line1">cc4pm</span>
-      <span class="hero-title-line2">手把手带你做产品</span>
+      <span class="hero-title-line2">一个人就是一支产品团队</span>
     </h1>
 
     <p class="hero-sub anim fade-up" style="transition-delay:200ms">
-      从灵感到上线，AI 全程陪伴。工具我来装，方法我来教，你只管专注产品本身
+      你有想法，但不知道怎么落地成产品？<br>
+      cc4pm 把 200+ 个经过实战验证的 AI Skill 装进你的 Claude Code——<br>
+      从市场调研、PRD、UX 设计，到 TDD 开发、安全审查、上线交付，全程不用切换工具
     </p>
-
-    <div class="hero-origin anim fade-up" style="transition-delay:250ms">
-      源自 <a href="https://github.com/istarwyh/cc4pm" target="_blank" rel="noopener">cc4pm</a>（Anthropic 黑客马拉松获奖项目），融合 <a href="https://github.com/bmad-code-org/BMAD-METHOD" target="_blank" rel="noopener">BMAD Method</a><br>
-      在蚂蚁内部 BI、产品、研发、设计、HR 多团队验证的产品主理人方法论
-    </div>
 
     <div class="hero-stats anim fade-up" style="transition-delay:300ms">
       <div class="stat-item">
@@ -785,6 +873,123 @@ section { padding: var(--space-5xl) 0; }
       <div class="terminal-line">
         <span class="terminal-prompt">cc4pm $</span>
         <span class="terminal-cmd">/cc4pm-guide</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF STRIP -->
+<section id="social-proof">
+  <div class="container">
+    <div class="proof-strip anim fade-in">
+      <div class="proof-item">
+        <div class="proof-badge">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Anthropic 黑客马拉松获奖
+        </div>
+        <span class="proof-sub">everything-claude-code · 50K+ Stars</span>
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <div class="proof-badge">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          蚂蚁集团多团队验证
+        </div>
+        <span class="proof-sub">BI · 产品 · 研发 · 设计 · HR</span>
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <div class="proof-badge">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          支持 4 大主流 AI IDE
+        </div>
+        <span class="proof-sub">Claude Code · Cursor · Codex · OpenCode</span>
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <div class="proof-badge">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          完全免费 · MIT 开源
+        </div>
+        <span class="proof-sub">无订阅费 · 商用友好 · 可自定义</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR WHO -->
+<section id="for-who">
+  <div class="container">
+    <div class="section-header center anim fade-up">
+      <div class="section-label">适合谁</div>
+      <h2 class="section-title">你是哪种产品人？</h2>
+      <p class="section-subtitle">三类用户，各取所需，找到你的使用方式</p>
+    </div>
+
+    <div class="persona-grid">
+      <div class="persona-card anim fade-up" style="transition-delay:0ms">
+        <div class="persona-emoji">🚀</div>
+        <div class="persona-role">独立创始人 / 主理人</div>
+        <div class="persona-title">有想法，没有团队</div>
+        <div class="persona-desc">一个人要扛下市场调研、产品规划、设计、开发的全部——cc4pm 就是你的虚拟产品团队。</div>
+        <ul class="persona-uses">
+          <li>CIS 验证创意、快速头脑风暴 100+ 方向</li>
+          <li>BMM 生成 PRD，替代专职 PM</li>
+          <li>工程工具链自动化开发质量管控</li>
+          <li>WDS 补齐设计短板，无需 UI 设计师</li>
+        </ul>
+      </div>
+      <div class="persona-card anim fade-up" style="transition-delay:80ms">
+        <div class="persona-emoji">📋</div>
+        <div class="persona-role">产品经理 / 产品负责人</div>
+        <div class="persona-title">重复性工作太多</div>
+        <div class="persona-desc">每天被写需求、排期、出方案占满，没时间做真正有价值的产品思考——cc4pm 帮你提速 5x。</div>
+        <ul class="persona-uses">
+          <li>一键生成结构化 PRD，自动验证完整性</li>
+          <li>冲刺规划和 Epic 自动拆解为 Story</li>
+          <li>市场调研和竞品分析从几天缩短到几小时</li>
+          <li>会议纪要自动转化为可执行任务</li>
+        </ul>
+      </div>
+      <div class="persona-card anim fade-up" style="transition-delay:160ms">
+        <div class="persona-emoji">💻</div>
+        <div class="persona-role">全栈开发者 / 技术创业者</div>
+        <div class="persona-title">技术强，产品弱</div>
+        <div class="persona-desc">写得出好代码，却不确定自己在做正确的事——cc4pm 帮你在工程之上建立产品思维。</div>
+        <ul class="persona-uses">
+          <li>Trigger Map 理解用户心理和行为动机</li>
+          <li>WDS 快速生成可用的 UX 设计方案</li>
+          <li>TDD + 安全审查提升工程交付质量</li>
+          <li>从 PRD 到架构设计的完整方法论引导</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="vs-box anim fade-up" style="transition-delay:240ms">
+      <div class="vs-col">
+        <h4>直接问 Claude / ChatGPT</h4>
+        <ul class="vs-list plain">
+          <li>每次对话从头解释背景和上下文</li>
+          <li>输出质量不稳定，强依赖 Prompt 技巧</li>
+          <li>没有产品方法论框架，容易跑偏</li>
+          <li>缺少工作流衔接，只能单点问答</li>
+          <li>不了解你的项目，无法持续积累</li>
+        </ul>
+      </div>
+      <div class="vs-divider">
+        <div class="vs-line"></div>
+        <div class="vs-badge">VS</div>
+        <div class="vs-line"></div>
+      </div>
+      <div class="vs-col good">
+        <h4>用 cc4pm</h4>
+        <ul class="vs-list good">
+          <li>200+ 专为产品场景调优的结构化 Skill</li>
+          <li>BMAD 方法论全程引导，输出标准一致</li>
+          <li>端到端工作流，模块间无缝衔接</li>
+          <li>持续学习机制，越用越懂你的项目</li>
+          <li>26 节交互式课程，5 分钟内上手第一个功能</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -886,9 +1091,9 @@ section { padding: var(--space-5xl) 0; }
           <line x1="12" y1="15" x2="12" y2="3"/>
         </svg>
       </div>
-      <div class="section-label">安装</div>
+      <div class="section-label">安装 · 通常 5 分钟内完成</div>
       <h2 class="section-title">三步开始，剩下的交给我</h2>
-      <p class="section-subtitle">克隆仓库，输入 <code style="background:rgba(255,255,255,.08);padding:2px 8px;border-radius:4px;font-size:inherit">/cc4pm-guide</code>，工具配置、环境搭建我来帮你搞定</p>
+      <p class="section-subtitle">无需配置，克隆仓库后输入 <code style="background:rgba(0,0,0,.06);padding:2px 8px;border-radius:4px;font-size:inherit">/cc4pm-guide</code>，AI 私教立即就位——工具安装、环境配置全程手把手</p>
     </div>
 
     <div class="install-terminal anim fade-up" id="installTerminal">
@@ -936,12 +1141,16 @@ section { padding: var(--space-5xl) 0; }
             <div class="data-card-label">Skills · 覆盖产品全生命周期</div>
           </div>
           <div class="data-card">
-            <div class="data-card-number" data-target="4">0</div>
-            <div class="data-card-label">核心模块 · BMM / CIS / WDS / 工程</div>
+            <div class="data-card-number" data-target="26">0</div>
+            <div class="data-card-label">交互式课程 · 5 阶段从入门到实战</div>
+          </div>
+          <div class="data-card">
+            <div class="data-card-number" data-target="5">0</div>
+            <div class="data-card-label">蚂蚁集团验证团队 · BI · 产品 · 研发等</div>
           </div>
           <div class="data-card">
             <div class="data-card-number">MIT</div>
-            <div class="data-card-label">完全开源 · 商用友好</div>
+            <div class="data-card-label">完全免费开源 · 商用友好</div>
           </div>
         </div>
       </div>
@@ -969,12 +1178,79 @@ section { padding: var(--space-5xl) 0; }
   </div>
 </section>
 
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-header center anim fade-up">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">常见问题</h2>
+      <p class="section-subtitle">用之前你可能想知道的事</p>
+    </div>
+    <div class="faq-list anim fade-up" id="faqList">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          我需要有编程基础才能用吗？
+          <svg class="faq-chevron" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">
+          <p><strong>不需要。</strong>cc4pm 面向三类人：独立创始人、产品经理和开发者。BMM（业务建模）和 CIS（创意智能）模块完全不需要编程基础，只要你会用 Claude Code 发消息就能上手。如果你是开发者，工程工具链（TDD、代码审查、安全扫描）会额外提升你的效率。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          跟直接用 Claude 或 ChatGPT 有什么本质区别？
+          <svg class="faq-chevron" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">
+          <p>直接问 AI 就像找一个聪明但什么都不了解你项目的人临时帮忙——你每次都要从头解释背景，输出质量取决于你的 Prompt 水平。<br><br>cc4pm 相当于给 Claude Code 装上了一套<strong>专为产品场景调优的大脑</strong>：200+ 个结构化 Skill 定义了每个任务的最佳执行方式，BMAD 方法论确保每个步骤的输出都能无缝衔接下一步，持续学习机制让它越来越了解你的项目。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          需要多久才能上手？第一步做什么？
+          <svg class="faq-chevron" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">
+          <p>安装通常在 <strong>5 分钟内完成</strong>。克隆仓库后打开 Claude Code，输入 <code>/cc4pm-guide</code>，AI 私教会引导你完成整个环境配置，并提供 26 节交互式课程（总计约 2 小时）。<br><br>你的第一步可以是：<strong>告诉 cc4pm 你的产品想法</strong>，它会帮你做市场调研并生成第一份产品简报——这通常在 30 分钟内完成。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          支持哪些 AI 编码工具？
+          <svg class="faq-chevron" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">
+          <p>cc4pm 原生支持 <strong>Claude Code</strong>（最完整功能），同时适配 <strong>Cursor</strong>、<strong>OpenAI Codex</strong> 和 <strong>OpenCode</strong>。安装脚本会自动检测你使用的工具并选择对应的安装目标，无需手动配置。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          免费吗？有没有使用限制？
+          <svg class="faq-chevron" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">
+          <p><strong>完全免费，MIT 开源协议，商用友好。</strong>cc4pm 本身不收取任何费用，你需要的只是一个 Claude Code 账号（或其他支持的 AI IDE 订阅）。所有 Skill、Agent 和工作流都可以自由修改和定制。欢迎在此基础上构建你自己的产品工作流。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          "200+ Skills" 是什么意思？我需要全部学完吗？
+          <svg class="faq-chevron" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">
+          <p><strong>不需要全部学。</strong>Skill 是 cc4pm 执行各类任务的最小单元，大多数时候你只需要记住几个高频命令就够了，比如 <code>/bmad-create-prd</code>、<code>/bmad-brainstorming</code>、<code>/tdd</code>、<code>/code-review</code>。<br><br>输入 <code>/cc4pm-guide</code> 后，AI 私教会根据你当前的任务主动推荐合适的 Skill，不需要你一一记忆。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA FOOTER -->
 <section id="cta-footer">
   <div class="cta-footer-bg"></div>
   <div class="container cta-footer-content">
-    <h2 class="anim fade-up">准备好让 AI 私教带你做产品了吗？</h2>
-    <p class="anim fade-up" style="transition-delay:100ms">200+ Skills，4 大模块，从灵感到上线全程陪伴</p>
+    <h2 class="anim fade-up">5 分钟后，你就有了一支 AI 产品团队</h2>
+    <p class="anim fade-up" style="transition-delay:100ms">200+ Skills · 4 大模块 · 从灵感验证到产品上线，一个人搞定</p>
 
     <div class="hero-ctas anim fade-up" style="transition-delay:200ms">
       <a href="#install" class="btn-primary">
@@ -1302,7 +1578,7 @@ section { padding: var(--space-5xl) 0; }
 
   // ====== NAVBAR SCROLL + ACTIVE SECTION ======
   var navbar = document.getElementById('navbar');
-  var sections = ['hero','architecture','capabilities','workflow','install','community','cta-footer'];
+  var sections = ['hero','social-proof','for-who','architecture','capabilities','workflow','install','community','faq','cta-footer'];
   var navLinks = document.querySelectorAll('.nav-links a');
 
   var ticking = false;
@@ -1331,6 +1607,14 @@ section { padding: var(--space-5xl) 0; }
       ticking = true;
     }
   });
+
+  // ====== FAQ ACCORDION ======
+  window.toggleFaq = function(btn) {
+    var item = btn.closest('.faq-item');
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(function(el) { el.classList.remove('open'); });
+    if (!isOpen) item.classList.add('open');
+  };
 
   // ====== MOBILE MENU ======
   window.toggleMobileMenu = function() {
