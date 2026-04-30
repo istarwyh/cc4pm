@@ -624,6 +624,78 @@ section { padding: var(--space-5xl) 0; }
 
 @media (max-width: 1023px) { .community-grid { grid-template-columns: 1fr; } }
 
+/* ========== CURRICULUM ========== */
+#capabilities { background: var(--bg-base); }
+
+.curriculum-list { display: flex; flex-direction: column; gap: var(--space-md); }
+
+.curriculum-stage {
+  background: var(--bg-card); border: 1px solid var(--border-default);
+  border-radius: 16px; overflow: hidden; transition: box-shadow 250ms ease-out;
+}
+.curriculum-stage:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
+
+.stage-header {
+  display: flex; align-items: center; gap: 20px; padding: 24px 28px;
+  cursor: pointer; user-select: none;
+}
+.stage-badge {
+  flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: #fff;
+}
+.stage-info { flex: 1; }
+.stage-title { font-size: 18px; font-weight: 600; color: var(--text-primary); }
+.stage-meta { font-size: 14px; color: var(--text-muted); margin-top: 3px; }
+.stage-tag {
+  font-size: 12px; font-family: var(--font-mono); letter-spacing: 0.06em;
+  border-radius: 6px; padding: 4px 10px; white-space: nowrap;
+}
+.stage-toggle {
+  flex-shrink: 0; width: 24px; height: 24px; color: var(--text-muted);
+  transition: transform 300ms ease;
+}
+.curriculum-stage.open .stage-toggle { transform: rotate(180deg); }
+
+.stage-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 350ms ease, padding 350ms ease;
+  border-top: 1px solid transparent;
+}
+.curriculum-stage.open .stage-body {
+  max-height: 1200px; padding: 0 28px 24px;
+  border-top-color: var(--border-default);
+}
+
+.lesson-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 24px;
+  padding-top: 20px;
+}
+.lesson-item {
+  display: flex; align-items: baseline; gap: 8px;
+  font-size: 14px; color: var(--text-secondary); padding: 6px 0;
+  border-bottom: 1px solid var(--border-default);
+}
+.lesson-item:nth-last-child(-n+2) { border-bottom: none; }
+.lesson-num { font-family: var(--font-mono); font-size: 12px; color: var(--text-disabled); flex-shrink: 0; width: 32px; }
+.lesson-name { line-height: 1.4; }
+.lesson-item.supplementary .lesson-name { color: var(--text-muted); font-size: 13px; }
+.lesson-item.supplementary .lesson-num::before { content: '↳'; color: var(--text-disabled); }
+
+.stage-highlight {
+  margin-top: 16px; padding: 14px 16px;
+  background: var(--bg-elevated); border-radius: 10px;
+  font-size: 14px; color: var(--text-secondary); line-height: 1.6;
+}
+.stage-highlight strong { color: var(--text-primary); }
+
+@media (max-width: 767px) {
+  .lesson-grid { grid-template-columns: 1fr; }
+  .lesson-item:last-child { border-bottom: none; }
+  .stage-header { padding: 20px; gap: 14px; }
+  .curriculum-stage.open .stage-body { padding: 0 20px 20px; }
+}
+
 /* ========== FOR WHO ========== */
 #for-who { background: var(--bg-base); }
 
@@ -823,32 +895,31 @@ section { padding: var(--space-5xl) 0; }
     </p>
 
     <h1 class="hero-title anim fade-up" style="transition-delay:100ms">
-      <span class="hero-title-line1">从执行者，到</span>
-      <span class="hero-title-line2">AI 团队的指挥者</span>
+      <span class="hero-title-line1">系统学会 Claude Code</span>
+      <span class="hero-title-line2">一个人做出完整产品</span>
     </h1>
 
     <p class="hero-sub anim fade-up" style="transition-delay:200ms">
-      cc4pm 是一门交互式课程——26 节课，教你用 Claude Code 指挥 18 个 AI 代理，<br>
-      一个人完成市场调研、PRD、UX 设计、开发测试、上线交付的全链路，<br>
-      拥有以前只有 6-8 人团队才具备的产品交付能力
+      26 节交互式课程，从 Claude Code 基础原理到产品全链路实战——<br>
+      学会真正的代理式工作方式：你来决策，AI 自主执行
     </p>
 
     <div class="hero-stats anim fade-up" style="transition-delay:300ms">
       <div class="stat-item">
-        <span class="stat-number" data-target="44">0</span>
-        <span class="stat-label" style="color:var(--color-bmm)">BMM Skills</span>
+        <span class="stat-number" data-target="26">0</span>
+        <span class="stat-label" style="color:var(--color-bmm)">节主课</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number" data-target="10">0</span>
-        <span class="stat-label" style="color:var(--color-cis)">CIS Skills</span>
+        <span class="stat-number" data-target="5">0</span>
+        <span class="stat-label" style="color:var(--color-cis)">学习阶段</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number" data-target="50">0</span>
-        <span class="stat-label" style="color:var(--color-wds)">WDS Skills</span>
+        <span class="stat-number" data-target="2">0</span>
+        <span class="stat-label" style="color:var(--color-wds)">小时完整体验</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number" data-target="94" data-suffix="+">0</span>
-        <span class="stat-label" style="color:var(--color-eng)">工程 Skills</span>
+        <span class="stat-number" data-target="200" data-suffix="+">0</span>
+        <span class="stat-label" style="color:var(--color-eng)">配套 Skills</span>
       </div>
     </div>
 
@@ -1023,44 +1094,152 @@ section { padding: var(--space-5xl) 0; }
   </div>
 </section>
 
-<!-- CAPABILITIES -->
+<!-- CURRICULUM -->
 <section id="capabilities">
   <div class="container">
     <div class="section-header center anim fade-up">
-      <div class="section-label">能力</div>
-      <h2 class="section-title">我能教你什么</h2>
-      <p class="section-subtitle">从需求分析到创意策划，从 UX 设计到工程交付，全程手把手带你</p>
+      <div class="section-label">课程大纲</div>
+      <h2 class="section-title">26 节课，5 个阶段</h2>
+      <p class="section-subtitle">点击展开每个阶段，查看完整课程内容</p>
     </div>
 
-    <div class="tabs anim fade-up" id="capTabs">
-      <button class="tab-btn active" data-tab="bmm" onclick="switchTab('bmm')">
-        <span class="tab-full">BMM 业务建模</span><span class="tab-short" style="display:none">BMM</span>
-      </button>
-      <button class="tab-btn" data-tab="cis" onclick="switchTab('cis')">
-        <span class="tab-full">CIS 创意智能</span><span class="tab-short" style="display:none">CIS</span>
-      </button>
-      <button class="tab-btn" data-tab="wds" onclick="switchTab('wds')">
-        <span class="tab-full">WDS 设计系统</span><span class="tab-short" style="display:none">WDS</span>
-      </button>
-      <button class="tab-btn" data-tab="eng" onclick="switchTab('eng')">
-        <span class="tab-full">工程工具链</span><span class="tab-short" style="display:none">工程</span>
-      </button>
-      <div class="tab-indicator" id="tabIndicator"></div>
-    </div>
+    <div class="curriculum-list anim fade-up" id="curriculumList">
 
-    <div class="tab-content">
-      <div class="tab-panel active" id="panel-bmm">
-        <div class="cap-grid" id="grid-bmm"></div>
+      <!-- Stage 1 -->
+      <div class="curriculum-stage open" id="stage-1">
+        <div class="stage-header" onclick="toggleStage('stage-1')">
+          <div class="stage-badge" style="background:var(--color-bmm)">S1</div>
+          <div class="stage-info">
+            <div class="stage-title">Claude Code 基础入门</div>
+            <div class="stage-meta">10 节主课 · 6 节补充课 · 约 30 分钟</div>
+          </div>
+          <span class="stage-tag" style="color:var(--color-bmm);background:color-mix(in srgb,var(--color-bmm) 12%,transparent)">必修基础</span>
+          <svg class="stage-toggle" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="stage-body">
+          <div class="stage-highlight"><strong>这是整个课程最重要的阶段。</strong>Claude Code 不是聊天机器人，而是代理式编码环境。学完这一阶段，你才真正理解它如何工作，以及为什么后续所有功能都能成立。</div>
+          <div class="lesson-grid">
+            <div class="lesson-item"><span class="lesson-num">L1</span><span class="lesson-name">cc4pm 全景：四大模块与产品思维</span></div>
+            <div class="lesson-item"><span class="lesson-num">L2</span><span class="lesson-name">上下文窗口：你最重要的资源</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">1.1</span><span class="lesson-name">Claude Code 工作原理——源码级深度解析</span></div>
+            <div class="lesson-item"><span class="lesson-num">L3</span><span class="lesson-name">主动管理上下文</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">3.1</span><span class="lesson-name">Status Line——你的实时仪表盘</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">3.2</span><span class="lesson-name">效率工作流：快捷键、编辑器与 tmux</span></div>
+            <div class="lesson-item"><span class="lesson-num">L4</span><span class="lesson-name">快速上手：第一次实操与提示精确度</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">4.1</span><span class="lesson-name">压力光谱——用大厂 PUA 话术驱动 AI</span></div>
+            <div class="lesson-item"><span class="lesson-num">L5</span><span class="lesson-name">CLAUDE.md：项目的 AI 记忆</span></div>
+            <div class="lesson-item"><span class="lesson-num">L6</span><span class="lesson-name">命令与技能系统</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">6.1</span><span class="lesson-name">Skill 深度：新一代交互式软件</span></div>
+            <div class="lesson-item"><span class="lesson-num">L7</span><span class="lesson-name">代理系统：你的 AI 专家团</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">7.1</span><span class="lesson-name">Agent Teams——多 Claude 协作团队</span></div>
+            <div class="lesson-item"><span class="lesson-num">L8</span><span class="lesson-name">Hooks 与 Rules：自动化守护</span></div>
+            <div class="lesson-item"><span class="lesson-num">L9</span><span class="lesson-name">环境搭建：安装与验证</span></div>
+            <div class="lesson-item"><span class="lesson-num">L10</span><span class="lesson-name">综合实战：为 cc4pm 构思新功能</span></div>
+          </div>
+        </div>
       </div>
-      <div class="tab-panel" id="panel-cis">
-        <div class="cap-grid" id="grid-cis"></div>
+
+      <!-- Stage 2 -->
+      <div class="curriculum-stage" id="stage-2">
+        <div class="stage-header" onclick="toggleStage('stage-2')">
+          <div class="stage-badge" style="background:var(--color-cis)">S2</div>
+          <div class="stage-info">
+            <div class="stage-title">产品主理人核心能力 — BMM + CIS</div>
+            <div class="stage-meta">6 节主课 · 约 30 分钟</div>
+          </div>
+          <span class="stage-tag" style="color:var(--color-cis);background:color-mix(in srgb,var(--color-cis) 12%,transparent)">产品方法论</span>
+          <svg class="stage-toggle" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="stage-body">
+          <div class="stage-highlight">用 Claude Code 驱动完整的产品开发方法论。<strong>CIS 负责发散</strong>（从一个想法生成 100+ 创意方向），<strong>BMM 负责收敛</strong>（从创意到 PRD 到 Sprint 规划）。</div>
+          <div class="lesson-grid">
+            <div class="lesson-item"><span class="lesson-num">L11</span><span class="lesson-name">头脑风暴：36 种创意技巧生成 100+ 想法</span></div>
+            <div class="lesson-item"><span class="lesson-num">L12</span><span class="lesson-name">创新策略：蓝海分析与商业模式设计</span></div>
+            <div class="lesson-item"><span class="lesson-num">L13</span><span class="lesson-name">市场研究与领域分析</span></div>
+            <div class="lesson-item"><span class="lesson-num">L14</span><span class="lesson-name">PRD 创建：AI 辅助的需求文档</span></div>
+            <div class="lesson-item"><span class="lesson-num">L15</span><span class="lesson-name">需求拆解：从 PRD 到 Epics 和 Stories</span></div>
+            <div class="lesson-item"><span class="lesson-num">L16</span><span class="lesson-name">冲刺规划与进度追踪</span></div>
+          </div>
+        </div>
       </div>
-      <div class="tab-panel" id="panel-wds">
-        <div class="cap-grid" id="grid-wds"></div>
+
+      <!-- Stage 3 -->
+      <div class="curriculum-stage" id="stage-3">
+        <div class="stage-header" onclick="toggleStage('stage-3')">
+          <div class="stage-badge" style="background:var(--color-wds)">S3</div>
+          <div class="stage-info">
+            <div class="stage-title">网页设计系统 — WDS</div>
+            <div class="stage-meta">4 节主课 · 2 节补充课 · 约 20 分钟</div>
+          </div>
+          <span class="stage-tag" style="color:var(--color-wds);background:color-mix(in srgb,var(--color-wds) 12%,transparent)">设计思维</span>
+          <svg class="stage-toggle" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="stage-body">
+          <div class="stage-highlight">cc4pm 最独特的模块。<strong>Trigger Map</strong> 是核心：把商业目标翻译成用户的心理驱动力，再从心理驱动力推导出功能优先级——这是其他设计方法论里找不到等价物的。</div>
+          <div class="lesson-grid">
+            <div class="lesson-item"><span class="lesson-num">L17</span><span class="lesson-name">WDS 概览：从用户心理到设计规范</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">17.1</span><span class="lesson-name">UI 设计词典——108 个界面模式速查</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">17.2</span><span class="lesson-name">AI 原型实验室——从场景到交互式 HTML</span></div>
+            <div class="lesson-item"><span class="lesson-num">L18</span><span class="lesson-name">Trigger Map：用户心理 → 功能映射</span></div>
+            <div class="lesson-item"><span class="lesson-num">L19</span><span class="lesson-name">UX 场景与用户旅程设计</span></div>
+            <div class="lesson-item"><span class="lesson-num">L20</span><span class="lesson-name">故事讲述：产品叙事与演示</span></div>
+          </div>
+        </div>
       </div>
-      <div class="tab-panel" id="panel-eng">
-        <div class="cap-grid" id="grid-eng"></div>
+
+      <!-- Stage 4 -->
+      <div class="curriculum-stage" id="stage-4">
+        <div class="stage-header" onclick="toggleStage('stage-4')">
+          <div class="stage-badge" style="background:var(--color-eng)">S4</div>
+          <div class="stage-info">
+            <div class="stage-title">工程工具链</div>
+            <div class="stage-meta">3 节主课 · 6 节补充课 · 约 15 分钟</div>
+          </div>
+          <span class="stage-tag" style="color:var(--color-eng);background:color-mix(in srgb,var(--color-eng) 12%,transparent)">工程实战</span>
+          <svg class="stage-toggle" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="stage-body">
+          <div class="stage-highlight">从 <code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/plan</code> 到 <code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/tdd</code> 到 <code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/code-review</code>，学会用 Claude Code 的工程命令体系完成高质量交付。补充课深入 Harness 设计哲学、EDD 量化评估、国产大模型切换等进阶主题。</div>
+          <div class="lesson-grid">
+            <div class="lesson-item"><span class="lesson-num">L21</span><span class="lesson-name">工程协作概览：产品主理人的交付引擎</span></div>
+            <div class="lesson-item"><span class="lesson-num">L22</span><span class="lesson-name">测试与代码审查：质量保障三板斧</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">22.1</span><span class="lesson-name">EDD——量化 AI 表现的 Pass@K 指标</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">22.2</span><span class="lesson-name">视觉校验——让 AI 拥有"眼睛"</span></div>
+            <div class="lesson-item"><span class="lesson-num">L23</span><span class="lesson-name">自动化工作流：Hooks、Rules 和质量门禁</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">23.1</span><span class="lesson-name">Harness 设计哲学（Anthropic 工程团队实战）</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">23.2</span><span class="lesson-name">Harness 实操：循环模式、编排与审计</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">23.3</span><span class="lesson-name">实战：HelixVerify 的 114 次自举迭代</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">23.4</span><span class="lesson-name">架构演进：解耦大脑、双手与会话</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">23.5</span><span class="lesson-name">ccc 实战：国产大模型切换与 Supervisor 模式</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">23.6</span><span class="lesson-name">CLIProxyAPI：用 Gemini 免费额度驱动 Claude Code</span></div>
+          </div>
+        </div>
       </div>
+
+      <!-- Stage 5 -->
+      <div class="curriculum-stage" id="stage-5">
+        <div class="stage-header" onclick="toggleStage('stage-5')">
+          <div class="stage-badge" style="background:var(--text-secondary)">S5</div>
+          <div class="stage-info">
+            <div class="stage-title">高级应用与完整实战</div>
+            <div class="stage-meta">3 节主课 · 4 节补充课 · 约 25 分钟</div>
+          </div>
+          <span class="stage-tag" style="color:var(--text-secondary);background:var(--bg-elevated)">进阶实战</span>
+          <svg class="stage-toggle" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="stage-body">
+          <div class="stage-highlight"><strong>L25 是整个课程的高潮</strong>：以"AI 记账工具"为例，走完 CIS → BMM → WDS → 工程全链路，双代理实例并行工作，你来审核每个关键交付物。L26 是总结与命令速查表。</div>
+          <div class="lesson-grid">
+            <div class="lesson-item"><span class="lesson-num">L24</span><span class="lesson-name">高级特性：MCP 集成与持续学习系统</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">24.1</span><span class="lesson-name">Karpathy's LLM Wiki——知识编译与 Agentic 知识库</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">24.2</span><span class="lesson-name">Next AI Draw.io：AI 驱动的架构绘图专家</span></div>
+            <div class="lesson-item supplementary"><span class="lesson-num">24.3</span><span class="lesson-name">graphify——用知识图谱秒懂任意代码库</span></div>
+            <div class="lesson-item"><span class="lesson-num">L25</span><span class="lesson-name">完整项目实战：从零到发布</span></div>
+            <div class="lesson-item"><span class="lesson-num">L26</span><span class="lesson-name">课程总结：你的 AI 产品主理人工具箱</span></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1368,32 +1547,8 @@ section { padding: var(--space-5xl) 0; }
       icon: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>' }
   ];
 
-  // ====== ICONS for capabilities ======
-  var capIcons = {
-    bmm: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
-    cis: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>',
-    wds: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
-    eng: '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>'
-  };
-
-  // ====== RENDER CAPABILITIES ======
-  Object.keys(capData).forEach(function(key) {
-    var grid = document.getElementById('grid-' + key);
-    var cv = 'var(' + colorMap[key] + ')';
-    capData[key].forEach(function(item, i) {
-      var card = document.createElement('div');
-      card.className = 'cap-card anim fade-up';
-      card.style.transitionDelay = (i * 80) + 'ms';
-      card.innerHTML =
-        '<div class="cap-icon" style="background:color-mix(in srgb, ' + cv + ' 20%, transparent);color:' + cv + '">' + capIcons[key] + '</div>' +
-        '<h3>' + item.title + '</h3>' +
-        '<p>' + item.desc + '</p>' +
-        '<span class="cap-tag" style="color:' + cv + ';background:color-mix(in srgb, ' + cv + ' 10%, transparent)">' + item.tag + '</span>';
-      card.addEventListener('mouseenter', function() { card.style.borderColor = 'color-mix(in srgb, ' + cv + ' 40%, transparent)'; });
-      card.addEventListener('mouseleave', function() { card.style.borderColor = ''; });
-      grid.appendChild(card);
-    });
-  });
+  // ====== CURRICULUM OBSERVER (animate on enter) ======
+  // Curriculum stages are already in DOM; handled by IntersectionObserver below
 
   // ====== RENDER WORKFLOW ======
   var wg = document.getElementById('workflowGrid');
@@ -1505,36 +1660,12 @@ section { padding: var(--space-5xl) 0; }
   if (window.innerWidth >= 1024) renderArch();
   window.addEventListener('resize', function() { if (window.innerWidth >= 1024) renderArch(); });
 
-  // ====== TAB SWITCHER ======
-  function updateIndicator() {
-    var active = document.querySelector('.tab-btn.active');
-    var indicator = document.getElementById('tabIndicator');
-    if (!active || !indicator) return;
-    var tabKey = active.getAttribute('data-tab');
-    var cv = 'var(' + colorMap[tabKey] + ')';
-    indicator.style.left = active.offsetLeft + 'px';
-    indicator.style.width = active.offsetWidth + 'px';
-    indicator.style.background = cv;
-  }
-
-  window.switchTab = function(tab) {
-    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.toggle('active', b.getAttribute('data-tab') === tab); });
-    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.toggle('active', p.id === 'panel-' + tab); });
-    updateIndicator();
+  // ====== CURRICULUM ACCORDION ======
+  window.toggleStage = function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.classList.toggle('open');
   };
-
-  setTimeout(updateIndicator, 100);
-  window.addEventListener('resize', updateIndicator);
-
-  // ====== MOBILE TAB TEXT ======
-  function updateTabText() {
-    var isMobile = window.innerWidth < 768;
-    document.querySelectorAll('.tab-full').forEach(function(e) { e.style.display = isMobile ? 'none' : ''; });
-    document.querySelectorAll('.tab-short').forEach(function(e) { e.style.display = isMobile ? '' : 'none'; });
-    updateIndicator();
-  }
-  updateTabText();
-  window.addEventListener('resize', updateTabText);
 
   // ====== INTERSECTION OBSERVER ======
   var observer = new IntersectionObserver(function(entries) {
