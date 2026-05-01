@@ -121,66 +121,27 @@ Planner：让我分析这个任务。
 
 ### cc4pm 的 18 个专业代理
 
-除了你已经认识的 CIS 和 WDS 代理，cc4pm 还有 18 个工程专业代理：
+除了你已经认识的 CIS 和 WDS 代理，cc4pm 还有 18 个工程专业代理。按模型分三层：
 
-#### 核心开发代理
-
-| 代理 | 角色 | 模型 | 何时使用 |
+| 模型 | 代理 | 角色 | 何时使用 |
 |------|------|------|---------|
-| planner | 规划专家 | opus | 开始新功能、复杂重构前 |
-| tdd-guide | TDD 教练 | sonnet | 编写新功能、修复 Bug |
-| build-error-resolver | 构建错误修复 | sonnet | 编译/构建失败时 |
-| code-reviewer | 代码审查 | sonnet | 提交代码前 |
-| security-reviewer | 安全审查 | sonnet | 安全敏感的代码变更 |
+| **opus** | planner | 规划专家 | 开始新功能、复杂重构前 |
+| opus | architect | 架构师 | 系统设计决策 |
+| opus | security-reviewer | 安全审查 | 安全敏感的代码变更 |
+| opus | harness-optimizer | 性能调优 | 优化代理系统本身 |
+| opus | chief-of-staff | 通讯助理 | 邮件/消息分流 |
+| **sonnet** | tdd-guide | TDD 教练 | 编写新功能、修复 Bug |
+| sonnet | code-reviewer | 代码审查 | 提交代码前 |
+| sonnet | e2e-runner | E2E 测试 | 验证用户流程 |
+| sonnet | build-error-resolver | 构建错误修复 | 编译/构建失败时 |
+| sonnet | go-reviewer / python-reviewer / kotlin-reviewer | 语言审查 | 对应语言项目 |
+| sonnet | database-reviewer | 数据库审查 | SQL/Supabase 变更 |
+| sonnet | go-build-resolver / kotlin-build-resolver | 构建修复 | 对应语言构建失败 |
+| sonnet | doc-updater | 文档同步 | 代码变更后更新文档 |
+| sonnet | refactor-cleaner | 重构清理 | 清除死代码 |
+| sonnet | loop-operator | 自主循环 | 长时间自动化任务 |
 
-#### 测试代理
-
-| 代理 | 角色 | 模型 | 何时使用 |
-|------|------|------|---------|
-| e2e-runner | E2E 测试 | sonnet | 验证用户流程 |
-
-#### 专项审查代理
-
-| 代理 | 角色 | 模型 | 何时使用 |
-|------|------|------|---------|
-| go-reviewer | Go 代码审查 | sonnet | Go 项目 |
-| python-reviewer | Python 代码审查 | sonnet | Python 项目 |
-| kotlin-reviewer | Kotlin 代码审查 | sonnet | Kotlin 项目 |
-| database-reviewer | 数据库审查 | sonnet | SQL/Supabase 变更 |
-
-#### 基础设施代理
-
-| 代理 | 角色 | 模型 | 何时使用 |
-|------|------|------|---------|
-| architect | 架构师 | opus | 系统设计决策 |
-| go-build-resolver | Go 构建修复 | sonnet | Go 构建失败 |
-| kotlin-build-resolver | Kotlin 构建修复 | sonnet | Kotlin 构建失败 |
-| doc-updater | 文档同步 | sonnet | 代码变更后更新文档 |
-| refactor-cleaner | 重构清理 | sonnet | 清除死代码 |
-
-#### 高级代理
-
-| 代理 | 角色 | 模型 | 何时使用 |
-|------|------|------|---------|
-| harness-optimizer | 性能调优 | opus | 优化代理系统本身 |
-| loop-operator | 自主循环 | sonnet | 长时间自动化任务 |
-| chief-of-staff | 通讯助理 | opus | 邮件/消息分流 |
-
-### 代理的模型选择逻辑
-
-```
-opus (最强推理)
-  ↓ 用于：架构决策、安全深度审查、复杂规划
-  ↓ 代理：planner, architect, security-reviewer, harness-optimizer
-
-sonnet (编码能力)
-  ↓ 用于：写代码、审查、测试、构建修复
-  ↓ 代理：tdd-guide, code-reviewer, e2e-runner, build-error-resolver
-
-haiku (快速轻量)
-  ↓ 用于：简单分析、只读任务
-  ↓ 代理：（当前无默认 haiku 代理，可自定义）
-```
+**选择逻辑**：opus 用于需要深度推理的决策（架构、安全、规划），sonnet 用于编码执行（写代码、审查、测试），haiku 用于轻量只读任务（可自定义代理）。
 
 ### "规划→测试→开发→审查"的完整流程
 
@@ -211,16 +172,7 @@ Step 7: /e2e
 Step 8: git commit → PR → 合并
 ```
 
-**这个流程和 BMM 的 Story 实现对接**：
-
-```
-BMM Story 文件（John 创建）
-    ↓ 包含 BDD 验收标准
-    ↓
-/plan → /tdd → /build-fix → /code-review → /e2e
-    ↓
-Story 完成 → 回到 Bob 的冲刺状态追踪
-```
+**这个流程和 BMM 的 Story 实现对接**：John 创建的 Story（含 BDD 验收标准）→ /plan → /tdd → /build-fix → /code-review → /e2e → Story 完成 → 回到 Bob 的冲刺状态追踪。
 
 ### 产品主理人的工程节奏
 
@@ -293,59 +245,92 @@ Claude Bot 在 PR #127 上的评论：
 
 当你在 GitHub 上看到 Claude Bot 的自动审查时，不再是黑盒子——你知道它在背后执行的就是 /code-review 的四级审查逻辑（详见 Lesson 22）。
 
-## 🛠️ 实操练习
+#### 实战配置：GitHub Actions 工作流
 
-完成以下练习，掌握工程协作的核心工具。
+把下面的 YAML 保存为 `.github/workflows/claude-review.yml`，Claude 就会在每个 PR 创建或更新时自动审查：
+
+```yaml
+name: Claude Code Review
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  claude-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Claude Code
+        run: |
+          npm install -g @anthropic/claude-code
+
+      - name: Run Claude Code Review
+        run: |
+          claude -p "
+          对这个 PR 进行代码审查：
+          1. 检查代码质量
+          2. 识别潜在问题
+          3. 提供改进建议
+          4. 验证测试覆盖
+          " --allowedTools Read,Bash
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+```
+
+**关键点**：
+- `--allowedTools Read,Bash` —— 只给 Claude 读文件和执行命令的权限，不能改代码
+- `ANTHROPIC_API_KEY` —— 在 GitHub 仓库 Settings → Secrets 中配置
+- 触发条件是 PR 的 `opened` 和 `synchronize`（有新 push）事件
+
+#### 实战配置：自动化部署检查
+
+部署前让 Claude 跑一遍全量检查，把下面的脚本保存为 `deploy-check.sh`：
+
+```bash
+#!/bin/bash
+# deploy-check.sh — 部署前自动检查
+
+claude -p "
+执行部署前检查：
+1. 验证所有测试通过
+2. 检查构建是否成功
+3. 验证环境配置
+4. 检查数据库迁移
+5. 确认依赖版本兼容性
+6. 生成部署报告
+" --allowedTools Bash,Read,Write
+```
+
+**使用方式**：
+
+```bash
+# 手动执行部署检查
+chmod +x deploy-check.sh
+./deploy-check.sh
+
+# 或者集成到 CI 流程中，在部署步骤之前调用
+```
+
+**和 GitHub Actions 的区别**：
+- GitHub Actions —— 每个 PR 自动触发，面向团队协作
+- deploy-check.sh —— 手动或部署流水线触发，面向发布决策
+
+## 🛠️ 实操练习
 
 ### 练习 1：使用 /plan 生成实现计划
 
-```bash
-# 为一个功能生成实现计划
-/plan
-```
+选择一个 Story（如"用户注册功能"），运行 `/plan`，查看任务分解、风险评估和依赖分析。
 
-**任务**：
-1. 选择一个 Story（如"用户注册功能"）
-2. 运行 `/plan` 生成实现方案
-3. 查看生成的任务分解和风险评估
-
-**预期产出**：
-- 任务分解清单
-- 技术方案建议
-- 风险评估和依赖分析
-
-### 练习 2：了解 18 个代理
-
-查看工程代理的完整列表：
+### 练习 2：探索工程代理和命令
 
 ```bash
-# 查看代理列表
-ls agents/
-```
-
-**核心代理速览**：
-
-| 代理 | 命令 | 用途 |
-|------|------|------|
-| planner | `/plan` | 实现规划 |
-| tdd-guide | `/tdd` | 测试驱动开发 |
-| code-reviewer | `/code-review` | 代码审查 |
-| build-error-resolver | `/build-fix` | 构建错误修复 |
-| e2e-runner | `/e2e` | 端到端测试 |
-
-### 练习 3：探索工程命令
-
-尝试以下命令了解工程工具链：
-
-```bash
-# 代码审查
-/code-review
-
-# 测试驱动开发
-/tdd
-
-# 构建错误修复
-/build-fix
+ls agents/          # 查看 18 个工程代理
+/plan               # 实现规划
+/tdd                # 测试驱动开发
+/code-review        # 代码审查
+/build-fix          # 构建错误修复
+/e2e                # 端到端测试
 ```
 
 **检查清单**：

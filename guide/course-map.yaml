@@ -5,8 +5,8 @@
 meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
-  total_lessons: 30
-  supplementary_lessons: 19
+  total_lessons: 26
+  supplementary_lessons: 21
   default_max_lines: 400
 
 stages:
@@ -94,6 +94,8 @@ stages:
           - zed-vscode-cursor
           - tmux-sessions
           - git-worktree
+          - dependency-isolation
+          - docker-isolation
           - fork-command
           - voice-transcription
           - parallel-cascade
@@ -429,6 +431,8 @@ stages:
           - model-selection-logic
           - plan-test-dev-review
           - github-actions-cicd
+          - github-actions-workflow-yaml
+          - deploy-check-script
 
       - id: lesson-2
         file: lesson-2.md
@@ -444,6 +448,9 @@ stages:
           - coverage-standards
           - verification-loops
           - pass-at-k
+          - docs-first-test-first
+          - knowledge-engineering
+          - ai-era-human-role
 
       - id: lesson-2.1
         file: lesson-22.1.md
@@ -648,6 +655,24 @@ stages:
           - confidence-scores-inferred
           - leiden-community-detection
 
+      - id: lesson-1.4
+        file: lesson-1.4.md
+        number: 24.4
+        title: "cc-connect 实战：通过微信远程控制 Claude Code"
+        short_title: "微信远程控制 CC"
+        supplementary: true
+        topics:
+          - cc-connect
+          - ilink-protocol
+          - wechat-bot-gateway
+          - remote-claude-control
+          - subprocess-jsonl
+          - daemon-mode
+          - cron-scheduling
+          - provider-env-config
+          - weixin-setup
+          - multi-platform-bridge
+
       - id: lesson-2
         file: lesson-2.md
         number: 25
@@ -659,6 +684,20 @@ stages:
           - project-launch-checklist
           - agent-collaboration-panorama
           - dual-instance-bootstrap
+
+      - id: lesson-2.1
+        file: lesson-2.1.md
+        number: 25.1
+        title: "开发者工作流：从 Issue 到 PR 的完整闭环"
+        short_title: "Issue→PR 工作流"
+        supplementary: true
+        topics:
+          - issue-driven-workflow
+          - multi-workspace-claude
+          - unrestricted-mode
+          - external-ai-review
+          - pr-feedback-loop
+          - command-abstraction
 
       - id: lesson-3
         file: lesson-3.md
