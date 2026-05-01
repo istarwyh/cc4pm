@@ -26,22 +26,22 @@ cc4pm 是一套面向**产品主理人**的 AI 全生命周期产品系统。基
 - **WDS**（设计系统）— 用户心理映射、UX 场景、设计规范、原型
 - **工程工具链** — TDD、代码审查、E2E 测试、安全扫描、CI/CD
 
-前身是 [Everything Claude Code](https://github.com/istarwyh/cc4pm)（Anthropic 黑客马拉松获奖项目，50K+ Stars），cc4pm 在其工程基础上增加了产品方法论层，将工具升级为系统。
+基于 [Everything Claude Code](https://github.com/affaan-m/everything-claude-code)（Anthropic 黑客马拉松获奖项目，50K+ Stars）构建，在其工程基础上增加了产品方法论层，将工具升级为系统。
 
 ---
 
 ## 快速开始
 
 ```bash
-# 克隆仓库
-git clone https://github.com/istarwyh/cc4pm.git
-cd cc4pm
+# 一键安装（推荐）
+npx cc4pm install --modules cc4pm-guide
 
-# 在 Claude Code 中直接使用
-claude
+# 或者克隆仓库后直接使用
+git clone https://github.com/istarwyh/cc4pm.git
+cd cc4pm && claude
 ```
 
-所有 skills、agents、commands、hooks 会被自动加载。
+安装完成后打开 Claude Code，输入 `/cc4pm-guide` 启动交互式教学。
 
 ### 核心命令速览
 
@@ -148,7 +148,7 @@ cc4pm/
 
 ## 致谢
 
-cc4pm 基于 [cc4pm](https://github.com/istarwyh/cc4pm) 构建，感谢原作者 [Affaan Mustafa](https://x.com/affaanmustafa) 和所有贡献者。
+cc4pm 基于 [Everything Claude Code](https://github.com/affaan-m/everything-claude-code) 构建，感谢原作者 [Affaan Mustafa](https://x.com/affaanmustafa) 和所有贡献者。
 
 ---
 

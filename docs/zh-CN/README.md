@@ -6,7 +6,6 @@
 [![Forks](https://img.shields.io/github/forks/istarwyh/cc4pm?style=flat)](https://github.com/istarwyh/cc4pm/network/members)
 [![Contributors](https://img.shields.io/github/contributors/istarwyh/cc4pm?style=flat)](https://github.com/istarwyh/cc4pm/graphs/contributors)
 [![npm cc4pm](https://img.shields.io/npm/dw/cc4pm?label=cc4pm%20weekly%20downloads\&logo=npm)](https://www.npmjs.com/package/cc4pm)
-[![npm ecc-agentshield](https://img.shields.io/npm/dw/ecc-agentshield?label=ecc-agentshield%20weekly%20downloads\&logo=npm)](https://www.npmjs.com/package/ecc-agentshield)
 [![GitHub App Install](https://img.shields.io/badge/GitHub%20App-150%20installs-2ea44f?logo=github)](https://github.com/marketplace/cc4pm-tools)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Shell](https://img.shields.io/badge/-Shell-4EAA25?logo=gnu-bash\&logoColor=white)
@@ -108,7 +107,6 @@
 
 ### v1.4.0 — 多语言规则、安装向导 & PM2 (2026年2月)
 
-* **交互式安装向导** — 新的 `configure-cc4pm` 技能提供了带有合并/覆盖检测的引导式设置
 * **PM2 & 多智能体编排** — 6 个新命令 (`/pm2`, `/multi-plan`, `/multi-execute`, `/multi-backend`, `/multi-frontend`, `/multi-workflow`) 用于管理复杂的多服务工作流
 * **多语言规则架构** — 规则从扁平文件重组为 `common/` + `typescript/` + `python/` + `golang/` 目录。仅安装您需要的语言
 * **中文 (zh-CN) 翻译** — 所有智能体、命令、技能和规则的完整翻译 (80+ 个文件)
@@ -290,7 +288,6 @@ cc4pm/
 |   |-- springboot-security/        # Spring Boot 安全（新增）
 |   |-- springboot-tdd/             # Spring Boot TDD（新增）
 |   |-- springboot-verification/    # Spring Boot 验证（新增）
-|   |-- configure-cc4pm/              # 交互式安装向导（新增）
 |   |-- security-scan/              # AgentShield 安全审计集成（新增）
 |   |-- java-coding-standards/     # Java 编码规范（新增）
 |   |-- jpa-patterns/              # JPA/Hibernate 模式（新增）
@@ -457,16 +454,12 @@ cc4pm/
 
 ```bash
 # Quick scan (no install needed)
-npx ecc-agentshield scan
 
 # Auto-fix safe issues
-npx ecc-agentshield scan --fix
 
 # Deep analysis with three Opus 4.6 agents
-npx ecc-agentshield scan --opus --stream
 
 # Generate secure config from scratch
-npx ecc-agentshield init
 ```
 
 **它扫描什么：** CLAUDE.md、settings.json、MCP 配置、钩子、代理定义以及 5 个类别的技能 —— 密钥检测（14 种模式）、权限审计、钩子注入分析、MCP 服务器风险剖析和代理配置审查。
@@ -477,7 +470,6 @@ npx ecc-agentshield init
 
 在 Claude Code 中使用 `/security-scan` 来运行它，或者通过 [GitHub Action](https://github.com/affaan-m/agentshield) 添加到 CI。
 
-[GitHub](https://github.com/affaan-m/agentshield) | [npm](https://www.npmjs.com/package/ecc-agentshield)
 
 ### 🔬 Plankton — 编写时代码质量强制执行
 
@@ -1258,9 +1250,6 @@ cc4pm 是**第一个最大化利用每个主要 AI 编码工具的插件**。以
 
 ## ⚠️ 重要说明
 
-### 令牌优化
-
-达到每日限制？参见 **[令牌优化指南](../token-optimization.md)** 获取推荐设置和工作流提示。
 
 快速见效的方法：
 

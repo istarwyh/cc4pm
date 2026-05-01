@@ -32,13 +32,10 @@ origin: cc4pm
 
 ```bash
 # Check if installed
-npx ecc-agentshield --version
 
 # Install globally (recommended)
-npm install -g ecc-agentshield
 
 # Or run directly via npx (no install needed)
-npx ecc-agentshield scan .
 ```
 
 ## 使用方法
@@ -49,29 +46,22 @@ npx ecc-agentshield scan .
 
 ```bash
 # Scan current project
-npx ecc-agentshield scan
 
 # Scan a specific path
-npx ecc-agentshield scan --path /path/to/.claude
 
 # Scan with minimum severity filter
-npx ecc-agentshield scan --min-severity medium
 ```
 
 ### 输出格式
 
 ```bash
 # Terminal output (default) — colored report with grade
-npx ecc-agentshield scan
 
 # JSON — for CI/CD integration
-npx ecc-agentshield scan --format json
 
 # Markdown — for documentation
-npx ecc-agentshield scan --format markdown
 
 # HTML — self-contained dark-theme report
-npx ecc-agentshield scan --format html > security-report.html
 ```
 
 ### 自动修复
@@ -79,7 +69,6 @@ npx ecc-agentshield scan --format html > security-report.html
 自动应用安全的修复（仅修复标记为可自动修复的问题）：
 
 ```bash
-npx ecc-agentshield scan --fix
 ```
 
 这将：
@@ -95,7 +84,6 @@ npx ecc-agentshield scan --fix
 ```bash
 # Requires ANTHROPIC_API_KEY
 export ANTHROPIC_API_KEY=your-key
-npx ecc-agentshield scan --opus --stream
 ```
 
 这将运行：
@@ -109,7 +97,6 @@ npx ecc-agentshield scan --opus --stream
 从头开始搭建一个新的安全 `.claude/` 配置：
 
 ```bash
-npx ecc-agentshield init
 ```
 
 创建：
@@ -169,4 +156,3 @@ npx ecc-agentshield init
 ## 链接
 
 * **GitHub**: [github.com/affaan-m/agentshield](https://github.com/affaan-m/agentshield)
-* **npm**: [npmjs.com/package/ecc-agentshield](https://www.npmjs.com/package/ecc-agentshield)

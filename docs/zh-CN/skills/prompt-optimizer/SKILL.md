@@ -25,7 +25,6 @@ metadata:
 
 * 用户希望直接执行任务（直接执行即可）
 * 用户说“优化代码”、“优化性能”、“optimize this code”、“optimize performance”——这些是重构任务，不是提示优化
-* 用户询问 cc4pm 配置（改用 `configure-cc4pm`）
 * 用户想要技能清单（改用 `skill-stocktake`）
 * 用户说“直接做”或“just do it”
 
@@ -370,7 +369,6 @@ Recommended: Opus 4.6 for blueprint planning, Sonnet 4.6 for phase execution.
 
 | 组件 | 何时引用 |
 |-----------|------------------|
-| `configure-cc4pm` | 用户尚未设置 cc4pm |
 | `skill-stocktake` | 审计安装了哪些组件（使用它而不是硬编码的目录） |
 | `search-first` | 优化提示中的研究阶段 |
 | `blueprint` | 史诗级范围的优化提示（作为技能调用，而非命令） |
