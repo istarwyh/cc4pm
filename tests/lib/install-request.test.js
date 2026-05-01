@@ -35,14 +35,14 @@ function runTests() {
       '--profile', 'developer',
       '--with', 'lang:typescript',
       '--without', 'capability:media',
-      '--config', 'ecc-install.json',
+      '--config', 'cc4pm-install.json',
       '--dry-run',
       '--json'
     ]);
 
     assert.strictEqual(parsed.target, 'cursor');
     assert.strictEqual(parsed.profileId, 'developer');
-    assert.strictEqual(parsed.configPath, 'ecc-install.json');
+    assert.strictEqual(parsed.configPath, 'cc4pm-install.json');
     assert.deepStrictEqual(parsed.includeComponentIds, ['lang:typescript']);
     assert.deepStrictEqual(parsed.excludeComponentIds, ['capability:media']);
     assert.strictEqual(parsed.dryRun, true);
@@ -91,9 +91,9 @@ function runTests() {
       includeComponentIds: ['framework:nextjs'],
       excludeComponentIds: ['capability:media'],
       languages: [],
-      configPath: '/workspace/app/ecc-install.json',
+      configPath: '/workspace/app/cc4pm-install.json',
       config: {
-        path: '/workspace/app/ecc-install.json',
+        path: '/workspace/app/cc4pm-install.json',
         target: 'claude',
         profileId: 'developer',
         moduleIds: ['workflow-quality'],
@@ -108,7 +108,7 @@ function runTests() {
     assert.deepStrictEqual(request.moduleIds, ['workflow-quality', 'platform-configs']);
     assert.deepStrictEqual(request.includeComponentIds, ['lang:typescript', 'framework:nextjs']);
     assert.deepStrictEqual(request.excludeComponentIds, ['capability:orchestration', 'capability:media']);
-    assert.strictEqual(request.configPath, '/workspace/app/ecc-install.json');
+    assert.strictEqual(request.configPath, '/workspace/app/cc4pm-install.json');
   })) passed++; else failed++;
 
   if (test('rejects mixing legacy languages with manifest flags', () => {

@@ -43,7 +43,7 @@ function runTests() {
     const state = createInstallState({
       adapter: { id: 'cursor-project' },
       targetRoot: '/repo/.cursor',
-      installStatePath: '/repo/.cursor/ecc-install-state.json',
+      installStatePath: '/repo/.cursor/cc4pm-install-state.json',
       request: {
         profile: 'developer',
         modules: ['orchestration'],
@@ -73,7 +73,7 @@ function runTests() {
       installedAt: '2026-03-13T00:00:00Z',
     });
 
-    assert.strictEqual(state.schemaVersion, 'ecc.install.v1');
+    assert.strictEqual(state.schemaVersion, 'cc4pm.install.v1');
     assert.strictEqual(state.target.id, 'cursor-project');
     assert.strictEqual(state.request.profile, 'developer');
     assert.strictEqual(state.operations.length, 1);
@@ -81,7 +81,7 @@ function runTests() {
 
   if (test('writes and reads install-state from disk', () => {
     const testDir = createTestDir();
-    const statePath = path.join(testDir, 'ecc-install-state.json');
+    const statePath = path.join(testDir, 'cc4pm-install-state.json');
 
     try {
       const state = createInstallState({
@@ -119,10 +119,10 @@ function runTests() {
 
   if (test('rejects invalid install-state payloads on read', () => {
     const testDir = createTestDir();
-    const statePath = path.join(testDir, 'ecc-install-state.json');
+    const statePath = path.join(testDir, 'cc4pm-install-state.json');
 
     try {
-      fs.writeFileSync(statePath, JSON.stringify({ schemaVersion: 'ecc.install.v1' }, null, 2));
+      fs.writeFileSync(statePath, JSON.stringify({ schemaVersion: 'cc4pm.install.v1' }, null, 2));
       assert.throws(
         () => readInstallState(statePath),
         /Invalid install-state/

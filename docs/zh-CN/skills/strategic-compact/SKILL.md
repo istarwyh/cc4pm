@@ -1,7 +1,7 @@
 ---
 name: strategic-compact
 description: 建议在逻辑间隔处手动压缩上下文，以在任务阶段中保留上下文，而非任意的自动压缩。
-origin: ECC
+origin: cc4pm
 ---
 
 # 战略精简技能

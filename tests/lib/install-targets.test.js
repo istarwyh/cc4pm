@@ -46,21 +46,21 @@ function runTests() {
     const statePath = adapter.getInstallStatePath({ projectRoot });
 
     assert.strictEqual(root, path.join(projectRoot, '.cursor'));
-    assert.strictEqual(statePath, path.join(projectRoot, '.cursor', 'ecc-install-state.json'));
+    assert.strictEqual(statePath, path.join(projectRoot, '.cursor', 'cc4pm-install-state.json'));
   })) passed++; else failed++;
 
   if (test('resolves claude adapter root and install-state path from home dir', () => {
     const adapter = getInstallTargetAdapter('claude');
     const homeDir = '/Users/example';
-    const root = adapter.resolveRoot({ homeDir, repoRoot: '/repo/ecc' });
-    const statePath = adapter.getInstallStatePath({ homeDir, repoRoot: '/repo/ecc' });
+    const root = adapter.resolveRoot({ homeDir, repoRoot: '/repo/cc4pm' });
+    const statePath = adapter.getInstallStatePath({ homeDir, repoRoot: '/repo/cc4pm' });
 
     assert.strictEqual(root, path.join(homeDir, '.claude'));
-    assert.strictEqual(statePath, path.join(homeDir, '.claude', 'ecc', 'install-state.json'));
+    assert.strictEqual(statePath, path.join(homeDir, '.claude', 'cc4pm', 'install-state.json'));
   })) passed++; else failed++;
 
   if (test('plans scaffold operations and flattens native target roots', () => {
-    const repoRoot = '/repo/ecc';
+    const repoRoot = '/repo/cc4pm';
     const projectRoot = '/workspace/app';
     const modules = [
       {
@@ -82,7 +82,7 @@ function runTests() {
 
     assert.strictEqual(plan.adapter.id, 'cursor-project');
     assert.strictEqual(plan.targetRoot, path.join(projectRoot, '.cursor'));
-    assert.strictEqual(plan.installStatePath, path.join(projectRoot, '.cursor', 'ecc-install-state.json'));
+    assert.strictEqual(plan.installStatePath, path.join(projectRoot, '.cursor', 'cc4pm-install-state.json'));
 
     const flattened = plan.operations.find(operation => operation.sourceRelativePath === '.cursor');
     const preserved = plan.operations.find(operation => operation.sourceRelativePath === 'rules');

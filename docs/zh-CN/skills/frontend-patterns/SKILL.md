@@ -1,7 +1,7 @@
 ---
 name: frontend-patterns
 description: React、Next.js、状态管理、性能优化和UI最佳实践的前端开发模式。
-origin: ECC
+origin: cc4pm
 ---
 
 # 前端开发模式

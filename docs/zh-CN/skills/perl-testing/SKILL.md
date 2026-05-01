@@ -1,7 +1,7 @@
 ---
 name: perl-testing
 description: 使用Test2::V0、Test::More、prove runner、模拟、Devel::Cover覆盖率和TDD方法的Perl测试模式。
-origin: ECC
+origin: cc4pm
 ---
 
 # Perl 测试模式

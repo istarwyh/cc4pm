@@ -1,7 +1,7 @@
 ---
 name: python-testing
 description: Python testing strategies using pytest, TDD methodology, fixtures, mocking, parametrization, and coverage requirements.
-origin: ECC
+origin: cc4pm
 ---
 
 # Python Testing Patterns

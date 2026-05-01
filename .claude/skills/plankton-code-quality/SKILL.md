@@ -112,7 +112,7 @@ To use Plankton hooks in your own project:
 | TOML | `taplo` | — |
 | JSON | `jaq` | — |
 
-## Pairing with ECC
+## Pairing with cc4pm
 
 ### Complementary, Not Overlapping
 
@@ -130,13 +130,13 @@ To use Plankton hooks in your own project:
 1. Install cc4pm as your plugin (agents, skills, commands, rules)
 2. Add Plankton hooks for write-time quality enforcement
 3. Use AgentShield for security audits
-4. Use ECC's verification-loop as a final gate before PRs
+4. Use cc4pm's verification-loop as a final gate before PRs
 
 ### Avoiding Hook Conflicts
 
 If running both cc4pm and Plankton hooks:
-- ECC's Prettier hook and Plankton's biome formatter may conflict on JS/TS files
-- Resolution: disable ECC's Prettier PostToolUse hook when using Plankton (Plankton's biome is more comprehensive)
+- cc4pm's Prettier hook and Plankton's biome formatter may conflict on JS/TS files
+- Resolution: disable cc4pm's Prettier PostToolUse hook when using Plankton (Plankton's biome is more comprehensive)
 - Both can coexist on different file types (cc4pm handles what Plankton doesn't cover)
 
 ## Configuration Reference
@@ -202,9 +202,9 @@ Plankton's `.claude/hooks/config.json` controls all behavior:
 Set strict quality behavior:
 
 ```bash
-export ECC_HOOK_PROFILE=strict
-export ECC_QUALITY_GATE_FIX=true
-export ECC_QUALITY_GATE_STRICT=true
+export CC4PM_HOOK_PROFILE=strict
+export CC4PM_QUALITY_GATE_FIX=true
+export CC4PM_QUALITY_GATE_STRICT=true
 ```
 
 ### Language Gate Table

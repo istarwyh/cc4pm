@@ -52,7 +52,16 @@ function createInstallTargetAdapter(config) {
         return targetRoot;
       }
 
-      return path.join(targetRoot, normalizedSourcePath);
+      // Strip .claude/ prefix to avoid double-nesting when the adapter root
+      // already resolves to ~/.claude/ and the source path includes .claude/
+      // (e.g. .claude/skills/cc4pm-guide → skills/cc4pm-guide).
+      let effectivePath = normalizedSourcePath;
+      const claudePrefix = '.claude/';
+      if (effectivePath.startsWith(claudePrefix)) {
+        effectivePath = effectivePath.slice(claudePrefix.length);
+      }
+
+      return path.join(targetRoot, effectivePath);
     },
     determineStrategy(sourceRelativePath) {
       const normalizedSourcePath = normalizeRelativePath(sourceRelativePath);

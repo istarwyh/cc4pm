@@ -1,7 +1,7 @@
 ---
 name: springboot-verification
 description: "Spring Boot项目验证循环：构建、静态分析、测试覆盖、安全扫描，以及发布或PR前的差异审查。"
-origin: ECC
+origin: cc4pm
 ---
 
 # Spring Boot 验证循环

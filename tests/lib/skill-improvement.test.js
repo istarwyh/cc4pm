@@ -40,7 +40,7 @@ function cleanup(dirPath) {
 }
 
 test('observation layer writes and reads structured skill outcomes', () => {
-  const projectRoot = makeProjectRoot('ecc-skill-observe-');
+  const projectRoot = makeProjectRoot('cc4pm-skill-observe-');
 
   try {
     const observation = createSkillObservation({
@@ -59,19 +59,19 @@ test('observation layer writes and reads structured skill outcomes', () => {
     const records = readSkillObservations({ projectRoot });
 
     assert.strictEqual(records.length, 1);
-    assert.strictEqual(records[0].schemaVersion, 'ecc.skill-observation.v1');
+    assert.strictEqual(records[0].schemaVersion, 'cc4pm.skill-observation.v1');
     assert.strictEqual(records[0].task, 'Fix flaky Playwright test');
     assert.strictEqual(records[0].skill.id, 'e2e-testing');
     assert.strictEqual(records[0].outcome.success, false);
     assert.strictEqual(records[0].outcome.error, 'playwright timeout');
-    assert.strictEqual(getSkillObservationsPath({ projectRoot }), path.join(projectRoot, '.claude', 'ecc', 'skills', 'observations.jsonl'));
+    assert.strictEqual(getSkillObservationsPath({ projectRoot }), path.join(projectRoot, '.claude', 'cc4pm', 'skills', 'observations.jsonl'));
   } finally {
     cleanup(projectRoot);
   }
 });
 
 test('health inspector traces recurring failures for a skill across runs', () => {
-  const projectRoot = makeProjectRoot('ecc-skill-health-');
+  const projectRoot = makeProjectRoot('cc4pm-skill-health-');
 
   try {
     [
@@ -132,7 +132,7 @@ test('amendify proposes SKILL.md patch content from failure evidence', () => {
 
   const proposal = proposeSkillAmendment('api-design', records);
 
-  assert.strictEqual(proposal.schemaVersion, 'ecc.skill-amendment-proposal.v1');
+  assert.strictEqual(proposal.schemaVersion, 'cc4pm.skill-amendment-proposal.v1');
   assert.strictEqual(proposal.skill.id, 'api-design');
   assert.strictEqual(proposal.status, 'proposed');
   assert.ok(proposal.patch.preview.includes('## Failure-Driven Amendments'));
@@ -175,7 +175,7 @@ test('evaluation scaffold compares amended and baseline performance', () => {
     minimumRunsPerVariant: 2
   });
 
-  assert.strictEqual(evaluation.schemaVersion, 'ecc.skill-evaluation.v1');
+  assert.strictEqual(evaluation.schemaVersion, 'cc4pm.skill-evaluation.v1');
   assert.strictEqual(evaluation.baseline.runs, 2);
   assert.strictEqual(evaluation.amended.runs, 2);
   assert.strictEqual(evaluation.delta.successRate, 0.5);

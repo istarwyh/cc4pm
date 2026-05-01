@@ -1,7 +1,7 @@
 ---
 name: postgres-patterns
 description: 用于查询优化、模式设计、索引和安全性的PostgreSQL数据库模式。基于Supabase最佳实践。
-origin: ECC
+origin: cc4pm
 ---
 
 # PostgreSQL 模式

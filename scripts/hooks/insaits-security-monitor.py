@@ -11,7 +11,7 @@ Writes audit events to .insaits_audit_session.jsonl for forensic tracing.
 
 Setup:
   pip install insa-its
-  export ECC_ENABLE_INSAITS=1
+  export CC4PM_ENABLE_INSAITS=1
 
   Add to .claude/settings.json:
   {

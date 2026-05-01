@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-Common issues and solutions for cc4pm (ECC) plugin.
+Common issues and solutions for cc4pm plugin.
 
 ## Table of Contents
 
@@ -265,7 +265,7 @@ claude --version
 
 # Manual install (if marketplace fails)
 git clone https://github.com/istarwyh/cc4pm.git
-cp -r everything-claude-code ~/.claude/plugins/ecc
+cp -r cc4pm ~/.claude/plugins/cc4pm
 ```
 
 ### Package Manager Detection Fails
@@ -374,7 +374,7 @@ cd ~/.claude/plugins/cache/everything-claude-code
 npm install
 
 # Or for manual install
-cd ~/.claude/plugins/ecc
+cd ~/.claude/plugins/cc4pm
 npm install
 ```
 

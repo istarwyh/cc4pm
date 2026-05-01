@@ -108,9 +108,9 @@ function runTests() {
     assert.ok(parsed.operations.length > 0);
   })) passed++; else failed++;
 
-  if (test('loads planning intent from ecc-install.json', () => {
+  if (test('loads planning intent from cc4pm-install.json', () => {
     const configDir = path.join(__dirname, '..', 'fixtures', 'tmp-install-plan-config');
-    const configPath = path.join(configDir, 'ecc-install.json');
+    const configPath = path.join(configDir, 'cc4pm-install.json');
 
     try {
       require('fs').mkdirSync(configDir, { recursive: true });

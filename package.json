@@ -63,17 +63,17 @@
     "CHANGELOG.md"
   ],
   "bin": {
-    "ecc": "scripts/ecc.js",
-    "ecc-install": "install.sh"
+    "cc4pm": "scripts/cc4pm.js",
+    "cc4pm-install": "install.sh"
   },
   "scripts": {
-    "postinstall": "echo '\\n  cc4pm installed!\\n  Run: npx ecc typescript\\n  Compat: npx ecc-install typescript\\n  Docs: https://github.com/istarwyh/cc4pm\\n'",
+    "postinstall": "echo '\\n  cc4pm installed!\\n  Run: npx cc4pm typescript\\n  Guide: npx cc4pm install --modules cc4pm-guide\\n  Docs: https://github.com/istarwyh/cc4pm\\n'",
     "lint": "eslint . && markdownlint '**/*.md' --ignore node_modules",
     "claw": "node scripts/claw.js",
     "orchestrate:status": "node scripts/orchestration-status.js",
     "orchestrate:worker": "bash scripts/orchestrate-codex-worker.sh",
     "orchestrate:tmux": "node scripts/orchestrate-worktrees.js",
-    "test": "node scripts/ci/validate-agents.js && node scripts/ci/validate-commands.js && node scripts/ci/validate-rules.js && node scripts/ci/validate-skills.js && node scripts/ci/validate-hooks.js && node scripts/ci/validate-install-manifests.js && node scripts/ci/validate-no-personal-paths.js && node tests/run-all.js",
+    "test": "node scripts/ci/validate-agents.js && node scripts/ci/validate-commands.js && node scripts/ci/validate-rules.js && node scripts/ci/validate-skills.js && node scripts/ci/validate-hooks.js && node scripts/ci/validate-install-manifests.js && node scripts/ci/validate-no-personal-paths.js && node scripts/sync-courseware.js --check && node tests/run-all.js",
     "coverage": "c8 --all --include=\"scripts/**/*.js\" --check-coverage --lines 80 --functions 80 --branches 80 --statements 80 --reporter=text --reporter=lcov node tests/run-all.js",
     "build:homepage": "cp docs/index.html packages/homepage/index.html"
   },

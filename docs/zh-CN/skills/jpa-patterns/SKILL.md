@@ -1,7 +1,7 @@
 ---
 name: jpa-patterns
 description: Spring Boot中的JPA/Hibernate模式，用于实体设计、关系处理、查询优化、事务管理、审计、索引、分页和连接池。
-origin: ECC
+origin: cc4pm
 ---
 
 # JPA/Hibernate 模式

@@ -1,6 +1,6 @@
 ---
 name: prompt-optimizer
-description: 分析原始提示，识别意图和差距，匹配ECC组件（技能/命令/代理/钩子），并输出一个可直接粘贴的优化提示。仅提供咨询角色——绝不自行执行任务。触发时机：当用户说“优化提示”、“改进我的提示”、“如何编写提示”、“帮我优化这个指令”或明确要求提高提示质量时。中文等效表达同样触发：“优化prompt”、“改进prompt”、“怎么写prompt”、“帮我优化这个指令”。不触发时机：当用户希望直接执行任务，或说“直接做”时。不触发时机：当用户说“优化代码”、“优化性能”、“optimize performance”、“optimize this code”时——这些是重构/性能优化任务，而非提示优化。origin: community
+description: 分析原始提示，识别意图和差距，匹配cc4pm组件（技能/命令/代理/钩子），并输出一个可直接粘贴的优化提示。仅提供咨询角色——绝不自行执行任务。触发时机：当用户说“优化提示”、“改进我的提示”、“如何编写提示”、“帮我优化这个指令”或明确要求提高提示质量时。中文等效表达同样触发：“优化prompt”、“改进prompt”、“怎么写prompt”、“帮我优化这个指令”。不触发时机：当用户希望直接执行任务，或说“直接做”时。不触发时机：当用户说“优化代码”、“优化性能”、“optimize performance”、“optimize this code”时——这些是重构/性能优化任务，而非提示优化。origin: community
 metadata:
   author: YannJY02
   version: "1.0.0"
@@ -25,7 +25,7 @@ metadata:
 
 * 用户希望直接执行任务（直接执行即可）
 * 用户说“优化代码”、“优化性能”、“optimize this code”、“optimize performance”——这些是重构任务，不是提示优化
-* 用户询问 cc4pm 配置（改用 `configure-ecc`）
+* 用户询问 cc4pm 配置（改用 `configure-cc4pm`）
 * 用户想要技能清单（改用 `skill-stocktake`）
 * 用户说“直接做”或“just do it”
 
@@ -241,7 +241,7 @@ Research → Plan → Implement (TDD) → Review → Verify → Commit
 
 ### 触发示例
 
-* "Optimize this prompt for ECC"
+* "Optimize this prompt for cc4pm"
 * "Rewrite this prompt so Claude Code uses the right commands"
 * "帮我优化这个指令"
 * "How should I prompt cc4pm for this task?"
@@ -370,7 +370,7 @@ Recommended: Opus 4.6 for blueprint planning, Sonnet 4.6 for phase execution.
 
 | 组件 | 何时引用 |
 |-----------|------------------|
-| `configure-ecc` | 用户尚未设置 cc4pm |
+| `configure-cc4pm` | 用户尚未设置 cc4pm |
 | `skill-stocktake` | 审计安装了哪些组件（使用它而不是硬编码的目录） |
 | `search-first` | 优化提示中的研究阶段 |
 | `blueprint` | 史诗级范围的优化提示（作为技能调用，而非命令） |

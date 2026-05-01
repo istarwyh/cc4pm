@@ -1,7 +1,7 @@
 ---
 name: kotlin-patterns
 description: 惯用的Kotlin模式、最佳实践和约定，用于构建健壮、高效且可维护的Kotlin应用程序，包括协程、空安全和DSL构建器。
-origin: ECC
+origin: cc4pm
 ---
 
 # Kotlin 开发模式

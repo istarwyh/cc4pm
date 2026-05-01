@@ -24,8 +24,8 @@ const {
   log
 } = require('../lib/utils');
 
-const SUMMARY_START_MARKER = '<!-- ECC:SUMMARY:START -->';
-const SUMMARY_END_MARKER = '<!-- ECC:SUMMARY:END -->';
+const SUMMARY_START_MARKER = '<!-- CC4PM:SUMMARY:START -->';
+const SUMMARY_END_MARKER = '<!-- CC4PM:SUMMARY:END -->';
 const SESSION_SEPARATOR = '\n---\n';
 
 /**

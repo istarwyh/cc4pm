@@ -7,7 +7,7 @@ function showHelp(exitCode = 0) {
   console.log(`
 Usage: node scripts/repair.js [--target <${SUPPORTED_INSTALL_TARGETS.join('|')}>] [--dry-run] [--json]
 
-Rebuild ECC-managed files recorded in install-state for the current context.
+Rebuild cc4pm-managed files recorded in install-state for the current context.
 `);
   process.exit(exitCode);
 }

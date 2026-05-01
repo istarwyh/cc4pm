@@ -1,203 +1,139 @@
-# Lesson 24.3: graphify——用知识图谱秒懂任意知识库
+# Lesson 24.3: Agentic 知识库——产品主理人的「外挂大脑」
 
 ## 本课目标
 
-- 理解 graphify 如何把代码、文档、论文、图片、视频统一变成一张可查询的知识图谱
-- 掌握 `/graphify` 命令在 Claude Code 中的基本使用
-- 学会用「神节点」和社区结构快速定位任意语料的核心概念
-- 配置 Always-on Hook，让 Claude 在搜索文件前自动读图谱导航
+- 理解从「被动 RAG」到「主动知识编译」的思维转换
+- 掌握如何利用 Agent 维护一个永不过时的项目 Wiki
+- 学习如何在 Obsidian 中可视化项目知识图谱
 
 ## 核心内容
 
-### 为什么产品主理人需要知识图谱？
+### 为什么你需要「Agentic 知识库」？
 
-两个典型场景：
+作为产品主理人，你是否遇到过：
+- 需求文档（PRD）是半年前的，代码已经是 3.0 版了，文档彻底失效。
+- 新人入职，问你：“这个登录模块的逻辑是怎么设计的？”你得去翻 Git 提交记录。
+- 你有一个关于产品未来方向的灵感，却找不到半年前讨论时的背景资料。
 
-**场景一：接手老项目**。你接手一个有 3 年历史的项目，光是看懂目录结构就要两天。你问 Claude："这个登录模块的核心逻辑在哪？" Claude 开始 `grep` 翻文件——搜了 20 个文件，还没找到真正的「为什么」。
+**Agentic 知识库（LLM Wiki）** 就是要把 AI 变成一个「永不疲倦的文档官」，让你的项目知识保持实时在线。
 
-**场景二：消化混合语料**。Andrej Karpathy 有一个 `/raw` 文件夹，里面堆着论文 PDF、推文截图、技术博客、手写笔记——他想从里面找到概念之间的联系，但没有任何工具能把这些东西统一理解。
+> **深度参考**：[Agentic Knowledge Base 技术架构与三层模型](../../../../../docs/wiki/agentic-knowledge-base.md)
 
-**graphify 是这两个场景的同一个答案**：它一次性把任意文件夹里的内容（代码、文档、图片、视频）的结构关系提取出来，存成知识图谱。之后你每次问 Claude 任何架构或概念问题，Claude 看的是图谱，不是原始文件。
+### 思维转换：从 RAG 到知识编译
 
-对比效果：
+| 模式 | RAG (传统) | Agentic Wiki (新) |
+|------|-----------|------------------|
+| **本质** | 临时翻书 | 主动编写百科全书 |
+| **状态** | 碎片、孤立 | 互联、结构化 |
+| **价值** | 解决当下提问 | 积累项目资产 |
+
+### 知识循环：产品主理人的三板斧
+
+1.  **灌入 (Ingest)**：当你写完一份调研笔记，让 Agent 把它「编译」进项目。它会自动更新相关的需求页、技术实现页。
+2.  **提问 (Query)**：当你需要决策时，问你的 Wiki。它能给出带引用的全景分析。
+3.  **巡检 (Inspect)**：让 Agent 每天跑一次巡检，发现你文档里的逻辑漏洞。
+
+### 工具选型：Obsidian 是你的 IDE
+
+在 cc4pm 的世界里，**Obsidian 不只是笔记软件，它是项目管理的仪表盘**。利用它的图谱视图，你可以直观地看到：
+- 需求节点是如何连接到功能模块的。
+- 哪部分知识还没有被 AI 充分理解（孤立节点）。
+
+### QMD——本地优先的文档搜索引擎
+
+上面介绍了 Ingest（灌入）和 Inspect（巡检），但**最高频的操作其实是 Query（查询）**：你有几百篇 Markdown 笔记、会议记录、技术文档，想找某个内容时只能用文件名硬搜。
+
+[QMD（Query Markup Documents）](https://github.com/tobi/qmd) 由 Shopify CEO Tobias Lutke 开发，是一个**完全本地运行**的 Markdown 搜索引擎。它的核心价值：
+
 ```
-传统方式：Claude grep 200 个文件 → 读 40,000 行代码 → 给你答案
-graphify：Claude 读一份图谱摘要  → 精准定位 3 个节点 → 给你答案
+传统搜索 (grep/Spotlight):
+  你搜 “项目时间线” → 文档里写的是 “Q4 规划” → 搜不到
 
-token 消耗：减少 71.5 倍（官方测试数据）
+QMD 混合搜索:
+  BM25 全文检索（精确匹配）+ 向量语义搜索（理解意图）+ LLM 重排序（精选结果）
+  → 即使用词不同，也能找到相关文档
+  → 全部在你的设备上运行，文档不上传到任何云端
 ```
 
-### Step 1：安装 graphify
+**为什么产品主理人应该关注**：你的会议记录、竞品分析、内部讨论不适合上传到第三方 RAG 服务。QMD 让你在保证隐私的前提下，获得语义级别的搜索能力。
+
+#### 快速上手
 
 ```bash
-# 推荐方式（Mac/Linux，自动处理 PATH）
-uv tool install graphifyy && graphify install
+# 安装
+npm install -g @tobilu/qmd
 
-# 或者用 pipx
-pipx install graphifyy && graphify install
+# 索引你的笔记目录
+qmd collection add ~/notes --name notes
+qmd collection add ~/Documents/meetings --name meetings
 
-# 安装完成后，Claude Code 会多一个 /graphify 命令
+# 生成向量索引（首次需下载约 2GB 模型，之后缓存）
+qmd embed
+
+# 搜索——三种模式
+qmd search “认证流程”                         # 关键词搜索（快）
+qmd vsearch “用户怎么登录”                     # 语义搜索（理解意图）
+qmd query “季度规划会议说了什么” -c meetings    # 混合搜索（推荐）
 ```
 
-> **注意**：PyPI 包名是 `graphifyy`（双 y），CLI 命令是 `graphify`。
+#### 集成到 Claude Code（MCP）
 
-### Step 2：构建第一张知识图谱
+QMD 支持 MCP 协议，配好后 Claude 能直接搜索你的本地文档：
 
-在你的项目根目录执行：
-
-```bash
-/graphify .                    # 对整个项目建图
-/graphify ./src --mode deep    # 只对 src 目录，更深度的推断关系
+```json
+{
+  “mcpServers”: {
+    “qmd”: {
+      “command”: “qmd”,
+      “args”: [“mcp”]
+    }
+  }
+}
 ```
 
-执行完毕后，项目里会生成：
+配置完成后，你可以直接问 Claude：”在我的笔记里搜一下关于用户增长的讨论”——Claude 会通过 QMD MCP 在本地文档中进行语义搜索，然后基于搜索结果回答你。
+
+#### QMD vs 其他搜索方案
+
+| 特性 | QMD | grep/Spotlight | 云端 RAG |
+|------|-----|---------------|---------|
+| 语义理解 | 有 | 无 | 有 |
+| 隐私保护 | 本地运行 | 本地运行 | 需上传 |
+| API 费用 | 无 | 无 | 有 |
+| MCP 集成 | 支持 | 不支持 | 部分 |
+
+> **适用场景**：个人知识库、团队内部文档、会议记录。如果你有大量 Markdown 笔记且在意隐私，QMD 是目前最好的本地搜索选择。注意它目前只支持 Markdown 格式，其他格式需先转换。
+
+#### 与 Agentic 知识库的关系
 
 ```
-graphify-out/
-├── graph.html          ← 在浏览器里打开，点节点、搜关键词
-├── GRAPH_REPORT.md     ← 神节点、社区摘要、推荐提问（一页纸）
-├── graph.json          ← 机器可读的图，支持跨 session 持续使用
-└── cache/              ← SHA256 缓存，只重处理改动过的文件
+Agentic 知识库的三板斧：
+  灌入 (Ingest)  → Agent 把新知识编译进 Wiki    ← LLM Wiki 方法
+  提问 (Query)   → 搜索已有知识获取答案          ← QMD 在这里
+  巡检 (Inspect) → Agent 定期检查知识的一致性     ← LLM Wiki 方法
 ```
 
-#### 理解 GRAPH_REPORT.md：你的「项目地图」
-
-GRAPH_REPORT.md 包含三个核心板块：
-
-**1. 神节点（God Nodes）**：连接度最高的概念。在任何大型项目里，真正「枢纽」的类或模块只有 3–5 个，graphify 帮你把它们找出来。
-
-**2. 社区（Communities）**：图谱通过 Leiden 算法自动把代码分组——不是按文件夹，而是按实际调用关系。你可能发现 `auth` 和 `middleware` 其实比 `auth` 和 `user` 关联更紧。
-
-**3. 推荐提问**：系统自动生成 4–5 个这张图谱最适合回答的问题，例如：「DigestAuth 和 Session 之间通过什么连接？」
-
-### Step 3：用图谱回答架构问题
-
-```bash
-# 直接在终端查询，不需要打开 Claude
-graphify query "auth 流程是怎样的"
-graphify query "什么连接了 UserService 和 Cache"
-graphify path "LoginController" "Database"    # 两个节点之间的最短路径
-graphify explain "SessionManager"              # 某个节点的白话解释
-```
-
-> **置信度标签**：图谱里每条关系都带标签：
-> - `EXTRACTED`：从代码中直接提取（置信度 1.0）
-> - `INFERRED`：合理推断，带置信度分数（0.0–1.0）
-> - `AMBIGUOUS`：需要人工确认
->
-> 你总能知道哪些是事实、哪些是推断。
-
-### Step 4：让 Claude 自动读图谱（Always-on）
-
-构建完图谱后，运行一次：
-
-```bash
-graphify claude install
-```
-
-这会做两件事：
-1. 在 `CLAUDE.md` 里加一节，告诉 Claude 在回答架构问题前先读 `GRAPH_REPORT.md`
-2. 在 `settings.json` 里装一个 `PreToolUse` Hook——每次 Claude 准备搜索文件时，如果图谱存在，自动提醒 Claude 先走图谱导航
-
-效果：你再也不需要手动说「先看图谱」，Claude 会主动用。
-
-### 增量更新：不需要每次全量重建
-
-```bash
-graphify update ./src          # 只重处理改动过的文件（代码，无需 LLM）
-/graphify . --update           # 文档/图片改了，重新跑语义提取
-graphify watch ./src           # 后台监控，代码变动时自动更新图谱
-```
-
-### 多模态语料：不只是代码
-
-graphify 能处理的不只是代码文件：
-
-| 类型 | 格式 | 提取方式 |
-|------|------|---------|
-| 代码 | `.py .ts .go .rs .java` 等 25 种 | AST 静态分析，无需 LLM |
-| 文档 | `.md .txt .rst .html` | Claude 提取概念和关系 |
-| 论文 | `.pdf` | 引用挖掘 + 概念提取 |
-| 图片 | `.png .jpg .webp` | Claude Vision 识别内容 |
-| 视频/音频 | `.mp4 .mp3` 等 | Whisper 本地转录 + Claude 提取 |
-
-对产品主理人来说，这意味着你可以把竞品分析截图、用户访谈录音、PRD PDF、代码库，放进同一个图谱里统一查询。
-
-### 团队协作：把图谱提交到 Git
-
-```bash
-# 推荐的 .gitignore 配置
-graphify-out/cache/        # 本地缓存，不必同步
-graphify-out/manifest.json # 基于 mtime，clone 后失效
-
-# 提交（建议）
-graphify-out/graph.json
-graphify-out/GRAPH_REPORT.md
-graphify-out/graph.html
-```
-
-一人构建，全团队直接用——不需要每个人都重跑提取。
+QMD 和 LLM Wiki 不是竞争关系——它们覆盖知识管理的不同阶段。LLM Wiki 负责「写」（让 AI 维护结构化知识），QMD 负责「搜」（在海量文档中找到你需要的内容）。两者结合，就是一个完整的本地优先知识系统。
 
 ---
 
 ## 实操练习
 
-### 练习 1：对 cc4pm 本身建图
+### 练习 1：开启你的第一个 LLM Wiki
 
-```bash
-cd ~/Desktop/code-open/cc4pm   # 或你的 cc4pm 目录
-/graphify .
-```
+1.  在项目根目录下创建一个 `research/` 文件夹。
+2.  告诉 Claude Code：”请根据 `docs/wiki/agentic-knowledge-base.md` 的架构，为我初始化一个项目研究知识库，并对我们刚才讨论的 Karpathy 观点进行一次 Ingest。”
+3.  在 Obsidian 中打开 `research/` 文件夹，查看 AI 生成的第一个实体页面。
 
-1. 打开 `graphify-out/graph.html`，找出 cc4pm 的「神节点」是什么
-2. 读 `graphify-out/GRAPH_REPORT.md`，看它推荐你问什么问题
-3. 在终端运行：`graphify query "skills 和 agents 是什么关系"`
+### 练习 2：用 QMD 索引你的文档
 
-### 练习 2：配置 Always-on，让 Claude 主动读图谱
-
-```bash
-graphify claude install
-```
-
-配置完成后，新开一个 Claude Code 会话，问："hooks 系统的核心节点是什么？" 观察 Claude 是否先读图谱再回答。
-
-### 练习 3：增量更新
-
-修改任意一个 `.md` 文件，然后：
-
-```bash
-/graphify . --update
-```
-
-观察 `graphify-out/GRAPH_REPORT.md` 的变化。
+1.  安装 QMD：`npm install -g @tobilu/qmd`
+2.  索引一个 Markdown 目录：`qmd collection add ~/your-notes --name notes && qmd embed`
+3.  测试三种搜索：分别用 `qmd search`、`qmd vsearch`、`qmd query` 搜索同一个主题，对比结果差异。
+4.  （可选）配置 QMD 的 MCP 集成，让 Claude Code 直接搜索你的本地文档。
 
 ---
 
-## FAQ
-
-**Q：graphify 和 QMD（Lesson 24.1）是什么关系？**
-
-QMD 是文档的「全文 + 语义搜索」——你有问题时主动去搜。graphify 是「预建结构图谱」——在你开始任何查询之前，Claude 已经有了全局地图。两者互补：QMD 找文档，graphify 理解架构。
-
-**Q：建图要花多少 token？**
-
-初次建图：取决于项目规模。代码文件用 AST 解析（不耗 token），文档和图片才调用 Claude。之后每次更新只处理改动的文件，成本大幅下降。
-
-**Q：有比 Claude 更便宜的提取后端吗？**
-
-有。安装 `pip install 'graphifyy[kimi]'` 后设置 `MOONSHOT_API_KEY`，可以用 Kimi K2.6 做语义提取。官方数据：关系提取丰富度提升 3–6 倍，成本降低约 3 倍。
-
-**Q：.graphifyignore 怎么用？**
-
-在项目根目录创建 `.graphifyignore`，语法和 `.gitignore` 一样：
-
-```
-node_modules/
-dist/
-CLAUDE.md       # 防止把 AI 指令本身当知识提取
-```
-
----
 
 ## 下一步
 
@@ -206,4 +142,4 @@ CLAUDE.md       # 防止把 AI 指令本身当知识提取
 - [3] 返回主菜单
 
 ---
-*阶段 5 | Lesson 24.3/26 | 上一课: Lesson 24.2 - AI 绘图 (Draw.io) | 下一课: Lesson 25 - 完整项目实战*
+*阶段 5 | Lesson 24.3/26 | 上一课: Lesson 24.2 - 插件与 SDK | 下一课: Lesson 24.4 - AI 绘图 (Draw.io)*

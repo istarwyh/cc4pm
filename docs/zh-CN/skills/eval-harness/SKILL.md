@@ -1,7 +1,7 @@
 ---
 name: eval-harness
 description: 克劳德代码会话的正式评估框架，实施评估驱动开发（EDD）原则
-origin: ECC
+origin: cc4pm
 tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 

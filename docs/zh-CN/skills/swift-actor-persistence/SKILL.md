@@ -1,7 +1,7 @@
 ---
 name: swift-actor-persistence
 description: 在 Swift 中使用 actor 实现线程安全的数据持久化——基于内存缓存与文件支持的存储，通过设计消除数据竞争。
-origin: ECC
+origin: cc4pm
 ---
 
 # 用于线程安全持久化的 Swift Actor

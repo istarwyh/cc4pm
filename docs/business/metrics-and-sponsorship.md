@@ -44,7 +44,7 @@ gh api repos/istarwyh/cc4pm/traffic/clones
 GitHub App install count is currently most reliable in the Marketplace/App dashboard.
 Use the latest value from:
 
-- [cc4pm Tools Marketplace](https://github.com/marketplace/ecc-tools)
+- [cc4pm Tools Marketplace](https://github.com/marketplace/cc4pm-tools)
 
 ## What Cannot Be Measured Publicly (Yet)
 

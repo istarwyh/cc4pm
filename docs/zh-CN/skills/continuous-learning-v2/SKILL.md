@@ -1,7 +1,7 @@
 ---
 name: continuous-learning-v2
 description: 基于本能的学习系统，通过钩子观察会话，创建带置信度评分的原子本能，并将其进化为技能/命令/代理。v2.1版本增加了项目范围的本能，以防止跨项目污染。
-origin: ECC
+origin: cc4pm
 version: 2.1.0
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: python-patterns
 description: Pythonic 惯用法、PEP 8 标准、类型提示以及构建稳健、高效且可维护的 Python 应用程序的最佳实践。
-origin: ECC
+origin: cc4pm
 ---
 
 # Python 开发模式

@@ -1,7 +1,7 @@
 ---
 name: api-design
 description: REST API设计模式，包括资源命名、状态码、分页、过滤、错误响应、版本控制和生产API的速率限制。
-origin: ECC
+origin: cc4pm
 ---
 
 # API 设计模式

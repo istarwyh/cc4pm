@@ -45,15 +45,15 @@ function runTests() {
 
   if (test('resolves relative config paths from the provided cwd', () => {
     const cwd = '/workspace/app';
-    const resolved = resolveInstallConfigPath('configs/ecc-install.json', { cwd });
-    assert.strictEqual(resolved, path.join(cwd, 'configs', 'ecc-install.json'));
+    const resolved = resolveInstallConfigPath('configs/cc4pm-install.json', { cwd });
+    assert.strictEqual(resolved, path.join(cwd, 'configs', 'cc4pm-install.json'));
   })) passed++; else failed++;
 
   if (test('loads and normalizes a valid install config', () => {
     const cwd = createTempDir('install-config-');
 
     try {
-      const configPath = path.join(cwd, 'ecc-install.json');
+      const configPath = path.join(cwd, 'cc4pm-install.json');
       writeJson(configPath, {
         version: 1,
         target: 'cursor',
@@ -66,7 +66,7 @@ function runTests() {
         },
       });
 
-      const config = loadInstallConfig('ecc-install.json', { cwd });
+      const config = loadInstallConfig('cc4pm-install.json', { cwd });
       assert.strictEqual(config.path, configPath);
       assert.strictEqual(config.target, 'cursor');
       assert.strictEqual(config.profileId, 'developer');
@@ -83,13 +83,13 @@ function runTests() {
     const cwd = createTempDir('install-config-');
 
     try {
-      writeJson(path.join(cwd, 'ecc-install.json'), {
+      writeJson(path.join(cwd, 'cc4pm-install.json'), {
         version: 2,
         target: 'ghost-target',
       });
 
       assert.throws(
-        () => loadInstallConfig('ecc-install.json', { cwd }),
+        () => loadInstallConfig('cc4pm-install.json', { cwd }),
         /Invalid install config/
       );
     } finally {
@@ -102,7 +102,7 @@ function runTests() {
 
     try {
       assert.throws(
-        () => loadInstallConfig('ecc-install.json', { cwd }),
+        () => loadInstallConfig('cc4pm-install.json', { cwd }),
         /Install config not found/
       );
     } finally {

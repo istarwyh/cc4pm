@@ -1,7 +1,7 @@
 ---
 name: search-first
 description: 研究优先于编码的工作流程。在编写自定义代码之前，搜索现有的工具、库和模式。调用研究员代理。
-origin: ECC
+origin: cc4pm
 ---
 
 # /search-first — 编码前先研究

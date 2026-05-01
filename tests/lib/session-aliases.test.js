@@ -14,7 +14,7 @@ const os = require('os');
 
 // We need to mock getClaudeDir to point to a temp dir.
 // The simplest approach: set HOME to a temp dir before requiring the module.
-const tmpHome = path.join(os.tmpdir(), `ecc-alias-test-${Date.now()}`);
+const tmpHome = path.join(os.tmpdir(), `cc4pm-alias-test-${Date.now()}`);
 fs.mkdirSync(path.join(tmpHome, '.claude'), { recursive: true });
 const origHome = process.env.HOME;
 const origUserProfile = process.env.USERPROFILE;
@@ -993,7 +993,7 @@ function runTests() {
     // Use a fresh isolated HOME to avoid .tmp/.bak leftovers from other tests.
     // On macOS, overwriting an EXISTING file in a read-only dir succeeds,
     // so we must start clean with ONLY the .json file present.
-    const isoHome = path.join(os.tmpdir(), `ecc-alias-r70-${Date.now()}`);
+    const isoHome = path.join(os.tmpdir(), `cc4pm-alias-r70-${Date.now()}`);
     const isoClaudeDir = path.join(isoHome, '.claude');
     fs.mkdirSync(isoClaudeDir, { recursive: true });
     const savedHome = process.env.HOME;
@@ -1037,7 +1037,7 @@ function runTests() {
       console.log('    (skipped — chmod ineffective on Windows/root)');
       return;
     }
-    const isoHome = path.join(os.tmpdir(), `ecc-alias-r72-${Date.now()}`);
+    const isoHome = path.join(os.tmpdir(), `cc4pm-alias-r72-${Date.now()}`);
     const isoClaudeDir = path.join(isoHome, '.claude');
     fs.mkdirSync(isoClaudeDir, { recursive: true });
     const savedHome = process.env.HOME;
@@ -1079,7 +1079,7 @@ function runTests() {
       console.log('    (skipped — chmod ineffective on Windows/root)');
       return;
     }
-    const isoHome = path.join(os.tmpdir(), `ecc-alias-r73-cleanup-${Date.now()}`);
+    const isoHome = path.join(os.tmpdir(), `cc4pm-alias-r73-cleanup-${Date.now()}`);
     const isoClaudeDir = path.join(isoHome, '.claude');
     fs.mkdirSync(isoClaudeDir, { recursive: true });
     const savedHome = process.env.HOME;
@@ -1124,7 +1124,7 @@ function runTests() {
       console.log('    (skipped — chmod ineffective on Windows/root)');
       return;
     }
-    const isoHome = path.join(os.tmpdir(), `ecc-alias-r73-set-${Date.now()}`);
+    const isoHome = path.join(os.tmpdir(), `cc4pm-alias-r73-set-${Date.now()}`);
     const isoClaudeDir = path.join(isoHome, '.claude');
     fs.mkdirSync(isoClaudeDir, { recursive: true });
     const savedHome = process.env.HOME;
@@ -1233,7 +1233,7 @@ function runTests() {
       console.log('    (skipped — chmod not reliable on Windows)');
       return;
     }
-    const isoHome = path.join(os.tmpdir(), `ecc-r90-restore-fail-${Date.now()}`);
+    const isoHome = path.join(os.tmpdir(), `cc4pm-r90-restore-fail-${Date.now()}`);
     const claudeDir = path.join(isoHome, '.claude');
     fs.mkdirSync(claudeDir, { recursive: true });
 

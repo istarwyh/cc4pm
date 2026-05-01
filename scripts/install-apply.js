@@ -39,7 +39,7 @@ Options:
   --with <component>  Include a user-facing install component
   --without <component>
                       Exclude a user-facing install component
-  --config <path>     Load install intent from ecc-install.json
+  --config <path>     Load install intent from cc4pm-install.json
   --dry-run    Show the install plan without copying files
   --json       Emit machine-readable plan/result JSON
   --help       Show this help text

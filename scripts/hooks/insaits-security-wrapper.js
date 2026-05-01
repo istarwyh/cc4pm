@@ -29,7 +29,7 @@ process.stdin.on('data', chunk => {
 });
 
 process.stdin.on('end', () => {
-  if (!isEnabled(process.env.ECC_ENABLE_INSAITS)) {
+  if (!isEnabled(process.env.CC4PM_ENABLE_INSAITS)) {
     process.stdout.write(raw);
     process.exit(0);
   }

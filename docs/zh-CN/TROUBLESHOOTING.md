@@ -1,6 +1,6 @@
 # 故障排除指南
 
-cc4pm (ECC) 插件的常见问题与解决方案。
+cc4pm 插件的常见问题与解决方案。
 
 ## 目录
 
@@ -283,7 +283,7 @@ claude --version
 
 # Manual install (if marketplace fails)
 git clone https://github.com/istarwyh/cc4pm.git
-cp -r everything-claude-code ~/.claude/plugins/ecc
+cp -r cc4pm ~/.claude/plugins/cc4pm
 ```
 
 ### 包管理器检测失败
@@ -398,7 +398,7 @@ cd ~/.claude/plugins/cache/everything-claude-code
 npm install
 
 # Or for manual install
-cd ~/.claude/plugins/ecc
+cd ~/.claude/plugins/cc4pm
 npm install
 ```
 

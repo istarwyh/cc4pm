@@ -1,6 +1,6 @@
 'use strict';
 
-const EVALUATION_SCHEMA_VERSION = 'ecc.skill-evaluation.v1';
+const EVALUATION_SCHEMA_VERSION = 'cc4pm.skill-evaluation.v1';
 
 function roundRate(value) {
   return Math.round(value * 1000) / 1000;

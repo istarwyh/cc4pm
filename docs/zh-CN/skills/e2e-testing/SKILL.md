@@ -1,7 +1,7 @@
 ---
 name: e2e-testing
 description: Playwright E2E 测试模式、页面对象模型、配置、CI/CD 集成、工件管理和不稳定测试策略。
-origin: ECC
+origin: cc4pm
 ---
 
 # E2E 测试模式

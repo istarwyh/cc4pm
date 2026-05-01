@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "cc4pm Install Config",
+  "description": "User-authored install intent file (cc4pm-install.json) consumed by the install CLI.",
+  "type": "object",
+  "required": ["version"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "number",
+      "const": 1
+    },
+    "target": {
+      "type": "string",
+      "enum": ["claude", "cursor", "antigravity", "codex", "opencode"]
+    },
+    "profile": {
+      "type": "string"
+    },
+    "modules": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "include": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "exclude": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "options": {
+      "type": "object"
+    }
+  }
+}

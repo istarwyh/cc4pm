@@ -1,7 +1,7 @@
 ---
 name: continuous-agent-loop
 description: 具有质量门、评估和恢复控制的连续自主代理循环模式。
-origin: ECC
+origin: cc4pm
 ---
 
 # 持续代理循环

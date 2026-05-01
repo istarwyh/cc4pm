@@ -38,7 +38,7 @@ and output a complete optimized prompt the user can paste and run.
 
 - User wants the task done directly (just execute it)
 - User says "优化代码", "优化性能", "optimize this code", "optimize performance" — these are refactoring tasks, not prompt optimization
-- User is asking about cc4pm configuration (use `configure-ecc` instead)
+- User is asking about cc4pm configuration (use `configure-cc4pm` instead)
 - User wants a skill inventory (use `skill-stocktake` instead)
 - User says "just do it" or "直接做"
 
@@ -266,7 +266,7 @@ A compact version for experienced cc4pm users. Vary by intent type:
 
 ### Trigger Examples
 
-- "Optimize this prompt for ECC"
+- "Optimize this prompt for cc4pm"
 - "Rewrite this prompt so Claude Code uses the right commands"
 - "帮我优化这个指令"
 - "How should I prompt cc4pm for this task?"
@@ -389,7 +389,7 @@ Recommended: Opus 4.6 for blueprint planning, Sonnet 4.6 for phase execution.
 
 | Component | When to Reference |
 |-----------|------------------|
-| `configure-ecc` | User hasn't set up cc4pm yet |
+| `configure-cc4pm` | User hasn't set up cc4pm yet |
 | `skill-stocktake` | Audit which components are installed (use instead of hardcoded catalog) |
 | `search-first` | Research phase in optimized prompts |
 | `blueprint` | EPIC-scope optimized prompts (invoke as skill, not command) |

@@ -1,7 +1,7 @@
 ---
 name: coding-standards
 description: Universal coding standards, best practices, and patterns for TypeScript, JavaScript, React, and Node.js development.
-origin: ECC
+origin: cc4pm
 ---
 
 # Coding Standards & Best Practices

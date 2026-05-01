@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "cc4pm Install State",
+  "description": "Records what was installed, where, and from which source — enables doctor, repair, and uninstall.",
+  "type": "object",
+  "required": ["schemaVersion", "installedAt", "target", "request", "resolution", "source", "operations"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "cc4pm.install.v1"
+    },
+    "installedAt": {
+      "type": "string"
+    },
+    "target": {
+      "type": "object",
+      "required": ["id", "root", "installStatePath"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "target": { "type": "string" },
+        "kind": { "type": "string", "enum": ["home", "project"] },
+        "root": { "type": "string" },
+        "installStatePath": { "type": "string" }
+      }
+    },
+    "request": {
+      "type": "object",
+      "required": ["modules", "legacyMode"],
+      "additionalProperties": false,
+      "properties": {
+        "profile": { "type": ["string", "null"] },
+        "modules": { "type": "array", "items": { "type": "string" } },
+        "includeComponents": { "type": "array", "items": { "type": "string" } },
+        "excludeComponents": { "type": "array", "items": { "type": "string" } },
+        "legacyLanguages": { "type": "array", "items": { "type": "string" } },
+        "legacyMode": { "type": "boolean" }
+      }
+    },
+    "resolution": {
+      "type": "object",
+      "required": ["selectedModules"],
+      "additionalProperties": false,
+      "properties": {
+        "selectedModules": { "type": "array", "items": { "type": "string" } },
+        "skippedModules": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["manifestVersion"],
+      "additionalProperties": false,
+      "properties": {
+        "repoVersion": { "type": ["string", "null"] },
+        "repoCommit": { "type": ["string", "null"] },
+        "manifestVersion": { "type": "number" }
+      }
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "moduleId", "sourceRelativePath", "destinationPath", "strategy", "ownership"],
+        "additionalProperties": true,
+        "properties": {
+          "kind": { "type": "string" },
+          "moduleId": { "type": "string" },
+          "sourcePath": { "type": "string" },
+          "sourceRelativePath": { "type": "string" },
+          "destinationPath": { "type": "string" },
+          "strategy": { "type": "string" },
+          "ownership": { "type": "string" },
+          "scaffoldOnly": { "type": "boolean" }
+        }
+      }
+    },
+    "lastValidatedAt": {
+      "type": "string"
+    }
+  }
+}

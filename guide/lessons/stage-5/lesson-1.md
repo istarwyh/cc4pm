@@ -3,10 +3,9 @@
 ## 本课目标
 
 - 理解 MCP（Model Context Protocol，模型上下文协议）如何让 AI 代理连接外部工具
-- 掌握插件（Plugins）系统：市场安装、LSP 插件、mgrep 搜索等
 - 掌握 /learn 和 /skill-create 的知识提取和经验积累机制
 - 了解持续学习系统（Continuous Learning）的工作原理
-- 理解 cc4pm 的插件架构和跨平台支持
+- 了解插件（Plugins）系统和 Claude Code SDK 的存在
 
 > **阶段概览**：打开 [stage5-overview.html](stage5-overview.html)，用可视化方式浏览阶段 5 的高级特性和实战流程。
 
@@ -18,7 +17,6 @@
 |------|------|------|-----------|
 | MCP | Model Context Protocol | 模型上下文协议 | AI 代理连接外部服务的标准接口 |
 | PAT | Personal Access Token | 个人访问令牌 | 访问 GitHub 等服务的认证凭证 |
-| SLA | Service Level Agreement | 服务级别协议 | 服务可用性的承诺 |
 
 ### MCP——让 AI 代理连接世界
 
@@ -36,121 +34,6 @@
 **MCP 就是 AI 代理的"USB 接口"——标准化的外部工具连接方式。**
 
 > **基础回顾**：MCP 配置存放在 `mcp-configs/mcp-servers.json` 中，属于 **Lesson 5（阶段 1）**介绍的五层扩展体系中 `settings.json` 层的一部分。如果你对 Claude Code 的目录结构还不熟悉，建议回顾那一课。
-
-#### 可用的 MCP 服务器
-
-cc4pm 预配置了 **23 个 MCP 服务器**（在 `mcp-configs/mcp-servers.json` 中）。我们按使用频率分为三层：
-
----
-
-#### 第一层：通用推荐（建议所有人启用，无需凭证）
-
-这 6 个 MCP 开箱即用，不需要任何 API Key，直接提升 AI 的能力：
-
-| MCP | 启动命令 | 用途 | 你能让 AI 做什么 |
-|-----|---------|------|----------------|
-| **memory** | `npx -y @modelcontextprotocol/server-memory` | 跨会话持久化记忆 | "记住我们的项目用 pnpm"、"上次讨论的架构方案是什么？" |
-| **sequential-thinking** | `npx -y @modelcontextprotocol/server-sequential-thinking` | 链式推理增强 | AI 遇到复杂问题时自动激活深度推理 |
-| **context7** | `npx -y @upstash/context7-mcp@latest` | 实时文档查询 | "Next.js 15 的 Server Actions 怎么用？"——查到的是**最新**文档，不是训练截止时的旧版 |
-| **token-optimizer** | `npx -y token-optimizer-mcp` | Token 优化，95%+ 上下文压缩 | 处理超长文件/日志时自动压缩，节省上下文窗口 |
-| **playwright** | `npx -y @playwright/mcp --browser chrome` | 浏览器自动化和测试 | "打开 localhost:3000 截图"、"点击登录按钮看看会发生什么" |
-| **filesystem** | `npx -y @modelcontextprotocol/server-filesystem /你的项目路径` | 文件系统操作 | 补充 Claude Code 自带的文件能力，适合需要跨目录操作的场景 |
-
-**配置方式**：将以上 JSON 块复制到 `~/.claude.json` 的 `mcpServers` 字段中。例如：
-
-```json
-{
-  "mcpServers": {
-    "memory": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-memory"]
-    },
-    "context7": {
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp@latest"]
-    }
-  }
-}
-```
-
----
-
-#### 第二层：常用但需凭证（按需开启，能力提升明显）
-
-这些 MCP 需要 API Key 或登录，但一旦配好就非常好用：
-
-| MCP | 启动命令 | 需要的凭证 | 你能让 AI 做什么 |
-|-----|---------|-----------|----------------|
-| **github** | `npx -y @modelcontextprotocol/server-github` | `GITHUB_PERSONAL_ACCESS_TOKEN` | "查 Issue #42 状态"、"给这个 PR 加 label"、"列出本周的 open issues" |
-| **supabase** | `npx -y @supabase/mcp-server-supabase@latest --project-ref=xxx` | 项目 ref | "查 users 表有多少活跃用户"、"这张表的 schema 是什么？" |
-| **exa-web-search** | `npx -y exa-mcp-server` | `EXA_API_KEY` | "搜索 2024 年最新的 React 状态管理方案"——AI 联网搜索 |
-| **fal-ai** | `npx -y fal-ai-mcp-server` | `FAL_KEY` | "生成一张记账 App 的首页插画"——AI 直接调 Stable Diffusion / FLUX |
-| **magic** | `npx -y @magicuidesign/mcp@latest` | 无 | "生成一个渐变动效按钮组件"——Magic UI 组件生成 |
-
-**凭证配置方式**：在 MCP 的 `env` 字段中填入：
-
-```json
-{
-  "github": {
-    "command": "npx",
-    "args": ["-y", "@modelcontextprotocol/server-github"],
-    "env": {
-      "GITHUB_PERSONAL_ACCESS_TOKEN": "ghp_xxxxxxxxxxxx"
-    }
-  }
-}
-```
-
----
-
-#### 第三层：按项目需要选用
-
-以下 MCP 针对特定平台或场景，不需要每个项目都开。**按你用的技术栈选 1-3 个**：
-
-##### 部署平台（选你用的那个）
-
-| MCP | 连接方式 | 你能让 AI 做什么 |
-|-----|---------|----------------|
-| **vercel** | http: `https://mcp.vercel.com` | "部署到 production"、"查看最近一次部署日志" |
-| **railway** | `npx -y @railway/mcp-server` | "部署后端服务"、"查看容器日志" |
-| **cloudflare-docs** | http: `https://docs.mcp.cloudflare.com/mcp` | "Cloudflare Workers 怎么配置 KV？" |
-| **cloudflare-workers-builds** | http: `https://builds.mcp.cloudflare.com/mcp` | "构建并部署 Worker" |
-| **cloudflare-workers-bindings** | http: `https://bindings.mcp.cloudflare.com/mcp` | "给 Worker 绑定 KV namespace" |
-| **cloudflare-observability** | http: `https://observability.mcp.cloudflare.com/mcp` | "查看 Worker 最近的错误日志" |
-
-HTTP 类型的 MCP 不需要安装任何东西，直接在配置中填 URL：
-
-```json
-{
-  "vercel": {
-    "type": "http",
-    "url": "https://mcp.vercel.com"
-  }
-}
-```
-
-##### 数据与搜索
-
-| MCP | 连接方式 | 你能让 AI 做什么 |
-|-----|---------|----------------|
-| **clickhouse** | http: `https://mcp.clickhouse.cloud/mcp` | "查询过去 7 天的用户增长数据"——BI 分析查询 |
-| **firecrawl** | `npx -y firecrawl-mcp`（需 `FIRECRAWL_API_KEY`） | "抓取竞品首页的内容"——结构化网页抓取 |
-| **confluence** | `npx -y confluence-mcp-server`（需 URL + EMAIL + TOKEN） | "搜索 Confluence 里关于 API 设计的文档" |
-
-##### 浏览器自动化
-
-| MCP | 连接方式 | 你能让 AI 做什么 |
-|-----|---------|----------------|
-| **browserbase** | `npx -y @browserbasehq/mcp-server-browserbase`（需 API Key） | 云端浏览器会话，适合需要持久登录态的场景 |
-| **browser-use** | http: `https://api.browser-use.com/mcp`（需 header Key） | AI 浏览器代理——自动完成复杂的网页操作流程 |
-
-##### 安全
-
-| MCP | 连接方式 | 你能让 AI 做什么 |
-|-----|---------|----------------|
-| **insaits** | `python3 -m insa_its.mcp_server`（需 `pip install insa-its`） | AI-to-AI 安全监控：23 种异常检测，100% 本地运行，不传数据到外部 |
-
----
 
 #### MCP 对 PM 意味着什么
 
@@ -173,26 +56,11 @@ HTTP 类型的 MCP 不需要安装任何东西，直接在配置中填 URL：
 
 **MCP 让 AI 代理从"只能操作本地文件"升级为"能操作整个开发基础设施"。**
 
-#### 配置注意事项
+#### MCP 配置与权限（速览）
 
-```
-注意：建议同时启用不超过 10 个 MCP 服务器
-原因：每个 MCP 会占用上下文窗口（AI 的"工作记忆"）
-超过 10 个 → AI 的理解能力和响应质量会下降
+cc4pm 预配置了 **23 个 MCP 服务器**，按使用频率分为三层。建议同时启用不超过 10 个，避免占用过多上下文窗口。
 
-推荐组合（7 个，平衡能力和上下文消耗）：
-  第一层全部  → memory + sequential-thinking + context7 + token-optimizer + playwright（5 个）
-  第二层选 2  → github + exa-web-search（或按需换成 supabase / fal-ai）
-  第三层选 0-2 → 按项目部署平台选
-
-禁用方式：在项目 .claude.json 中用 disabledMcpServers 数组按项目禁用
-```
-
-#### MCP 权限管理
-
-首次使用 MCP 工具时，Claude 会请求你批准每一个操作。手动审批很快就会变得烦人。
-
-**自动批准 MCP 工具**：在 `settings.local.json` 的 `allow` 数组中添加 MCP 工具前缀：
+首次使用 MCP 工具时，Claude 会请求你批准每一个操作。可以在 `settings.local.json` 中自动批准信任的 MCP：
 
 ```json
 {
@@ -203,70 +71,13 @@ HTTP 类型的 MCP 不需要安装任何东西，直接在配置中填 URL：
 }
 ```
 
-> 格式为 `mcp__<服务器名>__<工具名>`，用 `*` 通配符批准该 MCP 的所有工具。只对你信任的 MCP 使用自动批准。
+> **完整分类、配置示例和联网策略**：见 [Lesson 24.1 - MCP 生态与文档工具](lesson-1.1.md)
 
-### Agent 联网策略：搜/看/做
+#### 插件与 SDK（概览）
 
-MCP 连接外部服务，但**联网任务的效果取决于 Agent 的策略选择**。Agent 联网本质上只有三种行为——和人类上网一样：
+MCP 连接外部服务。**插件（Plugin）** 是更高级的打包方式——可以同时包含技能、MCP、钩子和 LSP。**Claude Code SDK** 支持用 CLI、TypeScript、Python 编程式调用 AI 代理。
 
-```
-搜 → 找到信息在哪           → Search 工具
-看 → 读取内容               → Fetch/curl（公开页面）或浏览器（需登录/动态页面）
-做 → 在页面上执行操作        → 浏览��自动化（点击、填表、上传）
-```
-
-**问题在于**：Agent 默认的联网策略往往不够智能。比如「调研小红书上的风评」，Agent 会先用 WebSearch 搜索（搜不到站内内容）、再用 WebFetch 请求（JS 渲染失败）、反复换关键词浪费 10 轮对话。正确做法是识别到反爬平台后直接用浏览器操作站内搜索。
-
-#### 工具选择矩阵
-
-| 场景 | 推荐工具 | 原因 |
-|------|---------|------|
-| 公开文章/文档 | WebFetch + Jina | 速度快，token 少 |
-| 需要登录的平台 | 浏览器（CDP） | 复用用户登录态 |
-| 动态渲染页面 | 浏览器 | fetch 拿不到 JS 渲染内容 |
-| 反爬严格的站点 | 浏览器 | 原生 Chrome 更难被识别 |
-| 搜索引擎查询 | WebSearch | 快速发现信息来源 |
-
-#### Web Access Skill——联网策略的最佳实践
-
-社���开源的 `web-access` Skill（[github.com/eze-is/web-access](https://github.com/eze-is/web-access)）是一个典型的「哲学式 Skill」，它不��定具体操作路径，而是：
-
-1. **定义浏览哲学**：四步循环——定义成功标准 → 选最短路径验证 → 过程校验（每步结果都是证据）→ 对照标准确认完成
-2. **整合最小完备工具集**：Search + Fetch + 浏览器自动化��覆盖搜/看/做
-3. **补充惰性知识**：哪些平台需要浏览器、CDP 连接检测方法、安全边界
-
-**安装方式**：
-
-```bash
-# 告诉 Claude Code 安装
-"帮我安装 web-access skill，仓库地址是 https://github.com/eze-is/web-access"
-```
-
-**前置条件**：
-- Chrome 浏览器（最新版）
-- 地址栏输入 `chrome://inspect/#remote-debugging`，勾选 Allow remote debugging
-
-**最佳实践**：安装 web-access 后，建议关闭其他浏览器 MCP（如 Playwright、Chrome Devtools MCP），避免模型在工具中"左右互搏"。
-
-#### 站点经验沉淀——联网领域的 /learn
-
-Web Access Skill 内置了一个独特的经验沉淀机制：
-
-```
-第一次访问某平台:
-  Agent 从零探索 → 试错多步 → 发现有效路径 → 完成任务
-  → 自动保存该站点的访问策略（URL 模式、反爬特征、有效路径）
-
-第二次访问同一平台:
-  Agent 加载已有经验 → 直接走有效路径 → 跳过试错
-  → 效率提升约 90%
-```
-
-**这是一个 learning loop**：每次操作都在积累经验，让下一次变得更快更准。
-
-经验文件会标注发现日期，当作「提示」而非「事实」。如果平台改版导致经验失效，Agent 会自动回退通用模式并更新经验。
-
-> 这个思路与 cc4pm 的持续学习系统（/learn → /skill-create → /evolve）一脉相承：**让 Agent 在使用中自我进化**。
+> **详细内容**：见 [Lesson 24.2 - 插件架构与 SDK](lesson-1.2.md)
 
 ### /learn——从会话中提取可复用模式
 
@@ -368,120 +179,6 @@ cc4pm 有一个完整的"持续学习"系统，让 AI 代理越用越聪明：
 第 8 周：AI 代理像一个"老员工"，知道项目的所有约定
 ```
 
-### cc4pm 的插件架构
-
-cc4pm 不只是一个工具——它是一个完整的插件系统，可以跨多个 AI 开发工具使用。
-
-#### 插件（Plugins）——比 MCP 更丰富的扩展方式
-
-MCP 连接的是外部服务。**插件（Plugin）是一种更高级的打包方式**——它可以同时包含技能、MCP、钩子，甚至 LSP（语言服务器协议），打包成一个可安装的单元。
-
-```
-MCP 只做一件事：
-  连接外部服务（GitHub、Supabase、Vercel...）
-
-Plugin 可以做很多事：
-  ├── 包含技能（工作流定义）
-  ├── 包含 MCP（外部集成）
-  ├── 包含 Hook（自动化触发）
-  └── 包含 LSP（语言智能——类型检查、补全、跳转定义）
-```
-
-#### 插件市场与安装
-
-```bash
-# 添加一个插件市场
-claude plugin marketplace add istarwyh/cc4pm
-
-# 查看已安装的插件
-/plugins
-
-# 安装特定插件
-/plugin install everything-claude-code@everything-claude-code
-```
-
-**已有的插件市场**：打开 Claude Code 后输入 `/plugins`，可以看到官方市场和第三方市场中的所有可用插件。
-
-#### 值得了解的插件类型
-
-| 插件类型 | 代表 | 说明 |
-|---------|------|------|
-| **LSP 插件** | `typescript-lsp`、`pyright-lsp` | 给 Claude 提供实时类型检查和代码补全——不需要打开 IDE，Claude 也能获得编辑器级别的代码智能 |
-| **搜索插件** | `mgrep` | 比内置 ripgrep 更强的语义搜索——支持本地搜索和网络搜索 |
-| **工作流插件** | `hookify` | 用对话方式创建 Hook，不用手写 JSON |
-| **文档插件** | `context7` | 查询最新技术文档（也作为 MCP 提供） |
-
-#### mgrep——比 grep 更好的搜索
-
-`mgrep` 是一个通过插件市场安装的增强搜索工具，由 [Mixedbread](https://www.mixedbread.ai/) 提供。它比 Claude Code 内置的 ripgrep 搜索更智能：
-
-```bash
-# 本地代码搜索（语义理解，不只是文本匹配）
-mgrep "处理用户认证的函数"
-
-# 网络搜索（AI 联网搜索最新信息）
-mgrep --web "Next.js 15 App Router 最新变化"
-```
-
-**安装方式**：
-
-```bash
-# 先添加 Mixedbread 市场
-claude plugin marketplace add mixedbread-ai/mgrep
-
-# 然后安装
-/plugins → 找到 Mixedbread-Grep → 安装
-```
-
-#### 插件与上下文窗口的关系
-
-**重要提醒**：和 MCP 一样，每个启用的插件都会占用上下文窗口。
-
-```
-经验法则：
-  配置 20-30 个插件/MCP → 保存在配置中备用
-  同时启用 < 10 个       → 实际工作时只开需要的
-  活动工具 < 80 个       → 超过会明显影响 Claude 的表现
-
-管理方式：
-  /plugins  → 查看所有插件的启用/禁用状态
-  /mcp      → 查看所有 MCP 的启用/禁用状态
-```
-
-不需要每个项目都开全部插件。按项目需求选 4-5 个即可。
-
-#### 支持的平台
-
-| 平台 | 支持度 | 特点 |
-|------|--------|------|
-| **Claude Code** | 原生（主要平台） | 完整支持所有功能 |
-| **Cursor IDE** | 完整支持 | DRY 适配器模式，复用 Hook 脚本 |
-| **Codex** | 一等支持 | AGENTS.md + .codex/ 结构 |
-| **OpenCode** | 完整支持 | 31+ 命令，11+ Hook 事件 |
-
-#### 安装方式
-
-```bash
-# 方式 1：插件市场（推荐）
-/plugin marketplace add istarwyh/cc4pm
-/plugin install everything-claude-code@everything-claude-code
-
-# 方式 2：手动安装
-git clone https://github.com/istarwyh/cc4pm.git
-./install.sh typescript python  # 按需选择语言规则
-```
-
-#### 组件统计
-
-| 组件 | 数量 | 说明 |
-|------|------|------|
-| 代理 | 18 | 专业化的 AI 助手 |
-| 技能 | 56+ | 工作流定义和领域知识 |
-| 命令 | 40+ | 用户可调用的斜杠命令 |
-| 规则 | 9 通用 + 7 语言 × 5 | 共 44 个规则文件 |
-| Hook | 21 | 6 个触发点的事件驱动自动化 |
-| MCP | 23 | 外部工具集成（command + http 两种类型） |
-
 ### 高级特性速查
 
 | 特性 | 命令 | PM 用途 |
@@ -493,33 +190,6 @@ git clone https://github.com/istarwyh/cc4pm.git
 | 质量门禁 | `/quality-gate` | 手动触发质量检查 |
 | 验证循环 | `/verify` | 构建+测试+Lint 一键验证 |
 | 性能调优 | `/harness-audit` | 检查代理系统本身的表现 |
-
-### Claude Code SDK——编程式集成
-
-Claude Code 不只是终端工具——它提供 **SDK**（软件开发工具包），支持 CLI、TypeScript 和 Python 三种方式以编程方式调用。
-
-```
-终端版 Claude Code：人类对话式使用
-SDK 版 Claude Code：程序自动调用，集成到工作流中
-```
-
-**核心用途**：把 Claude 集成到自动化管道中——比如 Hook 脚本调 Claude 做代码审查、CI/CD 流水线自动检查。
-
-```bash
-# CLI 方式（最简单）
-claude -p "分析这个文件的安全性" < src/auth.ts
-
-# TypeScript SDK
-import { query } from '@anthropic-ai/claude-code';
-const result = await query({
-  prompt: "审查以下代码的安全性",
-  options: { allowedTools: ["read", "grep"] }
-});
-```
-
-**权限模型**：SDK 默认只有只读权限（读文件、搜索）。需要写入能力时，在 `options.allowedTools` 中显式添加 `"edit"`、`"write"` 等工具。
-
-**PM 何时关心 SDK？** 当你想让 Hook 中的检查更智能时——比如用 SDK 启动一个独立的 Claude 实例来审查代码变更（Lesson 23 的重复代码预防 Hook 就是这么实现的）。
 
 ## 🛠️ 实操练习
 
@@ -552,47 +222,9 @@ const result = await query({
 - 提取团队的编码规范
 - 生成可复用的技能文件
 
-### 练习 3：查看 MCP 配置
-
-```bash
-# 查看 MCP 配置
-cat .claude/mcp-configs/mcp-servers.json
-
-# 查看可用的 MCP 服务
-/mcp
-```
-
-**MCP 三层分类**：
-
-| 层级 | 类型 | 示例 |
-|------|------|------|
-| 核心层 | 必备工具 | GitHub、Supabase |
-| 扩展层 | 按需启用 | Figma、Notion |
-| 专业层 | 特定场景 | Stripe、Twilio |
-
-### 练习 4：探索插件系统
-
-```bash
-# 查看插件市场
-/plugins
-
-# 安装插件
-/plugin marketplace add <plugin-name>
-```
-
-**检查清单**：
-- [ ] 成功运行 `/learn` 提取模式
-- [ ] 了解了 `/skill-create` 的用途
-- [ ] 查看了 MCP 配置
-- [ ] 探索了插件系统
-
 ---
 
 ## 常见问题
-
-**Q: MCP 配置需要什么前置条件？**
-
-A: 主要是 API Token。比如 GitHub MCP 需要一个 Personal Access Token（PAT），Supabase 需要项目 URL 和 Key。这些通常由开发者或 DevOps 配置好。PM 一般不需要自己配置，但需要知道"哪些 MCP 可以用"。
 
 **Q: /learn 会不会学到错误的模式？**
 
@@ -602,11 +234,15 @@ A: 有可能。所以 /learn 提取模式后会先让你确认。如果发现之
 
 A: 你的团队可以同时使用 Claude Code、Cursor、Codex 等不同工具，但共享同一套规则、技能和模式。换工具不用重新配置。这就是"一次配置，处处生效"。
 
+**Q: MCP 配置需要什么前置条件？**
+
+A: 主要是 API Token。比如 GitHub MCP 需要一个 Personal Access Token（PAT），Supabase 需要项目 URL 和 Key。这些通常由开发者或 DevOps 配置好。PM 一般不需要自己配置，但需要知道"哪些 MCP 可以用"。
+
 ## 下一步
 
-- [1] 进入下一课：Lesson 25 - 完整项目实战
+- [1] 进入下一课：Lesson 24.1 - MCP 生态与文档工具
 - [2] 返回主菜单
 - [3] 退出学习
 
 ---
-*阶段 5 | Lesson 24/26 (阶段内 1/3) | 上一课: Lesson 23.6 - CLIProxyAPI 实战（阶段 4） | 下一课: Lesson 24.1 - LLM Wiki*
+*阶段 5 | Lesson 24/26 (阶段内 1/3) | 上一课: Lesson 23.6 - CLIProxyAPI 实战（阶段 4） | 下一课: Lesson 24.1 - MCP 生态*

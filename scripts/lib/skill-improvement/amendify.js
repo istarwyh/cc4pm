@@ -2,7 +2,7 @@
 
 const { buildSkillHealthReport } = require('./health');
 
-const AMENDMENT_SCHEMA_VERSION = 'ecc.skill-amendment-proposal.v1';
+const AMENDMENT_SCHEMA_VERSION = 'cc4pm.skill-amendment-proposal.v1';
 
 function createProposalId(skillId) {
   return `amend-${skillId}-${Date.now()}`;

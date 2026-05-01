@@ -1,7 +1,7 @@
 ---
 name: docker-patterns
 description: 用于本地开发的Docker和Docker Compose模式，包括容器安全、网络、卷策略和多服务编排。
-origin: ECC
+origin: cc4pm
 ---
 
 # Docker 模式

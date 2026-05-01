@@ -1,7 +1,7 @@
 ---
 name: content-hash-cache-pattern
 description: 使用SHA-256内容哈希缓存昂贵的文件处理结果——路径无关、自动失效、服务层分离。
-origin: ECC
+origin: cc4pm
 ---
 
 # 内容哈希文件缓存模式

@@ -1,7 +1,7 @@
 ---
 name: iterative-retrieval
 description: 逐步优化上下文检索以解决子代理上下文问题的模式
-origin: ECC
+origin: cc4pm
 ---
 
 # 迭代检索模式

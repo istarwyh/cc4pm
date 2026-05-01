@@ -1,7 +1,7 @@
 ---
 name: nanoclaw-repl
-description: 操作并扩展NanoClaw v2，这是ECC基于claude -p构建的零依赖会话感知REPL。
-origin: ECC
+description: 操作并扩展NanoClaw v2，这是cc4pm基于claude -p构建的零依赖会话感知REPL。
+origin: cc4pm
 ---
 
 # NanoClaw REPL

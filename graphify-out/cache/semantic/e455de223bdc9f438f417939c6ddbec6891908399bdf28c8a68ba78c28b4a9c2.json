@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [], "hyperedges": [{"id": "stage_3_wds_pipeline", "label": "WDS Pipeline Components", "nodes": ["lesson_1_saga", "lesson_1_freya", "lesson_2_trigger_map", "lesson_3_ux_scenario"], "relation": "participate_in", "confidence": "INFERRED", "confidence_score": 0.85, "source_file": "guide/lessons/stage-3/stage3-overview.html"}]}

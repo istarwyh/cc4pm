@@ -5,6 +5,6 @@ module.exports = createInstallTargetAdapter({
   target: 'cursor',
   kind: 'project',
   rootSegments: ['.cursor'],
-  installStatePathSegments: ['ecc-install-state.json'],
+  installStatePathSegments: ['cc4pm-install-state.json'],
   nativeRootRelativePath: '.cursor',
 });

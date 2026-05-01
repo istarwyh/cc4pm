@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "cc4pm Hooks Config",
+  "description": "Hook definitions keyed by event type, each containing matchers with hook action arrays.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "hooks": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/matcher" }
+      }
+    }
+  },
+  "$defs": {
+    "matcher": {
+      "type": "object",
+      "required": ["hooks"],
+      "properties": {
+        "matcher": {},
+        "hooks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/hookEntry" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "hookEntry": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": { "type": "string", "enum": ["command", "http", "prompt", "agent"] },
+        "command": {},
+        "url": { "type": "string" },
+        "prompt": { "type": "string" },
+        "timeout": { "type": "number", "minimum": 0 },
+        "async": { "type": "boolean" },
+        "headers": { "type": "object", "additionalProperties": { "type": "string" } },
+        "allowedEnvVars": { "type": "array", "items": { "type": "string" } },
+        "model": { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  }
+}

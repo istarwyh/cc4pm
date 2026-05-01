@@ -1,7 +1,7 @@
 ---
 name: perl-patterns
 description: 现代 Perl 5.36+ 的惯用法、最佳实践和约定，用于构建稳健、可维护的 Perl 应用程序。
-origin: ECC
+origin: cc4pm
 ---
 
 # 现代 Perl 开发模式

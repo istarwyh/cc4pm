@@ -1,7 +1,7 @@
 ---
 name: ai-first-engineering
 description: 团队中人工智能代理生成大部分实施输出的工程运营模型。
-origin: ECC
+origin: cc4pm
 ---
 
 # 人工智能优先工程

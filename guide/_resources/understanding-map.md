@@ -10,7 +10,7 @@
 | 核心方法论 | BMM（业务建模）+ CIS（创意智能）+ WDS（设计系统）+ AI First Engineering |
 | 版本 | v6.1.0 |
 | 数据 | 50K+ Stars、6K+ Forks、30+ 贡献者、7 种语言规则支持 |
-| 荣誉 | 基于 Anthropic 黑客马拉松获奖项目 ECC |
+| 荣誉 | 基于 Anthropic 黑客马拉松获奖项目 cc4pm |
 
 ## 目录结构
 

@@ -96,7 +96,7 @@ function runTests() {
     const projectRoot = createTempDir('list-installed-project-');
 
     try {
-      const statePath = path.join(projectRoot, '.cursor', 'ecc-install-state.json');
+      const statePath = path.join(projectRoot, '.cursor', 'cc4pm-install-state.json');
       writeState(statePath, {
         adapter: { id: 'cursor-project', target: 'cursor', kind: 'project' },
         targetRoot: path.join(projectRoot, '.cursor'),

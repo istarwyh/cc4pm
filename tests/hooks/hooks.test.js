@@ -182,7 +182,7 @@ async function runTests() {
 
   if (
     await asyncTest('exits 0 even with isolated empty HOME', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-iso-start-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-iso-start-${Date.now()}`);
       fs.mkdirSync(path.join(isoHome, '.claude', 'sessions'), { recursive: true });
       fs.mkdirSync(path.join(isoHome, '.claude', 'skills', 'learned'), { recursive: true });
       try {
@@ -210,7 +210,7 @@ async function runTests() {
 
   if (
     await asyncTest('skips template session content', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-tpl-start-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-tpl-start-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       fs.mkdirSync(path.join(isoHome, '.claude', 'skills', 'learned'), { recursive: true });
@@ -237,7 +237,7 @@ async function runTests() {
 
   if (
     await asyncTest('injects real session content', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-real-start-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-real-start-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       fs.mkdirSync(path.join(isoHome, '.claude', 'skills', 'learned'), { recursive: true });
@@ -264,7 +264,7 @@ async function runTests() {
 
   if (
     await asyncTest('reports learned skills count', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-skills-start-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-skills-start-${Date.now()}`);
       const learnedDir = path.join(isoHome, '.claude', 'skills', 'learned');
       fs.mkdirSync(learnedDir, { recursive: true });
       fs.mkdirSync(path.join(isoHome, '.claude', 'sessions'), { recursive: true });
@@ -300,7 +300,7 @@ async function runTests() {
       const result = await runScript(
         path.join(scriptsDir, 'insaits-security-wrapper.js'),
         stdinData,
-        { ECC_ENABLE_INSAITS: '' }
+        { CC4PM_ENABLE_INSAITS: '' }
       );
       assert.strictEqual(result.code, 0, `Exit code should be 0, got ${result.code}`);
       assert.strictEqual(result.stdout, stdinData, 'Should pass stdin through unchanged');
@@ -358,7 +358,7 @@ async function runTests() {
 
   if (
     await asyncTest('creates or updates session file', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-session-create-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-session-create-${Date.now()}`);
 
       try {
         await runScript(path.join(scriptsDir, 'session-end.js'), '', {
@@ -412,7 +412,7 @@ async function runTests() {
 
   if (
     await asyncTest('writes project, branch, and worktree metadata into new session files', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-session-metadata-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-session-metadata-${Date.now()}`);
       const testSessionId = 'test-session-meta1234';
       const expectedShortId = testSessionId.slice(-8);
       const topLevel = spawnSync('git', ['rev-parse', '--show-toplevel'], { encoding: 'utf8' }).stdout.trim();
@@ -476,7 +476,7 @@ async function runTests() {
 
   if (
     await asyncTest('annotates active session file with compaction marker', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-compact-annotate-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-compact-annotate-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -502,7 +502,7 @@ async function runTests() {
 
   if (
     await asyncTest('compaction log contains timestamp', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-compact-ts-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-compact-ts-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -1721,7 +1721,7 @@ async function runTests() {
 
       assert.ok(insaitsHook, 'Should define an InsAIts PreToolUse hook');
       assert.strictEqual(insaitsHook.matcher, 'Bash|Write|Edit|MultiEdit', 'InsAIts hook should avoid matching every tool');
-      assert.ok(insaitsHook.description.includes('ECC_ENABLE_INSAITS=1'), 'InsAIts hook should document explicit opt-in');
+      assert.ok(insaitsHook.description.includes('CC4PM_ENABLE_INSAITS=1'), 'InsAIts hook should document explicit opt-in');
       assert.ok(
         insaitsHook.hooks[0].command.includes('insaits-security-wrapper.js'),
         'InsAIts hook should execute through the JS wrapper'
@@ -2154,11 +2154,11 @@ async function runTests() {
         'utf8'
       );
 
-      assert.ok(observerLoopSource.includes('ECC_OBSERVER_MAX_TURNS'), 'observer-loop should allow max-turn overrides');
-      assert.ok(observerLoopSource.includes('max_turns="${ECC_OBSERVER_MAX_TURNS:-10}"'), 'observer-loop should default to 10 turns');
+      assert.ok(observerLoopSource.includes('CC4PM_OBSERVER_MAX_TURNS'), 'observer-loop should allow max-turn overrides');
+      assert.ok(observerLoopSource.includes('max_turns="${CC4PM_OBSERVER_MAX_TURNS:-10}"'), 'observer-loop should default to 10 turns');
       assert.ok(!observerLoopSource.includes('--max-turns 3'), 'observer-loop should not hardcode a 3-turn limit');
-      assert.ok(observerLoopSource.includes('ECC_SKIP_OBSERVE=1'), 'observer-loop should suppress observe.sh for automated sessions');
-      assert.ok(observerLoopSource.includes('ECC_HOOK_PROFILE=minimal'), 'observer-loop should run automated analysis with the minimal hook profile');
+      assert.ok(observerLoopSource.includes('CC4PM_SKIP_OBSERVE=1'), 'observer-loop should suppress observe.sh for automated sessions');
+      assert.ok(observerLoopSource.includes('CC4PM_HOOK_PROFILE=minimal'), 'observer-loop should run automated analysis with the minimal hook profile');
     })
   )
     passed++;
@@ -2203,7 +2203,7 @@ async function runTests() {
         fs.mkdirSync(homeDir, { recursive: true });
         fs.mkdirSync(repoDir, { recursive: true });
         spawnSync('git', ['init'], { cwd: repoDir, stdio: 'ignore' });
-        spawnSync('git', ['remote', 'add', 'origin', 'https://github.com/example/ecc-test.git'], { cwd: repoDir, stdio: 'ignore' });
+        spawnSync('git', ['remote', 'add', 'origin', 'https://github.com/example/cc4pm-test.git'], { cwd: repoDir, stdio: 'ignore' });
 
         const shellCommand = [
           `cd "${repoDir}"`,
@@ -2244,7 +2244,7 @@ async function runTests() {
         assert.strictEqual(metadata.id, projectId, 'project.json should include the detected id');
         assert.strictEqual(metadata.name, path.basename(repoDir), 'project.json should include the repo name');
         assert.strictEqual(fs.realpathSync(metadata.root), fs.realpathSync(repoDir), 'project.json should include the repo root');
-        assert.strictEqual(metadata.remote, 'https://github.com/example/ecc-test.git', 'project.json should include the sanitized remote');
+        assert.strictEqual(metadata.remote, 'https://github.com/example/cc4pm-test.git', 'project.json should include the sanitized remote');
         assert.ok(metadata.created_at, 'project.json should include created_at');
         assert.ok(metadata.last_seen, 'project.json should include last_seen');
       } finally {
@@ -2301,11 +2301,11 @@ async function runTests() {
       },
       {
         name: 'minimal hook profile',
-        env: { CLAUDE_CODE_ENTRYPOINT: 'cli', ECC_HOOK_PROFILE: 'minimal' }
+        env: { CLAUDE_CODE_ENTRYPOINT: 'cli', CC4PM_HOOK_PROFILE: 'minimal' }
       },
       {
         name: 'cooperative skip env',
-        env: { CLAUDE_CODE_ENTRYPOINT: 'cli', ECC_SKIP_OBSERVE: '1' }
+        env: { CLAUDE_CODE_ENTRYPOINT: 'cli', CC4PM_SKIP_OBSERVE: '1' }
       },
       {
         name: 'subagent payload',
@@ -2316,7 +2316,7 @@ async function runTests() {
         name: 'cwd skip path',
         env: {
           CLAUDE_CODE_ENTRYPOINT: 'cli',
-          ECC_OBSERVE_SKIP_PATHS: ' observer-sessions , .claude-mem '
+          CC4PM_OBSERVE_SKIP_PATHS: ' observer-sessions , .claude-mem '
         },
         cwdSuffix: path.join('observer-sessions', 'worker')
       }
@@ -2676,7 +2676,7 @@ async function runTests() {
 
   if (
     await asyncTest('only annotates *-session.tmp files, not other .tmp files', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-compact-glob-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-compact-glob-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -2707,7 +2707,7 @@ async function runTests() {
 
   if (
     await asyncTest('handles no active session files gracefully', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-compact-nosession-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-compact-nosession-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -2962,7 +2962,7 @@ async function runTests() {
 
   if (
     await asyncTest('exits 0 with empty sessions directory (no recent sessions)', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-start-empty-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-start-empty-${Date.now()}`);
       fs.mkdirSync(path.join(isoHome, '.claude', 'sessions'), { recursive: true });
       fs.mkdirSync(path.join(isoHome, '.claude', 'skills', 'learned'), { recursive: true });
       try {
@@ -2983,7 +2983,7 @@ async function runTests() {
 
   if (
     await asyncTest('does not inject blank template session into context', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-start-blank-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-start-blank-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       fs.mkdirSync(path.join(isoHome, '.claude', 'skills', 'learned'), { recursive: true });
@@ -3569,7 +3569,7 @@ async function runTests() {
 
   if (
     await asyncTest('annotates only the newest session file when multiple exist', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-compact-multi-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-compact-multi-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -3647,7 +3647,7 @@ async function runTests() {
 
   if (
     await asyncTest('does not inject empty session file content into context', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-start-empty-file-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-start-empty-file-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       fs.mkdirSync(path.join(isoHome, '.claude', 'skills', 'learned'), { recursive: true });
@@ -3707,7 +3707,7 @@ async function runTests() {
 
   if (
     await asyncTest('summary omits Files Modified and Tools Used when none found', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-notools-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-notools-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -3745,7 +3745,7 @@ async function runTests() {
 
   if (
     await asyncTest('reports available session aliases on startup', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-start-alias-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-start-alias-${Date.now()}`);
       fs.mkdirSync(path.join(isoHome, '.claude', 'sessions'), { recursive: true });
       fs.mkdirSync(path.join(isoHome, '.claude', 'skills', 'learned'), { recursive: true });
 
@@ -3782,7 +3782,7 @@ async function runTests() {
 
   if (
     await asyncTest('parallel compaction runs all append to log without loss', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-compact-par-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-compact-par-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -3815,7 +3815,7 @@ async function runTests() {
 
   if (
     await asyncTest('exits 0 when sessions path is a file (not a directory)', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-start-blocked-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-start-blocked-${Date.now()}`);
       fs.mkdirSync(path.join(isoHome, '.claude'), { recursive: true });
       // Block sessions dir creation by placing a file at that path
       fs.writeFileSync(path.join(isoHome, '.claude', 'sessions'), 'blocked');
@@ -3880,7 +3880,7 @@ async function runTests() {
 
   if (
     await asyncTest('excludes session files older than 7 days', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-start-7day-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-start-7day-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       fs.mkdirSync(path.join(isoHome, '.claude', 'skills', 'learned'), { recursive: true });
@@ -3918,7 +3918,7 @@ async function runTests() {
 
   if (
     await asyncTest('injects newest session when multiple recent sessions exist', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-start-multi-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-start-multi-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       fs.mkdirSync(path.join(isoHome, '.claude', 'skills', 'learned'), { recursive: true });
@@ -4049,7 +4049,7 @@ async function runTests() {
         console.log('    (skipped — not supported on this platform)');
         return;
       }
-      const isoHome = path.join(os.tmpdir(), `ecc-start-unreadable-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-start-unreadable-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -4110,7 +4110,7 @@ async function runTests() {
         console.log('    (skipped — not supported on this platform)');
         return;
       }
-      const isoHome = path.join(os.tmpdir(), `ecc-compact-ro-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-compact-ro-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -4151,7 +4151,7 @@ async function runTests() {
 
   if (
     await asyncTest('logs warning when existing session file lacks Last Updated field', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-end-nots-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-end-nots-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -4242,7 +4242,7 @@ async function runTests() {
 
   if (
     await asyncTest('extracts user messages from role-only format (no type field)', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-role-only-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-role-only-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -4278,7 +4278,7 @@ async function runTests() {
 
   if (
     await asyncTest('logs "Transcript not found" for nonexistent transcript_path', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-notfound-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-notfound-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -4307,7 +4307,7 @@ async function runTests() {
 
   if (
     await asyncTest('extracts tool name and file path from entry.name/entry.input (not tool_name/tool_input)', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-r70-entryname-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-r70-entryname-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       const transcriptPath = path.join(isoHome, 'transcript.jsonl');
@@ -4354,7 +4354,7 @@ async function runTests() {
 
   if (
     await asyncTest('shows selection prompt when no package manager preference found (default source)', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-r71-ss-default-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-r71-ss-default-${Date.now()}`);
       const isoProject = path.join(isoHome, 'project');
       fs.mkdirSync(path.join(isoHome, '.claude', 'sessions'), { recursive: true });
       fs.mkdirSync(path.join(isoHome, '.claude', 'skills', 'learned'), { recursive: true });
@@ -4502,7 +4502,7 @@ async function runTests() {
 
   if (
     await asyncTest('extracts user messages from entries where only message.role is user (not type or role)', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-msgrole-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-msgrole-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -4569,7 +4569,7 @@ async function runTests() {
     await asyncTest('skips user messages with numeric content (non-string non-array branch)', async () => {
       // session-end.js line 50-55: rawContent is checked for string, then array, else ''
       // When content is a number (42), neither branch matches, text = '', message is skipped.
-      const isoHome = path.join(os.tmpdir(), `ecc-r81-numcontent-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-r81-numcontent-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
       const transcriptPath = path.join(isoHome, 'transcript.jsonl');
@@ -4618,7 +4618,7 @@ async function runTests() {
 
   if (
     await asyncTest('collects tool name from entry with tool_name but non-tool_use type', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-r82-toolname-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-r82-toolname-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -4656,7 +4656,7 @@ async function runTests() {
 
   if (
     await asyncTest('preserves file when marker present but regex does not match corrupted template', async () => {
-      const isoHome = path.join(os.tmpdir(), `ecc-r82-tmpl-${Date.now()}`);
+      const isoHome = path.join(os.tmpdir(), `cc4pm-r82-tmpl-${Date.now()}`);
       const sessionsDir = path.join(isoHome, '.claude', 'sessions');
       fs.mkdirSync(sessionsDir, { recursive: true });
 

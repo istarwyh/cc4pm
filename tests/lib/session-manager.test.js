@@ -26,7 +26,7 @@ function test(name, fn) {
 
 // Create a temp directory for session tests
 function createTempSessionDir() {
-  const dir = path.join(os.tmpdir(), `ecc-test-sessions-${Date.now()}`);
+  const dir = path.join(os.tmpdir(), `cc4pm-test-sessions-${Date.now()}`);
   fs.mkdirSync(dir, { recursive: true });
   return dir;
 }
@@ -97,7 +97,7 @@ function runTests() {
 **Last Updated:** 14:45
 **Project:** everything-claude-code
 **Branch:** feature/session-metadata
-**Worktree:** /tmp/ecc-worktree
+**Worktree:** /tmp/cc4pm-worktree
 
 ### Completed
 - [x] Set up project
@@ -120,7 +120,7 @@ src/main.ts
     assert.strictEqual(meta.lastUpdated, '14:45');
     assert.strictEqual(meta.project, 'everything-claude-code');
     assert.strictEqual(meta.branch, 'feature/session-metadata');
-    assert.strictEqual(meta.worktree, '/tmp/ecc-worktree');
+    assert.strictEqual(meta.worktree, '/tmp/cc4pm-worktree');
     assert.strictEqual(meta.completed.length, 2);
     assert.strictEqual(meta.completed[0], 'Set up project');
     assert.strictEqual(meta.inProgress.length, 1);
@@ -340,7 +340,7 @@ src/main.ts
 
   // Override HOME to a temp dir for isolated getAllSessions/getSessionById tests
   // On Windows, os.homedir() uses USERPROFILE, not HOME — set both for cross-platform
-  const tmpHome = path.join(os.tmpdir(), `ecc-session-mgr-test-${Date.now()}`);
+  const tmpHome = path.join(os.tmpdir(), `cc4pm-session-mgr-test-${Date.now()}`);
   const tmpSessionsDir = path.join(tmpHome, '.claude', 'sessions');
   fs.mkdirSync(tmpSessionsDir, { recursive: true });
   const origHome = process.env.HOME;
@@ -1084,7 +1084,7 @@ src/main.ts
   console.log('\ncreatedTime fallback (Round 33):');
 
   // Use HOME override approach (consistent with existing getAllSessions tests)
-  const r33Home = path.join(os.tmpdir(), `ecc-r33-birthtime-${Date.now()}`);
+  const r33Home = path.join(os.tmpdir(), `cc4pm-r33-birthtime-${Date.now()}`);
   const r33SessionsDir = path.join(r33Home, '.claude', 'sessions');
   fs.mkdirSync(r33SessionsDir, { recursive: true });
   const r33OrigHome = process.env.HOME;
@@ -1248,7 +1248,7 @@ src/main.ts
   console.log('\nRound 78: getAllSessions (hasContent field):');
 
   if (test('getAllSessions hasContent is true for non-empty and false for empty files', () => {
-    const isoHome = path.join(os.tmpdir(), `ecc-hascontent-${Date.now()}`);
+    const isoHome = path.join(os.tmpdir(), `cc4pm-hascontent-${Date.now()}`);
     const isoSessions = path.join(isoHome, '.claude', 'sessions');
     fs.mkdirSync(isoSessions, { recursive: true });
     const savedHome = process.env.HOME;
@@ -1329,7 +1329,7 @@ src/main.ts
   if (test('getAllSessions skips broken symlink .tmp files gracefully', () => {
     // getAllSessions at line 241-246: statSync throws for broken symlinks,
     // the catch causes `continue`, skipping that entry entirely.
-    const isoHome = path.join(os.tmpdir(), `ecc-r83-toctou-${Date.now()}`);
+    const isoHome = path.join(os.tmpdir(), `cc4pm-r83-toctou-${Date.now()}`);
     const sessionsDir = path.join(isoHome, '.claude', 'sessions');
     fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -1370,7 +1370,7 @@ src/main.ts
   if (test('getSessionById returns null when matching session is a broken symlink', () => {
     // getSessionById at line 307-310: statSync throws for broken symlinks,
     // the catch returns null (file deleted between readdir and stat).
-    const isoHome = path.join(os.tmpdir(), `ecc-r84-getbyid-toctou-${Date.now()}`);
+    const isoHome = path.join(os.tmpdir(), `cc4pm-r84-getbyid-toctou-${Date.now()}`);
     const sessionsDir = path.join(isoHome, '.claude', 'sessions');
     fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -1423,7 +1423,7 @@ src/main.ts
     // session-manager.js line 220: if (!entry.isFile() || ...) continue;
     // Existing tests create non-.tmp FILES to test filtering (e.g., notes.txt).
     // This test creates a DIRECTORY — entry.isFile() returns false, so it should be skipped.
-    const isoHome = path.join(os.tmpdir(), `ecc-r89-subdir-skip-${Date.now()}`);
+    const isoHome = path.join(os.tmpdir(), `cc4pm-r89-subdir-skip-${Date.now()}`);
     const sessionsDir = path.join(isoHome, '.claude', 'sessions');
     fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -1504,7 +1504,7 @@ src/main.ts
   })) passed++; else failed++;
 
   // Re-establish test environment for Rounds 95-98 (these tests need sessions to exist)
-  const tmpHome2 = path.join(os.tmpdir(), `ecc-session-mgr-test-2-${Date.now()}`);
+  const tmpHome2 = path.join(os.tmpdir(), `cc4pm-session-mgr-test-2-${Date.now()}`);
   const tmpSessionsDir2 = path.join(tmpHome2, '.claude', 'sessions');
   fs.mkdirSync(tmpSessionsDir2, { recursive: true });
   const origHome2 = process.env.HOME;
@@ -1792,7 +1792,7 @@ file.ts
   // ── Round 106: getAllSessions with array/object limit — Number() coercion edge cases ──
   console.log('\nRound 106: getAllSessions (array/object limit coercion — Number([5])→5, Number({})→NaN→50):');
   if (test('getAllSessions coerces array/object limit via Number() with NaN fallback to 50', () => {
-    const isoHome = path.join(os.tmpdir(), `ecc-r106-limit-coerce-${Date.now()}`);
+    const isoHome = path.join(os.tmpdir(), `cc4pm-r106-limit-coerce-${Date.now()}`);
     const isoSessionsDir = path.join(isoHome, '.claude', 'sessions');
     fs.mkdirSync(isoSessionsDir, { recursive: true });
     // Create 3 test sessions
@@ -1838,7 +1838,7 @@ file.ts
   // ── Round 109: getAllSessions skips .tmp files that don't match session filename format ──
   console.log('\nRound 109: getAllSessions (non-session .tmp files — parseSessionFilename returns null → skip):');
   if (test('getAllSessions ignores .tmp files with non-matching filenames', () => {
-    const isoHome = path.join(os.tmpdir(), `ecc-r109-nonsession-${Date.now()}`);
+    const isoHome = path.join(os.tmpdir(), `cc4pm-r109-nonsession-${Date.now()}`);
     const isoSessionsDir = path.join(isoHome, '.claude', 'sessions');
     fs.mkdirSync(isoSessionsDir, { recursive: true });
     // Create one valid session file

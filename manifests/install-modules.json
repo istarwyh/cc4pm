@@ -325,6 +325,23 @@
       "defaultInstall": false,
       "cost": "medium",
       "stability": "beta"
+    },
+    {
+      "id": "cc4pm-guide",
+      "kind": "skills",
+      "description": "Interactive cc4pm courseware: staged lessons, course maps, and coaching guidance for product makers.",
+      "paths": [
+        ".claude/skills/cc4pm-guide",
+        "guide",
+        "scripts/cc4pm-guide-qmd-check.js"
+      ],
+      "targets": [
+        "claude"
+      ],
+      "dependencies": [],
+      "defaultInstall": false,
+      "cost": "heavy",
+      "stability": "stable"
     }
   ]
 }

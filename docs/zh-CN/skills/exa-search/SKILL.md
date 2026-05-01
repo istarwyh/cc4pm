@@ -1,7 +1,7 @@
 ---
 name: exa-search
 description: 通过Exa MCP进行神经搜索，适用于网络、代码和公司研究。当用户需要网络搜索、代码示例、公司情报、人员查找，或使用Exa神经搜索引擎进行AI驱动的深度研究时使用。
-origin: ECC
+origin: cc4pm
 ---
 
 # Exa 搜索

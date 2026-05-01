@@ -47,7 +47,7 @@ function runTests() {
   let failed = 0;
 
   if (test('emits canonical dmux snapshots for plan files', () => {
-    const repoRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ecc-orch-status-repo-'));
+    const repoRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-orch-status-repo-'));
 
     try {
       const planPath = path.join(repoRoot, 'workflow.json');

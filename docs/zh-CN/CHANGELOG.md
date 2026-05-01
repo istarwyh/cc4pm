@@ -29,7 +29,7 @@
 * 将会话摘要持久化移至 `Stop`，此处可获得转录负载。
 * 增加了质量门和成本追踪钩子。
 * 用专门的脚本文件替换了脆弱的单行内联钩子。
-* 增加了 `ECC_HOOK_PROFILE` 和 `ECC_DISABLED_HOOKS` 控制。
+* 增加了 `CC4PM_HOOK_PROFILE` 和 `CC4PM_DISABLED_HOOKS` 控制。
 
 ### 跨平台
 

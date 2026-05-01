@@ -49,6 +49,45 @@ The project is organized into several core components:
 - Skill format: Markdown with clear sections for when to use, how it works, examples
 - Hook format: JSON with matcher conditions and command/notification hooks
 
+## Knowledge Graph (graphify)
+
+The `guide/` directory has been indexed into a knowledge graph at `graphify-out/`. Use it to navigate the curriculum structure and find cross-topic connections.
+
+### Quick Commands
+
+```bash
+# Query the graph (BFS - broad context)
+/graphify query "How does the PM workflow connect to design agents?"
+
+# Trace a specific path between two concepts
+/graphify path "BMM" "TDD Workflow"
+
+# Explain a single node
+/graphify explain "Trigger Map"
+
+# Rebuild after guide changes
+/graphify guide/
+```
+
+### Graph Stats (as of 2026-05-01)
+- 90 nodes, 53 edges, 40 communities
+- Core hubs: `John (PM 代理)`, `Bob (敏捷大师)`, `Context Window`, `cc4pm`
+- `graphify-out/graph.html` - interactive visualization (open in browser)
+- `graphify-out/GRAPH_REPORT.md` - full audit report
+
+### Architecture Insight
+
+The graph reveals a hub-and-spoke structure centered on `cc4pm`:
+
+```
+cc4pm
+├── BMM (Business Modeling Method) → John, Mary, Bob (PM agents)
+├── CIS (Creative Intelligence Strategy) → Sophia, Caravaggio (innovation agents)
+└── WDS (Web Design System) → Saga, Freya (UX/design agents)
+```
+
+Stage 1 lessons (CLI basics) are mostly isolated nodes — they describe standalone concepts (shortcuts, tmux, git worktree) without cross-references to the workflow system.
+
 ## Contributing
 
 Follow the formats in CONTRIBUTING.md:

@@ -1,7 +1,7 @@
 ---
 name: enterprise-agent-ops
 description: 通过可观测性、安全边界和生命周期管理来操作长期运行的代理工作负载。
-origin: ECC
+origin: cc4pm
 ---
 
 # 企业级智能体运维

@@ -1,7 +1,7 @@
 ---
 name: backend-patterns
 description: 后端架构模式、API设计、数据库优化以及适用于Node.js、Express和Next.js API路由的服务器端最佳实践。
-origin: ECC
+origin: cc4pm
 ---
 
 # 后端开发模式

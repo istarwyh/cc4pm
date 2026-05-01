@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [{"source": "lesson_7_subagents", "target": "lesson_2_context_window", "relation": "protects", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "guide/lessons/stage-1/lesson-7.md"}], "hyperedges": []}

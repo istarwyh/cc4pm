@@ -34,7 +34,7 @@ Options:
   --with <component>  Include a user-facing install component
   --without <component>
                       Exclude a user-facing install component
-  --config <path>     Load install intent from ecc-install.json
+  --config <path>     Load install intent from cc4pm-install.json
   --target <target>   Filter plan for a specific target
   --json              Emit machine-readable JSON
   --help              Show this help text

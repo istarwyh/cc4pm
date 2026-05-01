@@ -1,7 +1,7 @@
 ---
 name: regex-vs-llm-structured-text
 description: 选择在解析结构化文本时使用正则表达式还是大型语言模型的决策框架——从正则表达式开始，仅在低置信度的边缘情况下添加大型语言模型。
-origin: ECC
+origin: cc4pm
 ---
 
 # 正则表达式 vs LLM 用于结构化文本解析

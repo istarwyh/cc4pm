@@ -1,7 +1,7 @@
 ---
 name: coding-standards
 description: 适用于TypeScript、JavaScript、React和Node.js开发的通用编码标准、最佳实践和模式。
-origin: ECC
+origin: cc4pm
 ---
 
 # 编码标准与最佳实践

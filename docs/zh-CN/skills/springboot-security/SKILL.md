@@ -1,7 +1,7 @@
 ---
 name: springboot-security
 description: Java Spring Boot 服务中认证/授权、验证、CSRF、密钥、标头、速率限制和依赖安全性的 Spring Security 最佳实践。
-origin: ECC
+origin: cc4pm
 ---
 
 # Spring Boot 安全审查

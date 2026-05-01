@@ -169,6 +169,12 @@ A: 目前的可视化面板功能依赖 iTerm2 的 Python API。如果你不用 
 
 A: 每个 Teammate 都是独立的 Claude 实例，各自消耗 token。3 个 Teammate 的讨论大约是单次对话 token 消耗的 3-4 倍。建议用 Sonnet 模型的 Teammate 来控制成本，Lead 用 Opus。
 
+## 相关概念
+
+- **Subagents**（Lesson 7）— Agent Teams 是子代理机制的升级版，支持多向协作
+- **Saga + Freya**（Lesson 17）— WDS 设计系统的专职代理团队
+- **Carson + Victor**（Lesson 11-12）— CIS 创新模块的专职代理团队
+
 ## 下一步
 
 - [1] 进入下一课：Lesson 8 - Hooks 与 Rules：自动化守护

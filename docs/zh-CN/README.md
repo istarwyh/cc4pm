@@ -7,7 +7,7 @@
 [![Contributors](https://img.shields.io/github/contributors/istarwyh/cc4pm?style=flat)](https://github.com/istarwyh/cc4pm/graphs/contributors)
 [![npm cc4pm](https://img.shields.io/npm/dw/cc4pm?label=cc4pm%20weekly%20downloads\&logo=npm)](https://www.npmjs.com/package/cc4pm)
 [![npm ecc-agentshield](https://img.shields.io/npm/dw/ecc-agentshield?label=ecc-agentshield%20weekly%20downloads\&logo=npm)](https://www.npmjs.com/package/ecc-agentshield)
-[![GitHub App Install](https://img.shields.io/badge/GitHub%20App-150%20installs-2ea44f?logo=github)](https://github.com/marketplace/ecc-tools)
+[![GitHub App Install](https://img.shields.io/badge/GitHub%20App-150%20installs-2ea44f?logo=github)](https://github.com/marketplace/cc4pm-tools)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Shell](https://img.shields.io/badge/-Shell-4EAA25?logo=gnu-bash\&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript\&logoColor=white)
@@ -79,7 +79,7 @@
 
 * **平台优先发布** — cc4pm 现在被明确构建为一个智能体平台性能系统，而不仅仅是一个配置包。
 * **钩子可靠性大修** — SessionStart 根回退、Stop 阶段会话摘要，以及用基于脚本的钩子替换脆弱的单行内联钩子。
-* **钩子运行时控制** — `ECC_HOOK_PROFILE=minimal|standard|strict` 和 `ECC_DISABLED_HOOKS=...` 用于运行时门控，无需编辑钩子文件。
+* **钩子运行时控制** — `CC4PM_HOOK_PROFILE=minimal|standard|strict` 和 `CC4PM_DISABLED_HOOKS=...` 用于运行时门控，无需编辑钩子文件。
 * **新平台命令** — `/harness-audit`、`/loop-start`、`/loop-status`、`/quality-gate`、`/model-route`。
 * **NanoClaw v2** — 模型路由、技能热加载、会话分支/搜索/导出/压缩/指标。
 * **跨平台一致性** — 在 Claude Code、Cursor、OpenCode 和 Codex 应用/CLI 中行为更加统一。
@@ -98,7 +98,7 @@
 * **Codex CLI 支持** — 新的 `/codex-setup` 命令生成 `codex.md` 以实现 OpenAI Codex CLI 兼容性
 * **7个新技能** — `search-first`、`swift-actor-persistence`、`swift-protocol-di-testing`、`regex-vs-llm-structured-text`、`content-hash-cache-pattern`、`cost-aware-llm-pipeline`、`skill-stocktake`
 * **AgentShield 集成** — `/security-scan` 技能直接从 Claude Code 运行 AgentShield；1282 项测试，102 条规则
-* **GitHub 市场** — cc4pm Tools GitHub 应用已在 [github.com/marketplace/ecc-tools](https://github.com/marketplace/ecc-tools) 上线，提供免费/专业/企业版
+* **GitHub 市场** — cc4pm Tools GitHub 应用已在 [github.com/marketplace/cc4pm-tools](https://github.com/marketplace/cc4pm-tools) 上线，提供免费/专业/企业版
 * **合并了 30+ 个社区 PR** — 来自 6 种语言的 30 位贡献者的贡献
 * **978项内部测试** — 在代理、技能、命令、钩子和规则方面扩展了验证套件
 
@@ -108,7 +108,7 @@
 
 ### v1.4.0 — 多语言规则、安装向导 & PM2 (2026年2月)
 
-* **交互式安装向导** — 新的 `configure-ecc` 技能提供了带有合并/覆盖检测的引导式设置
+* **交互式安装向导** — 新的 `configure-cc4pm` 技能提供了带有合并/覆盖检测的引导式设置
 * **PM2 & 多智能体编排** — 6 个新命令 (`/pm2`, `/multi-plan`, `/multi-execute`, `/multi-backend`, `/multi-frontend`, `/multi-workflow`) 用于管理复杂的多服务工作流
 * **多语言规则架构** — 规则从扁平文件重组为 `common/` + `typescript/` + `python/` + `golang/` 目录。仅安装您需要的语言
 * **中文 (zh-CN) 翻译** — 所有智能体、命令、技能和规则的完整翻译 (80+ 个文件)
@@ -143,7 +143,7 @@
 /plugin marketplace add istarwyh/cc4pm
 
 # Install plugin
-/plugin install everything-claude-code@everything-claude-code
+/plugin install cc4pm@cc4pm
 ```
 
 ### 步骤 2：安装规则（必需）
@@ -153,7 +153,7 @@
 ```bash
 # Clone the repo first
 git clone https://github.com/istarwyh/cc4pm.git
-cd everything-claude-code
+cd cc4pm
 
 # Recommended: use the installer (handles common + language rules safely)
 ./install.sh typescript    # or python or golang or swift or php
@@ -171,13 +171,13 @@ cd everything-claude-code
 
 ```bash
 # Try a command (plugin install uses namespaced form)
-/everything-claude-code:plan "Add user authentication"
+/cc4pm:plan "Add user authentication"
 
 # Manual install (Option 2) uses the shorter form:
 # /plan "Add user authentication"
 
 # Check available commands
-/plugin list everything-claude-code@everything-claude-code
+/plugin list cc4pm@cc4pm
 ```
 
 ✨ **搞定！** 您现在可以访问 16 个智能体、65 项技能和 40 条命令。
@@ -223,10 +223,10 @@ node scripts/setup-package-manager.js --detect
 
 ```bash
 # Hook strictness profile (default: standard)
-export ECC_HOOK_PROFILE=standard
+export CC4PM_HOOK_PROFILE=standard
 
 # Comma-separated hook IDs to disable
-export ECC_DISABLED_HOOKS="pre:bash:tmux-reminder,post:edit:typecheck"
+export CC4PM_DISABLED_HOOKS="pre:bash:tmux-reminder,post:edit:typecheck"
 ```
 
 ***
@@ -236,7 +236,7 @@ export ECC_DISABLED_HOOKS="pre:bash:tmux-reminder,post:edit:typecheck"
 此仓库是一个 **Claude Code 插件** - 可以直接安装或手动复制组件。
 
 ```
-everything-claude-code/
+cc4pm/
 |-- .claude-plugin/   # 插件和市场清单
 |   |-- plugin.json         # 插件元数据和组件路径
 |   |-- marketplace.json    # 用于 /plugin marketplace add 的市场目录
@@ -290,7 +290,7 @@ everything-claude-code/
 |   |-- springboot-security/        # Spring Boot 安全（新增）
 |   |-- springboot-tdd/             # Spring Boot TDD（新增）
 |   |-- springboot-verification/    # Spring Boot 验证（新增）
-|   |-- configure-ecc/              # 交互式安装向导（新增）
+|   |-- configure-cc4pm/              # 交互式安装向导（新增）
 |   |-- security-scan/              # AgentShield 安全审计集成（新增）
 |   |-- java-coding-standards/     # Java 编码规范（新增）
 |   |-- jpa-patterns/              # JPA/Hibernate 模式（新增）
@@ -434,7 +434,7 @@ everything-claude-code/
 
 适用于高级功能（10k+ 提交、自动 PR、团队共享）：
 
-[安装 GitHub 应用](https://github.com/apps/skill-creator) | [ecc.tools](https://ecc.tools)
+[安装 GitHub 应用](https://github.com/apps/skill-creator) | [cc4pm.tools](https://cc4pm.tools)
 
 ```bash
 # Comment on any issue:
@@ -537,7 +537,7 @@ Duplicate hooks file detected: ./hooks/hooks.json resolves to already-loaded fil
 /plugin marketplace add istarwyh/cc4pm
 
 # Install the plugin
-/plugin install everything-claude-code@everything-claude-code
+/plugin install cc4pm@cc4pm
 ```
 
 或者直接添加到您的 `~/.claude/settings.json`：
@@ -545,7 +545,7 @@ Duplicate hooks file detected: ./hooks/hooks.json resolves to already-loaded fil
 ```json
 {
   "extraKnownMarketplaces": {
-    "everything-claude-code": {
+    "cc4pm": {
       "source": {
         "source": "github",
         "repo": "istarwyh/cc4pm"
@@ -553,7 +553,7 @@ Duplicate hooks file detected: ./hooks/hooks.json resolves to already-loaded fil
     }
   },
   "enabledPlugins": {
-    "everything-claude-code@everything-claude-code": true
+    "cc4pm@cc4pm": true
   }
 }
 ```
@@ -568,16 +568,16 @@ Duplicate hooks file detected: ./hooks/hooks.json resolves to already-loaded fil
 >
 > # 选项 A：用户级规则（适用于所有项目）
 > mkdir -p ~/.claude/rules
-> cp -r everything-claude-code/rules/common/* ~/.claude/rules/
-> cp -r everything-claude-code/rules/typescript/* ~/.claude/rules/   # 选择您的技术栈
-> cp -r everything-claude-code/rules/python/* ~/.claude/rules/
-> cp -r everything-claude-code/rules/golang/* ~/.claude/rules/
-> cp -r everything-claude-code/rules/php/* ~/.claude/rules/
+> cp -r cc4pm/rules/common/* ~/.claude/rules/
+> cp -r cc4pm/rules/typescript/* ~/.claude/rules/   # 选择您的技术栈
+> cp -r cc4pm/rules/python/* ~/.claude/rules/
+> cp -r cc4pm/rules/golang/* ~/.claude/rules/
+> cp -r cc4pm/rules/php/* ~/.claude/rules/
 >
 > # 选项 B：项目级规则（仅适用于当前项目）
 > mkdir -p .claude/rules
-> cp -r everything-claude-code/rules/common/* .claude/rules/
-> cp -r everything-claude-code/rules/typescript/* .claude/rules/     # 选择您的技术栈
+> cp -r cc4pm/rules/common/* .claude/rules/
+> cp -r cc4pm/rules/typescript/* .claude/rules/     # 选择您的技术栈
 > ```
 
 ***
@@ -591,26 +591,26 @@ Duplicate hooks file detected: ./hooks/hooks.json resolves to already-loaded fil
 git clone https://github.com/istarwyh/cc4pm.git
 
 # Copy agents to your Claude config
-cp everything-claude-code/agents/*.md ~/.claude/agents/
+cp cc4pm/agents/*.md ~/.claude/agents/
 
 # Copy rules (common + language-specific)
-cp -r everything-claude-code/rules/common/* ~/.claude/rules/
-cp -r everything-claude-code/rules/typescript/* ~/.claude/rules/   # pick your stack
-cp -r everything-claude-code/rules/python/* ~/.claude/rules/
-cp -r everything-claude-code/rules/golang/* ~/.claude/rules/
-cp -r everything-claude-code/rules/php/* ~/.claude/rules/
+cp -r cc4pm/rules/common/* ~/.claude/rules/
+cp -r cc4pm/rules/typescript/* ~/.claude/rules/   # pick your stack
+cp -r cc4pm/rules/python/* ~/.claude/rules/
+cp -r cc4pm/rules/golang/* ~/.claude/rules/
+cp -r cc4pm/rules/php/* ~/.claude/rules/
 
 # Copy commands
-cp everything-claude-code/commands/*.md ~/.claude/commands/
+cp cc4pm/commands/*.md ~/.claude/commands/
 
 # Copy skills (core vs niche)
 # Recommended (new users): core/general skills only
-cp -r everything-claude-code/.agents/skills/* ~/.claude/skills/
-cp -r everything-claude-code/skills/search-first ~/.claude/skills/
+cp -r cc4pm/.agents/skills/* ~/.claude/skills/
+cp -r cc4pm/skills/search-first ~/.claude/skills/
 
 # Optional: add niche/framework-specific skills only when needed
 # for s in django-patterns django-tdd springboot-patterns; do
-#   cp -r everything-claude-code/skills/$s ~/.claude/skills/
+#   cp -r cc4pm/skills/$s ~/.claude/skills/
 # done
 ```
 
@@ -696,8 +696,8 @@ rules/
 
 | 我想要... | 使用此命令 | 使用的代理 |
 |--------------|-----------------|------------|
-| 规划新功能 | `/everything-claude-code:plan "Add auth"` | planner |
-| 设计系统架构 | `/everything-claude-code:plan` + architect agent | architect |
+| 规划新功能 | `/cc4pm:plan "Add auth"` | planner |
+| 设计系统架构 | `/cc4pm:plan` + architect agent | architect |
 | 先写带测试的代码 | `/tdd` | tdd-guide |
 | 审查我刚写的代码 | `/code-review` | code-reviewer |
 | 修复失败的构建 | `/build-fix` | build-error-resolver |
@@ -714,7 +714,7 @@ rules/
 **开始新功能：**
 
 ```
-/everything-claude-code:plan "Add user authentication with OAuth"
+/cc4pm:plan "Add user authentication with OAuth"
                                               → planner creates implementation blueprint
 /tdd                                          → tdd-guide enforces write-tests-first
 /code-review                                  → code-reviewer checks your work
@@ -744,7 +744,7 @@ rules/
 <summary><b>如何检查已安装的代理/命令？</b></summary>
 
 ```bash
-/plugin list everything-claude-code@everything-claude-code
+/plugin list cc4pm@cc4pm
 ```
 
 这会显示插件中所有可用的代理、命令和技能。
@@ -759,7 +759,7 @@ rules/
 </details>
 
 <details>
-<summary><b>我能否在自定义API端点或模型网关上使用ECC与Claude Code？</b></summary>
+<summary><b>我能否在自定义API端点或模型网关上使用 cc4pm 与 Claude Code？</b></summary>
 
 是的。cc4pm 不会硬编码 Anthropic 托管的传输设置。它通过 Claude Code 正常的 CLI/插件接口在本地运行，因此可以与以下系统配合工作：
 
@@ -809,10 +809,10 @@ claude
 
 ```bash
 # Just agents
-cp everything-claude-code/agents/*.md ~/.claude/agents/
+cp cc4pm/agents/*.md ~/.claude/agents/
 
 # Just rules
-cp -r everything-claude-code/rules/common/* ~/.claude/rules/
+cp -r cc4pm/rules/common/* ~/.claude/rules/
 ```
 
 每个组件都是完全独立的。
@@ -1110,7 +1110,7 @@ OpenCode 的插件系统比 Claude Code 更复杂，有 20 多种事件类型：
 **选项 1：直接使用**
 
 ```bash
-cd everything-claude-code
+cd cc4pm
 opencode
 ```
 

@@ -17,7 +17,7 @@ const {
   listSessions,
   loadHistory,
   appendTurn,
-  loadECCContext,
+  loadCc4pmContext,
   buildPrompt,
   askClaude,
   isValidSessionName,
@@ -29,7 +29,7 @@ const {
   compactSession
 } = require(path.join(__dirname, '..', '..', 'scripts', 'claw.js'));
 
-// Test helper — matches ECC's custom test pattern
+// Test helper — matches cc4pm's custom test pattern
 function test(name, fn) {
   try {
     fn();
@@ -118,17 +118,17 @@ function runTests() {
 
   console.log('\nContext:');
 
-  if (test('loadECCContext() returns "" when no skills specified', () => {
-    const result = loadECCContext('');
+  if (test('loadCc4pmContext() returns "" when no skills specified', () => {
+    const result = loadCc4pmContext('');
     assert.strictEqual(result, '');
   })) passed++; else failed++;
 
-  if (test('loadECCContext() skips missing skill directories gracefully', () => {
-    const result = loadECCContext('nonexistent-skill-xyz');
+  if (test('loadCc4pmContext() skips missing skill directories gracefully', () => {
+    const result = loadCc4pmContext('nonexistent-skill-xyz');
     assert.strictEqual(result, '');
   })) passed++; else failed++;
 
-  if (test('loadECCContext() concatenates multiple skill files', () => {
+  if (test('loadCc4pmContext() concatenates multiple skill files', () => {
     // Use real skills from the cc4pm repo if they exist
     const skillsDir = path.join(process.cwd(), 'skills');
     if (!fs.existsSync(skillsDir)) {
@@ -144,7 +144,7 @@ function runTests() {
       return;
     }
     const twoSkills = available.slice(0, 2).join(',');
-    const result = loadECCContext(twoSkills);
+    const result = loadCc4pmContext(twoSkills);
     assert.ok(result.length > 0, 'Should return non-empty context');
     // Should contain content from both skills
     for (const name of available.slice(0, 2)) {
@@ -198,7 +198,7 @@ function runTests() {
     const claw = require(path.join(__dirname, '..', '..', 'scripts', 'claw.js'));
     const required = [
       'getClawDir', 'getSessionPath', 'listSessions', 'loadHistory',
-      'appendTurn', 'loadECCContext', 'askClaude', 'main'
+      'appendTurn', 'loadCc4pmContext', 'askClaude', 'main'
     ];
     for (const fn of required) {
       assert.strictEqual(typeof claw[fn], 'function',

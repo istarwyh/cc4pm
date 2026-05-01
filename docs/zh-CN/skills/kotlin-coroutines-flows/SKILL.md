@@ -1,7 +1,7 @@
 ---
 name: kotlin-coroutines-flows
 description: Kotlin协程与Flow在Android和KMP中的模式——结构化并发、Flow操作符、StateFlow、错误处理和测试。
-origin: ECC
+origin: cc4pm
 ---
 
 # Kotlin 协程与 Flow

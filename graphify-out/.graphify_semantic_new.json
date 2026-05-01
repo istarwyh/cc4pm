@@ -1,0 +1,1279 @@
+{
+  "nodes": [
+    {
+      "id": "understanding_map_cc4pm",
+      "label": "cc4pm",
+      "file_type": "document",
+      "source_file": "guide/_resources/understanding-map.md"
+    },
+    {
+      "id": "understanding_map_bmm",
+      "label": "BMM (Business Modeling Method)",
+      "file_type": "document",
+      "source_file": "guide/_resources/understanding-map.md"
+    },
+    {
+      "id": "understanding_map_cis",
+      "label": "CIS (Creative Intelligence Strategy)",
+      "file_type": "document",
+      "source_file": "guide/_resources/understanding-map.md"
+    },
+    {
+      "id": "understanding_map_wds",
+      "label": "WDS (Web Design System)",
+      "file_type": "document",
+      "source_file": "guide/_resources/understanding-map.md"
+    },
+    {
+      "id": "lesson_1_2_design_agent_workflow",
+      "label": "Design Agent Workflow",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-3/lesson-1.2.md"
+    },
+    {
+      "id": "lesson_1_2_react_prototype",
+      "label": "No-compile React Prototype",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-3/lesson-1.2.md"
+    },
+    {
+      "id": "lesson_4_sophia",
+      "label": "Sophia Agent",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-3/lesson-4.md"
+    },
+    {
+      "id": "lesson_4_caravaggio",
+      "label": "Caravaggio Agent",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-3/lesson-4.md"
+    },
+    {
+      "id": "lesson_1_saga",
+      "label": "Saga Agent",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-3/lesson-1.md"
+    },
+    {
+      "id": "lesson_1_freya",
+      "label": "Freya Agent",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-3/lesson-1.md"
+    },
+    {
+      "id": "lesson_2_trigger_map",
+      "label": "Trigger Map",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-3/lesson-2.md"
+    },
+    {
+      "id": "lesson_2_positive_drivers",
+      "label": "Positive Drivers",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-3/lesson-2.md"
+    },
+    {
+      "id": "lesson_2_negative_drivers",
+      "label": "Negative Drivers",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-3/lesson-2.md"
+    },
+    {
+      "id": "lesson_3_ux_scenario",
+      "label": "UX Scenario Outline",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-3/lesson-3.md"
+    },
+    {
+      "id": "lesson_1_1_ui_patterns",
+      "label": "UI Patterns",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-3/lesson-1.1.md"
+    },
+    {
+      "id": "lesson_23_6_cliproxyapi",
+      "label": "CLIProxyAPI",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-23.6.md"
+    },
+    {
+      "id": "lesson_23_6_gemini_oauth",
+      "label": "Gemini CLI OAuth",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-23.6.md"
+    },
+    {
+      "id": "lesson_3_4_cattle_vs_pets",
+      "label": "Cattle vs Pets",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-3.4.md"
+    },
+    {
+      "id": "lesson_3_1_harness_engineering",
+      "label": "Harness Engineering",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-3.1.md"
+    },
+    {
+      "id": "lesson_3_1_generator_evaluator",
+      "label": "Generator-Evaluator Separation",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-3.1.md"
+    },
+    {
+      "id": "lesson_22_2_fork_verifier_agent",
+      "label": "fork_verifier_agent",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-22.2.md"
+    },
+    {
+      "id": "lesson_22_2_mentioned_element",
+      "label": "mentioned-element",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-22.2.md"
+    },
+    {
+      "id": "lesson_1_engineering_collaboration",
+      "label": "Engineering Collaboration",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-1.md"
+    },
+    {
+      "id": "lesson_1_planner_agent",
+      "label": "Planner Agent",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-1.md"
+    },
+    {
+      "id": "lesson_2_tdd_workflow",
+      "label": "TDD Workflow",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-2.md"
+    },
+    {
+      "id": "lesson_2_e2e_testing",
+      "label": "E2E Testing",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-2.md"
+    },
+    {
+      "id": "lesson_3_hooks_system",
+      "label": "Hooks System",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-3.md"
+    },
+    {
+      "id": "lesson_3_rules_system",
+      "label": "Rules System",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-3.md"
+    },
+    {
+      "id": "lesson_3_quality_gate",
+      "label": "Quality Gate",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-3.md"
+    },
+    {
+      "id": "lesson_3_2_harness_audit",
+      "label": "harness-audit",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-3.2.md"
+    },
+    {
+      "id": "lesson_3_2_autonomous_loops",
+      "label": "Autonomous Loops",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-3.2.md"
+    },
+    {
+      "id": "lesson_22_1_edd",
+      "label": "Eval-Driven Development (EDD)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-22.1.md"
+    },
+    {
+      "id": "lesson_3_3_helixverify",
+      "label": "HelixVerify",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-3.3.md"
+    },
+    {
+      "id": "lesson_23_5_ccc_supervisor",
+      "label": "ccc Supervisor",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-4/lesson-23.5.md"
+    },
+    {
+      "id": "lesson_1_2_agentic_wiki",
+      "label": "Agentic \u77e5\u8bc6\u5e93 (LLM Wiki)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-5/lesson-1.2.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_1_2_qmd",
+      "label": "QMD (Query Markup Documents)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-5/lesson-1.2.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "stage5_overview_mcp",
+      "label": "MCP \u96c6\u6210",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-5/stage5-overview.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "stage5_overview_learn",
+      "label": "/learn \u6301\u7eed\u5b66\u4e60",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-5/stage5-overview.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "stage5_overview_skill_create",
+      "label": "/skill-create \u63d0\u53d6\u6a21\u5f0f",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-5/stage5-overview.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_24_2_drawio",
+      "label": "Next AI Draw.io",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-5/lesson-24.2.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_24_3_graphify",
+      "label": "graphify \u77e5\u8bc6\u56fe\u8c31",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-5/lesson-24.3.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_14_john",
+      "label": "John (PM \u4ee3\u7406)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-14.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_14_cp",
+      "label": "[CP] \u521b\u5efa PRD \u5de5\u4f5c\u6d41",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-14.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_14_vp",
+      "label": "[VP] \u9a8c\u8bc1 PRD \u5de5\u4f5c\u6d41",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-14.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_14_ep",
+      "label": "[EP] \u7f16\u8f91 PRD \u5de5\u4f5c\u6d41",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-14.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_15_ce",
+      "label": "[CE] \u521b\u5efa Epics \u548c Stories \u5de5\u4f5c\u6d41",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-15.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_15_ir",
+      "label": "[IR] \u5b9e\u73b0\u5c31\u7eea\u68c0\u67e5",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-15.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_11_carson",
+      "label": "Carson (\u5934\u8111\u98ce\u66b4\u6559\u7ec3)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-11.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_11_36_skills",
+      "label": "36\u79cd\u521b\u610f\u6280\u5de7",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-11.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_12_victor",
+      "label": "Victor (\u521b\u65b0\u6218\u7565\u5bb6)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-12.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_12_30_frameworks",
+      "label": "30\u79cd\u521b\u65b0\u6846\u67b6",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-12.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_13_mary",
+      "label": "Mary (\u5206\u6790\u5e08)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-13.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_13_mr",
+      "label": "[MR] \u5e02\u573a\u7814\u7a76",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-13.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_13_dr",
+      "label": "[DR] \u9886\u57df\u7814\u7a76",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-13.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_13_tr",
+      "label": "[TR] \u6280\u672f\u7814\u7a76",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-13.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_6_1_skill_md",
+      "label": "SKILL.md (\u4ea4\u4e92\u5f0f\u8f6f\u4ef6\u4ea4\u4ed8\u5f62\u6001)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-6.1-skill-deep-dive.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_4_1_emotional_vectors",
+      "label": "\u60c5\u7eea\u5411\u91cf (Emotion Vectors)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-4.1.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_4_1_pressure_spectrum",
+      "label": "\u538b\u529b\u5149\u8c31 (13\u79cd\u5473\u9053)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-4.1.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_4_1_three_red_lines",
+      "label": "\u4e09\u6761\u7ea2\u7ebf (\u5e95\u7ebf\u578b\u7ea6\u675f)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-4.1.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_16_bob",
+      "label": "Bob (\u654f\u6377\u5927\u5e08)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-16.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_16_sp",
+      "label": "[SP] \u51b2\u523a\u89c4\u5212",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-16.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_16_ss",
+      "label": "[SS] \u51b2\u523a\u72b6\u6001",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-16.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_16_cs",
+      "label": "[CS] \u521b\u5efa\u6545\u4e8b\u4e0a\u4e0b\u6587",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-16.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_16_cc",
+      "label": "[CC] \u8def\u7ebf\u7ea0\u6b63",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-16.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_16_er",
+      "label": "[ER] Epic \u56de\u987e",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-2/lesson-16.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_7_subagents",
+      "label": "Subagents (\u5b50\u4ee3\u7406\u673a\u5236)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-7-agent-gallery.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_3_1_statusline",
+      "label": "Status Line (\u72b6\u6001\u680f)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-3.1.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "lesson_1_1_agent_loop",
+      "label": "Agent Loop 11 Steps",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-1.1.md"
+    },
+    {
+      "id": "lesson_1_1_system_prompt_assembly",
+      "label": "System Prompt Assembly",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-1.1.md"
+    },
+    {
+      "id": "lesson_2_context_window",
+      "label": "Context Window",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-2.md"
+    },
+    {
+      "id": "lesson_2_compact_command",
+      "label": "/compact Command",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-2.md"
+    },
+    {
+      "id": "lesson_2_clear_command",
+      "label": "/clear Command",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-2.md"
+    },
+    {
+      "id": "lesson_3_context_command",
+      "label": "/context Command",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-3.md"
+    },
+    {
+      "id": "lesson_3_memory_command",
+      "label": "/memory Command",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-3.md"
+    },
+    {
+      "id": "lesson_3_session_management",
+      "label": "Session Management (continue, resume, fork)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-3.md"
+    },
+    {
+      "id": "lesson_3_2_shortcuts",
+      "label": "Keyboard Shortcuts",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-3.2.md"
+    },
+    {
+      "id": "lesson_3_2_tmux",
+      "label": "tmux Integration",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-3.2.md"
+    },
+    {
+      "id": "lesson_3_2_git_worktree",
+      "label": "Git Worktree",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-3.2.md"
+    },
+    {
+      "id": "lesson_4_prompt_precision",
+      "label": "Prompt Precision Strategies",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-4.md"
+    },
+    {
+      "id": "lesson_4_emotional_vectors",
+      "label": "Emotional Vectors",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-4.md",
+      "rationale": "Anthropic research shows 171 emotional vectors in Claude affect its behavior. Stress (desperate vector) makes it take shortcuts, while encouragement (calm vector) promotes exploration."
+    },
+    {
+      "id": "lesson_5_claude_md",
+      "label": "CLAUDE.md",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-5.md",
+      "rationale": "Provides project-specific instructions loaded automatically at the start of each session. Should be concise (30-100 lines) to avoid context bloat."
+    },
+    {
+      "id": "lesson_5_memory_md",
+      "label": "MEMORY.md",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-5.md",
+      "rationale": "Claude's cross-session notebook. First 200 lines automatically loaded into new sessions."
+    },
+    {
+      "id": "lesson_6_commands_vs_skills",
+      "label": "Commands vs Skills",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-6.md"
+    },
+    {
+      "id": "lesson_6_1_skill_anatomy",
+      "label": "Skill Anatomy (SKILL.md, scripts, references)",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-6.1.md"
+    },
+    {
+      "id": "lesson_7_1_agent_teams",
+      "label": "Agent Teams",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-7.1.md",
+      "rationale": "Multiple Claude instances working in parallel, communicating with each other. Useful for multi-role discussions."
+    },
+    {
+      "id": "lesson_8_hooks",
+      "label": "Hooks System",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-8.md",
+      "rationale": "Deterministic scripts triggered at specific lifecycle events (PreToolUse, PostToolUse, etc.). Ensures mandatory checks are always performed."
+    },
+    {
+      "id": "lesson_8_rules",
+      "label": "Rules System",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-8.md",
+      "rationale": "Thematic guidelines loaded automatically. Distinct from CLAUDE.md to allow modular organization."
+    },
+    {
+      "id": "lesson_9_installation",
+      "label": "cc4pm Installation & Setup",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-9.md"
+    },
+    {
+      "id": "lesson_10_plan_mode",
+      "label": "Plan Mode",
+      "file_type": "document",
+      "source_file": "guide/lessons/stage-1/lesson-10.md"
+    },
+    {
+      "id": "anthropic_research_emotion",
+      "label": "Emotion concepts and their function in a large language model",
+      "file_type": "paper",
+      "source_file": "guide/lessons/stage-1/lesson-4-emotional-vectors.wechat.html"
+    }
+  ],
+  "edges": [
+    {
+      "source": "understanding_map_cc4pm",
+      "target": "understanding_map_bmm",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/_resources/understanding-map.md"
+    },
+    {
+      "source": "understanding_map_cc4pm",
+      "target": "understanding_map_cis",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/_resources/understanding-map.md"
+    },
+    {
+      "source": "understanding_map_cc4pm",
+      "target": "understanding_map_wds",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/_resources/understanding-map.md"
+    },
+    {
+      "source": "understanding_map_wds",
+      "target": "lesson_1_saga",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "guide/lessons/stage-3/lesson-1.md"
+    },
+    {
+      "source": "understanding_map_wds",
+      "target": "lesson_1_freya",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "guide/lessons/stage-3/lesson-1.md"
+    },
+    {
+      "source": "understanding_map_cis",
+      "target": "lesson_4_sophia",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "guide/lessons/stage-3/lesson-4.md"
+    },
+    {
+      "source": "understanding_map_cis",
+      "target": "lesson_4_caravaggio",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "guide/lessons/stage-3/lesson-4.md"
+    },
+    {
+      "source": "lesson_2_trigger_map",
+      "target": "lesson_2_positive_drivers",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-3/lesson-2.md"
+    },
+    {
+      "source": "lesson_2_trigger_map",
+      "target": "lesson_2_negative_drivers",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-3/lesson-2.md"
+    },
+    {
+      "source": "lesson_2_trigger_map",
+      "target": "lesson_3_ux_scenario",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-3/lesson-3.md"
+    },
+    {
+      "source": "lesson_23_6_cliproxyapi",
+      "target": "lesson_23_6_gemini_oauth",
+      "relation": "integrates",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "guide/lessons/stage-4/lesson-23.6.md"
+    },
+    {
+      "source": "lesson_1_engineering_collaboration",
+      "target": "lesson_1_planner_agent",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-4/lesson-1.md"
+    },
+    {
+      "source": "lesson_2_tdd_workflow",
+      "target": "lesson_2_e2e_testing",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "guide/lessons/stage-4/lesson-2.md"
+    },
+    {
+      "source": "lesson_3_hooks_system",
+      "target": "lesson_3_quality_gate",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "guide/lessons/stage-4/lesson-3.md"
+    },
+    {
+      "source": "lesson_3_rules_system",
+      "target": "lesson_3_quality_gate",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "guide/lessons/stage-4/lesson-3.md"
+    },
+    {
+      "source": "lesson_3_1_harness_engineering",
+      "target": "lesson_3_1_generator_evaluator",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-4/lesson-3.1.md"
+    },
+    {
+      "source": "lesson_22_1_edd",
+      "target": "lesson_3_1_generator_evaluator",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "guide/lessons/stage-4/lesson-22.1.md"
+    },
+    {
+      "source": "lesson_1_2_agentic_wiki",
+      "target": "lesson_1_2_qmd",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-5/lesson-1.2.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_24_3_graphify",
+      "target": "lesson_1_2_qmd",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-5/lesson-24.3.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_14_john",
+      "target": "lesson_14_cp",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-14.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_14_john",
+      "target": "lesson_14_vp",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-14.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_14_john",
+      "target": "lesson_14_ep",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-14.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_14_john",
+      "target": "lesson_15_ce",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-15.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_14_john",
+      "target": "lesson_15_ir",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-15.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_15_ce",
+      "target": "lesson_14_cp",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-15.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_15_ir",
+      "target": "lesson_15_ce",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-15.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_11_carson",
+      "target": "lesson_11_36_skills",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-11.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_12_victor",
+      "target": "lesson_12_30_frameworks",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-12.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_13_mary",
+      "target": "lesson_13_mr",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_13_mary",
+      "target": "lesson_13_dr",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_13_mary",
+      "target": "lesson_13_tr",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_16_bob",
+      "target": "lesson_16_sp",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-16.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_16_bob",
+      "target": "lesson_16_ss",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-16.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_16_bob",
+      "target": "lesson_16_cs",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-16.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_16_bob",
+      "target": "lesson_16_cc",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-16.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_16_bob",
+      "target": "lesson_16_er",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-16.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_4_1_pressure_spectrum",
+      "target": "lesson_4_1_emotional_vectors",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-1/lesson-4.1.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_4_1_pressure_spectrum",
+      "target": "lesson_4_1_three_red_lines",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-1/lesson-4.1.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "stage5_overview_skill_create",
+      "target": "stage5_overview_learn",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-5/stage5-overview.html",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_16_sp",
+      "target": "lesson_15_ce",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-16.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_14_cp",
+      "target": "lesson_13_mr",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-13.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_12_30_frameworks",
+      "target": "lesson_11_36_skills",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-2/lesson-12.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "lesson_1_1_agent_loop",
+      "target": "lesson_1_1_system_prompt_assembly",
+      "relation": "includes",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-1/lesson-1.1.md"
+    },
+    {
+      "source": "lesson_1_1_system_prompt_assembly",
+      "target": "lesson_5_claude_md",
+      "relation": "loads",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-1/lesson-1.1.md"
+    },
+    {
+      "source": "lesson_1_1_system_prompt_assembly",
+      "target": "lesson_8_rules",
+      "relation": "loads",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-1/lesson-1.1.md"
+    },
+    {
+      "source": "lesson_2_context_window",
+      "target": "lesson_2_compact_command",
+      "relation": "managed_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-1/lesson-2.md"
+    },
+    {
+      "source": "lesson_2_context_window",
+      "target": "lesson_2_clear_command",
+      "relation": "managed_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-1/lesson-2.md"
+    },
+    {
+      "source": "lesson_3_context_command",
+      "target": "lesson_2_context_window",
+      "relation": "inspects",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-1/lesson-3.md"
+    },
+    {
+      "source": "lesson_3_memory_command",
+      "target": "lesson_5_memory_md",
+      "relation": "manages",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-1/lesson-3.md"
+    },
+    {
+      "source": "lesson_4_emotional_vectors",
+      "target": "anthropic_research_emotion",
+      "relation": "cites",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-1/lesson-4-emotional-vectors.wechat.html"
+    },
+    {
+      "source": "lesson_7_subagents",
+      "target": "lesson_2_context_window",
+      "relation": "protects",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "guide/lessons/stage-1/lesson-7.md"
+    },
+    {
+      "source": "lesson_8_hooks",
+      "target": "lesson_5_claude_md",
+      "relation": "complements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "guide/lessons/stage-1/lesson-8.md"
+    },
+    {
+      "source": "lesson_10_plan_mode",
+      "target": "lesson_7_subagents",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "guide/lessons/stage-1/lesson-10.md"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "stage_3_wds_pipeline",
+      "label": "WDS Pipeline Components",
+      "nodes": [
+        "lesson_1_saga",
+        "lesson_1_freya",
+        "lesson_2_trigger_map",
+        "lesson_3_ux_scenario"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "guide/lessons/stage-3/stage3-overview.html"
+    },
+    {
+      "id": "stage_4_engineering_collaboration",
+      "label": "Engineering Collaboration Tools",
+      "nodes": [
+        "lesson_1_planner_agent",
+        "lesson_2_tdd_workflow",
+        "lesson_3_hooks_system",
+        "lesson_3_rules_system",
+        "lesson_3_quality_gate"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "guide/lessons/stage-4/stage4-overview.html"
+    },
+    {
+      "id": "bmm_agents",
+      "label": "BMM \u6838\u5fc3\u4ee3\u7406\u56e2\u961f",
+      "nodes": [
+        "lesson_14_john",
+        "lesson_13_mary",
+        "lesson_16_bob"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "guide/lessons/stage-2/lesson-16.md"
+    },
+    {
+      "id": "cis_agents",
+      "label": "CIS \u6838\u5fc3\u4ee3\u7406\u56e2\u961f",
+      "nodes": [
+        "lesson_11_carson",
+        "lesson_12_victor"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "guide/lessons/stage-2/lesson-12.md"
+    },
+    {
+      "id": "cc4pm_context_management",
+      "label": "Context Management Strategies",
+      "nodes": [
+        "lesson_2_context_window",
+        "lesson_2_compact_command",
+        "lesson_2_clear_command",
+        "lesson_3_context_command",
+        "lesson_7_subagents"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "guide/lessons/stage-1/"
+    },
+    {
+      "id": "cc4pm_extension_system",
+      "label": "Claude Code Extension System",
+      "nodes": [
+        "lesson_5_claude_md",
+        "lesson_8_rules",
+        "lesson_6_commands_vs_skills",
+        "lesson_7_subagents",
+        "lesson_8_hooks"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "guide/lessons/stage-1/lesson-5-directory-guide.html"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

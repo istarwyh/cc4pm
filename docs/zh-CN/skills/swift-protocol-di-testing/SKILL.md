@@ -1,7 +1,7 @@
 ---
 name: swift-protocol-di-testing
 description: 基于协议的依赖注入，用于可测试的Swift代码——使用聚焦协议和Swift Testing模拟文件系统、网络和外部API。
-origin: ECC
+origin: cc4pm
 ---
 
 # 基于协议的 Swift 依赖注入测试

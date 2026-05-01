@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "cc4pm Install Components",
+  "description": "User-facing component groupings for --with / --without flags during install.",
+  "type": "object",
+  "required": ["version", "components"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "number" },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "family", "description", "modules"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "family": {
+            "type": "string",
+            "enum": ["baseline", "language", "framework", "capability"]
+          },
+          "description": { "type": "string" },
+          "modules": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        }
+      }
+    }
+  }
+}

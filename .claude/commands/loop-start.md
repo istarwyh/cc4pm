@@ -22,7 +22,7 @@ Start a managed autonomous loop pattern with safety defaults.
 ## Required Safety Checks
 
 - Verify tests pass before first loop iteration.
-- Ensure `ECC_HOOK_PROFILE` is not disabled globally.
+- Ensure `CC4PM_HOOK_PROFILE` is not disabled globally.
 - Ensure loop has explicit stop condition.
 
 ## Arguments

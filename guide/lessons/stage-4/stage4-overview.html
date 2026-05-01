@@ -325,12 +325,12 @@ function switchTab(id){
   envCard.className = 'card';
   envCard.innerHTML = `<h3>Hook 环境变量控制</h3>
 <div class="env-table">
-  <div class="env-row"><span class="env-var">ECC_HOOK_PROFILE=minimal</span><span class="env-desc">只运行 4 个核心 Hook(session-start/end + evaluate + cost)</span></div>
-  <div class="env-row"><span class="env-var">ECC_HOOK_PROFILE=standard</span><span class="env-desc">运行 17 个 Hook(默认值)</span></div>
-  <div class="env-row"><span class="env-var">ECC_HOOK_PROFILE=strict</span><span class="env-desc">运行全部 21 个 Hook</span></div>
-  <div class="env-row"><span class="env-var">ECC_DISABLED_HOOKS=hook1,hook2</span><span class="env-desc">精确禁用指定 Hook(逗号分隔)</span></div>
-  <div class="env-row"><span class="env-var">ECC_ENABLE_INSAITS=1</span><span class="env-desc">启用 AI 安全监控(需 pip install insa-its)</span></div>
-  <div class="env-row"><span class="env-var">ECC_QUALITY_GATE_STRICT=1</span><span class="env-desc">质量门禁严格模式</span></div>
+  <div class="env-row"><span class="env-var">CC4PM_HOOK_PROFILE=minimal</span><span class="env-desc">只运行 4 个核心 Hook(session-start/end + evaluate + cost)</span></div>
+  <div class="env-row"><span class="env-var">CC4PM_HOOK_PROFILE=standard</span><span class="env-desc">运行 17 个 Hook(默认值)</span></div>
+  <div class="env-row"><span class="env-var">CC4PM_HOOK_PROFILE=strict</span><span class="env-desc">运行全部 21 个 Hook</span></div>
+  <div class="env-row"><span class="env-var">CC4PM_DISABLED_HOOKS=hook1,hook2</span><span class="env-desc">精确禁用指定 Hook(逗号分隔)</span></div>
+  <div class="env-row"><span class="env-var">CC4PM_ENABLE_INSAITS=1</span><span class="env-desc">启用 AI 安全监控(需 pip install insa-its)</span></div>
+  <div class="env-row"><span class="env-var">CC4PM_QUALITY_GATE_STRICT=1</span><span class="env-desc">质量门禁严格模式</span></div>
   <div class="env-row"><span class="env-var">COMPACT_THRESHOLD=50</span><span class="env-desc">压缩建议阈值(默认 50 次工具调用)</span></div>
 </div>`;
   p.appendChild(envCard);

@@ -334,6 +334,11 @@ A: 运行 `/statusline remove`，或者手动从 `settings.json` 中删除 `stat
 
 A: 可以，但需要用 PowerShell 或 Git Bash 脚本替代 Bash 脚本。语法不同但原理相同。
 
+## 相关概念
+
+- **/context Command**（Lesson 3）— Status Line 是 /context 的持久化版本，实时显示而非按需查询
+- **Context Window**（Lesson 2）— Status Line 直接反映上下文窗口的使用率
+
 ## 下一步
 
 - [1] 进入下一课：Lesson 3.2 - 效率工作流：快捷键、编辑器与 tmux

@@ -1,0 +1,1 @@
+{"nodes": [], "edges": [], "hyperedges": [{"id": "cc4pm_extension_system", "label": "Claude Code Extension System", "nodes": ["lesson_5_claude_md", "lesson_8_rules", "lesson_6_commands_vs_skills", "lesson_7_subagents", "lesson_8_hooks"], "relation": "form", "confidence": "INFERRED", "confidence_score": 0.9, "source_file": "guide/lessons/stage-1/lesson-5-directory-guide.html"}]}

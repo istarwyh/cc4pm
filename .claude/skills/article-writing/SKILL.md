@@ -1,7 +1,7 @@
 ---
 name: article-writing
 description: Write articles, guides, blog posts, tutorials, newsletter issues, and other long-form content in a distinctive voice derived from supplied examples or brand guidance. Use when the user wants polished written content longer than a paragraph, especially when voice consistency, structure, and credibility matter.
-origin: ECC
+origin: cc4pm
 ---
 
 # Article Writing

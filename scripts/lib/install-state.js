@@ -50,7 +50,7 @@ function assertValidInstallState(state, label) {
 function createInstallState(options) {
   const installedAt = options.installedAt || new Date().toISOString();
   const state = {
-    schemaVersion: 'ecc.install.v1',
+    schemaVersion: 'cc4pm.install.v1',
     installedAt,
     target: {
       id: options.adapter.id,

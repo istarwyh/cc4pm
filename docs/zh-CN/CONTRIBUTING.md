@@ -94,7 +94,7 @@ skills/
 ---
 name: your-skill-name
 description: Brief description shown in skill list
-origin: ECC
+origin: cc4pm
 ---
 
 # 你的技能标题

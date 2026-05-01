@@ -5,5 +5,5 @@ module.exports = createInstallTargetAdapter({
   target: 'antigravity',
   kind: 'project',
   rootSegments: ['.agent'],
-  installStatePathSegments: ['ecc-install-state.json'],
+  installStatePathSegments: ['cc4pm-install-state.json'],
 });

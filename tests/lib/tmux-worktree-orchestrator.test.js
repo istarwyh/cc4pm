@@ -52,7 +52,7 @@ test('renderTemplate rejects unknown placeholders', () => {
 
 console.log('\nPlan generation:');
 test('buildOrchestrationPlan creates worktrees, branches, and tmux commands', () => {
-  const repoRoot = path.join('/tmp', 'ecc');
+  const repoRoot = path.join('/tmp', 'cc4pm');
   const plan = buildOrchestrationPlan({
     repoRoot,
     sessionName: 'Skill Audit',
@@ -74,7 +74,7 @@ test('buildOrchestrationPlan creates worktrees, branches, and tmux commands', ()
     'Should create branch-backed worktrees'
   );
   assert.ok(
-    plan.workerPlans[0].worktreePath.endsWith(path.join('ecc-skill-audit-docs-a')),
+    plan.workerPlans[0].worktreePath.endsWith(path.join('cc4pm-skill-audit-docs-a')),
     'Should create sibling worktree path'
   );
   assert.ok(
@@ -106,7 +106,7 @@ test('buildOrchestrationPlan creates worktrees, branches, and tmux commands', ()
 test('buildOrchestrationPlan requires at least one worker', () => {
   assert.throws(
     () => buildOrchestrationPlan({
-      repoRoot: '/tmp/ecc',
+      repoRoot: '/tmp/cc4pm',
       sessionName: 'empty',
       launcherCommand: 'codex exec --task-file {task_file}',
       workers: []
@@ -117,7 +117,7 @@ test('buildOrchestrationPlan requires at least one worker', () => {
 
 test('buildOrchestrationPlan normalizes global and worker seed paths', () => {
   const plan = buildOrchestrationPlan({
-    repoRoot: '/tmp/ecc',
+    repoRoot: '/tmp/cc4pm',
     sessionName: 'seeded',
     launcherCommand: 'echo run',
     seedPaths: ['scripts/orchestrate-worktrees.js', './.claude/plan/workflow-e2e-test.json'],
@@ -139,13 +139,13 @@ test('buildOrchestrationPlan normalizes global and worker seed paths', () => {
 
 test('normalizeSeedPaths rejects paths outside the repo root', () => {
   assert.throws(
-    () => normalizeSeedPaths(['../outside.txt'], '/tmp/ecc'),
+    () => normalizeSeedPaths(['../outside.txt'], '/tmp/cc4pm'),
     /inside repoRoot/
   );
 });
 
 test('materializePlan keeps worker instructions inside the worktree boundary', () => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ecc-orchestrator-test-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-orchestrator-test-'));
 
   try {
     const plan = buildOrchestrationPlan({
@@ -182,7 +182,7 @@ test('materializePlan keeps worker instructions inside the worktree boundary', (
 });
 
 test('overlaySeedPaths copies local overlays into the worker worktree', () => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ecc-orchestrator-overlay-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-orchestrator-overlay-'));
   const repoRoot = path.join(tempRoot, 'repo');
   const worktreePath = path.join(tempRoot, 'worktree');
 

@@ -168,6 +168,14 @@
       "modules": [
         "orchestration"
       ]
+    },
+    {
+      "id": "capability:guide",
+      "family": "capability",
+      "description": "Interactive cc4pm courseware and coaching for product makers.",
+      "modules": [
+        "cc4pm-guide"
+      ]
     }
   ]
 }

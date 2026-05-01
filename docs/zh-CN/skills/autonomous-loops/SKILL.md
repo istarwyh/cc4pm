@@ -1,7 +1,7 @@
 ---
 name: autonomous-loops
 description: "自主Claude代码循环的模式与架构——从简单的顺序管道到基于RFC的多智能体有向无环图系统。"
-origin: ECC
+origin: cc4pm
 ---
 
 # 自主循环技能

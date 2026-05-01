@@ -111,7 +111,7 @@ test('parseWorkerHandoff also supports bold section headers', () => {
 });
 
 test('loadWorkerSnapshots reads coordination worker directories', () => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ecc-orch-session-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-orch-session-'));
   const coordinationDir = path.join(tempRoot, 'coordination');
   const workerDir = path.join(coordinationDir, 'seed-check');
   const proofDir = path.join(coordinationDir, 'proof');
@@ -150,7 +150,7 @@ test('loadWorkerSnapshots reads coordination worker directories', () => {
 });
 
 test('buildSessionSnapshot merges tmux panes with worker metadata', () => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ecc-orch-snapshot-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-orch-snapshot-'));
   const coordinationDir = path.join(tempRoot, 'coordination');
   const workerDir = path.join(coordinationDir, 'seed-check');
   fs.mkdirSync(workerDir, { recursive: true });
@@ -198,7 +198,7 @@ test('listTmuxPanes returns an empty array when tmux is unavailable', () => {
 });
 
 test('resolveSnapshotTarget handles plan files and direct session names', () => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ecc-orch-target-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-orch-target-'));
   const repoRoot = path.join(tempRoot, 'repo');
   fs.mkdirSync(repoRoot, { recursive: true });
   const planPath = path.join(repoRoot, 'plan.json');

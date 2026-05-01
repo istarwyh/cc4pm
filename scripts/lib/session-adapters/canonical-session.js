@@ -2,7 +2,7 @@
 
 const path = require('path');
 
-const SESSION_SCHEMA_VERSION = 'ecc.session.v1';
+const SESSION_SCHEMA_VERSION = 'cc4pm.session.v1';
 
 function buildAggregates(workers) {
   const states = workers.reduce((accumulator, worker) => {

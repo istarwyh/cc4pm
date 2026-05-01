@@ -3,8 +3,8 @@
  * Shared hook enable/disable controls.
  *
  * Controls:
- * - ECC_HOOK_PROFILE=minimal|standard|strict (default: standard)
- * - ECC_DISABLED_HOOKS=comma,separated,hook,ids
+ * - CC4PM_HOOK_PROFILE=minimal|standard|strict (default: standard)
+ * - CC4PM_DISABLED_HOOKS=comma,separated,hook,ids
  */
 
 'use strict';
@@ -16,12 +16,12 @@ function normalizeId(value) {
 }
 
 function getHookProfile() {
-  const raw = String(process.env.ECC_HOOK_PROFILE || 'standard').trim().toLowerCase();
+  const raw = String(process.env.CC4PM_HOOK_PROFILE || 'standard').trim().toLowerCase();
   return VALID_PROFILES.has(raw) ? raw : 'standard';
 }
 
 function getDisabledHookIds() {
-  const raw = String(process.env.ECC_DISABLED_HOOKS || '');
+  const raw = String(process.env.CC4PM_DISABLED_HOOKS || '');
   if (!raw.trim()) return new Set();
 
   return new Set(

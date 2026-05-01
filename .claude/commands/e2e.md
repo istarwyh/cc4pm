@@ -337,7 +337,7 @@ For PMX, prioritize these E2E tests:
 
 ## Related Agents
 
-This command invokes the `e2e-runner` agent provided by ECC.
+This command invokes the `e2e-runner` agent provided by cc4pm.
 
 For manual installs, the source file lives at:
 `agents/e2e-runner.md`

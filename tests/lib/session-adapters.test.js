@@ -97,7 +97,7 @@ test('dmux adapter normalizes orchestration snapshots into canonical form', () =
 
   const snapshot = adapter.open('workflow-visual-proof').getSnapshot();
 
-  assert.strictEqual(snapshot.schemaVersion, 'ecc.session.v1');
+  assert.strictEqual(snapshot.schemaVersion, 'cc4pm.session.v1');
   assert.strictEqual(snapshot.adapterId, 'dmux-tmux');
   assert.strictEqual(snapshot.session.id, 'workflow-visual-proof');
   assert.strictEqual(snapshot.session.kind, 'orchestrated');
@@ -108,7 +108,7 @@ test('dmux adapter normalizes orchestration snapshots into canonical form', () =
 });
 
 test('claude-history adapter loads the latest recorded session', () => {
-  const homeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ecc-session-adapter-home-'));
+  const homeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-session-adapter-home-'));
   const sessionsDir = path.join(homeDir, '.claude', 'sessions');
   fs.mkdirSync(sessionsDir, { recursive: true });
 
@@ -121,7 +121,7 @@ test('claude-history adapter loads the latest recorded session', () => {
     '**Last Updated:** 11:30',
     '**Project:** everything-claude-code',
     '**Branch:** feat/session-adapter',
-    '**Worktree:** /tmp/ecc-worktree',
+    '**Worktree:** /tmp/cc4pm-worktree',
     '',
     '### Completed',
     '- [x] Build snapshot prototype',
@@ -143,13 +143,13 @@ test('claude-history adapter loads the latest recorded session', () => {
       const adapter = createClaudeHistoryAdapter();
       const snapshot = adapter.open('claude:latest').getSnapshot();
 
-      assert.strictEqual(snapshot.schemaVersion, 'ecc.session.v1');
+      assert.strictEqual(snapshot.schemaVersion, 'cc4pm.session.v1');
       assert.strictEqual(snapshot.adapterId, 'claude-history');
       assert.strictEqual(snapshot.session.kind, 'history');
       assert.strictEqual(snapshot.session.state, 'recorded');
       assert.strictEqual(snapshot.workers.length, 1);
       assert.strictEqual(snapshot.workers[0].branch, 'feat/session-adapter');
-      assert.strictEqual(snapshot.workers[0].worktree, '/tmp/ecc-worktree');
+      assert.strictEqual(snapshot.workers[0].worktree, '/tmp/cc4pm-worktree');
       assert.strictEqual(snapshot.workers[0].runtime.kind, 'claude-session');
       assert.strictEqual(snapshot.workers[0].artifacts.sessionFile, sessionPath);
       assert.ok(snapshot.workers[0].outputs.summary.includes('Build snapshot prototype'));
@@ -160,7 +160,7 @@ test('claude-history adapter loads the latest recorded session', () => {
 });
 
 test('adapter registry routes plan files to dmux and explicit claude targets to history', () => {
-  const repoRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ecc-session-registry-repo-'));
+  const repoRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-session-registry-repo-'));
   const planPath = path.join(repoRoot, 'workflow.json');
   fs.writeFileSync(planPath, JSON.stringify({
     sessionName: 'workflow-visual-proof',
@@ -168,7 +168,7 @@ test('adapter registry routes plan files to dmux and explicit claude targets to 
     coordinationRoot: path.join(repoRoot, '.claude', 'orchestration')
   }));
 
-  const homeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ecc-session-registry-home-'));
+  const homeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-session-registry-home-'));
   const sessionsDir = path.join(homeDir, '.claude', 'sessions');
   fs.mkdirSync(sessionsDir, { recursive: true });
   fs.writeFileSync(
@@ -211,7 +211,7 @@ test('adapter registry routes plan files to dmux and explicit claude targets to 
 });
 
 test('adapter registry resolves structured target types into the correct adapter', () => {
-  const repoRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'ecc-session-typed-repo-'));
+  const repoRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-session-typed-repo-'));
   const planPath = path.join(repoRoot, 'workflow.json');
   fs.writeFileSync(planPath, JSON.stringify({
     sessionName: 'workflow-typed-proof',
@@ -219,7 +219,7 @@ test('adapter registry resolves structured target types into the correct adapter
     coordinationRoot: path.join(repoRoot, '.claude', 'orchestration')
   }));
 
-  const homeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ecc-session-typed-home-'));
+  const homeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-session-typed-home-'));
   const sessionsDir = path.join(homeDir, '.claude', 'sessions');
   fs.mkdirSync(sessionsDir, { recursive: true });
   fs.writeFileSync(

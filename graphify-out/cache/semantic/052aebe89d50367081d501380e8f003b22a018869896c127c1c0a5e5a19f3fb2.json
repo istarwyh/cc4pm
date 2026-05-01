@@ -1,0 +1,1 @@
+{"nodes": [{"id": "lesson_7_1_agent_teams", "label": "Agent Teams", "file_type": "document", "source_file": "guide/lessons/stage-1/lesson-7.1.md", "rationale": "Multiple Claude instances working in parallel, communicating with each other. Useful for multi-role discussions."}], "edges": [], "hyperedges": []}

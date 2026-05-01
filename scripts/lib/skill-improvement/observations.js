@@ -4,14 +4,14 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const OBSERVATION_SCHEMA_VERSION = 'ecc.skill-observation.v1';
+const OBSERVATION_SCHEMA_VERSION = 'cc4pm.skill-observation.v1';
 
 function resolveProjectRoot(options = {}) {
   return path.resolve(options.projectRoot || options.cwd || process.cwd());
 }
 
 function getSkillTelemetryRoot(options = {}) {
-  return path.join(resolveProjectRoot(options), '.claude', 'ecc', 'skills');
+  return path.join(resolveProjectRoot(options), '.claude', 'cc4pm', 'skills');
 }
 
 function getSkillObservationsPath(options = {}) {

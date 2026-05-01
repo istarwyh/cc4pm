@@ -1,7 +1,7 @@
 ---
 name: continuous-learning
 description: 自动从Claude Code会话中提取可重复使用的模式，并将其保存为学习到的技能以供将来使用。
-origin: ECC
+origin: cc4pm
 ---
 
 # 持续学习技能

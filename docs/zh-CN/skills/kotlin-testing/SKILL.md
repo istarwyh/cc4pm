@@ -1,7 +1,7 @@
 ---
 name: kotlin-testing
 description: 使用Kotest、MockK、协程测试、基于属性的测试和Kover覆盖率的Kotlin测试模式。遵循TDD方法论和地道的Kotlin实践。
-origin: ECC
+origin: cc4pm
 ---
 
 # Kotlin 测试模式

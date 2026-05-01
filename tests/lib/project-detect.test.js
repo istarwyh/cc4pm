@@ -36,7 +36,7 @@ function test(name, fn) {
 
 // Create a temporary directory for testing
 function createTempDir() {
-  return fs.mkdtempSync(path.join(os.tmpdir(), 'ecc-test-'));
+  return fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-test-'));
 }
 
 // Clean up temp directory

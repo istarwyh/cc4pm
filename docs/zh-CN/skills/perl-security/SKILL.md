@@ -1,7 +1,7 @@
 ---
 name: perl-security
 description: 全面的Perl安全指南，涵盖污染模式、输入验证、安全进程执行、DBI参数化查询、Web安全（XSS/SQLi/CSRF）以及perlcritic安全策略。
-origin: ECC
+origin: cc4pm
 ---
 
 # Perl 安全模式

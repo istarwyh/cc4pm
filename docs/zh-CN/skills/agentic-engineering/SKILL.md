@@ -1,7 +1,7 @@
 ---
 name: agentic-engineering
 description: 作为代理工程师，采用评估优先执行、分解和成本感知模型路由进行操作。
-origin: ECC
+origin: cc4pm
 ---
 
 # 智能体工程

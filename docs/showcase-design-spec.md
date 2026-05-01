@@ -188,7 +188,7 @@ easing: cubic-bezier(0.25, 0.46, 0.45, 0.94)  // ease-out-quad
 - 滚动超过 80px 后加 `box-shadow: 0 1px 12px rgba(0,0,0,0.3)`
 
 ### 内容 (左 -- 中 -- 右)
-- **左**: 项目名 `ECC` 用 `--font-mono`，20px，700 weight，`--text-primary` 色。旁边 version badge `v1.8.0`，12px，`--text-muted`，带 `--border-default` 边框圆角pill
+- **左**: 项目名 `cc4pm` 用 `--font-mono`，20px，700 weight，`--text-primary` 色。旁边 version badge `v1.8.0`，12px，`--text-muted`，带 `--border-default` 边框圆角pill
 - **中**: 锚点链接 -- `架构` | `能力` | `平台` | `安装` | `社区`，14px，`--text-secondary`，hover 变 `--text-primary`，当前 section 高亮为 `--cta-from` 色
 - **右**: GitHub Star 按钮 (小尺寸, 内联 SVG star 图标 + "Star" 文字 + "50K+" 数字)
 
@@ -257,8 +257,8 @@ easing: cubic-bezier(0.25, 0.46, 0.45, 0.94)  // ease-out-quad
 6. **安装命令预览** (入场: fade-up, delay 500ms)
    - 终端风格容器，`background: var(--bg-card); border: 1px solid var(--border-default); border-radius: 12px; padding: 16px 20px; max-width: 520px; margin: 24px auto 0;`
    - 顶部: 三个小圆点(12px, `#EF4444` `#F59E0B` `#10B981`)，右侧复制按钮
-   - 内容: `$ npx ecc typescript` 用 `--font-mono`，`$` 符号用 `--terminal-green`，命令用 `--text-primary`
-   - 复制按钮: 点击后复制 `npx ecc typescript` 到剪贴板，图标变为 check mark 2s
+   - 内容: `$ npx cc4pm typescript` 用 `--font-mono`，`$` 符号用 `--terminal-green`，命令用 `--text-primary`
+   - 复制按钮: 点击后复制 `npx cc4pm typescript` 到剪贴板，图标变为 check mark 2s
 
 ### 动画
 - 背景网格线有轻微视差: `transform: translateY(calc(var(--scroll-y) * 0.05))` (通过 JS scroll listener 设置 CSS 变量)
@@ -281,7 +281,7 @@ easing: cubic-bezier(0.25, 0.46, 0.45, 0.94)  // ease-out-quad
 
 - **中心节点**:
   - 圆形，120px 直径，`background: var(--bg-card); border: 2px solid var(--border-highlight);`
-  - 内容: `ECC` 文字 + `v1.8.0` 小字
+  - 内容: `cc4pm` 文字 + `v1.8.0` 小字
   - 6 条连接线从中心射出到各节点(SVG line，`stroke: var(--border-default); stroke-width: 1; stroke-dasharray: 4 4;`)
   - 连接线有流动动画: `stroke-dashoffset` 从 0 到 -8，duration 1.5s，infinite
 
@@ -415,10 +415,10 @@ transition: all 250ms ease-out;
 
 | 平台 | 图标描述 | 安装命令 | 描述 |
 |---|---|---|---|
-| Claude Code | 终端 `>_` 图标，`--cta-from`色 | `npx ecc typescript` | 原生支持，完整功能集。agents/skills/hooks/commands/rules 全覆盖 |
-| Cursor | 光标箭头图标，`#00D1FF`色 | `npx ecc --target cursor` | 适配 Cursor IDE，rules/hooks/skills 迁移 |
-| Codex | 代码块`</>` 图标，`#10B981`色 | `npx ecc --target codex` | OpenAI Codex CLI 兼容，agents/config 适配 |
-| OpenCode | 齿轮图标，`#F59E0B`色 | `npx ecc --target opencode` | OpenCode 适配，commands/tools/plugins 迁移 |
+| Claude Code | 终端 `>_` 图标，`--cta-from`色 | `npx cc4pm typescript` | 原生支持，完整功能集。agents/skills/hooks/commands/rules 全覆盖 |
+| Cursor | 光标箭头图标，`#00D1FF`色 | `npx cc4pm --target cursor` | 适配 Cursor IDE，rules/hooks/skills 迁移 |
+| Codex | 代码块`</>` 图标，`#10B981`色 | `npx cc4pm --target codex` | OpenAI Codex CLI 兼容，agents/config 适配 |
+| OpenCode | 齿轮图标，`#F59E0B`色 | `npx cc4pm --target opencode` | OpenCode 适配，commands/tools/plugins 迁移 |
 
 ### 卡片样式
 - `background: var(--bg-card); border: 1px solid var(--border-default); border-radius: 16px; padding: 32px; text-align: center; flex: 1;`
@@ -452,7 +452,7 @@ transition: all 250ms ease-out;
 ```
 场景 1 (延迟 500ms 开始):
   显示提示符: "~ $" (--terminal-green)
-  逐字打出: "npx ecc typescript" (--text-primary)
+  逐字打出: "npx cc4pm typescript" (--text-primary)
   打字速度: 每字符 60ms
 
 场景 2 (场景1完成后延迟 400ms):

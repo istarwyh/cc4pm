@@ -190,6 +190,53 @@ function patchSkillMd(newTable) {
   return { changed: true };
 }
 
+// ── validate meta counts ──────────────────────────────────────────────
+function validateMeta(courseMap) {
+  const actualMain = courseMap.stages.reduce(
+    (sum, s) => sum + s.lessons.filter((l) => !l.supplementary).length, 0
+  );
+  const actualSupp = courseMap.stages.reduce(
+    (sum, s) => sum + s.lessons.filter((l) => l.supplementary).length, 0
+  );
+  const issues = [];
+
+  if (courseMap.meta.total_lessons !== actualMain) {
+    issues.push(
+      `❌ meta.total_lessons is ${courseMap.meta.total_lessons} but actual main lessons = ${actualMain}`
+    );
+  }
+  if (courseMap.meta.supplementary_lessons !== actualSupp) {
+    issues.push(
+      `❌ meta.supplementary_lessons is ${courseMap.meta.supplementary_lessons} but actual supplementary = ${actualSupp}`
+    );
+  }
+  return { issues, actualMain, actualSupp };
+}
+
+// ── sync "预计用时" line in SKILL.md ───────────────────────────────────
+const ESTIMATE_RE = /^- 完整学习：约.*分钟.*$/m;
+
+function patchEstimateLine(actualMain, actualSupp) {
+  if (!fs.existsSync(SKILL_MD)) {
+    return { changed: false, error: 'SKILL.md not found' };
+  }
+  const content = fs.readFileSync(SKILL_MD, 'utf8');
+  const match = content.match(ESTIMATE_RE);
+  if (!match) {
+    return { changed: false, error: '"预计用时" line not found in SKILL.md' };
+  }
+
+  const newLine = `- 完整学习：约 90-120 分钟（5 个阶段，${actualMain} 节课 + ${actualSupp} 个补充课）`;
+  if (match[0] === newLine) {
+    return { changed: false };
+  }
+
+  if (!DRY_RUN && !CHECK_MODE) {
+    fs.writeFileSync(SKILL_MD, content.replace(ESTIMATE_RE, newLine), 'utf8');
+  }
+  return { changed: true, old: match[0], new: newLine };
+}
+
 // ── health report ──────────────────────────────────────────────────────
 function healthReport(lessons, defaultMaxLines) {
   const warnings = [];
@@ -274,7 +321,32 @@ function main() {
     console.log('   ✅ SKILL.md table up to date');
   }
 
-  // 3. Health report
+  // 3. Validate meta counts
+  console.log('\n🔢 Validating meta counts...');
+  const metaValidation = validateMeta(courseMap);
+  if (metaValidation.issues.length === 0) {
+    console.log(`   ✅ meta.total_lessons (${courseMap.meta.total_lessons}) matches actual main lessons`);
+    console.log(`   ✅ meta.supplementary_lessons (${courseMap.meta.supplementary_lessons}) matches actual supplementary`);
+  } else {
+    for (const issue of metaValidation.issues) {
+      console.log(`   ${issue}`);
+      errors.push(issue);
+    }
+  }
+
+  // 4. Sync "预计用时" line
+  console.log('\n⏱️  Syncing estimate line in SKILL.md...');
+  const estimateResult = patchEstimateLine(metaValidation.actualMain, metaValidation.actualSupp);
+  if (estimateResult.error) {
+    console.log(`   ❌ ${estimateResult.error}`);
+  } else if (estimateResult.changed) {
+    changeCount++;
+    console.log('   ✏️  Estimate line updated');
+  } else {
+    console.log('   ✅ Estimate line up to date');
+  }
+
+  // 5. Health report
   console.log('\n🔍 Health report...');
   const report = healthReport(lessons, courseMap.meta.default_max_lines || 400);
 

@@ -1,7 +1,7 @@
 ---
 name: project-guidelines-example
 description: "基于真实生产应用的示例项目特定技能模板。"
-origin: ECC
+origin: cc4pm
 ---
 
 # 项目指南技能（示例）

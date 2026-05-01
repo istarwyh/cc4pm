@@ -1,7 +1,7 @@
 ---
 name: python-testing
 description: 使用pytest的Python测试策略，包括TDD方法、夹具、模拟、参数化和覆盖率要求。
-origin: ECC
+origin: cc4pm
 ---
 
 # Python 测试模式

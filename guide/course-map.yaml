@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 21
+  supplementary_lessons: 33
   default_max_lines: 400
 
 stages:
@@ -320,8 +320,19 @@ stages:
           - sprint-planning
           - sprint-status
           - story-execution
+
+      - id: lesson-6.1
+        file: lesson-6.1.md
+        number: 16.1
+        title: "路线纠正与 Epic 回顾"
+        short_title: "路线纠正与回顾"
+        supplementary: true
+        topics:
           - course-correction
           - epic-retrospective
+          - sprint-change-proposal
+          - party-mode-retrospective
+          - pm-execution-role
 
   - id: stage-3
     title: "网页设计系统"
@@ -378,6 +389,82 @@ stages:
           - prototype-persistence
           - design-questions-ui
 
+      - id: lesson-1.3
+        file: lesson-1.3.md
+        number: 17.3
+        title: "设计系统搭建——从 Tokens 到组件封装"
+        short_title: "设计系统搭建"
+        supplementary: true
+        topics:
+          - design-tokens
+          - shadcn-ui-tailwind
+          - ui-framework-comparison
+          - tailwind-default-theme
+          - tailwind-customization
+          - component-classification
+          - invisible-components
+          - component-encapsulation-principles
+
+      - id: lesson-1.4
+        file: lesson-1.4.md
+        number: 17.4
+        title: "排版美学——从网格极简到杂志之场"
+        short_title: "排版美学"
+        supplementary: true
+        topics:
+          - swiss-typography
+          - editorial-minimalism
+          - neo-brutalism
+          - maximalism
+          - japanese-ma
+          - style-to-prompt
+          - style-token-mapping
+          - typographic-decision-tree
+
+      - id: lesson-1.5
+        file: lesson-1.5.md
+        number: 17.5
+        title: "风格识别——13 种网页设计风格速查"
+        short_title: "风格识别"
+        supplementary: true
+        topics:
+          - web-design-style-history
+          - style-identification-4step
+          - style-spectrum
+          - style-recognition-card
+          - bento-grid
+          - brutalism
+          - glassmorphism
+          - ai-native-interface
+
+      - id: lesson-1.6
+        file: lesson-1.6.md
+        number: 17.6
+        title: "风格溯源——从美术运动到像素的演化之路"
+        short_title: "风格溯源"
+        supplementary: true
+        topics:
+          - art-history-influence-modes
+          - bauhaus-philosophy
+          - impressionism-web-design
+          - cubism-visual-borrowing
+          - style-evolution-patterns
+          - art-to-web-conversion-framework
+
+      - id: lesson-1.7
+        file: lesson-1.7.md
+        number: 17.7
+        title: "风格落地——跨平台设计的选择与实现"
+        short_title: "风格落地"
+        supplementary: true
+        topics:
+          - mobile-vs-web-differences
+          - ios-hig-vs-material-design
+          - mobile-unique-patterns
+          - style-selection-decision-tree
+          - style-to-ai-prompt-template
+          - cross-platform-design-strategy
+
       - id: lesson-2
         file: lesson-2.md
         number: 18
@@ -408,14 +495,46 @@ stages:
         number: 20
         title: "故事讲述：产品叙事与演示"
         short_title: "故事讲述"
-        max_lines: 900
         topics:
           - sophia-agent
           - caravaggio-agent
           - mirror-neurons
           - story-stickiness
-          - 22-story-frameworks
-          - five-story-categories
+          - 10-step-story-workflow
+          - ux-scenario-to-story
+
+      - id: lesson-4.1
+        file: lesson-4.1.md
+        number: 20.1
+        title: "26 个故事框架——从启蒙到冲突的完整工具箱"
+        short_title: "故事框架"
+        supplementary: true
+        topics:
+          - 26-story-frameworks
+          - awakening-stories
+          - transformation-stories
+          - connection-stories
+          - learning-stories
+          - inspiration-stories
+          - conflict-stories
+          - framework-selection
+
+      - id: lesson-4.2
+        file: lesson-4.2.md
+        number: 20.2
+        title: "7 种产品演示类型——从概念演示到交互工作坊"
+        short_title: "产品演示类型"
+        supplementary: true
+        topics:
+          - seven-demo-types
+          - concept-demo
+          - feature-demo
+          - scenario-demo
+          - comparison-demo
+          - user-success-demo
+          - technical-demo
+          - workshop-demo
+          - demo-selection-guide
 
   - id: stage-4
     title: "工程工具链"
@@ -476,6 +595,35 @@ stages:
           - fork-verifier-agent
           - mentioned-element-feedback
           - screen-labeling
+
+      - id: lesson-2.3
+        file: lesson-22.3.md
+        number: 22.3
+        title: "六大编码原则——驯服 AI 代码的魔法词"
+        short_title: "编码原则"
+        supplementary: true
+        topics:
+          - brief-principle
+          - kiss-principle
+          - yagni-principle
+          - dry-principle
+          - spot-principle
+          - solid-principles
+          - ai-code-review-principles
+
+      - id: lesson-2.4
+        file: lesson-22.4.md
+        number: 22.4
+        title: "TDD Prompt 模板——从需求到代码的结构化桥梁"
+        short_title: "TDD Prompt 模板"
+        supplementary: true
+        topics:
+          - tdd-prompt-templates
+          - requirement-to-test-scenarios
+          - test-detail-refinement
+          - human-review-gate
+          - three-stage-tdd-pipeline
+          - knowledge-engineering-tdd
 
       - id: lesson-3
         file: lesson-3.md
@@ -594,25 +742,42 @@ stages:
         number: 24
         title: "高级特性：MCP 集成与持续学习"
         short_title: "高级特性"
-        max_lines: 620
         topics:
           - mcp-servers
-          - mcp-three-tiers
-          - mcp-permission-auto-approve
-          - claude-code-sdk
           - learn-command
           - skill-create-command
           - continuous-learning
-          - agent-web-strategy
-          - web-access-skill
-          - site-experience-accumulation
-          - plugins-system
-          - plugin-marketplace
-          - mgrep
 
       - id: lesson-1.1
         file: lesson-1.1.md
         number: 24.1
+        title: "MCP 生态与文档工具"
+        short_title: "MCP 生态"
+        supplementary: true
+        topics:
+          - mcp-three-tiers
+          - mcp-permission-auto-approve
+          - agent-web-strategy
+          - web-access-skill
+          - site-experience-accumulation
+          - context7-mcp
+          - grep-mcp
+
+      - id: lesson-1.2
+        file: lesson-1.2.md
+        number: 24.2
+        title: "插件架构与 SDK"
+        short_title: "插件与 SDK"
+        supplementary: true
+        topics:
+          - plugins-system
+          - plugin-marketplace
+          - mgrep
+          - claude-code-sdk
+
+      - id: lesson-1.3
+        file: lesson-1.3.md
+        number: 24.3
         title: "Karpathy's LLM Wiki——知识编译与 Agentic 知识库"
         short_title: "LLM Wiki"
         supplementary: true
@@ -625,9 +790,9 @@ stages:
           - qmd-local-rag
           - qmd-mcp-integration
 
-      - id: lesson-1.2
-        file: lesson-1.2.md
-        number: 24.2
+      - id: lesson-1.4
+        file: lesson-1.4.md
+        number: 24.4
         title: "Next AI Draw.io：AI 驱动的架构绘图专家"
         short_title: "AI 绘图 (Draw.io)"
         supplementary: true
@@ -637,9 +802,9 @@ stages:
           - drawio-mcp
           - visual-architecture
 
-      - id: lesson-1.3
-        file: lesson-1.3.md
-        number: 24.3
+      - id: lesson-1.5
+        file: lesson-1.5.md
+        number: 24.5
         title: "graphify——用知识图谱秒懂任意知识库"
         short_title: "graphify 知识图谱"
         supplementary: true
@@ -655,9 +820,9 @@ stages:
           - confidence-scores-inferred
           - leiden-community-detection
 
-      - id: lesson-1.4
-        file: lesson-1.4.md
-        number: 24.4
+      - id: lesson-1.6
+        file: lesson-1.6.md
+        number: 24.6
         title: "cc-connect 实战：通过微信远程控制 Claude Code"
         short_title: "微信远程控制 CC"
         supplementary: true

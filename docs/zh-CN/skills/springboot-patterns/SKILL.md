@@ -1,7 +1,7 @@
 ---
 name: springboot-patterns
 description: Spring Boot架构模式、REST API设计、分层服务、数据访问、缓存、异步处理和日志记录。用于Java Spring Boot后端工作。
-origin: ECC
+origin: cc4pm
 ---
 
 # Spring Boot 开发模式

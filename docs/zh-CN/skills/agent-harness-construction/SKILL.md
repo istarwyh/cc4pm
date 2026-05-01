@@ -1,7 +1,7 @@
 ---
 name: agent-harness-construction
 description: 设计和优化AI代理的动作空间、工具定义和观察格式，以提高完成率。
-origin: ECC
+origin: cc4pm
 ---
 
 # 智能体框架构建

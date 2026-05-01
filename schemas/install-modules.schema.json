@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "cc4pm Install Modules",
+  "description": "Declares installable modules — each maps source paths to a kind, targets, and dependencies.",
+  "type": "object",
+  "required": ["version", "modules"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "number" },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "description", "paths", "targets", "dependencies", "defaultInstall", "cost", "stability"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "kind": {
+            "type": "string",
+            "enum": ["rules", "agents", "commands", "hooks", "platform", "skills", "orchestration"]
+          },
+          "description": { "type": "string" },
+          "paths": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "targets": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["claude", "cursor", "antigravity", "codex", "opencode"] },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "dependencies": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "defaultInstall": { "type": "boolean" },
+          "cost": { "type": "string", "enum": ["light", "medium", "heavy"] },
+          "stability": { "type": "string", "enum": ["stable", "beta"] }
+        }
+      }
+    }
+  }
+}

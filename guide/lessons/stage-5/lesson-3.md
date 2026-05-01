@@ -297,4 +297,4 @@ ls design-artifacts/
 - [3] 退出学习
 
 ---
-*阶段 5 | Lesson 26/26 (阶段内 3/3) | 上一课: Lesson 25 - 完整项目实战 | 课程完结*
+*阶段 5 | Lesson 26/26 (阶段内 3/3) | 上一课: Lesson 25.1 - Issue→PR 工作流 | 课程完结*

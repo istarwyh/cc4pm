@@ -385,6 +385,11 @@ A: 不是。可以用任何语言：Python、Bash、Node.js、Go 等。选择取
 
 A: 两种方式：(1) 放在项目的 `.claude/skills/` 目录，通过 Git 分发；(2) 用 `package_skill.py` 打包成 `.skill` 文件分发。团队成员只需把 `.skill` 文件放到全局或项目目录即可使用。
 
+## 相关概念
+
+- **Commands vs Skills**（Lesson 6）— Skill 是 Commands 的演进形态
+- **Agent Teams**（Lesson 7.1）— Skills 可以在 Agent Teams 中被多个代理共享使用
+
 ## 下一步
 
 - [1] 进入下一课：Lesson 7 - 代理系统：你的 AI 专家团

@@ -1,7 +1,7 @@
 ---
 name: django-verification
 description: "Django项目的验证循环：迁移、代码检查、带覆盖率的测试、安全扫描，以及在发布或PR前的部署就绪检查。"
-origin: ECC
+origin: cc4pm
 ---
 
 # Django 验证循环

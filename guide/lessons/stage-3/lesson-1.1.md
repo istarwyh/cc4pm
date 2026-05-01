@@ -292,6 +292,11 @@ A: UI 模式是**概念层**——"用户需要一个 Drawer"；设计系统是*
 
 A: 当然。比如"展示商品列表"可以用 Grid Layout、Masonry Layout 或 List View——选择取决于内容类型和用户预期。这正是产品主理人需要做的设计决策。
 
+## 相关概念
+
+- **WDS 8 阶段流水线**（Lesson 17）— UI Patterns 是 WDS Phase 3-4 的设计词汇表
+- **Design Agent Workflow**（Lesson 17.2）— Design Agents 使用这些模式来生成原型
+
 ## 下一步
 
 - [1] 进入下一课：Lesson 18 - Trigger Map：用户心理→功能映射

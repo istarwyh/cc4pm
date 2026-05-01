@@ -386,6 +386,12 @@ A: 如果你只使用 BMM/CIS 的斜杠命令（如 `/bmad-brainstorming`、`/bm
 
 A: Hooks 的安装稍有不同——需要将 hooks.json 的内容合并到你的 `~/.claude/settings.json` 中。如果你是通过 Claude Code 的插件系统安装 cc4pm 的，这个步骤会自动完成。手动安装时，可以让 Claude 帮你合并。
 
+## 相关概念
+
+- **cc4pm Architecture** — 安装后的目录结构映射到 `~/.claude/` 全局配置（agents/、skills/、rules/、hooks/）
+- **Commands vs Skills**（Lesson 6）— 安装后命令和技能自动生效
+- **Hooks & Rules**（Lesson 8）— 安装后自动化守护规则开始运行
+
 ## 下一步
 
 - [1] 进入下一课：Lesson 10 - 综合实战：为 cc4pm 构思新功能
