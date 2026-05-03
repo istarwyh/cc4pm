@@ -311,6 +311,8 @@ Mary 会按照 MR 工作流逐步引导：
 
 ## 🛠️ 实操练习
 
+> **⚠️ 实操须知**：命令需在新 Claude Code session 中执行。详见 [practice-notice.md](../shared/practice-notice.md)
+
 完成以下练习，掌握市场研究工具。
 
 ### 练习 1：启动 Mary 并完成市场研究

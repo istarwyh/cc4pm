@@ -72,6 +72,90 @@ useEffect(() => {
 - 在主 HTML 中依次引入这些脚本。
 - 确保子组件已通过 `window` 导出。
 
+### Junior Designer 工作流
+
+专业设计师不会闷头做三天再给老板看——他们会在第一稿就展示方向，然后快速迭代。AI 生成原型也应该如此。
+
+**核心原则：理解错了早改比晚改便宜 100 倍。**
+
+标准流程：
+
+```
+1. 开工前：列出 assumptions + placeholders + reasoning
+   → 一次性发给用户，等批量答完再动手
+
+2. 骨架阶段：先输出灰色方块 + 占位文字
+   → 尽早 show 给用户确认方向
+
+3. 填充阶段：替换为实际内容
+   → show 给用户确认内容
+
+4. 变体阶段：生成 2-3 个风格/布局变体
+   → 让用户选择
+
+5. 精调阶段：Tweaks 面板实时调参
+   → 用户自己微调
+
+6. 交付前：用 Playwright 跑一遍浏览器验证
+   → 确保交互正常
+```
+
+**在 HTML 中嵌入 reasoning**：
+
+```html
+<!--
+  ASSUMPTIONS:
+  - 用户是 iOS 用户，期望底部 Tab Bar 导航
+  - 主色调使用品牌橙色 (#E85D3A)
+  - 需要展示 3 个核心功能卡片
+
+  PLACEHOLDERS:
+  - 用户头像：使用 initials avatar 替代
+  - 产品截图：使用纯色占位块
+
+  REASONING:
+  - 首屏聚焦价值主张，不放注册表单
+  - CTA 按钮使用高对比色，引导用户行动
+-->
+```
+
+### Playwright 自动化视觉验证
+
+原型做好后，不能只靠肉眼检查——用 Playwright 自动点击关键路径：
+
+```bash
+# 验证原型的交互流程
+npx playwright test prototype.spec.js
+```
+
+Playwright 能做的事：
+- 自动点击按钮，验证页面切换是否正常
+- 截图对比，检测视觉回归
+- 模拟不同设备尺寸（iPhone、iPad、Desktop）
+- 验证动画是否正常播放
+
+**与 fork_verifier_agent 的关系**（Lesson 22.2）：Playwright 验证"能不能点"，fork_verifier 验证"好不好看"。两者互补。
+
+### HTML Slides → 可编辑 PPTX
+
+HTML 原型不只是 App 交互——它还能生成演示文稿：
+
+**流程**：
+1. 用 HTML 写幻灯片（浏览器全屏演讲）
+2. `html2pptx.js` 读取 DOM 的 `computedStyle`
+3. 逐元素翻译成 PowerPoint 对象
+4. 导出的是**真文本框**——PPT 里双击即可编辑
+
+**为什么不用 Figma 导出 PPT？**
+
+| 方式 | 优点 | 缺点 |
+|------|------|------|
+| Figma 导出 | 视觉保真度高 | 导出的是图片，不可编辑 |
+| HTML → PPTX | 文本可编辑，数据可驱动 | 复杂动画会丢失 |
+| 手动做 PPT | 完全可控 | 耗时，难以版本管理 |
+
+产品主理人的最佳实践：先用 HTML 快速迭代设计，确认后导出 PPTX 给非技术团队成员编辑。
+
 ## 常见问题
 
 **Q: 为什么不用 Tailwind CSS？**
@@ -87,11 +171,12 @@ A: 引用你在 Lesson 17.1 学到的 UI 模式名。
 - **Saga + Freya Agent**（Lesson 17）— 本课的 Design Agent 即 Saga 和 Freya 的协作流
 - **UI Patterns**（Lesson 17.1）— 原型组件使用 UI 设计词典中的标准模式
 - **fork_verifier_agent**（Lesson 22.2）— 原型构建后的视觉校验工具
+- **品牌资产协议与设计交付**（Lesson 17.8）— 品牌色提取、设计评审、动画导出
 
 ## 下一步
 
-- [1] 进入下一课：Lesson 18 - Trigger Map
-- [2] 了解视觉校验：Lesson 22.2 - 视觉校验与反馈循环
+- [1] 进入下一课：Lesson 17.3 - 设计系统搭建：从 Tokens 到组件封装
+- [2] 跳到核心课：Lesson 18 - Trigger Map：用户心理→功能映射
 - [3] 返回主菜单
 
 ---

@@ -205,6 +205,8 @@ cc4pm 方式：
 
 ## 🛠️ 最终实操练习
 
+> **⚠️ 实操须知**：命令需在新 Claude Code session 中执行。详见 [practice-notice.md](../shared/practice-notice.md)
+
 完成以下练习，巩固所学内容。
 
 ### 练习 1：回顾你的学习路径

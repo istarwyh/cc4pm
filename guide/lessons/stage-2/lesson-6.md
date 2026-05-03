@@ -304,6 +304,8 @@ Epics：backlog 2, in-progress 1, done 0
 
 ## 🛠️ 实操练习
 
+> **⚠️ 实操须知**：命令需在新 Claude Code session 中执行。详见 [practice-notice.md](../shared/practice-notice.md)
+
 完成以下练习，掌握冲刺规划和执行工具。
 
 ### 练习 1：启动 Bob 并生成冲刺计划

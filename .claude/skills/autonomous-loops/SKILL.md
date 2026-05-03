@@ -22,6 +22,25 @@ Patterns, architectures, and reference implementations for running Claude Code a
 - Implementing context persistence across loop iterations
 - Adding quality gates and cleanup passes to autonomous workflows
 
+## The Unix Philosophy
+
+Claude Code 的所有循环模式，底层思想只有一个：**把 Claude 当成 Unix 工具用**。
+
+```bash
+while true; do
+  claude -p "读取任务文件，继续下一步..."
+  if [ $? -eq 0 ]; then
+    break
+  fi
+done
+```
+
+每次新开一个进程，靠文件通信。无状态、可组合、可管道化——和 `grep`、`sed`、`awk` 没有本质区别。区别只在于 Claude 能理解自然语言并自主决策下一步。
+
+这是 Ralph Loop 的核心思想：让 Claude 不停地自我迭代，直到任务完成。
+
+下面的模式谱，从最简单的顺序管道到最复杂的 DAG 编排，都是这个思想的不同工程化形态。
+
 ## Loop Pattern Spectrum
 
 From simplest to most sophisticated:

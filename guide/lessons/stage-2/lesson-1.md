@@ -398,6 +398,8 @@ Carson：YES！我爱这个挑战！AI 记账工具？让我们把它变成
 
 ## 🛠️ 实操练习
 
+> **⚠️ 实操须知**：命令需在新 Claude Code session 中执行。详见 [practice-notice.md](../shared/practice-notice.md)
+
 完成以下练习，真正动手使用头脑风暴工具。
 
 ### 练习 1：启动 Carson 并完成一次头脑风暴

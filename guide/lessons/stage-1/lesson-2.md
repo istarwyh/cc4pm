@@ -316,4 +316,4 @@ A: 几个信号：（1）`/cost` 显示的 input tokens 超过 150K；（2）Cla
 - [3] 退出学习
 
 ---
-*阶段 1 | Lesson 2/26 (阶段内 2/10) | 上一课: Lesson 1.1 - CC 工作原理 | 下一课: Lesson 3 - 主动管理上下文*
+*阶段 1 | Lesson 2/26 (阶段内 2/10) | 上一课: Lesson 1.1 - CC 工作原理 | 下一课: Lesson 2.1 - Token 与语言税*

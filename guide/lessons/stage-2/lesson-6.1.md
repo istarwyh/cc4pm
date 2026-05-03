@@ -128,6 +128,8 @@ Step 6: 完成
 
 ## 🛠️ 实操练习
 
+> **⚠️ 实操须知**：命令需在新 Claude Code session 中执行。详见 [practice-notice.md](../shared/practice-notice.md)
+
 ### 练习 1：尝试路线纠正（CC）
 
 ```bash

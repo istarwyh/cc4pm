@@ -874,7 +874,7 @@ section { padding: var(--space-5xl) 0; }
   <div class="container">
     <div class="nav-brand">
       <span class="nav-brand-name">cc4pm</span>
-      <span class="nav-version">v1.8.1</span>
+      <span class="nav-version">v1.8.3</span>
     </div>
     <nav>
       <ul class="nav-links">
@@ -1324,9 +1324,9 @@ section { padding: var(--space-5xl) 0; }
           <line x1="12" y1="15" x2="12" y2="3"/>
         </svg>
       </div>
-      <div class="section-label">开始课程 · 5 分钟完成安装</div>
-      <h2 class="section-title">克隆仓库，输入第一条命令</h2>
-      <p class="section-subtitle">克隆后打开 Claude Code，输入 <code style="background:rgba(0,0,0,.06);padding:2px 8px;border-radius:4px;font-size:inherit">/cc4pm-guide</code>——AI 课程教练就位，带你完成环境配置，直接进入第一节课</p>
+      <div class="section-label">开始课程 · 一条命令完成安装</div>
+      <h2 class="section-title">一条命令，开始学习</h2>
+      <p class="section-subtitle">运行 <code style="background:rgba(0,0,0,.06);padding:2px 8px;border-radius:4px;font-size:inherit">npx cc4pm install --modules cc4pm-guide</code>，然后打开 Claude Code 输入 <code style="background:rgba(0,0,0,.06);padding:2px 8px;border-radius:4px;font-size:inherit">/cc4pm-guide</code>——AI 课程教练就位，带你完成环境配置，直接进入第一节课</p>
     </div>
 
     <div class="install-terminal anim fade-up" id="installTerminal">
@@ -1341,19 +1341,19 @@ section { padding: var(--space-5xl) 0; }
     </div>
 
     <div class="install-actions anim fade-up" style="transition-delay:200ms">
-      <a href="https://github.com/istarwyh/cc4pm" class="btn-primary" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:20px;height:20px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        GitHub 仓库
-      </a>
+      <button class="btn-primary" onclick="copyText('npx cc4pm install --modules cc4pm-guide', this)">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:20px;height:20px"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        复制安装命令
+      </button>
       <button class="btn-secondary" onclick="copyText('/cc4pm-guide', this)">
         复制启动命令
       </button>
-      <a href="https://github.com/istarwyh/cc4pm/archive/refs/heads/main.zip" class="btn-secondary" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:16px;height:16px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        下载 ZIP 安装包
+      <a href="https://github.com/istarwyh/cc4pm" class="btn-secondary" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:16px;height:16px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub 仓库
       </a>
     </div>
-    <p class="install-note">支持 Claude Code / Cursor / Codex / OpenCode 多平台<br><span style="color:var(--text-muted);font-size:13px">打开后输入 <code>/cc4pm-guide</code>，你的 AI 私教就位——工具安装、环境配置都交给我</span></p>
+    <p class="install-note">支持 Claude Code / Cursor / Codex / OpenCode 多平台<br><span style="color:var(--text-muted);font-size:13px">安装后输入 <code>/cc4pm-guide</code>，你的 AI 私教就位——工具安装、环境配置都交给我</span></p>
   </div>
 </section>
 
@@ -1426,7 +1426,7 @@ section { padding: var(--space-5xl) 0; }
           <svg class="faq-chevron" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer">
-          <p>课程完全在 Claude Code 终端里运行——没有视频，没有外部平台。克隆仓库，打开 Claude Code，输入 <code>/cc4pm-guide</code>，AI 会作为你的课程教练，带你逐节学习，边教边让你动手练习。<br><br>每节课都有具体的任务和命令要执行，学完一节就能立刻用在你自己的项目上。这是"边学边做"，不是"看完再做"。</p>
+          <p>课程完全在 Claude Code 终端里运行——没有视频，没有外部平台。运行 <code>npx cc4pm install --modules cc4pm-guide</code> 安装课程，然后打开 Claude Code 输入 <code>/cc4pm-guide</code>，AI 会作为你的课程教练，带你逐节学习，边教边让你动手练习。<br><br>每节课都有具体的任务和命令要执行，学完一节就能立刻用在你自己的项目上。这是"边学边做"，不是"看完再做"。</p>
         </div>
       </div>
       <div class="faq-item">
@@ -1462,7 +1462,7 @@ section { padding: var(--space-5xl) 0; }
           <svg class="faq-chevron" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer">
-          <p><strong>课程完全免费，MIT 开源。</strong>你只需要：一个 <strong>Claude Code 账号</strong>（或 Cursor / Codex / OpenCode）和 Git。cc4pm 本身不收费，没有会员、没有付费内容，所有 26 节课和 200+ Skills 全部开放。</p>
+          <p><strong>课程完全免费，MIT 开源。</strong>你只需要：一个 <strong>Claude Code 账号</strong>（或 Cursor / Codex / OpenCode）和 Node.js。cc4pm 本身不收费，没有会员、没有付费内容，所有 26 节课和 200+ Skills 全部开放。</p>
         </div>
       </div>
       <div class="faq-item">
@@ -1513,7 +1513,7 @@ section { padding: var(--space-5xl) 0; }
   <footer class="site-footer">
     <div class="container">
       <div class="footer-inner">
-        <a href="https://github.com/istarwyh/cc4pm" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;transition:color 200ms" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">cc4pm v1.8.1</a>
+        <a href="https://github.com/istarwyh/cc4pm" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;transition:color 200ms" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">cc4pm v1.8.3</a>
         <a href="https://github.com/istarwyh/cc4pm/blob/main/LICENSE" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;transition:color 200ms" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">MIT License</a>
         <a href="https://aispeeds.me/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-size:13px;text-decoration:none;transition:opacity 200ms" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">由 <img src="https://aispeeds.me/brand/ai-speeds-logo-horizontal.svg" alt="AI Speeds" height="16" style="vertical-align:middle"> 出品</a>
         <div class="footer-links">
@@ -1834,10 +1834,12 @@ section { padding: var(--space-5xl) 0; }
   var termStarted = false;
 
   var termLines = [
-    { type: 'cmd', prompt: '~ $ ', text: 'git clone https://github.com/istarwyh/cc4pm.git', delay: 500 },
-    { type: 'out', html: '<span class="term-muted">Cloning into \'cc4pm\'...</span>', delay: 600 },
-    { type: 'out', html: '<span class="term-success">done.</span>', delay: 400 },
-    { type: 'cmd', prompt: '~ $ ', text: 'cd cc4pm', delay: 400 },
+    { type: 'cmd', prompt: '~ $ ', text: 'npx cc4pm install --modules cc4pm-guide', delay: 500 },
+    { type: 'out', html: '<span class="term-muted">Installing cc4pm-guide module...</span>', delay: 600 },
+    { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">skills/cc4pm-guide/SKILL.md</span>', delay: 200 },
+    { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">guide/ (71 lessons)</span>', delay: 200 },
+    { type: 'out', html: '<span class="term-success">done.</span> <span class="term-muted">1 module installed to ~/.claude/</span>', delay: 400 },
+    { type: 'cmd', prompt: '~ $ ', text: 'claude', delay: 400 },
     { type: 'cmd', prompt: 'cc4pm $ ', text: '/cc4pm-guide', cmdClass: 'term-cmd-color', delay: 600 },
     { type: 'out', html: '<span class="term-info">你的 AI 产品私教已就位...</span>', delay: 400 },
     { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">BMM (44) - 业务建模方法论</span>', delay: 200 },

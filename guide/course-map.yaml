@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 33
+  supplementary_lessons: 35
   default_max_lines: 400
 
 stages:
@@ -53,6 +53,22 @@ stages:
           - context-traps
           - strategic-manual-compact
           - mcp-cli-replacement
+
+      - id: lesson-2.1
+        file: lesson-2.1.md
+        number: 2.1
+        title: "Token 与语言税——你的隐性成本"
+        short_title: "Token 与语言税"
+        supplementary: true
+        topics:
+          - tokenization-bpe
+          - language-tax
+          - chinese-token-efficiency
+          - tokenizer-vocabulary-size
+          - cross-model-efficiency
+          - effective-cost-calculation
+          - context-capacity-chinese
+          - count-tokens-api
 
       - id: lesson-3
         file: lesson-3.md
@@ -388,6 +404,9 @@ stages:
           - react-babel-inline
           - prototype-persistence
           - design-questions-ui
+          - junior-designer-workflow
+          - playwright-design-verification
+          - html-to-pptx
 
       - id: lesson-1.3
         file: lesson-1.3.md
@@ -420,6 +439,7 @@ stages:
           - style-to-prompt
           - style-token-mapping
           - typographic-decision-tree
+          - anti-ai-slop
 
       - id: lesson-1.5
         file: lesson-1.5.md
@@ -464,6 +484,20 @@ stages:
           - style-selection-decision-tree
           - style-to-ai-prompt-template
           - cross-platform-design-strategy
+
+      - id: lesson-1.8
+        file: lesson-1.8.md
+        number: 17.8
+        title: "品牌资产协议与设计交付——从品牌色到动画成片"
+        short_title: "品牌资产与设计交付"
+        supplementary: true
+        topics:
+          - brand-asset-protocol
+          - design-direction-consultant
+          - five-dimension-review
+          - motion-design-engine
+          - tweaks-variants
+          - infographic-design
 
       - id: lesson-2
         file: lesson-2.md
@@ -772,6 +806,12 @@ stages:
         topics:
           - plugins-system
           - plugin-marketplace
+          - official-plugin-repo
+          - plugin-structure-standard
+          - internal-vs-external-plugins
+          - plugin-discover-browse
+          - skill-creator-official
+          - plugin-security-trust
           - mgrep
           - claude-code-sdk
 

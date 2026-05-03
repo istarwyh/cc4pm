@@ -48,18 +48,51 @@ Plugin 可以做很多事：
 
 ## 插件市场与安装
 
+**官方插件仓库**：`https://github.com/anthropics/claude-plugins-official`——这是 Anthropic 维护的唯一官方插件市场，包含内部插件和经过审核的社区插件。
+
 ```bash
-# 添加一个插件市场
+# 从官方市场安装插件（推荐方式）
+/plugin install {plugin-name}@claude-plugins-official
+
+# 或者在交互模式中浏览
+/plugin → Discover
+
+# 添加第三方市场
 claude plugin marketplace add istarwyh/cc4pm
 
 # 查看已安装的插件
 /plugins
-
-# 安装特定插件
-/plugin install everything-claude-code@everything-claude-code
 ```
 
-**已有的插件市场**：打开 Claude Code 后输入 `/plugins`，可以看到官方市场和第三方市场中的所有可用插件。
+> **安全提醒**：安装前请确认你信任该插件。Anthropic 不控制第三方插件的内容，也无法保证其行为符合预期。
+
+### 插件来源：内部 vs 外部
+
+| 类型 | 维护者 | 说明 |
+|------|--------|------|
+| **内部插件** (`/plugins`) | Anthropic 团队 | 质量有保障，跟随 Claude Code 主版本更新 |
+| **外部插件** (`/external_plugins`) | 社区/合作伙伴 | 需经质量与安全审核才能进入官方市场 |
+
+> 著名的 `skill-creator` 就在官方仓库里——用 `/plugin install skill-creator@claude-plugins-official` 安装。
+
+### 标准插件结构
+
+每个插件遵循统一的目录规范：
+
+```
+plugin-name/
+├── .claude-plugin/
+│   └── plugin.json      # 插件元数据（必需）
+├── .mcp.json            # MCP 服务器配置（可选）
+├── commands/            # 斜杠命令（可选）
+├── agents/              # 代理定义（可选）
+├── skills/              # 技能定义（可选）
+└── README.md            # 文档
+```
+
+理解这个结构有两个实用价值：
+1. **评估插件质量**：看到 `.claude-plugin/plugin.json` 存在，说明遵循了官方规范
+2. **自己开发插件**：按这个结构组织你的技能和工具，就能发布到市场
 
 ### 值得了解的插件类型
 

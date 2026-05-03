@@ -305,6 +305,8 @@ UX 场景中的"用户旅程"
 
 ## 实操练习
 
+> **⚠️ 实操须知**：命令需在新 Claude Code session 中执行。详见 [practice-notice.md](../shared/practice-notice.md)
+
 ### 练习 1：启动 Sophia 创建产品故事
 
 ```bash

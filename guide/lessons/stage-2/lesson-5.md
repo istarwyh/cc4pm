@@ -320,6 +320,8 @@ Then [预期结果]
 
 ## 🛠️ 实操练习
 
+> **⚠️ 实操须知**：命令需在新 Claude Code session 中执行。详见 [practice-notice.md](../shared/practice-notice.md)
+
 完成以下练习，掌握需求拆解工具。
 
 ### 练习 1：创建 Epics 和 Stories

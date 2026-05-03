@@ -310,6 +310,8 @@ Step 9: 定义指标和风险缓解
 
 ## 🛠️ 实操练习
 
+> **⚠️ 实操须知**：命令需在新 Claude Code session 中执行。详见 [practice-notice.md](../shared/practice-notice.md)
+
 完成以下练习，掌握创新策略分析工具。
 
 ### 练习 1：启动 Victor 并完成创新策略分析

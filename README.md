@@ -36,12 +36,22 @@ cc4pm 是一套面向**产品主理人**的 AI 全生命周期产品系统。基
 # 一键安装（推荐）
 npx cc4pm install --modules cc4pm-guide
 
+# 预览安装计划，不复制文件
+npx cc4pm install --modules cc4pm-guide --target claude --dry-run
+
 # 或者克隆仓库后直接使用
 git clone https://github.com/istarwyh/cc4pm.git
 cd cc4pm && claude
 ```
 
 安装完成后打开 Claude Code，输入 `/cc4pm-guide` 启动交互式教学。
+
+默认安装目标是 Claude Code，内容会写入 `~/.claude/`：
+
+- `skills/cc4pm-guide`
+- `guide`
+- `scripts/cc4pm-guide-qmd-check.js`
+- `cc4pm/install-state.json`
 
 ### 核心命令速览
 
