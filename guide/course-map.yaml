@@ -243,6 +243,7 @@ stages:
           - verification-checklist
           - dynamic-system-prompt
           - env-var-optimization
+          - no-flicker-mode
           - attribution-header-cache
           - api-proxy-config
 

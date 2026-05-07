@@ -44,24 +44,15 @@ cc4pm/（仓库）                      ~/.claude/（全局配置）
 
 ### 方式一：在 cc4pm 目录内直接体验（最简单）
 
-这是最快的入门方式，零配置：
+零配置，开箱即用：
 
 ```bash
 cd cc4pm
 claude
-
 # 输入 / 查看所有可用命令
-# 你会看到 /plan、/code-review、/bmad-brainstorming 等全部命令
 ```
 
-**原理**：Claude Code 启动时会自动扫描当前项目的 `.claude/` 目录和项目根目录下的配置。cc4pm 仓库本身就包含了完整的 `.claude/` 配置，所以在项目内一切都已就绪。
-
-**适合场景**：
-- 第一次学习和体验 cc4pm
-- 了解各个命令和技能的效果
-- 暂时不想修改全局配置
-
-**限制**：离开 cc4pm 目录后，这些命令就不可用了。
+**原理**：Claude Code 自动扫描当前项目的 `.claude/` 配置，cc4pm 仓库已包含完整配置。**限制**：离开 cc4pm 目录后命令不可用。
 
 ### 方式二：复制到全局 ~/.claude/ 让所有项目生效
 
@@ -235,32 +226,14 @@ claude
 
 ### 演示案例：从零安装并验证
 
-完整的安装流程演示：
-
 ```bash
-# 1. 克隆仓库
-git clone https://github.com/istarwyh/cc4pm.git
-cd cc4pm
-
-# 2. 选择安装方式（这里用"全局安装核心组件"）
+git clone https://github.com/istarwyh/cc4pm.git && cd cc4pm
 mkdir -p ~/.claude/rules ~/.claude/commands ~/.claude/agents
-
-# 复制通用规则
 cp -r rules/common/* ~/.claude/rules/
-
-# 复制命令
 cp commands/*.md ~/.claude/commands/
-
-# 复制代理
 cp agents/*.md ~/.claude/agents/
-
-# 3. 验证——回到你的项目
-cd ~/your-project
-claude
-
-# 4. 试一个命令
-/plan "给项目添加用户反馈功能"
-# 如果看到结构化的规划输出 → 安装成功！
+cd ~/your-project && claude
+# 输入 /plan "给项目添加用户反馈功能" → 看到结构化输出 = 安装成功
 ```
 
 ### 动手试试
@@ -329,7 +302,20 @@ export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
 
 # 禁用归因信息头（API 中转用户必开，见下方说明）
 export CLAUDE_CODE_ATTRIBUTION_HEADER=0
+
+# 开启全屏渲染模式（强烈推荐）
+export CLAUDE_CODE_NO_FLICKER=1
 ```
+
+#### 全屏渲染模式：三大体验提升
+
+`CLAUDE_CODE_NO_FLICKER` 是 CC 的替代渲染路径，开启后让 CC 接管终端界面：
+
+- **无闪烁**：输入框固定在屏幕最下方，输出内容在上方平滑滚动
+- **极低内存**：只渲染当前可见消息，长对话也不膨胀
+- **原生鼠标支持**：终端变成现代化编辑器界面，告别狂按方向键
+
+> 也可以在 `~/.claude/settings.json` 的 `env` 键中配置：`{"env": {"CLAUDE_CODE_NO_FLICKER": "1"}}`
 
 配置后记得 `source ~/.zshrc` 使其生效。
 
