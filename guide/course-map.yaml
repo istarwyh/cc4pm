@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 35
+  supplementary_lessons: 37
   default_max_lines: 400
 
 stages:
@@ -247,6 +247,28 @@ stages:
           - attribution-header-cache
           - api-proxy-config
 
+      - id: lesson-9.1
+        file: lesson-9.1.md
+        number: 9.1
+        title: "环境变量完全手册"
+        short_title: "环境变量手册"
+        supplementary: true
+        topics:
+          - configuring-env-two-methods
+          - non-anthropic-model-compat-env
+          - model-selection-routing-env
+          - network-proxy-env-vars
+          - network-stability-env-vars
+          - effort-level-thinking-env
+          - context-compression-env
+          - behavior-switches-env
+          - mcp-bash-debug-env
+          - env-var-complete-catalog
+          - disable-telemetry
+          - env-scenario-templates
+          - env-config-plugin-install
+          - agent-plugins-marketplace
+
       - id: lesson-10
         file: lesson-10.md
         number: 10
@@ -303,6 +325,21 @@ stages:
           - porter-five-forces
           - competitive-benchmarking
           - opportunity-matrix
+
+      - id: lesson-3.1
+        file: lesson-3.1.md
+        number: 13.1
+        title: "网站情报工具——竞品分析的实战利器"
+        short_title: "网站情报工具"
+        supplementary: true
+        topics:
+          - website-traffic-analysis
+          - seo-audit
+          - tech-stack-detection
+          - adsense-detection
+          - website-intelligence-tools
+          - whatstheweb-extension
+          - competitive-scan-workflow
 
       - id: lesson-4
         file: lesson-4.md

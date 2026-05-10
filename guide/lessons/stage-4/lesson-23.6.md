@@ -19,7 +19,7 @@ CLIProxyAPI（[原项目仓库](https://github.com/router-for-me/CLIProxyAPI)）
 **除了本课重点介绍的 Gemini CLI OAuth 免费额度，它还支持接入和整合以下资源：**
 - **Antigravity**（支持特殊的免 key 渠道）
 - **Google AI Studio**（直接配置 Gemini API Key）
-- **Codex / Codex Compatibility**（GitHub Copilot 补全后端代理）
+- **Codex / Codex Compatibility**（OpenAI Codex CLI 代理，将其登录态转为标准 API 接口）
 - **Gemini Compatibility**（兼容 Gemini 格式的其他平台）
 - **OpenAI / Claude Compatibility** 等第三方聚合平台
 
@@ -364,15 +364,25 @@ openai-compatibility:
 ```
 这样当 Gemini OAuth 额度耗尽时，可以手动或自动切换到 OpenRouter。
 
-#### 10.2 代理 GitHub Copilot (Codex)
-如果你在使用带有 Copilot 的编辑器，CLIProxyAPI 甚至能拦截和接管它的后端请求，只需一行命令授权：
+#### 10.2 代理 OpenAI Codex CLI
+如果你本地安装了 OpenAI 的 Codex CLI（开源终端编程代理），CLIProxyAPI 可以读取它的登录态（`~/.codex/auth.json`），将 Codex 的后端接口转为标准 OpenAI 兼容 API，只需一行命令授权：
 
 ```bash
 cliproxyapi --codex-login
 ```
 *(如果没有浏览器，加上 `--no-browser` 会打印出带有 token 的验证链接。本地 OAuth 回调端口默认为 `1455`。)*
 
-通过这种方式，你的本地开发工具链（包括 Claude Code、Copilot 等）的底层模型，都可以被你完全掌控和按需切换，再也不必受限于单一平台的配额或定价。
+**⚠️ 回调失败时（常见于有代理的环境）：** 本地 OAuth 回调可能被代理拦截，导致浏览器授权成功但 CLI 收不到回调。此时改用 Device Login 模式，绕开本地回调限制：
+
+```bash
+cliproxyapi --codex-device-login
+```
+
+该模式通过设备码流程完成授权，不依赖本地端口回调，对代理环境更友好。
+
+授权完成后，`http://127.0.0.1:8317` 就多了一个 Codex Provider。你可以用标准 OpenAI SDK 直接调用 Codex 背后的模型，也可以让 Claude Code、Cursor 等工具通过这个统一入口使用 Codex 能力。
+
+通过这种方式，你的本地开发工具链的底层模型，都可以被你完全掌控和按需切换，再也不必受限于单一平台的配额或定价。
 
 ## 成本对比
 
