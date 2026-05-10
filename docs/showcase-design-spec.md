@@ -1,101 +1,140 @@
-# cc4pm -- Showcase 页面完整设计规格
+# cc4pm 首页设计规范
 
-> 本文档为 Builder 的唯一实现依据。所有数值、颜色、间距、动画参数均为最终值，无需猜测。
+> 本规范定义 cc4pm 官网首页及其延展页面的视觉语言。它以当前 `packages/homepage/index.html` / `docs/index.html` 的实现为基准，用于后续页面、海报、课程落地页、功能 Showcase 与 AI 生成界面的统一设计依据。
 
----
+## 1. 设计定位
 
-## 0. 全局约束
+cc4pm 是“AI 产品私教”，不是单纯的开发者工具官网，也不是炫技型 AI 海报。首页应表达：
 
-| 项目 | 值 |
-|---|---|
-| 文件 | 单个 `showcase/index.html`，纯静态，零外部依赖 |
-| 语言 | 中文（所有可见文本） |
-| 主题 | 仅暗色，无切换 |
-| 总大小 | < 200KB（含内联 CSS/JS） |
-| 路由 | 无，锚点定位各 section（`#hero`, `#architecture`, `#capabilities`, `#platforms`, `#install`, `#community`, `#cta-footer`） |
-| 浏览器 | 现代浏览器（Chrome 90+, Firefox 90+, Safari 15+, Edge 90+） |
-| 数据 | 全部硬编码，不请求外部 API |
+- **专业但不冷冰冰**：有工程系统的秩序感，但语气与视觉都保持亲近。
+- **温暖但不松散**：使用米白、陶土橙、橄榄绿等低饱和色，避免廉价活泼。
+- **系统但不压迫**：四大模块、Skills、课程地图等信息清晰分层，不能堆砌。
+- **AI-native 但不 AI Slop**：可以有网格、终端、微光和自动化动效，但不要紫蓝霓虹泛滥、玻璃卡片堆叠、无意义渐变。
 
----
+### 风格归类
 
-## 1. 色彩方案
+当前首页主风格为：
 
-### 1.1 背景层级
+```text
+Editorial Minimalism 60% + Swiss Typography 25% + Warm AI SaaS 15%
+```
 
-| 用途 | Hex | CSS 变量 |
-|---|---|---|
-| 页面底色 | `#0A0E17` | `--bg-base` |
-| Section 交替背景 | `#0F1420` | `--bg-elevated` |
-| 卡片/面板背景 | `#151B2B` | `--bg-card` |
-| 卡片悬浮态背景 | `#1A2236` | `--bg-card-hover` |
-| 弹出层/模态背景 | `#1E2640` | `--bg-overlay` |
+解释：
 
-### 1.2 文字色
+- **Editorial Minimalism**：负责品牌感、留白、阅读节奏、内容气质。
+- **Swiss Typography**：负责网格、模块秩序、工程可信度。
+- **Warm AI SaaS**：负责 AI 工具感、终端感、轻量科技感。
 
-| 用途 | Hex | CSS 变量 |
-|---|---|---|
-| 主标题/强调文字 | `#F0F4FC` | `--text-primary` |
-| 正文 | `#B4BCD0` | `--text-secondary` |
-| 辅助说明/标签 | `#6B7A99` | `--text-muted` |
-| 禁用/占位 | `#3D4A66` | `--text-disabled` |
+## 2. 核心视觉原则
 
-### 1.3 六大组件色 (用于架构图、徽章、渐变高亮)
+### 2.1 内容先于装饰
 
-| 组件 | 主色 Hex | 浅色(20%透明) | CSS 变量 |
-|---|---|---|---|
-| Agents | `#3B82F6` | `#3B82F633` | `--color-agents` |
-| Skills | `#10B981` | `#10B98133` | `--color-skills` |
-| Commands | `#F59E0B` | `#F59E0B33` | `--color-commands` |
-| Hooks | `#8B5CF6` | `#8B5CF633` | `--color-hooks` |
-| Rules | `#EF4444` | `#EF444433` | `--color-rules` |
-| MCP Configs | `#06B6D4` | `#06B6D433` | `--color-mcp` |
+页面的视觉重点永远服务于内容理解：
 
-### 1.4 功能色
+- 大标题负责建立定位与情绪。
+- 卡片负责承载结构化信息。
+- 图标只用于辅助识别，不作为主要装饰。
+- 动效只表达状态变化，不制造视觉噪音。
 
-| 用途 | Hex | CSS 变量 |
-|---|---|---|
-| 主 CTA 按钮渐变起 | `#6366F1` | `--cta-from` |
-| 主 CTA 按钮渐变止 | `#8B5CF6` | `--cta-to` |
-| 主 CTA 悬浮渐变起 | `#818CF8` | `--cta-hover-from` |
-| 主 CTA 悬浮渐变止 | `#A78BFA` | `--cta-hover-to` |
-| GitHub Star 按钮背景 | `#21262D` | `--btn-github-bg` |
-| GitHub Star 按钮边框 | `#30363D` | `--btn-github-border` |
-| 终端绿色(提示符/成功) | `#4ADE80` | `--terminal-green` |
-| 终端黄色(警告) | `#FBBF24` | `--terminal-yellow` |
-| 终端蓝色(信息) | `#60A5FA` | `--terminal-blue` |
-| 终端红色(光标) | `#F87171` | `--terminal-cursor` |
-| 链接色 | `#818CF8` | `--link-color` |
-| 链接悬浮 | `#A5B4FC` | `--link-hover` |
-| 边框默认 | `#1E293B` | `--border-default` |
-| 边框高亮 | `#334155` | `--border-highlight` |
+### 2.2 留白是呼吸，不是空缺
 
----
+首页使用较大的 section 间距和稳定容器宽度，营造课程品牌与产品系统的“从容感”。
 
-## 2. 字体方案
+- Section 垂直间距默认使用 `128px`。
+- 模块标题与内容之间保持明显分隔。
+- 卡片内部留白要足够，让信息自然成组。
+
+### 2.3 色彩有使命
+
+颜色用于表达模块、状态和行动，不用于随意装饰。
+
+- 陶土橙：主行动、BMM、品牌温度。
+- 金色：CIS、创意与洞察。
+- 橄榄绿：WDS、设计与生长感。
+- 暖棕：工程工具链、落地与执行。
+- 深墨黑：终端、GitHub、技术可信度。
+
+### 2.4 克制的 AI 感
+
+允许出现：
+
+- 低透明度网格背景。
+- 微弱径向光。
+- 终端窗口。
+- mono 字体标签。
+- 模块连接线与系统结构图。
+
+避免出现：
+
+- 大面积紫蓝霓虹。
+- 过度玻璃拟态。
+- 高饱和赛博渐变。
+- 无意义粒子、光束、3D 球体。
+- 与内容无关的 AI 脑、机器人、芯片堆砌。
+
+## 3. 设计 Token
+
+以下 Token 来自当前首页实现，应作为默认视觉基准。
+
+### 3.1 颜色
 
 ```css
 :root {
-  --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  --bg-base: #faf9f5;
+  --bg-elevated: #f0efe8;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f5f4ee;
+  --bg-overlay: #e8e6dc;
+
+  --text-primary: #141413;
+  --text-secondary: #4a4a45;
+  --text-muted: #8a8a82;
+  --text-disabled: #b0aea5;
+
+  --color-bmm: #d97757;
+  --color-cis: #d4a853;
+  --color-wds: #788c5d;
+  --color-eng: #b07d62;
+
+  --cta-from: #d97757;
+  --cta-to: #c4623f;
+  --cta-hover-from: #e08868;
+  --cta-hover-to: #d97757;
+
+  --btn-github-bg: #141413;
+  --btn-github-border: #2a2a28;
+
+  --terminal-green: #788c5d;
+  --terminal-yellow: #d97757;
+  --terminal-blue: #d4a853;
+  --terminal-cursor: #d97757;
+
+  --link-color: #d97757;
+  --link-hover: #c4623f;
+  --border-default: #e8e6dc;
+  --border-highlight: #d4d2c8;
 }
 ```
 
-### 2.1 字号体系
+### 3.2 字体
 
-| 标记 | 桌面 | 平板 | 手机 | 行高 | 字重 | 用途 |
-|---|---|---|---|---|---|---|
-| `--text-hero` | 72px | 56px | 40px | 1.1 | 800 | Hero 主标题 |
-| `--text-h1` | 48px | 40px | 32px | 1.2 | 700 | Section 标题 |
-| `--text-h2` | 32px | 28px | 24px | 1.3 | 600 | 子标题 |
-| `--text-h3` | 24px | 22px | 20px | 1.4 | 600 | 卡片标题 |
-| `--text-body` | 18px | 17px | 16px | 1.7 | 400 | 正文 |
-| `--text-small` | 14px | 14px | 13px | 1.6 | 400 | 标签/辅助文字 |
-| `--text-mono` | 15px | 14px | 13px | 1.6 | 400 | 代码/终端 |
-| `--text-stat` | 56px | 44px | 36px | 1.0 | 800 | 数字统计 |
+```css
+:root {
+  --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue',
+    Arial, sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono',
+    'Menlo', 'Consolas', monospace;
+}
+```
 
----
+使用规则：
 
-## 3. 间距与布局系统
+- `Poppins` / 系统 sans 用于正文、标题、按钮、导航。
+- `font-mono` 用于版本号、命令、标签、课程编号、技术指标。
+- 不要在首页中混入装饰字体或手写字体。
+
+### 3.3 间距
 
 ```css
 :root {
@@ -108,8 +147,23 @@
   --space-3xl: 64px;
   --space-4xl: 96px;
   --space-5xl: 128px;
+
   --container-max: 1200px;
   --container-narrow: 800px;
+}
+```
+
+使用规则：
+
+- 页面 section 默认 `128px` 上下间距。
+- 内容模块之间优先使用 `48px` / `64px`。
+- 卡片内部 padding 使用 `24px` / `28px`。
+- 移动端保持结构，不要把所有间距压到拥挤。
+
+### 3.4 圆角
+
+```css
+:root {
   --border-radius-sm: 6px;
   --border-radius-md: 12px;
   --border-radius-lg: 16px;
@@ -117,514 +171,282 @@
 }
 ```
 
-**页面内容区**: `max-width: var(--container-max); margin: 0 auto; padding: 0 24px;`
-**Section 间距**: 每个 section `padding: var(--space-5xl) 0;`（128px 上下）
-**卡片间距**: 网格 gap `var(--space-lg)`（24px）
+使用规则：
 
----
+- 小标签：`6px` 或 pill。
+- 按钮、终端、普通卡片：`12px`。
+- 信息卡片、课程卡片、架构节点：`16px`。
+- 大型品牌容器可使用 `24px`。
 
-## 4. 响应式断点
+## 4. 页面结构规范
 
-| 名称 | 断点 | 列数 | 容器 padding |
-|---|---|---|---|
-| Desktop | >= 1024px | 按 section 定义 | 24px |
-| Tablet | 768px -- 1023px | 2 列 | 20px |
-| Mobile | < 768px | 1 列 | 16px |
+### 4.1 Hero
 
----
+Hero 是“AI 产品私教”定位的第一表达。
 
-## 5. 通用动画参数
+必须包含：
 
-### 5.1 滚动驱动入场动画 (Intersection Observer)
+- 产品名或主张。
+- 一句清楚的价值定位。
+- 1-2 个主要行动按钮。
+- 轻量技术信号，例如安装命令、终端或版本标识。
 
-```
-触发阈值: 0.15 (元素 15% 可见时触发)
-rootMargin: "0px 0px -60px 0px"
-```
+视觉要求：
 
-| 动画类型 | 初始状态 | 结束状态 | duration | easing |
-|---|---|---|---|---|
-| fade-up | `opacity:0; translateY(30px)` | `opacity:1; translateY(0)` | 600ms | `cubic-bezier(0.25, 0.46, 0.45, 0.94)` |
-| fade-in | `opacity:0` | `opacity:1` | 500ms | `ease-out` |
-| scale-in | `opacity:0; scale(0.92)` | `opacity:1; scale(1)` | 500ms | `cubic-bezier(0.34, 1.56, 0.64, 1)` |
-| slide-left | `opacity:0; translateX(-40px)` | `opacity:1; translateX(0)` | 600ms | `cubic-bezier(0.25, 0.46, 0.45, 0.94)` |
-| slide-right | `opacity:0; translateX(40px)` | `opacity:1; translateX(0)` | 600ms | `cubic-bezier(0.25, 0.46, 0.45, 0.94)` |
+- 背景使用 `--bg-base`。
+- 可使用低透明径向光：`rgba(217,119,87,0.08)`。
+- 可使用低透明网格：`rgba(217,119,87,0.04)`。
+- 主标题大、稳、紧凑，避免花哨装饰。
 
-**子元素交错**: 同一组中的子元素依次延迟 80ms（第1个 0ms, 第2个 80ms, 第3个 160ms...）
+参考实现：
 
-### 5.2 数字计数动画
-
-```
-duration: 2000ms
-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94)  // ease-out-quad
-起始值: 0
-格式: 整数，到达目标值后追加后缀（如 "K+", "个" 等）
-触发: 元素进入视口时开始，仅触发一次
-帧率: requestAnimationFrame
+```css
+.hero-title {
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
 ```
 
-### 5.3 交互微动画
+### 4.2 导航栏
 
-| 对象 | 触发 | 效果 | duration | easing |
-|---|---|---|---|---|
-| 卡片 | hover | `translateY(-4px)`, `box-shadow` 增强, 边框色变为组件色 | 250ms | `ease-out` |
-| 按钮(CTA) | hover | 渐变色亮度+10%, `translateY(-2px)`, `box-shadow: 0 8px 24px rgba(99,102,241,0.3)` | 200ms | `ease-out` |
-| 按钮(CTA) | active | `translateY(0)`, shadow 收缩 | 100ms | `ease-in` |
-| 链接 | hover | 颜色变为 `--link-hover`，下划线从左滑入(width 0->100%) | 200ms | `ease-out` |
-| Tab | 切换 | 下划线滑动到新位置，内容 fade 切换 | 300ms | `ease-in-out` |
-| 架构图节点 | hover | `scale(1.08)`, 发光效果(`box-shadow: 0 0 20px` 组件色半透明) | 200ms | `ease-out` |
-| 架构图节点 | click | 展开详情面板(高度从0展开) | 350ms | `cubic-bezier(0.34, 1.56, 0.64, 1)` |
-| 复制按钮 | click | 图标从 "copy" 变 "check"，2s 后恢复 | 200ms | `ease-out` |
+导航栏应轻、透明、有秩序。
 
----
+要求：
 
-## 6. 导航栏 (固定顶部)
+- 高度：`64px`。
+- 背景：`rgba(250,249,245,0.92)`。
+- 模糊：`blur(12px) saturate(180%)`。
+- 底部分隔线使用 `--border-default`。
+- 激活态使用 `--cta-from`。
 
-### 布局
-- 固定定位 `position: fixed; top: 0; z-index: 100;`
-- 高度: 64px
-- 背景: `rgba(10, 14, 23, 0.85)` + `backdrop-filter: blur(12px) saturate(180%)`
-- 下边框: `1px solid var(--border-default)`
-- 滚动超过 80px 后加 `box-shadow: 0 1px 12px rgba(0,0,0,0.3)`
+### 4.3 卡片
 
-### 内容 (左 -- 中 -- 右)
-- **左**: 项目名 `cc4pm` 用 `--font-mono`，20px，700 weight，`--text-primary` 色。旁边 version badge `v1.8.0`，12px，`--text-muted`，带 `--border-default` 边框圆角pill
-- **中**: 锚点链接 -- `架构` | `能力` | `平台` | `安装` | `社区`，14px，`--text-secondary`，hover 变 `--text-primary`，当前 section 高亮为 `--cta-from` 色
-- **右**: GitHub Star 按钮 (小尺寸, 内联 SVG star 图标 + "Star" 文字 + "50K+" 数字)
+卡片是 cc4pm 首页的信息单元。
 
-### 移动端 (< 768px)
-- 中间导航隐藏，改为汉堡菜单图标（3条线，20px 宽）
-- 点击展开全屏菜单，背景 `var(--bg-base)` + `opacity: 0.98`
-- 菜单项垂直排列，24px 字号，间距 `--space-2xl`
-- 关闭按钮右上角 X 图标
+默认卡片：
 
----
-
-## 7. Section 1 -- Hero (`#hero`)
-
-### 背景
-- `var(--bg-base)` 底色
-- 装饰: 顶部居中一个径向渐变光晕 `radial-gradient(ellipse 600px 400px at 50% 20%, rgba(99,102,241,0.12) 0%, transparent 70%)`
-- 底部装饰: 细微网格线 `background-image: linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px); background-size: 60px 60px;`
-- 网格线仅覆盖 Hero 区域，高度 100vh
-
-### 布局
-- `min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center;`
-- 内容从导航高度(64px)下方开始
-
-### 内容 (从上到下)
-
-1. **顶部徽章** (入场: fade-in, delay 0ms)
-   - pill 形状，`background: var(--bg-card); border: 1px solid var(--border-highlight); border-radius: 99px; padding: 6px 16px;`
-   - 内容: `Anthropic 黑客松获奖项目` + 闪烁的小星 emoji 用 CSS 动画模拟(一个 4px 的 `var(--terminal-yellow)` 圆点，`animation: pulse 2s infinite`)
-   - 字号 13px，`--text-muted`
-
-2. **主标题** (入场: fade-up, delay 100ms)
-   - 第一行: `Everything` 用 `--text-primary`
-   - 第二行: `Claude Code` 用渐变文字 `linear-gradient(135deg, var(--cta-from), var(--cta-to), #06B6D4)`，`-webkit-background-clip: text;`
-   - 字号 `--text-hero`，字重 800，字间距 `-0.03em`
-
-3. **副标题** (入场: fade-up, delay 200ms)
-   - `经过 10 个月高强度日常使用锤炼的 Claude Code 插件全集`
-   - 字号 `--text-body`（桌面 20px 例外），`--text-secondary`，`max-width: 640px; margin: 0 auto;`
-
-4. **统计数字栏** (入场: fade-up, delay 300ms)
-   - 横向排列，6 个统计项，用竖线分隔(1px `--border-default`)
-   - 布局: `display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;`
-   - 每个统计项:
-     - 数字: `--text-stat` 字号，`--text-primary`，**计数动画**
-     - 标签: `--text-small`，组件对应色
-   - 数据:
-
-   | 数字 | 标签 | 颜色 |
-   |---|---|---|
-   | 50K+ | GitHub Stars | `--text-muted` |
-   | 94 | Skills | `--color-skills` |
-   | 48 | Commands | `--color-commands` |
-   | 18 | Agents | `--color-agents` |
-   | 59 | Rules | `--color-rules` |
-   | 997 | Tests | `--text-muted` |
-
-5. **CTA 按钮组** (入场: fade-up, delay 400ms)
-   - 横向排列，`gap: 16px;`，居中
-   - **主 CTA**: `background: linear-gradient(135deg, var(--cta-from), var(--cta-to)); color: white; padding: 14px 32px; border-radius: 12px; font-size: 16px; font-weight: 600;`
-     - 文字: `立即安装`
-     - 左侧终端图标(内联 SVG `>_` 符号, 20px)
-   - **GitHub Star CTA**: `background: var(--btn-github-bg); border: 1px solid var(--btn-github-border); color: var(--text-primary); padding: 14px 28px; border-radius: 12px; font-size: 16px; font-weight: 500;`
-     - GitHub SVG 图标(20px) + `Star on GitHub`
-   - 移动端按钮堆叠(`flex-direction: column; width: 100%;`)
-
-6. **安装命令预览** (入场: fade-up, delay 500ms)
-   - 终端风格容器，`background: var(--bg-card); border: 1px solid var(--border-default); border-radius: 12px; padding: 16px 20px; max-width: 520px; margin: 24px auto 0;`
-   - 顶部: 三个小圆点(12px, `#EF4444` `#F59E0B` `#10B981`)，右侧复制按钮
-   - 内容: `$ npx cc4pm typescript` 用 `--font-mono`，`$` 符号用 `--terminal-green`，命令用 `--text-primary`
-   - 复制按钮: 点击后复制 `npx cc4pm typescript` 到剪贴板，图标变为 check mark 2s
-
-### 动画
-- 背景网格线有轻微视差: `transform: translateY(calc(var(--scroll-y) * 0.05))` (通过 JS scroll listener 设置 CSS 变量)
-
----
-
-## 8. Section 2 -- 架构总览 (`#architecture`)
-
-### 背景
-- `var(--bg-elevated)`
-
-### 标题区
-- Section 标签: `架构` 大写标签，12px，字间距 `0.1em`，`--cta-from` 色，`--font-mono`
-- 主标题: `六大核心组件`，`--text-h1`
-- 副标题: `模块化架构，即插即用，按需组合`，`--text-body`，`--text-secondary`
-
-### 架构交互图
-
-**桌面布局**: 中心放射状布局，中间一个大圆(项目核心)，周围 6 个组件节点环绕
-
-- **中心节点**:
-  - 圆形，120px 直径，`background: var(--bg-card); border: 2px solid var(--border-highlight);`
-  - 内容: `cc4pm` 文字 + `v1.8.0` 小字
-  - 6 条连接线从中心射出到各节点(SVG line，`stroke: var(--border-default); stroke-width: 1; stroke-dasharray: 4 4;`)
-  - 连接线有流动动画: `stroke-dashoffset` 从 0 到 -8，duration 1.5s，infinite
-
-- **6 个组件节点** (均匀分布在半径 220px 的圆上):
-
-  | 位置角度 | 组件 | 图标(内联SVG) | 数量 | 描述 |
-  |---|---|---|---|---|
-  | 270deg (上) | Agents | 机器人头轮廓 | 18 | 专精子代理 |
-  | 330deg (右上) | Skills | 闪电 | 94 | 工作流技能 |
-  | 30deg (右下) | Commands | 终端提示符 | 48 | 斜杠命令 |
-  | 90deg (下) | Hooks | 钩子/回调箭头 | 2 | 触发器钩子 |
-  | 150deg (左下) | Rules | 盾牌 | 59 | 编码规则 |
-  | 210deg (左上) | MCP Configs | 插头/连接器 | 1 | 外部集成 |
-
-- **节点样式**:
-  - 圆角方块 `width: 140px; height: 140px; border-radius: 16px; background: var(--bg-card); border: 1px solid` 对应组件色 20% 透明
-  - 内容垂直排列: 图标(32px, 组件色) -> 名称(16px, `--text-primary`, 600) -> 数量(24px, 组件色, 700) -> 一句话(12px, `--text-muted`)
-  - Hover: `scale(1.08)`, 边框变组件色实色, `box-shadow: 0 0 24px` 组件色 25% 透明
-
-- **点击展开**: 点击任一节点，下方滑出详情面板
-  - 面板: `background: var(--bg-card); border: 1px solid var(--border-highlight); border-radius: 16px; padding: 24px; margin-top: 24px;`
-  - 内容: 组件详细列表(分两栏网格)，每项一行，图标+名称+一句话描述
-  - 展开动画: `max-height: 0 -> auto`(实际用固定高度), `opacity: 0 -> 1`, duration 350ms
-  - 同时只能展开一个节点，切换时先收起旧的(200ms)再展开新的(350ms)
-
-**各组件展开详情数据**:
-
-Agents (18个): architect, build-error-resolver, chief-of-staff, code-reviewer, database-reviewer, doc-updater, e2e-runner, go-build-resolver, go-reviewer, harness-optimizer, kotlin-build-resolver, kotlin-reviewer, loop-operator, planner, python-reviewer, refactor-cleaner, security-reviewer, tdd-guide
-
-Commands (48个, 列举代表性的): /tdd, /plan, /e2e, /code-review, /build-fix, /learn, /skill-create, /evolve, /verify, /claw, /orchestrate, /checkpoint, /eval, /quality-gate, /loop-start, /sessions, /resume-session, /prompt-optimize, /multi-plan, /multi-execute 等
-
-Skills (94个, 列举代表性分类):
-- 开发模式: coding-standards, backend-patterns, frontend-patterns, api-design, tdd-workflow
-- 语言专精: golang-patterns, kotlin-patterns, python-patterns, swift-concurrency, django-patterns
-- AI工程: agentic-engineering, autonomous-loops, continuous-learning, eval-harness, prompt-optimizer
-- 安全: security-review, security-scan
-- 内容: article-writing, content-engine, investor-materials, market-research
-
-**平板/移动端**: 改为 2x3 网格(平板) 或竖向卡片列表(手机)，去掉中心节点和连线，直接展示 6 张组件卡片
-
----
-
-## 9. Section 3 -- 核心能力 (`#capabilities`)
-
-### 背景
-- `var(--bg-base)`
-
-### 标题区
-- 标签: `能力`，同上标签样式
-- 主标题: `开箱即用的开发超能力`
-- 副标题: `从测试驱动开发到安全审计，覆盖软件工程全链路`
-
-### Tab 切换器
-- 三个 Tab: `Skills 技能` | `Commands 命令` | `Agents 代理`
-- 样式: 横向排列居中，每个 tab `padding: 10px 24px; font-size: 15px; color: var(--text-muted); cursor: pointer;`
-- 激活态: `color: var(--text-primary); border-bottom: 2px solid` 对应组件色
-- 下划线滑动动画: `transition: left 300ms ease-in-out, width 300ms ease-in-out;`
-- 移动端: tab 文字缩短为 `技能` | `命令` | `代理`
-
-### Tab 内容
-
-**Tab 1: Skills (默认展示)**
-
-6 张亮点卡片，3x2 网格(桌面) / 2x3(平板) / 1x6(手机)
-
-| 卡片 | 图标色 | 标题 | 描述 | 标签 |
-|---|---|---|---|---|
-| 1 | `--color-skills` | TDD 工作流 | 测试驱动开发全流程引导，红-绿-重构循环自动化 | tdd-workflow |
-| 2 | `--color-skills` | 自主循环 | AI 代理自主运行的持续改进循环 | autonomous-loops |
-| 3 | `--color-skills` | 安全审计 | 自动扫描代码安全漏洞和最佳实践违规 | security-scan |
-| 4 | `--color-skills` | 前端模式 | 现代前端架构模式与组件设计最佳实践 | frontend-patterns |
-| 5 | `--color-skills` | 评估体系 | AI 输出质量评估与基准测试框架 | eval-harness |
-| 6 | `--color-skills` | 持续学习 | 从会话中提取模式，持续积累项目知识 | continuous-learning |
-
-**Tab 2: Commands**
-
-6 张亮点卡片:
-
-| 卡片 | 图标色 | 标题 | 描述 | 命令 |
-|---|---|---|---|---|
-| 1 | `--color-commands` | /tdd | 一键启动测试驱动开发流程 | tdd |
-| 2 | `--color-commands` | /plan | 生成详尽的实现计划 | plan |
-| 3 | `--color-commands` | /code-review | 全方位代码质量审查 | code-review |
-| 4 | `--color-commands` | /e2e | 生成和执行端到端测试 | e2e |
-| 5 | `--color-commands` | /orchestrate | 多代理协作编排 | orchestrate |
-| 6 | `--color-commands` | /evolve | 自我改进的技能进化循环 | evolve |
-
-**Tab 3: Agents**
-
-6 张亮点卡片:
-
-| 卡片 | 图标色 | 标题 | 描述 | Agent |
-|---|---|---|---|---|
-| 1 | `--color-agents` | 架构师 | 系统设计与架构决策 | architect |
-| 2 | `--color-agents` | 代码审查员 | 多维度代码质量审查 | code-reviewer |
-| 3 | `--color-agents` | TDD 教练 | 测试驱动开发流程引导 | tdd-guide |
-| 4 | `--color-agents` | 安全审查员 | 安全漏洞检测与修复建议 | security-reviewer |
-| 5 | `--color-agents` | 规划师 | 任务分解与实现路径规划 | planner |
-| 6 | `--color-agents` | 参谋长 | 全局协调与资源调度 | chief-of-staff |
-
-### 卡片样式 (通用)
-```
-background: var(--bg-card);
-border: 1px solid var(--border-default);
-border-radius: var(--border-radius-lg);  /* 16px */
-padding: 28px;
-transition: all 250ms ease-out;
-```
-- 卡片内部: 顶部图标圆(48px, 组件色背景20%, 图标色实色) -> 标题(--text-h3, --text-primary, margin-top 16px) -> 描述(--text-body, --text-secondary, margin-top 8px) -> 底部标签pill(--text-small, --font-mono, 组件色文字, 组件色10%背景, border-radius 99px, padding 4px 12px, margin-top 16px)
-- Hover: `translateY(-4px); border-color:` 组件色 40%透明; `box-shadow: 0 12px 40px rgba(0,0,0,0.3);`
-
-### Tab 切换动画
-- 退出: 当前内容 `opacity: 1 -> 0`, duration 150ms
-- 进入: 新内容 `opacity: 0 -> 1`, duration 200ms, delay 100ms
-- 内容区高度固定（取最高 tab 内容高度），避免跳动
-
----
-
-## 10. Section 4 -- 跨平台支持 (`#platforms`)
-
-### 背景
-- `var(--bg-elevated)`
-
-### 标题区
-- 标签: `平台`
-- 主标题: `一套配置，四大平台`
-- 副标题: `Claude Code / Cursor / Codex / OpenCode，无缝切换`
-
-### 布局
-4 张平台卡片横向排列(桌面1x4, 平板2x2, 手机1x4竖排)
-
-| 平台 | 图标描述 | 安装命令 | 描述 |
-|---|---|---|---|
-| Claude Code | 终端 `>_` 图标，`--cta-from`色 | `npx cc4pm typescript` | 原生支持，完整功能集。agents/skills/hooks/commands/rules 全覆盖 |
-| Cursor | 光标箭头图标，`#00D1FF`色 | `npx cc4pm --target cursor` | 适配 Cursor IDE，rules/hooks/skills 迁移 |
-| Codex | 代码块`</>` 图标，`#10B981`色 | `npx cc4pm --target codex` | OpenAI Codex CLI 兼容，agents/config 适配 |
-| OpenCode | 齿轮图标，`#F59E0B`色 | `npx cc4pm --target opencode` | OpenCode 适配，commands/tools/plugins 迁移 |
-
-### 卡片样式
-- `background: var(--bg-card); border: 1px solid var(--border-default); border-radius: 16px; padding: 32px; text-align: center; flex: 1;`
-- 内部: 图标(40px, 居中) -> 平台名(--text-h3, 600) -> 描述(--text-body, --text-secondary, margin-top 8px) -> 安装命令行(`--font-mono`, 14px, `background: var(--bg-base)`, padding 8px 16px, border-radius 8px, margin-top 16px, 带复制按钮)
-- **第一张卡片(Claude Code)** 有特殊高亮: `border-color: var(--cta-from); box-shadow: 0 0 30px rgba(99,102,241,0.1);`，顶部加 `推荐` 标签 pill
-
----
-
-## 11. Section 5 -- 安装与使用 (`#install`)
-
-### 背景
-- `var(--bg-base)`
-
-### 标题区
-- 标签: `安装`
-- 主标题: `三秒启动`
-- 副标题: `一行命令，即刻解锁全部能力`
-
-### 终端模拟器
-
-- 容器: `max-width: 700px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border-default); border-radius: 16px; overflow: hidden;`
-- **标题栏**: 高度 44px，`background: var(--bg-overlay); padding: 0 16px; display: flex; align-items: center;`
-  - 左: 三个圆点(12px, `#EF4444` `#F59E0B` `#10B981`, gap 8px)
-  - 中: 文件名 `terminal`，13px，`--text-muted`，`--font-mono`
-  - 右: 空
-
-- **终端内容区**: `padding: 20px 24px; font-family: var(--font-mono); font-size: 15px; line-height: 1.8;`
-
-- **打字机动画** (自动播放一次，滚动到视口时触发):
-
-```
-场景 1 (延迟 500ms 开始):
-  显示提示符: "~ $" (--terminal-green)
-  逐字打出: "npx cc4pm typescript" (--text-primary)
-  打字速度: 每字符 60ms
-
-场景 2 (场景1完成后延迟 400ms):
-  整行输出(非打字机，直接 fade-in 200ms):
-  "✓ 已安装 18 个 agents" (--terminal-green 的 ✓，其余 --text-secondary)
-
-场景 3 (场景2后延迟 200ms):
-  "✓ 已安装 94 个 skills" (同上样式)
-
-场景 4 (场景3后延迟 200ms):
-  "✓ 已安装 48 个 commands"
-
-场景 5 (场景4后延迟 200ms):
-  "✓ 已安装 59 条 rules"
-
-场景 6 (场景5后延迟 200ms):
-  "✓ 已配置 hooks 和 MCP"
-
-场景 7 (场景6后延迟 600ms):
-  整行: "🎉 cc4pm v1.8.0 安装完成！" (--terminal-yellow 色)
-
-场景 8 (场景7后延迟 800ms):
-  提示符: "~ $"
-  逐字打出: "/tdd" (--color-commands 色)
-
-场景 9 (场景8后延迟 400ms):
-  输出: "启动 TDD 工作流..." (--terminal-blue)
-  输出: "正在分析项目结构..." (--text-muted)
-  输出: "✓ 测试驱动开发就绪" (--terminal-green)
-
-光标: 在最后一行末尾闪烁的方块光标
-  大小: 8px x 18px
-  颜色: var(--terminal-cursor)
-  动画: opacity 0/1 切换, 530ms interval
+```css
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+  padding: 28px;
+}
 ```
 
-### 终端下方 -- 快速安装按钮
+悬浮态：
 
-- 两个按钮并列(同 Hero CTA 样式但稍小):
-  - `Plugin Marketplace 安装` (主 CTA 样式, 点击复制 marketplace 安装命令)
-  - `npm 安装` (次要样式, 点击复制 `npm install -g cc4pm`)
-- 下方小字: `支持 npm / pnpm / yarn / bun`，`--text-muted`，13px
+```css
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+  border-color: var(--border-highlight);
+}
+```
 
----
+原则：
 
-## 12. Section 6 -- 社区与生态 (`#community`)
+- 阴影必须轻，不做厚重拟物。
+- 卡片之间用间距分组，不靠强边框制造分隔。
+- 一张卡只表达一个概念。
 
-### 背景
-- `var(--bg-elevated)`
+### 4.4 终端模块
 
-### 标题区
-- 标签: `社区`
-- 主标题: `开源社区驱动`
-- 副标题: `超过 50,000 开发者的共同选择`
+终端是工程可信度与 Claude Code 场景的视觉锚点。
 
-### 内容: 二栏布局 (桌面2列, 平板1列, 手机1列)
+要求：
 
-**栏 1: 项目数据**
+- 背景使用 `#141413`。
+- 顶栏使用 `#1e1e1c`。
+- 正文使用 mono 字体。
+- 成功/提示/警告颜色复用模块色，不引入新的荧光色。
 
-竖向排列的数据卡片:
+```css
+.terminal {
+  background: #141413;
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+  color: #f0f0ec;
+  font-family: var(--font-mono);
+}
+```
 
-| 指标 | 值 | 说明 |
-|---|---|---|
-| GitHub Stars | 50,000+ | 开源社区认可 |
-| 测试覆盖 | 997 tests | 生产级可靠性 |
-| MIT 许可 | 完全开源 | 商用友好 |
+### 4.5 架构图与模块关系
 
-- 每项: 数字用 `--text-stat`(但小号44px)，标签用 `--text-small`
-- 数字带计数动画
+cc4pm 的四大模块是品牌结构核心：
 
-**栏 2: 贡献者与链接**
+- BMM：业务建模。
+- CIS：创意智能。
+- WDS：网页设计系统。
+- Engineering：工程工具链。
 
-- 贡献引导:
-  - `加入我们` 标题，`--text-h3`
-  - `欢迎提交 PR、报告 Issue、分享使用经验` 描述
-  - 按钮: `查看贡献指南` -> 链接到 GitHub CONTRIBUTING.md
-  - 按钮: `提交 Issue` -> 链接到 GitHub Issues
+视觉表达：
 
-- 项目作者:
-  - `作者: Affaan Mustafa`
-  - Twitter/X 链接: `@affaanmustafa`
+- 中心节点为 cc4pm。
+- 四大模块围绕中心布局。
+- 连接线使用低对比虚线或细线。
+- 模块色只作为强调，不铺满大面积背景。
 
----
+## 5. 文案语气
 
-## 13. Section 7 -- CTA 尾部 (`#cta-footer`)
+cc4pm 的文案是“私人教练 + 产品主理人搭档”，不是传统 SaaS 销售话术。
 
-### 背景
-- `var(--bg-base)`
-- 大面积径向渐变: `radial-gradient(ellipse 800px 500px at 50% 60%, rgba(99,102,241,0.08) 0%, transparent 70%)`
+### 应该这样写
 
-### 布局
-- `text-align: center; padding: var(--space-5xl) 0 var(--space-4xl);`
+- “手把手带你做产品”
+- “从灵感到上线，全程陪伴”
+- “工具我来帮你装，方法我带你练”
+- “产品主理人的 AI 私教”
+- “不是工具集合，而是一套产品生命周期系统”
 
-### 内容
+### 避免这样写
 
-1. **标题**: `准备好提升你的 Claude Code 了吗？`，`--text-h1`
-2. **副标题**: `一行命令，解锁 94 个技能、48 个命令、18 个代理`，`--text-body`，`--text-secondary`
-3. **CTA 按钮组** (同 Hero 的双 CTA，完全相同样式)
-4. **安装命令** (同 Hero 的终端命令预览)
+- “革命性颠覆行业”
+- “一键生成商业帝国”
+- “最强 AI 工具”
+- “全网第一”
+- “无需思考，自动成功”
 
-### Footer 底部
-- 分隔线: `1px solid var(--border-default)`，`margin-top: var(--space-4xl);`
-- 内容: `padding: var(--space-xl) 0;`
-  - 左: `cc4pm v1.8.0`，`--text-muted`，`--font-mono`，13px
-  - 中: `MIT License`，`--text-muted`
-  - 右: GitHub 图标链接 + Twitter/X 图标链接，`--text-muted`，hover `--text-primary`
-- 移动端: 三部分堆叠居中
+语气关键词：
 
----
+```text
+清楚、温暖、可信、陪伴、实战、系统化、不过度承诺
+```
 
-## 14. 所有内联 SVG 图标规格
+## 6. 图像与海报规范
 
-所有图标均为内联 SVG，`viewBox="0 0 24 24"`，`stroke="currentColor"`，`stroke-width="2"`，`fill="none"`，`stroke-linecap="round"`，`stroke-linejoin="round"`。具体路径由 Builder 实现，风格统一为 Lucide/Feather 线条风格。
+当前项目中的深色蓝紫科技海报可以作为传播物料，但不能直接作为首页主视觉规范。
 
-需要的图标清单:
-- 终端 (`>_`)
-- GitHub logo
-- 机器人/代理
-- 闪电/技能
-- 命令行提示符
-- 钩子/回调
-- 盾牌/规则
-- 插头/连接
-- 复制
-- 对勾 (check)
-- 星星 (star)
-- 外部链接
-- 汉堡菜单 (三条线)
-- 关闭 (X)
-- 箭头 (chevron)
-- 光标箭头 (Cursor平台)
-- 代码块 (`</>`)
-- 齿轮
+### 官网主视觉
 
----
+应保持：
 
-## 15. 性能要求
+- 暖白背景。
+- 低饱和模块色。
+- 克制微光。
+- 结构化卡片。
+- 清晰文字层级。
 
-| 指标 | 目标 |
-|---|---|
-| HTML 文件总大小 | < 200KB |
-| 首次内容绘制 (FCP) | < 500ms (本地文件) |
-| JS 执行时间 | < 100ms (初始化) |
-| 动画帧率 | 60fps (所有动画使用 transform/opacity) |
-| 图片 | 0 张（纯 CSS + SVG） |
-| 外部请求 | 0 个 |
-| CSS 动画 | 优先 `will-change: transform, opacity` |
-| Intersection Observer | 单个实例，监听所有需要动画的元素 |
+### 宣传海报 / 社交图
 
----
+可以适度增强：
 
-## 16. 无障碍要求
+- 深色背景。
+- 发光轨道。
+- 系统节点。
+- AI-native 科技感。
 
-- 所有交互元素有 `tabindex` 和键盘操作支持
-- SVG 图标有 `aria-hidden="true"`，功能性图标有 `aria-label`
-- 颜色对比度: 正文文字与背景 >= 4.5:1 (B4BCD0 on 0A0E17 = 8.2:1, 通过)
-- `prefers-reduced-motion` 媒体查询: 检测到时禁用所有动画，直接显示最终状态
-- 语义化 HTML: `<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`
-- 每个 section 有 `<h2>` 标题
+但仍需保留：
 
----
+- cc4pm 四大模块。
+- 主品牌橙或暖色锚点。
+- 清晰层级。
+- 不使用廉价赛博朋克视觉。
 
-## 17. 实现注意事项 (给 Builder)
+## 7. 响应式规范
 
-1. **单文件**: 所有 CSS 用 `<style>` 标签, 所有 JS 用 `<script>` 标签, 在同一个 HTML 文件中
-2. **CSS 变量**: 所有颜色、间距、字号通过 `:root` CSS 变量定义，方便维护
-3. **JS 最小化**: 仅用于 Intersection Observer 动画触发、数字计数、Tab 切换、终端打字机、复制到剪贴板、导航高亮、移动端菜单。不引入任何框架
-4. **终端打字机**: 用 `setTimeout` 链式调用实现，不用 CSS animation
-5. **架构图连线**: 桌面端用 SVG 绝对定位叠加在节点容器上方，通过 JS 计算节点位置画线
-6. **滚动监听**: 用 `requestAnimationFrame` 节流，仅更新导航高亮和视差偏移 CSS 变量
-7. **输出路径**: `showcase/index.html`
+### 桌面端
 
----
+- 容器最大宽度：`1200px`。
+- Hero 居中，主标题大尺寸。
+- 三列或四列卡片网格。
+- 架构图可使用中心辐射布局。
 
-*规格文档结束。Builder 按此文档逐 section 实现即可，所有视觉和交互细节已完全定义。*
+### 平板端
+
+- 卡片网格降为两列。
+- 架构图可切换为模块卡片网格。
+- 保持 section 间距，但可略微压缩。
+
+### 移动端
+
+- 卡片单列。
+- 导航折叠菜单。
+- Hero 标题按比例缩小，不要强行保留桌面布局。
+- 所有交互区域至少 `44px` 高。
+
+## 8. 动效规范
+
+动效应像“系统响应”，不是“视觉表演”。
+
+允许：
+
+- `fade-up` 内容进入。
+- 卡片 `translateY(-4px)` 悬浮。
+- 轻量脉冲点。
+- 连接线虚线流动。
+- Tab 淡入切换。
+
+限制：
+
+- 动效时长通常在 `200ms-600ms`。
+- 必须支持 `prefers-reduced-motion: reduce`。
+- 不做无限大面积背景动画。
+- 不做抢夺注意力的弹跳或旋转。
+
+## 9. AI 生成页面 Prompt 模板
+
+当要求 AI 为 cc4pm 生成新页面或区块时，使用下面模板：
+
+```text
+你是 cc4pm 的产品设计师。请为 cc4pm 生成一个页面/区块，严格遵循以下视觉规范：
+
+品牌定位：cc4pm 是产品主理人的 AI 产品私教，气质是专业、温暖、系统化、陪伴式。
+
+视觉风格：Editorial Minimalism 60% + Swiss Typography 25% + Warm AI SaaS 15%。
+
+颜色：
+- 背景 #faf9f5 / #f0efe8
+- 卡片 #ffffff
+- 主文字 #141413
+- 正文 #4a4a45
+- 弱文字 #8a8a82
+- 主行动色 #d97757 → #c4623f
+- 模块色：BMM #d97757，CIS #d4a853，WDS #788c5d，Engineering #b07d62
+
+排版：
+- 使用现代 sans 字体，技术标签和命令使用 mono 字体。
+- 标题大而稳，正文留足行高。
+- 保持清晰层级，不堆叠装饰。
+
+布局：
+- 1200px 最大容器。
+- section 上下留白充足。
+- 卡片 16px 圆角、1px 暖灰边框、轻阴影。
+- 使用低透明网格或微光时必须克制。
+
+禁止：
+- 紫蓝霓虹大渐变。
+- 过度玻璃拟态。
+- 无意义 3D 球体、机器人、芯片背景。
+- 高饱和赛博朋克风。
+- 夸张营销话术。
+
+输出：完整 HTML/CSS，保持响应式与 prefers-reduced-motion 支持。
+```
+
+## 10. 设计审查清单
+
+每次新增首页区块、活动页或 Showcase 页面前，检查：
+
+- [ ] 是否仍然表达“AI 产品私教”，而不是泛 AI 工具？
+- [ ] 背景是否保持暖白/米白体系？
+- [ ] 主色是否使用陶土橙，而不是默认蓝紫？
+- [ ] 卡片是否轻、清晰、克制？
+- [ ] 是否有足够留白和阅读节奏？
+- [ ] 模块色是否有语义，而不是装饰？
+- [ ] 技术感是否通过终端、mono、网格、系统结构表达？
+- [ ] 是否避免 AI Slop：紫色渐变、玻璃卡片、无意义 3D、泛科技图标？
+- [ ] 移动端是否保持内容清晰？
+- [ ] 动效是否支持 reduced motion？
+
+## 11. 与现有文件的关系
+
+- `docs/index.html`：当前官网首页实现。
+- `packages/homepage/index.html`：发布为 `@cc4pm/homepage` 的首页副本。
+- `package.json` 的 `build:homepage`：将 `docs/index.html` 同步到 `packages/homepage/index.html`。
+- 本文件：后续首页、Showcase、营销页和 AI 生成页面的设计依据。
+
+如果修改首页视觉，应同步更新本规范；如果只新增页面，应优先遵循本规范，不要重新发明一套视觉系统。
