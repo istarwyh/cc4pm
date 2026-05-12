@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 37
+  supplementary_lessons: 39
   default_max_lines: 400
 
 stages:
@@ -311,6 +311,23 @@ stages:
           - blue-ocean-strategy
           - business-model-canvas
           - cis-to-bmm-bridge
+
+      - id: lesson-2.1
+        file: lesson-2.1.md
+        number: 12.1
+        title: "BMad 完整工作流：四个阶段与三条轨道"
+        short_title: "BMad 工作流全景"
+        supplementary: true
+        topics:
+          - bmad-four-phases
+          - bmad-planning-tracks
+          - bmad-help-skill
+          - bmad-fresh-chats
+          - bmad-project-context
+          - prfaq-workflow
+          - bmad-quick-dev
+          - bmad-output-structure
+          - bmad-build-cycle
 
       - id: lesson-3
         file: lesson-3.md
@@ -655,6 +672,10 @@ stages:
           - generator-evaluator-split
           - capability-vs-regression-evals
           - code-vs-model-graders
+          - model-grader-randomness
+          - model-grader-homogeneity
+          - false-convergence-illusion
+          - agent-eval-agent-pitfalls
 
       - id: lesson-2.2
         file: lesson-22.2.md
@@ -696,6 +717,20 @@ stages:
           - human-review-gate
           - three-stage-tdd-pipeline
           - knowledge-engineering-tdd
+
+      - id: lesson-2.5
+        file: lesson-22.5.md
+        number: 22.5
+        title: "无人评测架构——消灭判断，只留验证"
+        short_title: "无人评测架构"
+        supplementary: true
+        topics:
+          - judgment-to-verification
+          - claim-extract-verify-pattern
+          - adversarial-attack-eval
+          - cross-model-disagreement
+          - reference-corpus-anchoring
+          - hallucination-aware-pipeline
 
       - id: lesson-3
         file: lesson-3.md

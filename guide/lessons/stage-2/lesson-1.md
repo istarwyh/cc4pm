@@ -54,6 +54,56 @@
 
 阶段 2 的 6 节课将带你体验 CIS + BMM 的完整工作流：**从 100+ 创意到可交付的冲刺计划。**
 
+### BMad 是什么？从哪里来？
+
+你在图中看到的 **BMM（BMad Method）** 不是 cc4pm 原创的——它来自一个独立的开源框架：
+
+> **BMad Method** — Breakthrough Method for Agile AI Driven Development
+> GitHub：[https://github.com/bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)
+> 文档：[https://docs.bmad-method.org](https://docs.bmad-method.org)
+> 46,800+ Stars · v6.6.0 · 140 贡献者
+
+**cc4pm 和 BMad 的关系**：
+
+```
+BMad Method（原始框架）
+  └── 提供：代理体系、工作流、安装器
+
+cc4pm（教学系统）
+  └── 告诉你：BMad 是什么、怎么用、用在哪
+  └── 内置了：BMad v6.1.0 的完整内容供教学演示
+  └── 但不替代：你在真实项目中独立安装的 BMad
+```
+
+**cc4pm 是教你怎么用 BMad，不是让你用 cc4pm 干活。** 就像驾校教你开车，但你上路时开的是你自己的车。
+
+#### 如何独立安装 BMad（在你的真实项目中使用）
+
+**前置要求**：Node.js v20+ · Python 3.10+ · uv
+
+```bash
+# 在你的项目目录下运行，按提示选择模块
+npx bmad-method install
+```
+
+安装完成后，在该目录打开 Claude Code，BMad 的所有代理和命令就可以使用了。
+
+**按需安装扩展模块**：
+
+| 模块 | 内容 | 安装参数 |
+|------|------|---------|
+| BMM（核心） | 34+ 工作流，PM/架构师/开发者代理 | 默认包含 |
+| CIS | 创意智能套件（36 技巧 + 30 框架） | `--modules cis` |
+| WDS | 网页设计系统（8 个阶段） | `--modules wds` |
+| TEA | 测试架构扩展 | `--modules tea` |
+
+```bash
+# 非交互式安装示例（CI/CD 友好）
+npx bmad-method install --modules bmm cis wds --tools claude-code --yes
+```
+
+> 社区资源：[Discord](https://discord.gg/gk8jAdXWmj) · [YouTube](https://youtube.com/@BMadCode) · [X/Twitter](https://x.com/BMadCode)
+
 ### 认识头脑风暴教练：Carson
 
 Carson 是 CIS 模块中的头脑风暴教练代理，定位是"精英头脑风暴专家"（Elite Brainstorming Specialist）。他的性格像一个充满激情的即兴表演教练——能量爆棚，用 "YES AND" 不断叠加你的想法，疯狂鼓励野性思维。
