@@ -51,7 +51,7 @@ const PRIMARY_COMMANDS = [
 
 function showHelp(exitCode = 0) {
   console.log(`
-cc4pm selective-install CLI
+cc4pm — Claude Code 交互式课件安装 CLI
 
 Usage:
   cc4pm <command> [args...]
@@ -61,19 +61,16 @@ Commands:
 ${PRIMARY_COMMANDS.map(command => `  ${command.padEnd(15)} ${COMMANDS[command].description}`).join('\n')}
 
 Compatibility:
-  cc4pm-install      Legacy install entrypoint retained for existing flows
   cc4pm [args...]    Without a command, args are routed to "install"
   cc4pm help <command> Show help for a specific command
 
 Examples:
-  cc4pm typescript
-  cc4pm install --profile developer --target claude
-  cc4pm plan --profile core --target cursor
+  cc4pm install --modules cc4pm-guide
+  cc4pm install --modules cc4pm-guide --dry-run
+  cc4pm plan --modules cc4pm-guide --target claude
   cc4pm list-installed --json
-  cc4pm doctor --target cursor
-  cc4pm repair --dry-run
-  cc4pm session-inspect claude:latest
-  cc4pm uninstall --target antigravity --dry-run
+  cc4pm doctor --target claude
+  cc4pm uninstall --target claude --dry-run
 `);
 
   process.exit(exitCode);

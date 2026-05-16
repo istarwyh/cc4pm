@@ -85,7 +85,7 @@ function runTests() {
       const targetRoot = path.join(homeDir, '.claude');
       const statePath = path.join(targetRoot, 'cc4pm', 'install-state.json');
       const managedFile = path.join(targetRoot, 'rules', 'common', 'coding-style.md');
-      const sourceContent = fs.readFileSync(path.join(REPO_ROOT, 'rules', 'common', 'coding-style.md'), 'utf8');
+      const sourceContent = fs.readFileSync(path.join(REPO_ROOT, '.claude', 'rules', 'common', 'coding-style.md'), 'utf8');
       fs.mkdirSync(path.dirname(managedFile), { recursive: true });
       fs.writeFileSync(managedFile, sourceContent);
 
@@ -107,7 +107,7 @@ function runTests() {
           {
             kind: 'copy-file',
             moduleId: 'legacy-claude-rules',
-            sourceRelativePath: 'rules/common/coding-style.md',
+            sourceRelativePath: '.claude/rules/common/coding-style.md',
             destinationPath: managedFile,
             strategy: 'preserve-relative-path',
             ownership: 'managed',
@@ -125,58 +125,6 @@ function runTests() {
       assert.strictEqual(result.code, 0, result.stderr);
       assert.ok(result.stdout.includes('Doctor report'));
       assert.ok(result.stdout.includes('Status: OK'));
-    } finally {
-      cleanup(homeDir);
-      cleanup(projectRoot);
-    }
-  })) passed++; else failed++;
-
-  if (test('reports issues and exits 1 for unhealthy installs', () => {
-    const homeDir = createTempDir('doctor-home-');
-    const projectRoot = createTempDir('doctor-project-');
-
-    try {
-      const targetRoot = path.join(projectRoot, '.cursor');
-      const statePath = path.join(targetRoot, 'cc4pm-install-state.json');
-      fs.mkdirSync(targetRoot, { recursive: true });
-
-      writeState(statePath, {
-        adapter: { id: 'cursor-project', target: 'cursor', kind: 'project' },
-        targetRoot,
-        installStatePath: statePath,
-        request: {
-          profile: null,
-          modules: ['platform-configs'],
-          legacyLanguages: [],
-          legacyMode: false,
-        },
-        resolution: {
-          selectedModules: ['platform-configs'],
-          skippedModules: [],
-        },
-        operations: [
-          {
-            kind: 'copy-file',
-            moduleId: 'platform-configs',
-            sourceRelativePath: '.cursor/hooks.json',
-            destinationPath: path.join(targetRoot, 'hooks.json'),
-            strategy: 'sync-root-children',
-            ownership: 'managed',
-            scaffoldOnly: false,
-          },
-        ],
-        source: {
-          repoVersion: CURRENT_PACKAGE_VERSION,
-          repoCommit: 'abc123',
-          manifestVersion: CURRENT_MANIFEST_VERSION,
-        },
-      });
-
-      const result = run(['--target', 'cursor', '--json'], { cwd: projectRoot, homeDir });
-      assert.strictEqual(result.code, 1);
-      const parsed = JSON.parse(result.stdout);
-      assert.strictEqual(parsed.summary.errorCount, 1);
-      assert.ok(parsed.results[0].issues.some(issue => issue.code === 'missing-managed-files'));
     } finally {
       cleanup(homeDir);
       cleanup(projectRoot);

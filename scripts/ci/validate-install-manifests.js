@@ -51,19 +51,21 @@ function validateSchema(ajv, schemaPath, data, label) {
 }
 
 function validateInstallManifests() {
-  if (!fs.existsSync(MODULES_MANIFEST_PATH) || !fs.existsSync(PROFILES_MANIFEST_PATH)) {
+  if (!fs.existsSync(MODULES_MANIFEST_PATH)) {
     console.log('Install manifests not found, skipping validation');
     process.exit(0);
   }
 
   let hasErrors = false;
   let modulesData;
-  let profilesData;
+  let profilesData = { version: null, profiles: {} };
   let componentsData = { version: null, components: [] };
 
   try {
     modulesData = readJson(MODULES_MANIFEST_PATH, 'install-modules.json');
-    profilesData = readJson(PROFILES_MANIFEST_PATH, 'install-profiles.json');
+    if (fs.existsSync(PROFILES_MANIFEST_PATH)) {
+      profilesData = readJson(PROFILES_MANIFEST_PATH, 'install-profiles.json');
+    }
     if (fs.existsSync(COMPONENTS_MANIFEST_PATH)) {
       componentsData = readJson(COMPONENTS_MANIFEST_PATH, 'install-components.json');
     }
@@ -74,7 +76,9 @@ function validateInstallManifests() {
 
   const ajv = new Ajv({ allErrors: true });
   hasErrors = validateSchema(ajv, MODULES_SCHEMA_PATH, modulesData, 'install-modules.json') || hasErrors;
-  hasErrors = validateSchema(ajv, PROFILES_SCHEMA_PATH, profilesData, 'install-profiles.json') || hasErrors;
+  if (fs.existsSync(PROFILES_MANIFEST_PATH)) {
+    hasErrors = validateSchema(ajv, PROFILES_SCHEMA_PATH, profilesData, 'install-profiles.json') || hasErrors;
+  }
   if (fs.existsSync(COMPONENTS_MANIFEST_PATH)) {
     hasErrors = validateSchema(ajv, COMPONENTS_SCHEMA_PATH, componentsData, 'install-components.json') || hasErrors;
   }
@@ -129,14 +133,6 @@ function validateInstallManifests() {
 
   const profiles = profilesData.profiles || {};
   const components = Array.isArray(componentsData.components) ? componentsData.components : [];
-  const expectedProfileIds = ['core', 'developer', 'security', 'research', 'full'];
-
-  for (const profileId of expectedProfileIds) {
-    if (!profiles[profileId]) {
-      console.error(`ERROR: Missing required install profile: ${profileId}`);
-      hasErrors = true;
-    }
-  }
 
   for (const [profileId, profile] of Object.entries(profiles)) {
     const seenModules = new Set();

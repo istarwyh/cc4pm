@@ -9,19 +9,17 @@ const path = require('path');
 
 const {
   loadInstallManifests,
-  listInstallComponents,
   listInstallModules,
-  listInstallProfiles,
   resolveInstallPlan,
 } = require('../../scripts/lib/install-manifests');
 
 function test(name, fn) {
   try {
     fn();
-    console.log(`  \u2713 ${name}`);
+    console.log(`  ✓ ${name}`);
     return true;
   } catch (error) {
-    console.log(`  \u2717 ${name}`);
+    console.log(`  ✗ ${name}`);
     console.log(`    Error: ${error.message}`);
     return false;
   }
@@ -51,103 +49,39 @@ function runTests() {
   if (test('loads real project install manifests', () => {
     const manifests = loadInstallManifests();
     assert.ok(manifests.modules.length >= 1, 'Should load modules');
-    assert.ok(Object.keys(manifests.profiles).length >= 1, 'Should load profiles');
-    assert.ok(manifests.components.length >= 1, 'Should load components');
-  })) passed++; else failed++;
-
-  if (test('lists install profiles from the real project', () => {
-    const profiles = listInstallProfiles();
-    assert.ok(profiles.some(profile => profile.id === 'core'), 'Should include core profile');
-    assert.ok(profiles.some(profile => profile.id === 'full'), 'Should include full profile');
   })) passed++; else failed++;
 
   if (test('lists install modules from the real project', () => {
     const modules = listInstallModules();
-    assert.ok(modules.some(module => module.id === 'rules-core'), 'Should include rules-core');
-    assert.ok(modules.some(module => module.id === 'orchestration'), 'Should include orchestration');
+    assert.ok(modules.some(module => module.id === 'cc4pm-guide'), 'Should include cc4pm-guide');
   })) passed++; else failed++;
 
-  if (test('lists install components from the real project', () => {
-    const components = listInstallComponents();
-    assert.ok(components.some(component => component.id === 'lang:typescript'),
-      'Should include lang:typescript');
-    assert.ok(components.some(component => component.id === 'capability:security'),
-      'Should include capability:security');
-  })) passed++; else failed++;
-
-  if (test('resolves a real project profile with target-specific skips', () => {
+  if (test('resolves the cc4pm-guide module for claude target', () => {
     const projectRoot = '/workspace/app';
-    const plan = resolveInstallPlan({ profileId: 'developer', target: 'cursor', projectRoot });
-    assert.ok(plan.selectedModuleIds.includes('rules-core'), 'Should keep rules-core');
-    assert.ok(plan.selectedModuleIds.includes('commands-core'), 'Should keep commands-core');
-    assert.ok(!plan.selectedModuleIds.includes('orchestration'),
-      'Should not select unsupported orchestration module for cursor');
-    assert.ok(plan.skippedModuleIds.includes('orchestration'),
-      'Should report unsupported orchestration module as skipped');
-    assert.strictEqual(plan.targetAdapterId, 'cursor-project');
-    assert.strictEqual(plan.targetRoot, path.join(projectRoot, '.cursor'));
-    assert.strictEqual(plan.installStatePath, path.join(projectRoot, '.cursor', 'cc4pm-install-state.json'));
+    const plan = resolveInstallPlan({ moduleIds: ['cc4pm-guide'], target: 'claude', projectRoot });
+    assert.ok(plan.selectedModuleIds.includes('cc4pm-guide'), 'Should select cc4pm-guide');
+    assert.strictEqual(plan.targetAdapterId, 'claude-home');
     assert.ok(plan.operations.length > 0, 'Should include scaffold operations');
-    assert.ok(
-      plan.operations.some(operation => (
-        operation.sourceRelativePath === '.cursor'
-        && operation.strategy === 'sync-root-children'
-      )),
-      'Should flatten the native cursor root'
-    );
   })) passed++; else failed++;
 
-  if (test('resolves explicit modules with dependency expansion', () => {
-    const plan = resolveInstallPlan({ moduleIds: ['security'] });
-    assert.ok(plan.selectedModuleIds.includes('security'), 'Should include requested module');
-    assert.ok(plan.selectedModuleIds.includes('workflow-quality'),
-      'Should include transitive dependency');
-    assert.ok(plan.selectedModuleIds.includes('platform-configs'),
-      'Should include nested dependency');
-  })) passed++; else failed++;
-
-  if (test('resolves included and excluded user-facing components', () => {
-    const plan = resolveInstallPlan({
-      profileId: 'core',
-      includeComponentIds: ['capability:security'],
-      excludeComponentIds: ['capability:orchestration'],
-      target: 'claude',
-    });
-
-    assert.deepStrictEqual(plan.includedComponentIds, ['capability:security']);
-    assert.deepStrictEqual(plan.excludedComponentIds, ['capability:orchestration']);
-    assert.ok(plan.selectedModuleIds.includes('security'), 'Should include modules from selected components');
-    assert.ok(!plan.selectedModuleIds.includes('orchestration'), 'Should exclude modules from excluded components');
-    assert.ok(plan.excludedModuleIds.includes('orchestration'),
-      'Should report modules removed by excluded components');
-  })) passed++; else failed++;
-
-  if (test('fails when a selected component depends on an excluded component module', () => {
+  if (test('throws on unknown install module', () => {
     assert.throws(
-      () => resolveInstallPlan({
-        includeComponentIds: ['capability:social'],
-        excludeComponentIds: ['capability:content'],
-      }),
-      /depends on excluded module business-content/
-    );
-  })) passed++; else failed++;
-
-  if (test('throws on unknown install profile', () => {
-    assert.throws(
-      () => resolveInstallPlan({ profileId: 'ghost-profile' }),
-      /Unknown install profile/
+      () => resolveInstallPlan({ moduleIds: ['ghost-module'] }),
+      /Unknown install module/
     );
   })) passed++; else failed++;
 
   if (test('throws on unknown install target', () => {
     assert.throws(
-      () => resolveInstallPlan({ profileId: 'core', target: 'not-a-target' }),
+      () => resolveInstallPlan({ moduleIds: ['cc4pm-guide'], target: 'not-a-target' }),
       /Unknown install target/
     );
   })) passed++; else failed++;
 
   if (test('throws when a dependency does not support the requested target', () => {
     const repoRoot = createTestRepo();
+    fs.mkdirSync(path.join(repoRoot, 'parent'), { recursive: true });
+    fs.mkdirSync(path.join(repoRoot, 'child'), { recursive: true });
     writeJson(path.join(repoRoot, 'manifests', 'install-modules.json'), {
       version: 1,
       modules: [
@@ -175,15 +109,9 @@ function runTests() {
         }
       ]
     });
-    writeJson(path.join(repoRoot, 'manifests', 'install-profiles.json'), {
-      version: 1,
-      profiles: {
-        core: { description: 'Core', modules: ['parent'] }
-      }
-    });
 
     assert.throws(
-      () => resolveInstallPlan({ repoRoot, profileId: 'core', target: 'claude' }),
+      () => resolveInstallPlan({ repoRoot, moduleIds: ['parent'], target: 'claude' }),
       /does not support target claude/
     );
     cleanupTestRepo(repoRoot);

@@ -51,7 +51,7 @@ function main() {
     ['shows top-level help', () => {
       const result = runCli(['--help']);
       assert.strictEqual(result.status, 0);
-      assert.match(result.stdout, /cc4pm selective-install CLI/);
+      assert.match(result.stdout, /Claude Code 交互式课件安装 CLI/);
       assert.match(result.stdout, /list-installed/);
       assert.match(result.stdout, /doctor/);
     }],
@@ -72,11 +72,11 @@ function main() {
       assert.deepStrictEqual(payload.plan.languages, ['typescript']);
     }],
     ['delegates plan command', () => {
-      const result = runCli(['plan', '--list-profiles', '--json']);
+      const result = runCli(['plan', '--list-modules', '--json']);
       assert.strictEqual(result.status, 0, result.stderr);
       const payload = parseJson(result.stdout);
-      assert.ok(Array.isArray(payload.profiles));
-      assert.ok(payload.profiles.length > 0);
+      assert.ok(Array.isArray(payload.modules));
+      assert.ok(payload.modules.some(module => module.id === 'cc4pm-guide'));
     }],
     ['delegates lifecycle commands', () => {
       const homeDir = createTempDir('cc4pm-cli-home-');

@@ -28,10 +28,10 @@ function run(args = []) {
 function test(name, fn) {
   try {
     fn();
-    console.log(`  \u2713 ${name}`);
+    console.log(`  ✓ ${name}`);
     return true;
   } catch (error) {
-    console.log(`  \u2717 ${name}`);
+    console.log(`  ✗ ${name}`);
     console.log(`    Error: ${error.message}`);
     return false;
   }
@@ -49,90 +49,25 @@ function runTests() {
     assert.ok(result.stdout.includes('Inspect cc4pm selective-install manifests'));
   })) passed++; else failed++;
 
-  if (test('lists install profiles', () => {
-    const result = run(['--list-profiles']);
-    assert.strictEqual(result.code, 0);
-    assert.ok(result.stdout.includes('Install profiles'));
-    assert.ok(result.stdout.includes('core'));
-  })) passed++; else failed++;
-
   if (test('lists install modules', () => {
     const result = run(['--list-modules']);
     assert.strictEqual(result.code, 0);
     assert.ok(result.stdout.includes('Install modules'));
-    assert.ok(result.stdout.includes('rules-core'));
-  })) passed++; else failed++;
-
-  if (test('lists install components', () => {
-    const result = run(['--list-components', '--family', 'language']);
-    assert.strictEqual(result.code, 0);
-    assert.ok(result.stdout.includes('Install components'));
-    assert.ok(result.stdout.includes('lang:typescript'));
-    assert.ok(!result.stdout.includes('capability:security'));
-  })) passed++; else failed++;
-
-  if (test('prints a filtered install plan for a profile and target', () => {
-    const result = run([
-      '--profile', 'developer',
-      '--with', 'capability:security',
-      '--without', 'capability:orchestration',
-      '--target', 'cursor'
-    ]);
-    assert.strictEqual(result.code, 0);
-    assert.ok(result.stdout.includes('Install plan'));
-    assert.ok(result.stdout.includes('Included components: capability:security'));
-    assert.ok(result.stdout.includes('Excluded components: capability:orchestration'));
-    assert.ok(result.stdout.includes('Adapter: cursor-project'));
-    assert.ok(result.stdout.includes('Target root:'));
-    assert.ok(result.stdout.includes('Install-state:'));
-    assert.ok(result.stdout.includes('Operation plan'));
-    assert.ok(result.stdout.includes('Excluded by selection'));
-    assert.ok(result.stdout.includes('security'));
+    assert.ok(result.stdout.includes('cc4pm-guide'));
   })) passed++; else failed++;
 
   if (test('emits JSON for explicit module resolution', () => {
     const result = run([
-      '--modules', 'security',
-      '--with', 'capability:research',
-      '--target', 'cursor',
+      '--modules', 'cc4pm-guide',
+      '--target', 'claude',
       '--json'
     ]);
     assert.strictEqual(result.code, 0);
     const parsed = JSON.parse(result.stdout);
-    assert.ok(parsed.selectedModuleIds.includes('security'));
-    assert.ok(parsed.selectedModuleIds.includes('research-apis'));
-    assert.ok(parsed.selectedModuleIds.includes('workflow-quality'));
-    assert.deepStrictEqual(parsed.includedComponentIds, ['capability:research']);
-    assert.strictEqual(parsed.targetAdapterId, 'cursor-project');
+    assert.ok(parsed.selectedModuleIds.includes('cc4pm-guide'));
+    assert.strictEqual(parsed.targetAdapterId, 'claude-home');
     assert.ok(Array.isArray(parsed.operations));
     assert.ok(parsed.operations.length > 0);
-  })) passed++; else failed++;
-
-  if (test('loads planning intent from cc4pm-install.json', () => {
-    const configDir = path.join(__dirname, '..', 'fixtures', 'tmp-install-plan-config');
-    const configPath = path.join(configDir, 'cc4pm-install.json');
-
-    try {
-      require('fs').mkdirSync(configDir, { recursive: true });
-      require('fs').writeFileSync(configPath, JSON.stringify({
-        version: 1,
-        target: 'cursor',
-        profile: 'core',
-        include: ['capability:security'],
-        exclude: ['capability:orchestration'],
-      }, null, 2));
-
-      const result = run(['--config', configPath, '--json']);
-      assert.strictEqual(result.code, 0);
-      const parsed = JSON.parse(result.stdout);
-      assert.strictEqual(parsed.target, 'cursor');
-      assert.deepStrictEqual(parsed.includedComponentIds, ['capability:security']);
-      assert.deepStrictEqual(parsed.excludedComponentIds, ['capability:orchestration']);
-      assert.ok(parsed.selectedModuleIds.includes('security'));
-      assert.ok(!parsed.selectedModuleIds.includes('orchestration'));
-    } finally {
-      require('fs').rmSync(configDir, { recursive: true, force: true });
-    }
   })) passed++; else failed++;
 
   if (test('fails on unknown arguments', () => {
@@ -142,7 +77,7 @@ function runTests() {
   })) passed++; else failed++;
 
   if (test('fails on invalid install target', () => {
-    const result = run(['--profile', 'core', '--target', 'not-a-target']);
+    const result = run(['--modules', 'cc4pm-guide', '--target', 'not-a-target']);
     assert.strictEqual(result.code, 1);
     assert.ok(result.stderr.includes('Unknown install target'));
   })) passed++; else failed++;

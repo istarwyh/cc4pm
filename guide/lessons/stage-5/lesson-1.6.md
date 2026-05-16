@@ -600,4 +600,4 @@ A: 会累积，但有三层防御：(1) 配置 `auto_compress` 自动压缩；(2
 - [3] 返回主菜单
 
 ---
-*阶段 5 | Lesson 24.6/26 | 上一课: Lesson 24.5 - graphify 知识图谱 | 下一课: Lesson 25 - 完整项目实战*
+*阶段 5 | Lesson 24.6/26 | 上一课: Lesson 24.5 - graphify 知识图谱 | 下一课: Lesson 24.7 - 微信读书 Skill*

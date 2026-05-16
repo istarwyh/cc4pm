@@ -19,16 +19,16 @@
 
 ## 这是什么
 
-cc4pm 是一套面向**产品主理人**的 AI 全生命周期产品系统。基于 Claude Code 插件体系，整合了 200+ Skills、18 个 AI 代理、48 个命令，覆盖从灵感验证到产品上线发布的完整链路。
+cc4pm 是一套面向**产品主理人**的 AI 全生命周期产品系统**交互式课件**。`npx cc4pm install --modules cc4pm-guide` 安装后，在 Claude Code 里输入 `/cc4pm-guide` 即可开始学习。
 
-不是配置集合，而是一套完整的产品方法论 + 工程工具链：
+课件覆盖四大主题，从灵感验证到产品上线发布的完整链路：
 
 - **BMM**（业务建模）— 市场研究、PRD 创建、需求拆解、冲刺规划
 - **CIS**（创意智能）— 36 种创意技巧、30 种创新框架、故事讲述
 - **WDS**（设计系统）— 用户心理映射、UX 场景、设计规范、原型
 - **工程工具链** — TDD、代码审查、E2E 测试、安全扫描、CI/CD
 
-基于 [Everything Claude Code](https://github.com/affaan-m/everything-claude-code)（Anthropic 黑客马拉松获奖项目，50K+ Stars）构建，在其工程基础上增加了产品方法论层，将工具升级为系统。
+仓库里同时收录了课件讲解的**参考实现**（`.claude/` 下的 175 个 skill、9 个代理、37 个命令、45 条规则），可以与课件配合检阅，也可以独立 fork 使用。基于 [Everything Claude Code](https://github.com/affaan-m/everything-claude-code)（Anthropic 黑客马拉松获奖项目）构建。
 
 ---
 
@@ -57,17 +57,19 @@ cd cc4pm && claude
 
 ### 核心命令速览
 
-| 命令 | 用途 |
-|------|------|
-| `/bmad-brainstorming` | 头脑风暴，36 种创意技巧 |
-| `/bmad-create-prd` | AI 辅助创建 PRD |
-| `/bmad-market-research` | 市场研究与竞争分析 |
-| `/bmad-sprint-planning` | 冲刺规划与进度追踪 |
-| `/plan` | 技术实现规划 |
-| `/tdd` | 测试驱动开发 |
-| `/code-review` | 代码质量审查 |
-| `/e2e` | 端到端测试 |
-| `/cc4pm-guide` | 交互式教学（26 节课） |
+| 命令 | 用途 | 包含在课件安装中 |
+|------|------|---|
+| `/cc4pm-guide` | 交互式教学（5 阶段 26 节课） | ✅ |
+| `/bmad-brainstorming` | 头脑风暴，36 种创意技巧 | 课件讲解，需 git clone 启用 |
+| `/bmad-create-prd` | AI 辅助创建 PRD | 同上 |
+| `/bmad-market-research` | 市场研究与竞争分析 | 同上 |
+| `/bmad-sprint-planning` | 冲刺规划与进度追踪 | 同上 |
+| `/plan` | 技术实现规划 | 同上 |
+| `/tdd` | 测试驱动开发 | 同上 |
+| `/code-review` | 代码质量审查 | 同上 |
+| `/e2e` | 端到端测试 | 同上 |
+
+> `npx cc4pm install --modules cc4pm-guide` 只安装课件；想用 `/bmad-*`、`/plan`、`/tdd` 等命令需要 `git clone` 整个仓库到本地 `.claude/`。
 
 ---
 
@@ -144,16 +146,21 @@ cc4pm 内置了一套完整的交互式课程（26 节课，5 个阶段）：
 
 ```
 cc4pm/
-├── _bmad/              四大方法论模块（BMM/CIS/WDS/Core）
-├── agents/             18 个工程代理
-├── commands/           48 个斜杠命令
-├── skills/             94 个工程技能
-├── hooks/              事件驱动自动化
-├── rules/              46 条编码准则（通用 + 7 种语言）
-├── .claude/skills/     BMAD 技能（100+ 产品/设计/创意技能）
-├── docs/               文档 + Showcase
-├── scripts/            安装、钩子、CI 脚本
-└── tests/              测试套件
+├── guide/                  课件本体：5 阶段 × 26+ 节课 + course-map.yaml
+├── .claude/
+│   ├── skills/cc4pm-guide/   交互式教学入口（SKILL.md）
+│   ├── skills/               175 个参考 skill（含 bmad-* / 工程 skill）
+│   ├── agents/               9 个参考代理（planner / tdd-guide / code-reviewer 等）
+│   ├── commands/             37 个参考斜杠命令
+│   ├── rules/                45 条编码规则（通用 + 7 种语言）
+│   ├── hooks/                事件驱动 hooks 配置
+│   └── mcp-configs/          MCP 服务器配置
+├── _bmad/                  BMAD METHOD V6 方法论源文档（BMM/CIS/WDS/Core）
+├── manifests/              安装清单（cc4pm-guide 单模块）
+├── scripts/                安装器（cc4pm.js / install-*.js）+ 课件同步脚本
+├── docs/                   Showcase 站点
+├── packages/homepage/      @cc4pm/homepage 独立子包
+└── the-{long,short}form-guide.md   课件补充长/短文版
 ```
 
 ---

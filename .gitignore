@@ -42,3 +42,9 @@ examples/sessions/*.tmp
 # Local drafts
 marketing/
 .dmux/
+
+# Ephemeral Claude Code worktrees
+.claude/worktrees/
+
+# Local Remotion video project
+cc4pm-video/

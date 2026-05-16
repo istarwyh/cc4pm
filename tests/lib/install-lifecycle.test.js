@@ -190,7 +190,7 @@ function runTests() {
       const targetRoot = path.join(homeDir, '.claude');
       const statePath = path.join(targetRoot, 'cc4pm', 'install-state.json');
       const managedFile = path.join(targetRoot, 'rules', 'common', 'coding-style.md');
-      const sourceContent = fs.readFileSync(path.join(REPO_ROOT, 'rules', 'common', 'coding-style.md'), 'utf8');
+      const sourceContent = fs.readFileSync(path.join(REPO_ROOT, '.claude', 'rules', 'common', 'coding-style.md'), 'utf8');
       fs.mkdirSync(path.dirname(managedFile), { recursive: true });
       fs.writeFileSync(managedFile, sourceContent);
 
@@ -212,7 +212,7 @@ function runTests() {
           {
             kind: 'copy-file',
             moduleId: 'legacy-claude-rules',
-            sourceRelativePath: 'rules/common/coding-style.md',
+            sourceRelativePath: '.claude/rules/common/coding-style.md',
             destinationPath: managedFile,
             strategy: 'preserve-relative-path',
             ownership: 'managed',
@@ -236,114 +236,6 @@ function runTests() {
       assert.strictEqual(report.results.length, 1);
       assert.strictEqual(report.results[0].status, 'ok');
       assert.strictEqual(report.results[0].issues.length, 0);
-    } finally {
-      cleanup(homeDir);
-      cleanup(projectRoot);
-    }
-  })) passed++; else failed++;
-
-  if (test('doctor reports drifted managed files as a warning', () => {
-    const homeDir = createTempDir('install-lifecycle-home-');
-    const projectRoot = createTempDir('install-lifecycle-project-');
-
-    try {
-      const targetRoot = path.join(projectRoot, '.cursor');
-      const statePath = path.join(targetRoot, 'cc4pm-install-state.json');
-      const sourcePath = path.join(REPO_ROOT, '.cursor', 'hooks.json');
-      const destinationPath = path.join(targetRoot, 'hooks.json');
-      fs.mkdirSync(path.dirname(destinationPath), { recursive: true });
-      fs.writeFileSync(destinationPath, '{"drifted":true}\n');
-
-      writeState(statePath, {
-        adapter: { id: 'cursor-project', target: 'cursor', kind: 'project' },
-        targetRoot,
-        installStatePath: statePath,
-        request: {
-          profile: null,
-          modules: ['platform-configs'],
-          legacyLanguages: [],
-          legacyMode: false,
-        },
-        resolution: {
-          selectedModules: ['platform-configs'],
-          skippedModules: [],
-        },
-        operations: [
-          {
-            kind: 'copy-file',
-            moduleId: 'platform-configs',
-            sourcePath,
-            sourceRelativePath: '.cursor/hooks.json',
-            destinationPath,
-            strategy: 'sync-root-children',
-            ownership: 'managed',
-            scaffoldOnly: false,
-          },
-        ],
-        source: {
-          repoVersion: CURRENT_PACKAGE_VERSION,
-          repoCommit: 'abc123',
-          manifestVersion: CURRENT_MANIFEST_VERSION,
-        },
-      });
-
-      const report = buildDoctorReport({
-        repoRoot: REPO_ROOT,
-        homeDir,
-        projectRoot,
-        targets: ['cursor'],
-      });
-
-      assert.strictEqual(report.results.length, 1);
-      assert.strictEqual(report.results[0].status, 'warning');
-      assert.ok(report.results[0].issues.some(issue => issue.code === 'drifted-managed-files'));
-    } finally {
-      cleanup(homeDir);
-      cleanup(projectRoot);
-    }
-  })) passed++; else failed++;
-
-  if (test('doctor reports manifest resolution drift for non-legacy installs', () => {
-    const homeDir = createTempDir('install-lifecycle-home-');
-    const projectRoot = createTempDir('install-lifecycle-project-');
-
-    try {
-      const targetRoot = path.join(projectRoot, '.cursor');
-      const statePath = path.join(targetRoot, 'cc4pm-install-state.json');
-      fs.mkdirSync(targetRoot, { recursive: true });
-
-      writeState(statePath, {
-        adapter: { id: 'cursor-project', target: 'cursor', kind: 'project' },
-        targetRoot,
-        installStatePath: statePath,
-        request: {
-          profile: 'core',
-          modules: [],
-          legacyLanguages: [],
-          legacyMode: false,
-        },
-        resolution: {
-          selectedModules: ['rules-core'],
-          skippedModules: [],
-        },
-        operations: [],
-        source: {
-          repoVersion: CURRENT_PACKAGE_VERSION,
-          repoCommit: 'abc123',
-          manifestVersion: CURRENT_MANIFEST_VERSION,
-        },
-      });
-
-      const report = buildDoctorReport({
-        repoRoot: REPO_ROOT,
-        homeDir,
-        projectRoot,
-        targets: ['cursor'],
-      });
-
-      assert.strictEqual(report.results.length, 1);
-      assert.strictEqual(report.results[0].status, 'warning');
-      assert.ok(report.results[0].issues.some(issue => issue.code === 'resolution-drift'));
     } finally {
       cleanup(homeDir);
       cleanup(projectRoot);

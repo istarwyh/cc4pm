@@ -1,9 +1,0 @@
-[mcp_servers.drawio]
-args = ["@next-ai-drawio/mcp-server@latest"]
-command = "npx"
-
-[mcp_servers.exa]
-url = "https://mcp.exa.ai/mcp"
-
-[mcp_servers.grep]
-url = "https://mcp.grep.app"

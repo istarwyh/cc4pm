@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 39
+  supplementary_lessons: 41
   default_max_lines: 400
 
 stages:
@@ -732,6 +732,25 @@ stages:
           - reference-corpus-anchoring
           - hallucination-aware-pipeline
 
+      - id: lesson-2.6
+        file: lesson-22.6.md
+        number: 22.6
+        title: "AI 编程即训练模型——心智模型的根本切换"
+        short_title: "AI 编程即训练"
+        supplementary: true
+        topics:
+          - coding-as-training-model
+          - requirements-as-loss-function
+          - tests-as-validation-set
+          - agent-as-model-architecture
+          - iterations-as-training-steps
+          - codebase-as-weights
+          - reward-hacking-in-coding
+          - overfitting-data-leakage-drift-in-coding
+          - goodharts-law-coding
+          - keras-of-ai-coding
+          - programmer-to-ml-engineer-shift
+
       - id: lesson-3
         file: lesson-3.md
         number: 23
@@ -950,6 +969,22 @@ stages:
           - provider-env-config
           - weixin-setup
           - multi-platform-bridge
+
+      - id: lesson-1.7
+        file: lesson-1.7.md
+        number: 24.7
+        title: "微信读书 Skill——把读过的书变成 AI 的私人语料库"
+        short_title: "微信读书 Skill"
+        supplementary: true
+        topics:
+          - weread-skill
+          - weread-api-gateway
+          - skill-version-handshake
+          - personal-corpus-as-rag
+          - crowd-highlight-wisdom
+          - weread-graphify-pipeline
+          - deep-link-schema
+          - bookid-resolution-flow
 
       - id: lesson-2
         file: lesson-2.md

@@ -46,12 +46,14 @@ function loadInstallManifests(options = {}) {
   const repoRoot = options.repoRoot || DEFAULT_REPO_ROOT;
   const { modulesPath, profilesPath, componentsPath } = getManifestPaths(repoRoot);
 
-  if (!fs.existsSync(modulesPath) || !fs.existsSync(profilesPath)) {
+  if (!fs.existsSync(modulesPath)) {
     throw new Error(`Install manifests not found under ${repoRoot}`);
   }
 
   const modulesData = readJson(modulesPath, 'install-modules.json');
-  const profilesData = readJson(profilesPath, 'install-profiles.json');
+  const profilesData = fs.existsSync(profilesPath)
+    ? readJson(profilesPath, 'install-profiles.json')
+    : { version: null, profiles: {} };
   const componentsData = fs.existsSync(componentsPath)
     ? readJson(componentsPath, 'install-components.json')
     : { version: null, components: [] };
