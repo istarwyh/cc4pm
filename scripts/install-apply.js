@@ -18,6 +18,10 @@ const {
 const { loadInstallConfig } = require('./lib/install/config');
 const { applyInstallPlan } = require('./lib/install/apply');
 const { createInstallPlanFromRequest } = require('./lib/install/runtime');
+const {
+  isInteractiveSession,
+  runInteractiveSelection,
+} = require('./lib/install/interactive');
 
 function showHelp(exitCode = 0) {
   const languages = listAvailableLanguages();
@@ -92,7 +96,16 @@ function printHumanPlan(plan, dryRun) {
   }
 }
 
-function main() {
+function hasExplicitSelection(options, config) {
+  if (options.profileId || (options.moduleIds && options.moduleIds.length > 0)) return true;
+  if (options.includeComponentIds && options.includeComponentIds.length > 0) return true;
+  if (options.languages && options.languages.length > 0) return true;
+  if (config && (config.profileId || (config.moduleIds && config.moduleIds.length > 0)
+    || (config.includeComponentIds && config.includeComponentIds.length > 0))) return true;
+  return false;
+}
+
+async function main() {
   try {
     const options = parseInstallArgs(process.argv);
 
@@ -103,6 +116,22 @@ function main() {
     const config = options.configPath
       ? loadInstallConfig(options.configPath, { cwd: process.cwd() })
       : null;
+
+    if (!hasExplicitSelection(options, config) && !options.json && isInteractiveSession()) {
+      const selection = await runInteractiveSelection();
+      if (selection.type === 'cancel') {
+        return;
+      }
+      if (selection.type === 'selection') {
+        options.profileId = options.profileId || selection.profileId;
+        options.moduleIds = [...(options.moduleIds || []), ...selection.moduleIds];
+        options.includeComponentIds = [
+          ...(options.includeComponentIds || []),
+          ...selection.includeComponentIds,
+        ];
+      }
+    }
+
     const request = normalizeInstallRequest({
       ...options,
       config,
@@ -134,4 +163,7 @@ function main() {
   }
 }
 
-main();
+main().catch(error => {
+  console.error(`Error: ${error.message}`);
+  process.exit(1);
+});
