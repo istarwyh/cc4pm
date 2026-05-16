@@ -1326,7 +1326,7 @@ section { padding: var(--space-5xl) 0; }
       </div>
       <div class="section-label">开始课程 · 一条命令完成安装</div>
       <h2 class="section-title">一条命令，开始学习</h2>
-      <p class="section-subtitle">运行 <code style="background:rgba(0,0,0,.06);padding:2px 8px;border-radius:4px;font-size:inherit">npx cc4pm install --modules cc4pm-guide</code>，然后打开 Claude Code 输入 <code style="background:rgba(0,0,0,.06);padding:2px 8px;border-radius:4px;font-size:inherit">/cc4pm-guide</code>——AI 课程教练就位，带你完成环境配置，直接进入第一节课</p>
+      <p class="section-subtitle">运行 <code style="background:rgba(0,0,0,.06);padding:2px 8px;border-radius:4px;font-size:inherit">npx cc4pm install</code>（交互式选择，回车走默认），然后打开 Claude Code 输入 <code style="background:rgba(0,0,0,.06);padding:2px 8px;border-radius:4px;font-size:inherit">/cc4pm-guide</code>——AI 课程教练就位，带你完成环境配置，直接进入第一节课</p>
     </div>
 
     <div class="install-terminal anim fade-up" id="installTerminal">
@@ -1341,7 +1341,7 @@ section { padding: var(--space-5xl) 0; }
     </div>
 
     <div class="install-actions anim fade-up" style="transition-delay:200ms">
-      <button class="btn-primary" onclick="copyText('npx cc4pm install --modules cc4pm-guide', this)">
+      <button class="btn-primary" onclick="copyText('npx cc4pm install', this)">
         <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:20px;height:20px"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         复制安装命令
       </button>
@@ -1426,7 +1426,7 @@ section { padding: var(--space-5xl) 0; }
           <svg class="faq-chevron" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer">
-          <p>课程完全在 Claude Code 终端里运行——没有视频，没有外部平台。运行 <code>npx cc4pm install --modules cc4pm-guide</code> 安装课程，然后打开 Claude Code 输入 <code>/cc4pm-guide</code>，AI 会作为你的课程教练，带你逐节学习，边教边让你动手练习。<br><br>每节课都有具体的任务和命令要执行，学完一节就能立刻用在你自己的项目上。这是"边学边做"，不是"看完再做"。</p>
+          <p>课程完全在 Claude Code 终端里运行——没有视频，没有外部平台。运行 <code>npx cc4pm install</code>（交互式选择，回车走默认）安装课程，然后打开 Claude Code 输入 <code>/cc4pm-guide</code>，AI 会作为你的课程教练，带你逐节学习，边教边让你动手练习。<br><br>每节课都有具体的任务和命令要执行，学完一节就能立刻用在你自己的项目上。这是"边学边做"，不是"看完再做"。</p>
         </div>
       </div>
       <div class="faq-item">
@@ -1834,11 +1834,13 @@ section { padding: var(--space-5xl) 0; }
   var termStarted = false;
 
   var termLines = [
-    { type: 'cmd', prompt: '~ $ ', text: 'npx cc4pm install --modules cc4pm-guide', delay: 500 },
-    { type: 'out', html: '<span class="term-muted">Installing cc4pm-guide module...</span>', delay: 600 },
+    { type: 'cmd', prompt: '~ $ ', text: 'npx cc4pm install', delay: 500 },
+    { type: 'out', html: '<span class="term-muted">cc4pm interactive install</span>', delay: 400 },
+    { type: 'out', html: '<span class="term-muted">  1) cc4pm-guide (default)</span>', delay: 200 },
+    { type: 'out', html: '<span class="term-muted">Enter module number(s) or "q" to cancel [default: cc4pm-guide]: \u21b5</span>', delay: 400 },
     { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">skills/cc4pm-guide/SKILL.md</span>', delay: 200 },
     { type: 'out', html: '<span class="term-success">\u2713</span> <span class="term-muted">guide/ (71 lessons)</span>', delay: 200 },
-    { type: 'out', html: '<span class="term-success">done.</span> <span class="term-muted">1 module installed to ~/.claude/</span>', delay: 400 },
+    { type: 'out', html: '<span class="term-success">done.</span> <span class="term-muted">installed to ~/.claude/</span>', delay: 400 },
     { type: 'cmd', prompt: '~ $ ', text: 'claude', delay: 400 },
     { type: 'cmd', prompt: 'cc4pm $ ', text: '/cc4pm-guide', cmdClass: 'term-cmd-color', delay: 600 },
     { type: 'out', html: '<span class="term-info">你的 AI 产品私教已就位...</span>', delay: 400 },

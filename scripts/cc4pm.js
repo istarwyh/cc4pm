@@ -65,12 +65,14 @@ Compatibility:
   cc4pm help <command> Show help for a specific command
 
 Examples:
-  cc4pm install --modules cc4pm-guide
+  cc4pm install                                # interactive selection (TTY)
+  cc4pm install --modules cc4pm-guide          # explicit, scripting-friendly
   cc4pm install --modules cc4pm-guide --dry-run
-  cc4pm plan --modules cc4pm-guide --target claude
-  cc4pm list-installed --json
-  cc4pm doctor --target claude
-  cc4pm uninstall --target claude --dry-run
+  cc4pm plan --list-modules
+  cc4pm list-installed
+  cc4pm doctor
+  cc4pm uninstall --dry-run
+  cc4pm help <command>                         # detailed flags for any subcommand
 `);
 
   process.exit(exitCode);

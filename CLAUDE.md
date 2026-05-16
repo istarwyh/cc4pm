@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **cc4pm (Claude Code for Product Makers)** — 面向产品主理人的 AI 全生命周期产品系统**交互式课件**。
 
-`npx cc4pm install --modules cc4pm-guide` 安装后，在 Claude Code 里输入 `/cc4pm-guide` 即可开始 5 阶段、26+ 节课的渐进式学习。课件覆盖四大主题：
+运行 `npx cc4pm install` 走交互式安装，然后在 Claude Code 里输入 `/cc4pm-guide` 即可开始 5 阶段、26+ 节课的渐进式学习。课件覆盖四大主题：
 
 - **BMM（Business Modeling Method）** — 业务建模，市场研究→PRD→需求拆解→冲刺规划
 - **CIS（Creative Intelligence Strategy）** — 创意智能，36 种创意技巧 + 30 种创新框架
@@ -57,16 +57,20 @@ cc4pm/
 
 ## Install Architecture
 
-简化后的安装机制只支持**一条路径**：
+入口形态：
 
 ```
-npx cc4pm install --modules cc4pm-guide [--target claude] [--dry-run]
+npx cc4pm install                              # TTY 下交互式选择模块（推荐）
+npx cc4pm install --modules cc4pm-guide        # 非交互，脚本/CI 友好
+npx cc4pm install --modules cc4pm-guide --dry-run
+npx cc4pm --help
 ```
 
-- 唯一模块 `cc4pm-guide` 定义在 `manifests/install-modules.json`，paths 为 `.claude/skills/cc4pm-guide`、`guide`、`scripts/cc4pm-guide-qmd-check.js`
+- 当前唯一模块 `cc4pm-guide` 定义在 `manifests/install-modules.json`，paths 为 `.claude/skills/cc4pm-guide`、`guide`、`scripts/cc4pm-guide-qmd-check.js`
 - 唯一 target 为 `claude`，安装到 `~/.claude/`
 - 安装状态写入 `~/.claude/cc4pm/install-state.json`
 - 配套生命周期命令：`plan` / `list-installed` / `doctor` / `repair` / `uninstall`
+- 交互式安装由 `scripts/lib/install/interactive.js` 实现：仅在 stdin + stdout 都是 TTY 且未传 `--json` / 选择参数时进入；非 TTY 保持旧报错以避免脚本无限挂起
 
 ## Key Commands
 

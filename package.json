@@ -1,6 +1,6 @@
 {
   "name": "cc4pm",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Claude Code 交互式课件——为产品主理人打造的 AI 全生命周期产品系统教学",
   "keywords": [
     "cc4pm",
@@ -57,7 +57,7 @@
     "cc4pm-install": "install.sh"
   },
   "scripts": {
-    "postinstall": "echo '\\n  cc4pm installed!\\n  Install courseware: npx cc4pm install --modules cc4pm-guide\\n  Then open Claude Code and type /cc4pm-guide\\n  Docs: https://github.com/istarwyh/cc4pm\\n'",
+    "postinstall": "echo '\\n  cc4pm installed!\\n  Run:  npx cc4pm install      # interactive\\n  Help: npx cc4pm --help\\n  Then open Claude Code and type /cc4pm-guide\\n  Docs: https://github.com/istarwyh/cc4pm\\n'",
     "lint": "eslint . && markdownlint '**/*.md' --ignore node_modules",
     "claw": "node scripts/claw.js",
     "test": "node scripts/ci/validate-install-manifests.js && node scripts/ci/validate-no-personal-paths.js && node scripts/sync-courseware.js --check && node tests/run-all.js",

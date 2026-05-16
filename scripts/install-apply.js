@@ -27,10 +27,11 @@ function showHelp(exitCode = 0) {
   const languages = listAvailableLanguages();
 
   console.log(`
-Usage: install.sh [--target <${LEGACY_INSTALL_TARGETS.join('|')}>] [--dry-run] [--json] <language> [<language> ...]
-       install.sh [--target <${SUPPORTED_INSTALL_TARGETS.join('|')}>] [--dry-run] [--json] --profile <name> [--with <component>]... [--without <component>]...
-       install.sh [--target <${SUPPORTED_INSTALL_TARGETS.join('|')}>] [--dry-run] [--json] --modules <id,id,...> [--with <component>]... [--without <component>]...
-       install.sh [--dry-run] [--json] --config <path>
+Usage: cc4pm install                                  # interactive selection (TTY required)
+       cc4pm install [--target <${SUPPORTED_INSTALL_TARGETS.join('|')}>] [--dry-run] [--json] --modules <id,id,...> [--with <component>]... [--without <component>]...
+       cc4pm install [--target <${SUPPORTED_INSTALL_TARGETS.join('|')}>] [--dry-run] [--json] --profile <name> [--with <component>]... [--without <component>]...
+       cc4pm install [--dry-run] [--json] --config <path>
+       cc4pm install [--target <${LEGACY_INSTALL_TARGETS.join('|')}>] [--dry-run] [--json] <language> [<language> ...]    # legacy
 
 Targets:
   claude       (default) - Install rules to ~/.claude/rules/
