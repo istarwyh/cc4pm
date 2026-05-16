@@ -127,26 +127,32 @@ function runCommand(commandName, args) {
     throw new Error(`Unknown command: ${commandName}`);
   }
 
+  const parentIsTTY = Boolean(process.stdin.isTTY && process.stdout.isTTY);
+  const spawnOptions = parentIsTTY
+    ? {
+        cwd: process.cwd(),
+        env: process.env,
+        stdio: 'inherit',
+      }
+    : {
+        cwd: process.cwd(),
+        env: process.env,
+        encoding: 'utf8',
+      };
+
   const result = spawnSync(
     process.execPath,
     [path.join(__dirname, command.script), ...args],
-    {
-      cwd: process.cwd(),
-      env: process.env,
-      encoding: 'utf8',
-    }
+    spawnOptions
   );
 
   if (result.error) {
     throw result.error;
   }
 
-  if (result.stdout) {
-    process.stdout.write(result.stdout);
-  }
-
-  if (result.stderr) {
-    process.stderr.write(result.stderr);
+  if (!parentIsTTY) {
+    if (result.stdout) process.stdout.write(result.stdout);
+    if (result.stderr) process.stderr.write(result.stderr);
   }
 
   if (typeof result.status === 'number') {
