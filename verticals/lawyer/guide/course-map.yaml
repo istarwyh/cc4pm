@@ -1,0 +1,60 @@
+meta:
+  title: "cc4Lawyer by cc4pm"
+  subtitle: "用一个案件讲透 Claude Code 垂直行业工作台课程"
+  total_lessons: 10
+  default_case: "SaaS 软件服务合同纠纷"
+  disclaimer: "垂直行业课程用途，不提供法律行业解决方案；示例需由律师团队替换为自己的 SOP，所有 AI 输出必须由律师复核。"
+
+stages:
+  - id: stage-1
+    title: "从聊天框到行业工作台课程"
+    lessons:
+      - id: lesson-1
+        file: lesson-1.md
+        number: 1
+        title: "cc4Lawyer 全景：不是法律解决方案，而是垂直课程"
+      - id: lesson-2
+        file: lesson-2.md
+        number: 2
+        title: "项目文件夹即案卷：搭建 SaaS 合同纠纷工作台"
+      - id: lesson-3
+        file: lesson-3.md
+        number: 3
+        title: "CLAUDE.md：律师助理工作守则"
+      - id: lesson-4
+        file: lesson-4.md
+        number: 4
+        title: "上下文管理：让 Claude Code 理解你的案件"
+  - id: stage-2
+    title: "Skills：教行业专家封装自己的高频流程"
+    lessons:
+      - id: lesson-5
+        file: lesson-5.md
+        number: 5
+        title: "案件初始化 Skill：摘要、时间线、追问清单"
+      - id: lesson-6
+        file: lesson-6.md
+        number: 6
+        title: "合同审查 Skill：付款、交付、验收、违约责任"
+      - id: lesson-7
+        file: lesson-7.md
+        number: 7
+        title: "证据目录 Skill：事实、证据、证明目的对齐"
+  - id: stage-3
+    title: "Agent Teams + Supervisor"
+    lessons:
+      - id: lesson-8
+        file: lesson-8.md
+        number: 8
+        title: "Agent Team：用法律案例讲角色拆分与协作边界"
+      - id: lesson-9
+        file: lesson-9.md
+        number: 9
+        title: "Supervisor 工作流：Detect → Execute → Evaluate → Package"
+  - id: stage-4
+    title: "复核与交付"
+    lessons:
+      - id: lesson-10
+        file: lesson-10.md
+        number: 10
+        title: "Reviewer/Evaluator：质量控制、交付包与课程闭环"

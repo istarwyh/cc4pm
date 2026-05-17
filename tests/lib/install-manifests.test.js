@@ -56,6 +56,39 @@ function runTests() {
     assert.ok(modules.some(module => module.id === 'cc4pm-guide'), 'Should include cc4pm-guide');
   })) passed++; else failed++;
 
+  if (test('exposes cc4lawyer-guide as an optional vertical course module', () => {
+    const manifests = loadInstallManifests();
+    const module = manifests.modulesById.get('cc4lawyer-guide');
+    assert.ok(module, 'Should include cc4lawyer-guide');
+    assert.strictEqual(module.defaultInstall, false, 'cc4lawyer-guide should not be default-installed');
+    assert.deepStrictEqual(module.targets, ['claude']);
+    assert.strictEqual(module.stability, 'beta');
+    assert.deepStrictEqual(module.paths, [
+      '.claude/skills/cc4lawyer-guide',
+      'verticals/lawyer',
+    ]);
+
+    for (const installPath of module.paths) {
+      assert.ok(!installPath.startsWith('.claude/skills/lawyer-'), `Should not install runtime lawyer skill ${installPath}`);
+      assert.ok(!installPath.startsWith('.claude/agents/legal-'), `Should not install runtime legal agent ${installPath}`);
+      assert.ok(!installPath.startsWith('.claude/rules/legal-'), `Should not install runtime legal rule ${installPath}`);
+    }
+  })) passed++; else failed++;
+
+  if (test('keeps the cc4lawyer vertical manifest aligned with the root manifest', () => {
+    const manifests = loadInstallManifests();
+    const rootModule = manifests.modulesById.get('cc4lawyer-guide');
+    const verticalManifestPath = path.join(
+      manifests.repoRoot,
+      'verticals',
+      'lawyer',
+      'manifests',
+      'cc4lawyer-guide.json'
+    );
+    const verticalModule = JSON.parse(fs.readFileSync(verticalManifestPath, 'utf8'));
+    assert.deepStrictEqual(verticalModule, rootModule);
+  })) passed++; else failed++;
+
   if (test('resolves the cc4pm-guide module for claude target', () => {
     const projectRoot = '/workspace/app';
     const plan = resolveInstallPlan({ moduleIds: ['cc4pm-guide'], target: 'claude', projectRoot });

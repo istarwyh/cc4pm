@@ -1,0 +1,16 @@
+{
+  "id": "cc4lawyer-guide",
+  "kind": "skills",
+  "description": "cc4Lawyer by cc4pm vertical courseware: a legal teaching case for learning how to build an industry workbench with Claude Code.",
+  "paths": [
+    ".claude/skills/cc4lawyer-guide",
+    "verticals/lawyer"
+  ],
+  "targets": [
+    "claude"
+  ],
+  "dependencies": [],
+  "defaultInstall": false,
+  "cost": "medium",
+  "stability": "beta"
+}
