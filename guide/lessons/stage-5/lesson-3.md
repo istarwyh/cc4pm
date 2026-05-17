@@ -294,9 +294,11 @@ ls design-artifacts/
 
 ## 下一步
 
-- [1] 返回主菜单，复习任意课程
-- [2] 开始一个真实项目（推荐从 /bmad-brainstorming 开始）
-- [3] 退出学习
+请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
+
+- 返回主菜单，复习任意课程
+- 开始一个真实项目（推荐从 /bmad-brainstorming 开始）
+- 退出学习
 
 ---
 *阶段 5 | Lesson 26/26 (阶段内 3/3) | 上一课: Lesson 25.1 - Issue→PR 工作流 | 课程完结*

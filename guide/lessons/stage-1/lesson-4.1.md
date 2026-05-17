@@ -238,9 +238,11 @@ A: 80% 的场景用 3 个就够：档位 1（鼓励式）做探索，档位 5（
 
 ## 下一步
 
-- [1] 进入下一课：Lesson 5 - CLAUDE.md：项目的 AI 记忆
-- [2] 返回主菜单
-- [3] 退出学习
+请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
+
+- 进入下一课：Lesson 5 - CLAUDE.md：项目的 AI 记忆
+- 返回主菜单
+- 退出学习
 
 ---
 *阶段 1 | Lesson 4.1/26 | 上一课: Lesson 4 - 快速上手 | 下一课: Lesson 5 - CLAUDE.md*

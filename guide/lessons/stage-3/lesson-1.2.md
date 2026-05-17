@@ -175,9 +175,11 @@ A: 引用你在 Lesson 17.1 学到的 UI 模式名。
 
 ## 下一步
 
-- [1] 进入下一课：Lesson 17.3 - 设计系统搭建：从 Tokens 到组件封装
-- [2] 跳到核心课：Lesson 18 - Trigger Map：用户心理→功能映射
-- [3] 返回主菜单
+请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
+
+- 进入下一课：Lesson 17.3 - 设计系统搭建：从 Tokens 到组件封装
+- 跳到核心课：Lesson 18 - Trigger Map：用户心理→功能映射
+- 返回主菜单
 
 ---
 *阶段 3 | Lesson 17.2/26 | 上一课: Lesson 17.1 - UI 设计词典 | 下一课: Lesson 17.3 - 设计系统搭建*

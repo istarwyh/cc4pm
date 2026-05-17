@@ -177,9 +177,11 @@ A: 每个 Teammate 都是独立的 Claude 实例，各自消耗 token。3 个 Te
 
 ## 下一步
 
-- [1] 进入下一课：Lesson 8 - Hooks 与 Rules：自动化守护
-- [2] 返回主菜单
-- [3] 退出学习
+请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
+
+- 进入下一课：Lesson 8 - Hooks 与 Rules：自动化守护
+- 返回主菜单
+- 退出学习
 
 ---
 *阶段 1 | Lesson 7.1/26 | 上一课: Lesson 7 - 代理系统 | 下一课: Lesson 8 - Hooks 与 Rules*

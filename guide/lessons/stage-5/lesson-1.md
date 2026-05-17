@@ -240,9 +240,11 @@ A: 主要是 API Token。比如 GitHub MCP 需要一个 Personal Access Token（
 
 ## 下一步
 
-- [1] 进入下一课：Lesson 24.1 - MCP 生态与文档工具
-- [2] 返回主菜单
-- [3] 退出学习
+请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
+
+- 进入下一课：Lesson 24.1 - MCP 生态与文档工具
+- 返回主菜单
+- 退出学习
 
 ---
 *阶段 5 | Lesson 24/26 (阶段内 1/3) | 上一课: Lesson 23.6 - CLIProxyAPI 实战（阶段 4） | 下一课: Lesson 24.1 - MCP 生态*

@@ -595,9 +595,11 @@ A: 会累积，但有三层防御：(1) 配置 `auto_compress` 自动压缩；(2
 
 ## 下一步
 
-- [1] 返回 Lesson 24：高级特性
-- [2] 前往 Lesson 25：完整项目实战
-- [3] 返回主菜单
+请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
+
+- 返回 Lesson 24：高级特性
+- 前往 Lesson 25：完整项目实战
+- 返回主菜单
 
 ---
 *阶段 5 | Lesson 24.6/26 | 上一课: Lesson 24.5 - graphify 知识图谱 | 下一课: Lesson 24.7 - 微信读书 Skill*
