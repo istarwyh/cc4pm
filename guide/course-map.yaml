@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 42
+  supplementary_lessons: 44
   default_max_lines: 400
 
 stages:
@@ -149,14 +149,45 @@ stages:
       - id: lesson-5
         file: lesson-5.md
         number: 5
-        title: "CLAUDE.md：项目的 AI 记忆"
+        title: "CLAUDE.md：上下文治理的入口"
         short_title: "CLAUDE.md"
         topics:
           - claude-md
+          - context-governance-entry
           - file-hierarchy
           - six-section-template
           - memory-md
           - auto-memory
+
+      - id: lesson-5.1
+        file: lesson-5.1.md
+        number: 5.1
+        title: "上下文治理分层：Memory、Rules 与 AGENTS.md"
+        short_title: "上下文治理分层"
+        supplementary: true
+        topics:
+          - context-governance-layers
+          - agents-md
+          - memory-boundaries
+          - rules-paths
+          - fact-source-principle
+          - progressive-context-disclosure
+
+      - id: lesson-5.2
+        file: lesson-5.2.md
+        number: 5.2
+        title: "持久上下文运维：CLAUDE.md 与 Auto Memory 故障排查"
+        short_title: "持久上下文运维"
+        supplementary: true
+        topics:
+          - claude-md-load-order
+          - claude-local-md
+          - claude-md-imports
+          - claude-md-excludes
+          - managed-claude-md
+          - auto-memory-storage
+          - auto-memory-troubleshooting
+          - instructions-loaded-hook
 
       - id: lesson-6
         file: lesson-6.md
