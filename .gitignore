@@ -53,3 +53,7 @@ cc4pm-video/
 slide-deck/
 
 generated/
+
+.playwright-mcp/
+
+memory/
