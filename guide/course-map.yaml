@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 46
+  supplementary_lessons: 47
   default_max_lines: 400
 
 stages:
@@ -942,6 +942,25 @@ stages:
           - multi-account-rotation
           - token-cost-optimization
           - provider-switching
+
+      - id: lesson-3.7
+        file: lesson-23.7.md
+        number: 23.7
+        title: "Goal 模式——给 Claude 一个可验收的终点"
+        short_title: "Goal 模式"
+        supplementary: true
+        topics:
+          - goal-command
+          - completion-condition
+          - goal-vs-loop-stop-hook
+          - loop-command
+          - schedule-command
+          - timed-agent-automation
+          - measurable-goal-writing
+          - goal-evaluator
+          - goal-status-clear-resume
+          - non-interactive-goal
+          - hooks-requirements
 
   - id: stage-5
     title: "高级应用与持续优化"
