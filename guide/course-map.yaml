@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 47
+  supplementary_lessons: 48
   default_max_lines: 400
 
 stages:
@@ -1087,6 +1087,25 @@ stages:
           - weread-graphify-pipeline
           - deep-link-schema
           - bookid-resolution-flow
+
+      - id: lesson-1.8
+        file: lesson-1.8.md
+        number: 24.8
+        title: "OpenAI 生图 Skill——从提示词到本地 PNG"
+        short_title: "OpenAI 生图 Skill"
+        supplementary: true
+        topics:
+          - openai-image-skill
+          - openai-compatible-image-generation
+          - provider-memory
+          - image-generation-orchestration
+          - ppt-image-batch-generation
+          - lovstudio-any2deck
+          - deck-generation-workflow
+          - slide-image-orchestration
+          - base64-image-output
+          - codex-image-oauth
+          - local-image-output-verification
 
       - id: lesson-2
         file: lesson-2.md
