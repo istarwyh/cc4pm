@@ -156,6 +156,7 @@ stages:
           - context-governance-entry
           - file-hierarchy
           - six-section-template
+          - llm-wiki-metaphor
           - memory-md
           - auto-memory
 
@@ -171,6 +172,7 @@ stages:
           - memory-boundaries
           - rules-paths
           - fact-source-principle
+          - llm-wiki-directory-map
           - progressive-context-disclosure
 
       - id: lesson-5.2
@@ -1017,6 +1019,7 @@ stages:
         supplementary: true
         topics:
           - llm-wiki
+          - claude-md-as-wiki-entry
           - knowledge-compilation
           - agentic-knowledge-management
           - knowledge-ingest-query-inspect
