@@ -789,6 +789,22 @@ section { padding: var(--space-5xl) 0; }
 .proof-divider { width: 1px; height: 40px; background: var(--border-default); }
 @media (max-width: 767px) { .proof-divider { display: none; } .proof-strip { gap: var(--space-lg); } }
 
+/* ========== VIDEO SHOWCASE ========== */
+.showcase-section { padding: var(--space-3xl) 0; background: var(--bg-base); }
+.showcase-video-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(20,20,19,.12);
+  border: 1px solid var(--border-default);
+}
+.showcase-video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* ========== FAQ ========== */
 #faq { background: var(--bg-base); }
 .faq-list { max-width: 780px; margin: 0 auto; }
@@ -1019,6 +1035,27 @@ section { padding: var(--space-5xl) 0; }
         </div>
         <span class="proof-sub">无订阅费 · 商用友好 · 可定制</span>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO SHOWCASE -->
+<section id="showcase" class="showcase-section">
+  <div class="container">
+    <div class="section-header center anim fade-up">
+      <div class="section-label">Showcase</div>
+      <h2 class="section-title">2 分钟了解 cc4pm</h2>
+    </div>
+    <div class="showcase-video-wrapper anim fade-up">
+      <video
+        src="https://github.com/user-attachments/assets/1098774d-c250-4be1-a2d6-3894be687f66"
+        controls
+        muted
+        playsinline
+        preload="metadata"
+        poster=""
+        class="showcase-video"
+      ></video>
     </div>
   </div>
 </section>
