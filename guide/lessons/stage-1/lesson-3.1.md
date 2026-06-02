@@ -66,6 +66,16 @@ second line shows context progress bar with cost and duration
 
 > `/statusline` 接受自然语言描述，Claude 帮你生成完整脚本。和 Lesson 8 的 Hook 一样——零代码基础，一句话搞定自动化。
 
+### 现成配置工具：claude-hud
+
+如果你不想从空白脚本开始，可以用 [claude-hud](https://github.com/jarrodwatts/claude-hud) 作为现成 Status Line 配置工具。它主打展示 context usage、active tools、running agents 和 todo progress，适合长上下文会话、多 agent 工作流，以及使用大窗口反代模型时观察 auto-compact 是否过早触发。
+
+使用时按这个顺序判断：
+
+1. 先用 `/statusline` 生成一个最小状态栏，确认 Claude Code 的 status line 机制正常。
+2. 再按 claude-hud 仓库说明安装或替换配置。
+3. 最后观察 `context_window.used_percentage` 和真实对话长度是否匹配；如果你同时调整了 auto-compact 窗口，Status Line 就是你的实时校准仪表盘。
+
 ### 工作原理
 
 理解原理能帮你自定义更复杂的状态栏：

@@ -93,6 +93,7 @@ stages:
         topics:
           - status-line
           - token-monitoring
+          - claude-hud-statusline
           - statusline-command
 
       - id: lesson-3.2
@@ -326,6 +327,8 @@ stages:
           - network-stability-env-vars
           - effort-level-thinking-env
           - context-compression-env
+          - auto-compact-window-env
+          - gpt55-reverse-proxy-context-tuning
           - behavior-switches-env
           - mcp-bash-debug-env
           - env-var-complete-catalog
