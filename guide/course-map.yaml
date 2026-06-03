@@ -94,6 +94,8 @@ stages:
           - status-line
           - token-monitoring
           - claude-hud-statusline
+          - statusline-stdin-json
+          - transcript-jsonl-hud
           - statusline-command
 
       - id: lesson-3.2
