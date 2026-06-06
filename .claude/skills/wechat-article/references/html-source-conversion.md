@@ -38,6 +38,7 @@ pbpaste > /tmp/source-article.html
 - 表格数量
 - 代码块数量
 - 图片 / SVG / Mermaid 数量
+- SVG 动画数量，以及是否有编辑器私有属性（`leaf`、`data-pm-slice`、`mpa-*`）
 - 是否有脚本、样式块、复制按钮、锚点图标
 
 输出给自己看的判断：这篇是“教程型”“技术解释型”“观点型”“案例复盘型”，后面排版方式不同。
@@ -52,6 +53,7 @@ pbpaste > /tmp/source-article.html
 - 代码块保留原始换行和缩进。
 - 列表转成独立条目。
 - 删除无意义元素：复制按钮、锚点 SVG、站点导航、代码高亮 span、脚本、样式块。
+- 删除编辑器私有属性：`leaf`、`data-pm-slice`、`mpa-font-style`、`data-mpa-action-id` 等。它们来自微信/壹伴/ProseMirror 的内部 DOM，不能进入新的交付 HTML。
 
 不要把原 HTML 直接套微信公众号样式；那会把博客系统的噪声一起带进成稿。
 
@@ -62,6 +64,7 @@ pbpaste > /tmp/source-article.html
 - 原文的关键表格、清单、对照关系和案例链路。
 - 数字口径、专有名词、引用来源、产品名、时间线。
 - 技术文中的 SQL、命令、API 示例、配置片段、字段名、表名、枚举值、版本号。
+- 长 snake_case、dotted path、环境变量、文件路径、命令参数不要照搬进普通表格；优先转成卡片式字段说明，避免微信编辑器在表格里处理不可断行 token 时卡住。
 
 **微信化重排**：
 
@@ -107,8 +110,8 @@ pbpaste > /tmp/source-article.html
 - 所有样式内联。
 - 不使用 `<style>`、CSS class、外部字体、外链脚本。
 - `<strong>` 改成少量蓝色强调或结构化卡片。
-- 代码块用逐行 `<pre>` + `<span leaf="">`，缩进改成 `&nbsp;`。
-- 表格使用 `<tbody>`，每个 `<td>` 内用 `<section>` 包内容。
+- 代码块用逐行 `<pre>` + `<span>`，缩进改成 `&nbsp;`；不要手写 `leaf=""` 等编辑器私有属性。
+- 表格使用 `<tbody>`，每个 `<td>` 内用 `<section>` 包内容。技术字段表格优先改卡片；必须保留表格时加 `table-layout:fixed`，字段名加 `word-break:break-all;overflow-wrap:anywhere;`。
 - 追加 `<mp-style-type data-value="3"></mp-style-type>`。
 - 保存到 `~/wechat-exports/*.wechat.html`。
 
@@ -131,6 +134,8 @@ pbpaste > /tmp/source-article.html
 ```bash
 # 微信兼容性
 rg '<style|class=|<script|<strong' file.wechat.html
+rg 'leaf=|data-pm-slice|mpa-font-style|data-mpa-action-id' file.wechat.html
+rg 'animateTransform[^>]*type="translate"|repeatCount="indefinite"' file.wechat.html
 
 # 结构数量，防止转换漏内容
 rg -c '<table ' file.wechat.html
@@ -151,6 +156,8 @@ rg '<mp-style-type data-value="3"' file.wechat.html
 - **把个案写成普适结论**：比如技术文里按最大 version 取最新值，遇到分支 / 回滚可能误导。
 - **把教学抽象写成官方实现**：要明确“概念上”“官方实现中”“业务表中”分别是什么。
 - **图表太重**：draw.io 导出的 SVG 可能含大量 foreignObject 和元数据，必要时改成轻量手写 SVG。
+- **移动文字组 SVG 动画**：不要保留“同一 `<g>` 内含 `<text>/<tspan>`，同时有 `animateTransform type="translate"` 和其他 `<animate>`，并且 `repeatCount="indefinite"`”的结构。微信编辑器/壹伴同步时可能导致 Chrome renderer 100% CPU、数 GB 内存、页面黑屏。处理方式：去掉动画；把文字移出被 transform 的组；只动画纯图形；或转成静态 PNG/SVG。
+- **技术字段表格**：不要把 `context_window.used_percentage`、`rate_limits.five_hour.used_percentage` 这类长字段放在 `<table>` 单元格里。字段名、环境变量、路径、命令参数优先用卡片或代码块展示；否则至少固定表格布局并强制断行。
 
 ## 输出说明模板
 
