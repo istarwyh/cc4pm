@@ -57,3 +57,5 @@ generated/
 .playwright-mcp/
 
 memory/
+
+playground/
