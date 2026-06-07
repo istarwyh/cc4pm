@@ -1,0 +1,23 @@
+{
+  "skill_name": "knowledge-wechat-writer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我要写一篇公众号文章，主题是 Claude Code 的 Agent Teams 怎么保护主上下文。目标读者是产品主理人和独立开发者。请先从当前 cc4pm 知识库检索 lessons、skills、commands、rules、agents，必要时查官方文档，最后保存为 .wechat.html。",
+      "expected_output": "The run should search local project knowledge first across lessons/skills/commands/rules/agents/docs, optionally verify current Claude Code facts with official sources, build a material pack, hand off to/follow wechat-article, and produce a WeChat-compatible .wechat.html under ~/wechat-exports/ with reader-useful assets, visuals, reader review, and final compliance checks.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "围绕 Hooks 与 Rules 写一篇图文并茂的公众号文章，别写成教程目录。要让长期用 Claude Code 做真实项目的人看完知道怎么用自动化守护质量，先检索项目库，再外部补充 Claude Code docs。",
+      "expected_output": "The run should not start drafting before repo search. It should synthesize local Hooks/Rules/course materials into a material pack, use official Claude Code docs only for current details, then use/follow wechat-article to create a visual, practical .wechat.html article with install/trigger/verification/failure-handling assets where relevant.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "根据这个仓库里的课程和 skill 素材，帮我产出一篇公众号文章：为什么产品主理人要把 .claude/ 当成 LLM Wiki。目标是让读者看完能自己整理 CLAUDE.md、Memory、Rules、Skills。最终给我壹伴可粘贴的 HTML。",
+      "expected_output": "The run should retrieve and synthesize current repo/course/skill materials before writing, organize the material pack around reader outcomes, then hand off to/follow wechat-article so the final output is an inline-style WeChat HTML file in ~/wechat-exports/ with SVG/drawio visualizations, reusable prompts/config examples, reader subAgent review, and validation checks.",
+      "files": []
+    }
+  ]
+}

@@ -14,6 +14,7 @@ function runCli(args, options = {}) {
   return spawnSync('node', [SCRIPT, ...args], {
     encoding: 'utf8',
     cwd: options.cwd || process.cwd(),
+    input: options.input || '',
     env: {
       ...process.env,
       ...(options.env || {}),
@@ -106,6 +107,48 @@ function main() {
       const payload = parseJson(result.stdout);
       assert.strictEqual(payload.adapterId, 'claude-history');
       assert.strictEqual(payload.workers[0].branch, 'feat/cc4pm-cli');
+    }],
+    ['delegates theater-say command', () => {
+      const result = runCli(['theater-say', 'gu-yan', '我删掉那个名字。', '--dry-run']);
+      assert.strictEqual(result.status, 0, result.stderr);
+      const payload = parseJson(result.stdout);
+      assert.strictEqual(payload.role, 'gu-yan');
+      assert.strictEqual(payload.text, '我删掉那个名字。');
+    }],
+    ['delegates theater-say role listing', () => {
+      const result = runCli(['theater-say', '--list-roles', '--json']);
+      assert.strictEqual(result.status, 0, result.stderr);
+      const payload = parseJson(result.stdout);
+      assert.ok(payload.some(role => role.id === 'gu-yan'));
+      assert.ok(payload.some(role => role.id === 'lin-zhi'));
+      assert.ok(payload.some(role => role.id === 'wen-shu'));
+    }],
+    ['forwards stdin to theater-say from-message mode', () => {
+      const input = '<teammate-message teammate_id="gu-yan" summary="顾砚台词">\n你好\n</teammate-message>';
+      const result = runCli(['theater-say', '--from-message', '--dry-run'], { input });
+      assert.strictEqual(result.status, 0, result.stderr);
+      const payload = parseJson(result.stdout);
+      assert.strictEqual(payload.role, 'gu-yan');
+      assert.strictEqual(payload.text, '你好');
+    }],
+    ['limits stdin forwarded to theater-say', () => {
+      const result = runCli(['theater-say', '--from-message', '--dry-run'], {
+        input: 'x'.repeat(16001),
+      });
+      assert.strictEqual(result.status, 1);
+      assert.match(result.stderr, /Forwarded stdin exceeds maximum length/);
+    }],
+    ['delegates theater-monitor command', () => {
+      const inboxDir = createTempDir('cc4pm-theater-monitor-');
+      const inboxPath = path.join(inboxDir, 'team-lead.json');
+      fs.writeFileSync(inboxPath, JSON.stringify([
+        { from: 'live-gu-yan', summary: '顾砚台词', text: '自动播音' },
+      ]));
+      const result = runCli(['theater-monitor', '--inbox', inboxPath, '--once', '--replay', '--dry-run']);
+      assert.strictEqual(result.status, 0, result.stderr);
+      const payload = parseJson(result.stdout);
+      assert.strictEqual(payload.role, 'gu-yan');
+      assert.strictEqual(payload.text, '自动播音');
     }],
     ['supports help for a subcommand', () => {
       const result = runCli(['help', 'repair']);

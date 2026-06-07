@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
 const { spawnSync } = require('child_process');
+const fs = require('fs');
 const path = require('path');
 const { listAvailableLanguages } = require('./lib/install-executor');
+
+const MAX_FORWARDED_STDIN_BYTES = 16000;
 
 const COMMANDS = {
   install: {
@@ -33,6 +36,15 @@ const COMMANDS = {
     script: 'session-inspect.js',
     description: 'Emit canonical cc4pm session snapshots from dmux or Claude history targets',
   },
+  'theater-say': {
+    script: 'theater-say.js',
+    description: 'Speak Agent Teams theater lines with macOS TTS voices',
+    acceptsStdin: true,
+  },
+  'theater-monitor': {
+    script: 'theater-monitor.js',
+    description: 'Watch an Agent Teams inbox and speak theater lines in order',
+  },
   uninstall: {
     script: 'uninstall.js',
     description: 'Remove cc4pm-managed files recorded in install-state',
@@ -46,6 +58,8 @@ const PRIMARY_COMMANDS = [
   'doctor',
   'repair',
   'session-inspect',
+  'theater-say',
+  'theater-monitor',
   'uninstall',
 ];
 
@@ -71,6 +85,8 @@ Examples:
   cc4pm plan --list-modules
   cc4pm list-installed
   cc4pm doctor
+  cc4pm theater-say gu-yan "我删掉那个名字。"
+  cc4pm theater-monitor --team no-exit-live-tts
   cc4pm uninstall --dry-run
   cc4pm help <command>                         # detailed flags for any subcommand
 `);
@@ -123,6 +139,37 @@ function resolveCommand(argv) {
   };
 }
 
+function readStdinForCommand(command) {
+  if (!command.acceptsStdin || process.stdin.isTTY) {
+    return undefined;
+  }
+
+  const chunks = [];
+  let totalBytes = 0;
+  const buffer = Buffer.alloc(4096);
+
+  while (true) {
+    let bytesRead;
+    try {
+      bytesRead = fs.readSync(0, buffer, 0, buffer.length, null);
+    } catch (error) {
+      if (error.code === 'EAGAIN') return '';
+      throw error;
+    }
+
+    if (bytesRead === 0) break;
+
+    totalBytes += bytesRead;
+    if (totalBytes > MAX_FORWARDED_STDIN_BYTES) {
+      throw new Error(`Forwarded stdin exceeds maximum length of ${MAX_FORWARDED_STDIN_BYTES} bytes`);
+    }
+
+    chunks.push(Buffer.from(buffer.subarray(0, bytesRead)));
+  }
+
+  return Buffer.concat(chunks).toString('utf8');
+}
+
 function runCommand(commandName, args) {
   const command = COMMANDS[commandName];
   if (!command) {
@@ -130,6 +177,7 @@ function runCommand(commandName, args) {
   }
 
   const parentIsTTY = Boolean(process.stdin.isTTY && process.stdout.isTTY);
+  const forwardedInput = parentIsTTY ? undefined : readStdinForCommand(command);
   const spawnOptions = parentIsTTY
     ? {
         cwd: process.cwd(),
@@ -140,6 +188,7 @@ function runCommand(commandName, args) {
         cwd: process.cwd(),
         env: process.env,
         encoding: 'utf8',
+        input: forwardedInput,
       };
 
   const result = spawnSync(
