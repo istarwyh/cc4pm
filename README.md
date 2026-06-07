@@ -11,7 +11,9 @@
 
 ![cc4pm 交互式教学体系海报](https://github.com/user-attachments/assets/a018cb79-1315-4016-8853-d1bd37f3bd20)
 
-**[🎨 Interactive Showcase](https://istarwyh.github.io/cc4pm/)** — 可视化了解四大核心模块、200+ Skills、完整产品工作流
+https://github.com/user-attachments/assets/1098774d-c250-4be1-a2d6-3894be687f66
+
+**[🎨 官网](https://aispeeds.me)** 
 
 </div>
 
@@ -21,14 +23,7 @@
 
 cc4pm 最初是 **Claude Code for Product Makers**：一套面向**产品主理人**的 AI 全生命周期产品系统**交互式课件**。运行 `npx cc4pm install` 走交互式安装，然后在 Claude Code 里输入 `/cc4pm-guide` 即可开始产品主线学习。
 
-课件覆盖四大主题，从灵感验证到产品上线发布的完整链路：
-
-- **BMM**（业务建模）— 市场研究、PRD 创建、需求拆解、冲刺规划
-- **CIS**（创意智能）— 36 种创意技巧、30 种创新框架、故事讲述
-- **WDS**（设计系统）— 用户心理映射、UX 场景、设计规范、原型
-- **工程工具链** — TDD、代码审查、E2E 测试、安全扫描、CI/CD
-
-仓库里同时收录了课件讲解的**参考实现**（`.claude/` 下的 170+ 个 skill、10+ 个代理、37 个命令、40+ 条规则），可以与课件配合检阅，也可以独立 fork 使用。基于 [Everything Claude Code](https://github.com/affaan-m/everything-claude-code) 和 [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) 构建。
+基于 [Everything Claude Code](https://github.com/affaan-m/everything-claude-code) 和 [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) 构建, 融合了作者的一线实战以及在阿里、蚂蚁、平安等各个团队的[分享经验](https://xiaohui.cool/journey)。
 
 ---
 
@@ -85,44 +80,20 @@ cd cc4pm && claude
 
 ## 交互式教学
 
-cc4pm 内置了一套完整的交互式课程（26 节课，5 个阶段）：
+cc4pm 内置了一套完整的交互式课程（26 节主线课 + 49 节补充课，5 个阶段）：
 
 ```bash
 # 启动教学
 /cc4pm-guide
 ```
 
-| 阶段 | 内容 | 时长 |
-|------|------|------|
-| 1. 基础入门 | Claude Code 核心能力、四大模块全景 | ~30 min |
-| 2. 产品核心 | BMM + CIS，头脑风暴到冲刺规划 | ~30 min |
-| 3. 设计与心理 | WDS，Trigger Map 到 UX 设计 | ~20 min |
-| 4. 工程协作 | TDD、E2E、代码审查、质量门禁 | ~15 min |
-| 5. 高级实战 | MCP 集成、完整项目从零到发布 | ~25 min |
-
----
-
-## 项目结构
-
-```
-cc4pm/
-├── guide/                  产品主线课件：5 阶段 × 26+ 节课 + course-map.yaml
-├── verticals/              垂直行业版本（首个 MVP：cc4Lawyer）
-├── .claude/
-│   ├── skills/cc4pm-guide/   交互式教学入口（SKILL.md）
-│   ├── skills/               170+ 个参考 skill（含 bmad-* / 工程 / 内容创作等）
-│   ├── agents/               10+ 个参考代理（planner / tdd-guide / code-reviewer 等）
-│   ├── commands/             37 个参考斜杠命令
-│   ├── rules/                40+ 条编码与行业规则（通用 + 语言等）
-│   ├── hooks/                事件驱动 hooks 配置
-│   └── mcp-configs/          MCP 服务器配置
-├── _bmad/                  BMAD METHOD V6 方法论源文档（BMM/CIS/WDS/Core）
-├── manifests/              安装清单（cc4pm-guide / cc4lawyer-guide 等模块）
-├── scripts/                安装器（cc4pm.js / install-*.js）+ 课件同步脚本
-├── docs/                   Showcase 站点
-├── packages/homepage/      @cc4pm/homepage 独立子包
-└── the-{long,short}form-guide.md   课件补充长/短文版
-```
+| 阶段 | 真实课程内容 |
+|------|------|
+| 1. Claude Code 基础入门 | 代理循环、上下文窗口、CLAUDE.md、命令与技能、Agent、Hooks/Rules、环境搭建与第一次综合实战 |
+| 2. 产品主理人核心能力 | CIS 头脑风暴与创新策略，BMM 市场研究、PRD、需求拆解、冲刺规划与路线纠正 |
+| 3. 网页设计系统 | WDS 全景、Trigger Map、UX 场景、产品叙事，并扩展 UI 模式、原型、设计系统、风格、品牌资产与演示 |
+| 4. 工程工具链 | 计划、测试、代码审查、EDD、视觉校验、编码原则、TDD Prompt、无人评测、Harness、Agent 自举、模型切换与 Goal 模式 |
+| 5. 高级应用与持续优化 | MCP、持续学习、插件与 SDK、知识库、AI 绘图、知识图谱、微信远程控制、微信读书、生图 Skill、完整项目实战与课程总结 |
 
 ---
 
