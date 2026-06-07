@@ -9,7 +9,7 @@
 
 <div align="center">
 
-![cc4pm 交互式教学体系海报](./cc4pm-poster-teaching-v2.png)
+![cc4pm 交互式教学体系海报](https://github.com/user-attachments/assets/a018cb79-1315-4016-8853-d1bd37f3bd20)
 
 **[🎨 Interactive Showcase](https://istarwyh.github.io/cc4pm/)** — 可视化了解四大核心模块、200+ Skills、完整产品工作流
 
