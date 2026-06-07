@@ -78,52 +78,64 @@ function main() {
   const tests = [
     ['replays speakable inbox messages in FIFO order', () => {
       const inbox = createInbox([
-        { from: 'live-gu-yan', summary: '顾砚台词', text: '第一句' },
-        { from: 'live-lin-zhi', summary: '林栀台词', text: '第二句' },
+        { from: 'live-garcin', summary: '加尔森台词', text: '第一句' },
+        { from: 'live-ines', summary: '伊内丝台词', text: '第二句' },
       ]);
       const result = runCli(['--inbox', inbox, '--once', '--replay', '--dry-run']);
       assert.strictEqual(result.status, 0, result.stderr);
       const objects = parseJsonObjects(result.stdout);
       assert.strictEqual(objects.length, 2);
-      assert.strictEqual(objects[0].role, 'gu-yan');
+      assert.strictEqual(objects[0].role, 'garcin');
       assert.strictEqual(objects[0].text, '第一句');
-      assert.strictEqual(objects[1].role, 'lin-zhi');
+      assert.strictEqual(objects[1].role, 'ines');
       assert.strictEqual(objects[1].text, '第二句');
+    }],
+    ['maps direct role names to themselves', () => {
+      const inbox = createInbox([
+        { from: 'garcin', summary: '加尔森台词', text: '第一句' },
+        { from: 'ines', summary: '伊内丝台词', text: '第二句' },
+        { from: 'estelle', summary: '艾丝黛尔台词', text: '第三句' },
+      ]);
+      const result = runCli(['--inbox', inbox, '--once', '--replay', '--dry-run']);
+      assert.strictEqual(result.status, 0, result.stderr);
+      const objects = parseJsonObjects(result.stdout);
+      assert.deepStrictEqual(objects.map(object => object.role), ['garcin', 'ines', 'estelle']);
+      assert.deepStrictEqual(objects.map(object => object.text), ['第一句', '第二句', '第三句']);
     }],
     ['skips idle messages and non-speakable summaries', () => {
       const inbox = createInbox([
-        { from: 'live-gu-yan', text: '{"type":"idle_notification"}' },
-        { from: 'live-gu-yan', summary: '普通消息', text: '不该播' },
-        { from: 'live-wen-shu', summary: '闻殊台词', text: '应该播' },
+        { from: 'live-garcin', text: '{"type":"idle_notification"}' },
+        { from: 'live-garcin', summary: '普通消息', text: '不该播' },
+        { from: 'live-estelle', summary: '艾丝黛尔台词', text: '应该播' },
       ]);
       const result = runCli(['--inbox', inbox, '--once', '--replay', '--dry-run']);
       assert.strictEqual(result.status, 0, result.stderr);
       const objects = parseJsonObjects(result.stdout);
       assert.strictEqual(objects.length, 1);
-      assert.strictEqual(objects[0].role, 'wen-shu');
+      assert.strictEqual(objects[0].role, 'estelle');
       assert.strictEqual(objects[0].text, '应该播');
     }],
     ['supports custom role mapping', () => {
       const inbox = createInbox([
-        { from: 'actor-a', summary: '顾砚台词', text: '自定义映射' },
+        { from: 'actor-a', summary: '加尔森台词', text: '自定义映射' },
       ]);
       const result = runCli([
         '--inbox', inbox,
         '--once',
         '--replay',
         '--dry-run',
-        '--map', 'actor-a=gu-yan',
+        '--map', 'actor-a=garcin',
       ]);
       assert.strictEqual(result.status, 0, result.stderr);
       const objects = parseJsonObjects(result.stdout);
       assert.strictEqual(objects.length, 1);
-      assert.strictEqual(objects[0].role, 'gu-yan');
+      assert.strictEqual(objects[0].role, 'garcin');
       assert.strictEqual(objects[0].text, '自定义映射');
     }],
     ['skips top-level control messages', () => {
       const inbox = createInbox([
-        { type: 'idle_notification', from: 'live-gu-yan', summary: '顾砚台词', text: '不该播' },
-        { from: 'live-gu-yan', summary: '顾砚台词', text: '应该播' },
+        { type: 'idle_notification', from: 'live-garcin', summary: '加尔森台词', text: '不该播' },
+        { from: 'live-garcin', summary: '加尔森台词', text: '应该播' },
       ]);
       const result = runCli(['--inbox', inbox, '--once', '--replay', '--dry-run']);
       assert.strictEqual(result.status, 0, result.stderr);
@@ -133,8 +145,8 @@ function main() {
     }],
     ['limits speakable messages per batch', () => {
       const inbox = createInbox(Array.from({ length: 25 }, (_value, index) => ({
-        from: 'live-gu-yan',
-        summary: '顾砚台词',
+        from: 'live-garcin',
+        summary: '加尔森台词',
         text: `第${index}句`,
       })));
       const result = runCli(['--inbox', inbox, '--once', '--replay', '--dry-run']);

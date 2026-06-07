@@ -1,0 +1,84 @@
+No Exit Agent Team Theater runbook
+
+Purpose
+- Run a live three-role Agent Team scene inspired by No Exit.
+- Do not prewrite a full script. The team lead conducts one round at a time; garcin, ines, and estelle answer only as their own roles.
+
+Files
+- stage.json: stage constraints, monitor command, TTS map, round rules.
+- roles.json: copyable role prompts for garcin/加尔森, ines/伊内丝, estelle/艾丝黛尔.
+
+1) Create the Agent Team and make sure the inbox exists
+
+Recommended team name: no-exit-live-tts
+Required teammate names: garcin, ines, estelle
+
+The monitor reads ~/.claude/teams/no-exit-live-tts/inboxes/team-lead.json. If your Agent Team harness has not created that file yet, prepare it once:
+
+  mkdir -p "$HOME/.claude/teams/no-exit-live-tts/inboxes" && printf '[]\n' > "$HOME/.claude/teams/no-exit-live-tts/inboxes/team-lead.json"
+
+2) Start the theater monitor from the repo root
+
+  node scripts/cc4pm.js theater-monitor --team no-exit-live-tts --summaries "加尔森台词,伊内丝台词,艾丝黛尔台词"
+
+For a no-audio check:
+
+  node scripts/cc4pm.js theater-monitor --team no-exit-live-tts --summaries "加尔森台词,伊内丝台词,艾丝黛尔台词" --dry-run
+
+3) Spawn the three role teammates in another Claude Code session
+
+Give each teammate the matching prompt from roles.json. A concise spawn instruction is:
+
+  You are <garcin|ines|estelle> in the live No Exit Agent Team theater.
+  Use the matching role prompt from playground/no-exit-agent-theater/roles.json.
+  Do not edit files. Do not write a complete scene. Wait for round prompts.
+  When speaking, send exactly one message to team-lead, in character only.
+
+3) Required teammate-message summary markers
+
+Every teammate message must include the speaking role's exact summary marker:
+- garcin: 加尔森台词
+- ines: 伊内丝台词
+- estelle: 艾丝黛尔台词
+
+Good summaries:
+- 第1轮 加尔森台词
+- 第2轮 伊内丝台词
+- 第3轮 艾丝黛尔台词
+
+The monitor filters on those markers. If a line does not speak, check the summary first.
+
+4) Drive the scene live, one round at a time
+
+Round 1: self-defense and demand recognition
+Send each teammate:
+
+  Round 1. Speak one in-character line only. Defend your self-image and demand recognition from the room. Do not write for the other roles. Summary must contain your role marker.
+
+Wait until all three lines arrive.
+
+Round 2: respond and attack based on the other two lines
+For each teammate, paste the two lines spoken by the other roles and send:
+
+  Round 2. Respond to these two lines from the room: [paste the other two round-1 lines]. Speak one in-character line only. Attack, expose, seduce, or plead from your role's need. Do not write for the other roles. Summary must contain your role marker.
+
+Wait until all three lines arrive.
+
+Round 3: no-exit state
+For each teammate, paste the pressure created in round 2 and send:
+
+  Round 3. Show the no-exit state: needing recognition from the other two is exactly what traps you. Speak one in-character line only. Do not resolve the room, open the door, add fire, add a devil, or write for the other roles. Summary must contain your role marker.
+
+5) Stage guardrails
+
+Keep the original pressure of No Exit:
+- Second Empire-style locked room.
+- No windows.
+- No mirror.
+- Lamp always on.
+- No fire, torture devices, devil, or external rescue.
+- The punishment is mutual gaze: each role becomes judge, mirror, jailer, and temptation for the other two.
+
+6) Stop condition
+
+After round 3, stop the live scene or start a new three-round pass with fresh prompts. Do not ask any teammate to summarize the whole play unless you intentionally want to leave theater mode.

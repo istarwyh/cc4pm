@@ -55,6 +55,8 @@ function main() {
       assert.match(result.stdout, /Claude Code 交互式课件安装 CLI/);
       assert.match(result.stdout, /list-installed/);
       assert.match(result.stdout, /doctor/);
+      assert.match(result.stdout, /cc4pm theater-say garcin "我不是懦夫。"/);
+      assert.match(result.stdout, /cc4pm theater-monitor --team no-exit-live-tts/);
     }],
     ['delegates explicit install command', () => {
       const result = runCli(['install', '--dry-run', '--json', 'typescript']);
@@ -109,26 +111,26 @@ function main() {
       assert.strictEqual(payload.workers[0].branch, 'feat/cc4pm-cli');
     }],
     ['delegates theater-say command', () => {
-      const result = runCli(['theater-say', 'gu-yan', '我删掉那个名字。', '--dry-run']);
+      const result = runCli(['theater-say', 'garcin', '我不是懦夫。', '--dry-run']);
       assert.strictEqual(result.status, 0, result.stderr);
       const payload = parseJson(result.stdout);
-      assert.strictEqual(payload.role, 'gu-yan');
-      assert.strictEqual(payload.text, '我删掉那个名字。');
+      assert.strictEqual(payload.role, 'garcin');
+      assert.strictEqual(payload.text, '我不是懦夫。');
     }],
     ['delegates theater-say role listing', () => {
       const result = runCli(['theater-say', '--list-roles', '--json']);
       assert.strictEqual(result.status, 0, result.stderr);
       const payload = parseJson(result.stdout);
-      assert.ok(payload.some(role => role.id === 'gu-yan'));
-      assert.ok(payload.some(role => role.id === 'lin-zhi'));
-      assert.ok(payload.some(role => role.id === 'wen-shu'));
+      assert.ok(payload.some(role => role.id === 'garcin'));
+      assert.ok(payload.some(role => role.id === 'ines'));
+      assert.ok(payload.some(role => role.id === 'estelle'));
     }],
     ['forwards stdin to theater-say from-message mode', () => {
-      const input = '<teammate-message teammate_id="gu-yan" summary="顾砚台词">\n你好\n</teammate-message>';
+      const input = '<teammate-message teammate_id="garcin" summary="加尔森台词">\n你好\n</teammate-message>';
       const result = runCli(['theater-say', '--from-message', '--dry-run'], { input });
       assert.strictEqual(result.status, 0, result.stderr);
       const payload = parseJson(result.stdout);
-      assert.strictEqual(payload.role, 'gu-yan');
+      assert.strictEqual(payload.role, 'garcin');
       assert.strictEqual(payload.text, '你好');
     }],
     ['limits stdin forwarded to theater-say', () => {
@@ -142,12 +144,12 @@ function main() {
       const inboxDir = createTempDir('cc4pm-theater-monitor-');
       const inboxPath = path.join(inboxDir, 'team-lead.json');
       fs.writeFileSync(inboxPath, JSON.stringify([
-        { from: 'live-gu-yan', summary: '顾砚台词', text: '自动播音' },
+        { from: 'live-garcin', summary: '加尔森台词', text: '自动播音' },
       ]));
       const result = runCli(['theater-monitor', '--inbox', inboxPath, '--once', '--replay', '--dry-run']);
       assert.strictEqual(result.status, 0, result.stderr);
       const payload = parseJson(result.stdout);
-      assert.strictEqual(payload.role, 'gu-yan');
+      assert.strictEqual(payload.role, 'garcin');
       assert.strictEqual(payload.text, '自动播音');
     }],
     ['supports help for a subcommand', () => {

@@ -4,9 +4,9 @@ const fs = require('fs');
 const { spawnSync } = require('child_process');
 
 const ROLE_PROFILES = Object.freeze({
-  'gu-yan': Object.freeze({ label: '顾砚', voice: 'Tingting', rate: 175 }),
-  'lin-zhi': Object.freeze({ label: '林栀', voice: 'Meijia', rate: 170 }),
-  'wen-shu': Object.freeze({ label: '闻殊', voice: 'Sinji', rate: 165 }),
+  garcin: Object.freeze({ label: '加尔森', voice: 'Tingting', rate: 175 }),
+  ines: Object.freeze({ label: '伊内丝', voice: 'Meijia', rate: 170 }),
+  estelle: Object.freeze({ label: '艾丝黛尔', voice: 'Sinji', rate: 165 }),
 });
 
 const SPEAKABLE_SUMMARY_PATTERN = /台词|反击|无法退出/;

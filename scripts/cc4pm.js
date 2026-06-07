@@ -85,7 +85,7 @@ Examples:
   cc4pm plan --list-modules
   cc4pm list-installed
   cc4pm doctor
-  cc4pm theater-say gu-yan "我删掉那个名字。"
+  cc4pm theater-say garcin "我不是懦夫。"
   cc4pm theater-monitor --team no-exit-live-tts
   cc4pm uninstall --dry-run
   cc4pm help <command>                         # detailed flags for any subcommand
