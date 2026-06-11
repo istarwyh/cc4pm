@@ -314,9 +314,14 @@ function processUnseenMessages(messages, options, seen) {
       continue;
     }
 
-    speakPayload(payload, options);
-    rememberSeen(seen, fingerprint);
-    processed += 1;
+    try {
+      speakPayload(payload, options);
+      processed += 1;
+    } catch (error) {
+      writeStderr(`Failed to speak message: ${error.message}`);
+    } finally {
+      rememberSeen(seen, fingerprint);
+    }
 
     if (processed >= MAX_SPEAKABLE_PER_BATCH) break;
   }

@@ -144,30 +144,16 @@ function readStdinForCommand(command) {
     return undefined;
   }
 
-  const chunks = [];
-  let totalBytes = 0;
-  const buffer = Buffer.alloc(4096);
-
-  while (true) {
-    let bytesRead;
-    try {
-      bytesRead = fs.readSync(0, buffer, 0, buffer.length, null);
-    } catch (error) {
-      if (error.code === 'EAGAIN') return '';
-      throw error;
-    }
-
-    if (bytesRead === 0) break;
-
-    totalBytes += bytesRead;
-    if (totalBytes > MAX_FORWARDED_STDIN_BYTES) {
+  try {
+    const buffer = fs.readFileSync(0);
+    if (buffer.length > MAX_FORWARDED_STDIN_BYTES) {
       throw new Error(`Forwarded stdin exceeds maximum length of ${MAX_FORWARDED_STDIN_BYTES} bytes`);
     }
-
-    chunks.push(Buffer.from(buffer.subarray(0, bytesRead)));
+    return buffer.toString('utf8');
+  } catch (error) {
+    if (error.code === 'EAGAIN') return '';
+    throw error;
   }
-
-  return Buffer.concat(chunks).toString('utf8');
 }
 
 function runCommand(commandName, args) {
