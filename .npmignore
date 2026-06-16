@@ -6,3 +6,6 @@ scripts/release.sh
 
 # Plugin dev notes (not needed by consumers)
 .claude-plugin/PLUGIN_SCHEMA_NOTES.md
+
+# Git worktrees (local dev only)
+.claude/worktrees/

@@ -6,6 +6,7 @@
 - 掌握用 `/statusline` 一句话生成状态栏的方法
 - 了解 Status Line 可以展示的完整数据字段
 - 学会配置实用的状态栏：上下文进度条、费用追踪、Git 状态
+- 理解 claude-hud 的数据流：statusLine stdin、transcript JSONL 与本地渲染
 
 ## 核心内容
 
@@ -65,6 +66,43 @@ second line shows context progress bar with cost and duration
 ```
 
 > `/statusline` 接受自然语言描述，Claude 帮你生成完整脚本。和 Lesson 8 的 Hook 一样——零代码基础，一句话搞定自动化。
+
+### 现成配置工具：claude-hud
+
+如果你不想从空白脚本开始，可以用 [claude-hud](https://github.com/jarrodwatts/claude-hud) 作为现成 Status Line 配置工具。它主打展示 context usage、active tools、running agents 和 todo progress，适合长上下文会话、多 agent 工作流，以及使用大窗口反代模型时观察 auto-compact 是否过早触发。
+
+它的本质不是“另开一个监控窗口”，而是把 Claude Code 已经暴露出来的会话数据编译成实时仪表盘：
+
+```
+Claude Code
+  ↓ statusLine stdin JSON
+claude-hud 本地脚本
+  ↓ 读取 transcript JSONL / git / config
+渲染多行 HUD 文本
+  ↓ stdout
+Claude Code 显示在终端底部
+```
+
+三类数据来源要分清：
+
+| 数据来源 | claude-hud 用它做什么 | 典型字段 |
+|----------|------------------------|----------|
+| statusLine stdin JSON | 拿当前会话的实时状态 | `model`、`context_window`、`cost`、`rate_limits`、`transcript_path` |
+| transcript JSONL | 还原工具、agent、todo 的活动历史 | `tool_use`、`tool_result`、`Task`、`TodoWrite`、`compact_boundary` |
+| 本地环境 | 补充项目和展示信息 | git 分支、配置文件、终端宽度、颜色设置 |
+
+所以它有几个重要结论：
+
+- **零 token 成本**：它只在本地读 JSON、读 transcript、读 git，不调用模型。
+- **上下文数据优先用 Claude Code 原生上报**：`context_window.used_percentage` 比手写估算更接近 `/context` 结果。
+- **工具、agent、todo 来自日志解析**：这些状态不是额外 API，而是 transcript JSONL 中的 tool call 轨迹。
+- **大窗口模型要看上报是否准确**：如果 Claude Code 报的是 1M context，它会按上报窗口缩放；如果中转站或模型窗口标识不准，HUD 能帮你观察 auto-compact 是否过早。
+
+使用时按这个顺序判断：
+
+1. 先用 `/statusline` 生成一个最小状态栏，确认 Claude Code 的 status line 机制正常。
+2. 再按 claude-hud 仓库说明安装或替换配置。
+3. 最后观察 `context_window.used_percentage` 和真实对话长度是否匹配；如果你同时调整了 auto-compact 窗口，Status Line 就是你的实时校准仪表盘。
 
 ### 工作原理
 

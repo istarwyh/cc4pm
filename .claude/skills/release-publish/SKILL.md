@@ -77,6 +77,52 @@ npm view cc4pm version
 npm view @cc4pm/homepage version
 ```
 
+## Step 5 — Update Downstream Repos
+
+After publishing, create PRs on downstream repos that depend on cc4pm packages.
+
+### Known downstream repos
+
+| Repo | Dependency | Notes |
+|------|-----------|-------|
+| `istarwyh/ai-speeds` | `@cc4pm/homepage` | AI Speeds 官网，使用 cc4pm homepage 组件 |
+
+### Workflow
+
+For each downstream repo:
+
+```bash
+# 1. Clone or navigate to the repo
+cd /path/to/downstream-repo
+
+# 2. Create a branch
+git checkout main && git pull
+git checkout -b chore/upgrade-cc4pm-homepage
+
+# 3. Update the dependency
+pnpm update @cc4pm/homepage
+# or: npm update @cc4pm/homepage
+
+# 4. Commit
+git add package.json pnpm-lock.yaml
+git commit -m "chore(deps): upgrade @cc4pm/homepage to <new-version>"
+
+# 5. Push and create PR
+git push -u origin chore/upgrade-cc4pm-homepage
+gh pr create --repo <owner/repo> \
+  --title "chore(deps): upgrade @cc4pm/homepage to <new-version>" \
+  --body "..."
+```
+
+### Discovering new downstream repos
+
+If unsure who depends on cc4pm packages:
+
+```bash
+npm view @cc4pm/homepage --json  # check dependents on npm
+gh search code "@cc4pm/homepage" --language json  # search GitHub
+```
+
 ## Error Handling
 
 - **Not logged in**: Run `npm login` first

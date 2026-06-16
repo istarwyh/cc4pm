@@ -1,11 +1,11 @@
 # cc4pm
 
-**Claude Code for Product Makers** — AI 驱动的产品全生命周期系统
+**Claude Code for Product Makers** — 一个人，一支产品团队
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![GitHub](https://img.shields.io/github/stars/istarwyh/cc4pm?style=flat)](https://github.com/istarwyh/cc4pm)
 
-> 从想法到上线，一个人就是一支产品团队。
+> 一个人，一支产品团队。
 
 <div align="center">
 
