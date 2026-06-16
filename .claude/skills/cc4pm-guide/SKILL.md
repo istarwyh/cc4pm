@@ -243,7 +243,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 
 ## 预计用时
 
-- 完整学习：约 90-120 分钟（5 个阶段，26 节课 + 46 个补充课）
+- 完整学习：约 90-120 分钟（5 个阶段，26 节课 + 49 个补充课）
 - 快速掌握核心：约 45 分钟（阶段 1-2）
 
 ## 使用方式
@@ -272,7 +272,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 | 2 | 上下文窗口：你最重要的资源 | context-window、clear-command、compact-command、cost-command |
 | 2.1 | Token 与语言税——你的隐性成本 | tokenization-bpe、language-tax、chinese-token-efficiency、tokenizer-vocabulary-size |
 | 3 | 主动管理上下文 | context-management、session-lifecycle、continue-resume-fork、btw-side-question |
-| 3.1 | Status Line——你的实时仪表盘 | status-line、token-monitoring、statusline-command |
+| 3.1 | Status Line——你的实时仪表盘 | status-line、token-monitoring、claude-hud-statusline、statusline-stdin-json |
 | 3.2 | 效率工作流：快捷键、编辑器与 tmux | keyboard-shortcuts、shift-enter-multiline、tab-toggle-thinking、plan-vs-thinking |
 | 4 | 快速上手：第一次实操 | prompt-precision、rich-input、screenshot-paste、claude-interview |
 | 4.1 | 压力光谱——用大厂 PUA 话术驱动 AI | pua-pressure-spectrum、three-red-lines、13-pua-flavors、pressure-level-selection |
@@ -281,6 +281,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 | 5.2 | 持久上下文运维：CLAUDE.md 与 Auto Memory 故障排查 | claude-md-load-order、claude-local-md、claude-md-imports、claude-md-excludes |
 | 6 | 命令与技能系统 | commands-system、skills-system、skill-md-format、context-budget |
 | 6.1 | Skill 深度：新一代交互式软件 | skill-delivery-form、progressive-disclosure、skill-creation-6steps、skill-gotchas-section |
+| 6.2 | Skill 链式调用——Agent Loop 驱动的即时注入 | skill-chain-mechanism、skill-just-in-time-invocation、agent-loop-driven-skill-execution、skill-as-instruction-template |
 | 7 | 代理系统：你的 AI 专家团 | subagent-mechanism、builtin-subagents、custom-agents-18、agent-vs-skill |
 | 7.1 | Agent Teams——多 Claude 协作团队 | agent-teams、lead-teammates、iterm2-integration、multi-role-discussion |
 | 7.2 | Agent View——大屏遥控你的 AI 团队 | agent-view、background-sessions、claude-agents-command、bg-command |
@@ -343,6 +344,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 | 23.4 | 架构演进：解耦大脑、双手与会话 | agent-architecture-decoupling、brain-hands-session-abstraction、cattle-vs-pets-agent、token-isolation-security |
 | 23.5 | ccc 实战：国产大模型切换与严格 Supervisor 模式 | ccc-supervisor-mode、ccc-fork-evaluation、ccc-provider-switching、kimi-glm-integration |
 | 23.6 | CLIProxyAPI 实战：用 Gemini 免费额度驱动 Claude Code | cliproxyapi、gemini-oauth-free-tier、api-proxy-config、multi-account-rotation |
+| 23.7 | Goal 模式——给 Claude 一个可验收的终点 | goal-command、completion-condition、goal-vs-loop-stop-hook、loop-command |
 
 ### 阶段 5：高级应用与持续优化（3 节课）
 
@@ -351,11 +353,12 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 | 24 | 高级特性：MCP 集成与持续学习 | mcp-servers、learn-command、skill-create-command、continuous-learning |
 | 24.1 | MCP 生态与文档工具 | mcp-three-tiers、mcp-permission-auto-approve、agent-web-strategy、web-access-skill |
 | 24.2 | 插件架构与 SDK | plugins-system、plugin-marketplace、official-plugin-repo、plugin-structure-standard |
-| 24.3 | Karpathy's LLM Wiki——知识编译与 Agentic 知识库 | llm-wiki、knowledge-compilation、agentic-knowledge-management、knowledge-ingest-query-inspect |
+| 24.3 | Karpathy's LLM Wiki——知识编译与 Agentic 知识库 | llm-wiki、claude-md-as-wiki-entry、knowledge-compilation、agentic-knowledge-management |
 | 24.4 | Next AI Draw.io：AI 驱动的架构绘图专家 | next-ai-drawio、ai-diagramming、drawio-mcp、visual-architecture |
 | 24.5 | graphify——用知识图谱秒懂任意知识库 | graphify-skill、knowledge-graph-from-codebase、god-nodes、token-efficiency-benchmark |
 | 24.6 | cc-connect 实战：通过微信远程控制 Claude Code | cc-connect、ilink-protocol、wechat-bot-gateway、remote-claude-control |
 | 24.7 | 微信读书 Skill——把读过的书变成 AI 的私人语料库 | weread-skill、weread-api-gateway、skill-version-handshake、personal-corpus-as-rag |
+| 24.8 | OpenAI 生图 Skill——从提示词到本地 PNG | openai-image-skill、openai-compatible-image-generation、provider-memory、image-generation-orchestration |
 | 25 | 完整项目实战：从零到发布 | full-workflow、key-handoff-points、project-launch-checklist、agent-collaboration-panorama |
 | 25.1 | 开发者工作流：从 Issue 到 PR 的完整闭环 | issue-driven-workflow、multi-workspace-claude、unrestricted-mode、external-ai-review |
 | 26 | 课程总结：你的 AI 产品主理人工具箱 | knowledge-map、command-cheatsheet、abbreviation-reference、learning-path |

@@ -247,4 +247,4 @@ A: 主要是 API Token。比如 GitHub MCP 需要一个 Personal Access Token（
 - 退出学习
 
 ---
-*阶段 5 | Lesson 24/26 (阶段内 1/3) | 上一课: Lesson 23.6 - CLIProxyAPI 实战（阶段 4） | 下一课: Lesson 24.1 - MCP 生态*
+*阶段 5 | Lesson 24/26 (阶段内 1/3) | 上一课: Lesson 23.7 - Goal 模式（阶段 4） | 下一课: Lesson 24.1 - MCP 生态*
