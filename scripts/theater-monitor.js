@@ -7,12 +7,12 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const DEFAULT_ROLE_MAP = Object.freeze({
-  'live-garcin': 'garcin',
-  'live-ines': 'ines',
-  'live-estelle': 'estelle',
-  garcin: 'garcin',
-  ines: 'ines',
-  estelle: 'estelle',
+  'live-gu-yan': 'gu-yan',
+  'live-lin-zhi': 'lin-zhi',
+  'live-wen-shu': 'wen-shu',
+  'gu-yan': 'gu-yan',
+  'lin-zhi': 'lin-zhi',
+  'wen-shu': 'wen-shu',
 });
 
 const DEFAULT_SUMMARY_PATTERN = /台词|反击|无法退出/;
