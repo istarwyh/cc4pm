@@ -42,6 +42,7 @@ function main() {
       const result = runCli(['--list-roles', '--json']);
       assert.strictEqual(result.status, 0, result.stderr);
       const roles = parseJson(result.stdout);
+
       assert.ok(roles.some(role => role.id === 'gu-yan'));
       assert.ok(roles.some(role => role.id === 'lin-zhi'));
       assert.ok(roles.some(role => role.id === 'wen-shu'));
@@ -64,12 +65,14 @@ function main() {
     }],
     ['allows voice and rate overrides', () => {
       const result = runCli(['wen-shu', '我沉默不是逃避。', '--voice', 'Tingting', '--rate', '180', '--dry-run']);
+
       assert.strictEqual(result.status, 0, result.stderr);
       const payload = parseJson(result.stdout);
       assert.strictEqual(payload.voice, 'Tingting');
       assert.strictEqual(payload.rate, 180);
     }],
     ['extracts speakable teammate-message content from stdin', () => {
+
       const input = '<teammate-message teammate_id="gu-yan" summary="顾砚第三轮台词">\n你们看，我一开口就成了被审的人。\n</teammate-message>';
       const result = runCli(['--from-message', '--dry-run'], { input });
       assert.strictEqual(result.status, 0, result.stderr);
@@ -79,6 +82,7 @@ function main() {
     }],
     ['skips idle teammate-message payloads', () => {
       const input = '<teammate-message teammate_id="gu-yan">\n{"type":"idle_notification","from":"gu-yan"}\n</teammate-message>';
+
       const result = runCli(['--from-message', '--dry-run'], { input });
       assert.strictEqual(result.status, 0, result.stderr);
       const payload = parseJson(result.stdout);
@@ -86,7 +90,9 @@ function main() {
       assert.strictEqual(payload.reason, 'non-speakable-message');
     }],
     ['skips shutdown teammate-message payloads', () => {
+
       const input = '<teammate-message teammate_id="gu-yan">\n{"type":"shutdown_approved","from":"gu-yan"}\n</teammate-message>';
+
       const result = runCli(['--from-message', '--dry-run'], { input });
       assert.strictEqual(result.status, 0, result.stderr);
       const payload = parseJson(result.stdout);
@@ -102,7 +108,9 @@ function main() {
       assert.strictEqual(payload.reason, 'non-speakable-message');
     }],
     ['requires a speakable summary for teammate messages', () => {
+
       const input = '<teammate-message teammate_id="gu-yan">\nOPENAI_API_KEY=sk-secretsecret\n</teammate-message>';
+
       const result = runCli(['--from-message', '--dry-run'], { input });
       assert.strictEqual(result.status, 0, result.stderr);
       const payload = parseJson(result.stdout);
@@ -112,8 +120,10 @@ function main() {
     ['skips top-level JSON control messages', () => {
       const input = JSON.stringify({
         type: 'idle_notification',
+
         role: 'gu-yan',
         summary: '顾砚台词',
+
         text: '不应播出',
       });
       const result = runCli(['--from-message', '--dry-run'], { input });
@@ -123,27 +133,35 @@ function main() {
       assert.strictEqual(payload.reason, 'non-speakable-message');
     }],
     ['redacts secrets from speakable teammate messages', () => {
+
       const input = '<teammate-message teammate_id="gu-yan" summary="顾砚台词">\ntoken=ghp_1234567890abcdef\n</teammate-message>';
+
       const result = runCli(['--from-message', '--dry-run'], { input });
       assert.strictEqual(result.status, 0, result.stderr);
       const payload = parseJson(result.stdout);
       assert.strictEqual(payload.text, 'token=[REDACTED_SECRET]');
     }],
     ['redacts secrets from direct text', () => {
+
       const result = runCli(['gu-yan', 'password=hunter2', '--dry-run']);
+
       assert.strictEqual(result.status, 0, result.stderr);
       const payload = parseJson(result.stdout);
       assert.strictEqual(payload.text, 'password=[REDACTED_SECRET]');
     }],
     ['redacts quoted JSON-like secret keys', () => {
+
       const input = '<teammate-message teammate_id="gu-yan" summary="顾砚台词">\n{"token":"plain-secret"}\n</teammate-message>';
+
       const result = runCli(['--from-message', '--dry-run'], { input });
       assert.strictEqual(result.status, 0, result.stderr);
       const payload = parseJson(result.stdout);
       assert.strictEqual(payload.text, '{"token":[REDACTED_SECRET]}');
     }],
     ['fails for oversized direct text', () => {
+
       const result = runCli(['gu-yan', 'x'.repeat(2001), '--dry-run']);
+
       assert.strictEqual(result.status, 1);
       assert.match(result.stderr, /Text exceeds maximum length/);
     }],
@@ -153,7 +171,9 @@ function main() {
       assert.match(result.stderr, /Unknown role: unknown/);
     }],
     ['fails for empty text', () => {
+
       const result = runCli(['gu-yan', '--dry-run']);
+
       assert.strictEqual(result.status, 1);
       assert.match(result.stderr, /Text is required/);
     }],

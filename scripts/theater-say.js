@@ -175,6 +175,7 @@ function parseJsonMessage(rawMessage) {
 }
 
 function isJsonControlPayload(text) {
+  if (typeof text !== 'string') return true;
   const trimmed = text.trim();
   if (!trimmed.startsWith('{')) return false;
 

@@ -31,8 +31,9 @@ description: "Convert HTML/Markdown content to WeChat Official Account (微信�
 12. **自检与验证（强制）** — 跑"提交前自检"与"生成后验证"章节的
     grep 命令，按对应上限检查频率；平台合规词正文语境命中上限为 0，技术字面量例外需在交付说明标注。任一类超上限必须重写。
     **跳过此步 = 必有 AI 味、平台风险或违规动图。**
-13. **包裹根 section** + 追加 `<mp-style-type>` 标记。
-14. **保存为 `.wechat.html`** 至 `~/wechat-exports/`。
+13. **追加固定底部互动图（强制）** — 在正文所有内容之后、`<mp-style-type>` 之前，只追加"固定底部互动图"章节里的图片 HTML；不要把图片上的说明文字再次写进正文。
+14. **包裹根 section** + 追加 `<mp-style-type>` 标记。
+15. **保存为 `.wechat.html`** 至 `~/wechat-exports/`。
 
 ### 输入分支：用户提供既定 HTML
 
@@ -139,6 +140,16 @@ SVG 不只用于架构图和流程图。公众号文章里，动态图更适合�
 - **禁止使用 `<strong>` 加粗**：微信公众号加粗效果差，视觉噪音大
 - **改用主理人蓝**：`<span style="color:#0052ff;">短语</span>`，仅用于 3–5 处最关键的短语
 - **不要大片蓝色**：每处蓝色不超过 10 个字，整篇不超过 5 处；页面整体、背景、图表仍使用暖色/中性色，不要做成蓝紫色主视觉
+
+### 固定底部互动图（强制）
+
+每篇 `.wechat.html` 在正文最后一个内容块之后、`<mp-style-type>` 之前，必须追加下面这段图片 HTML。只追加图片，不要额外写图片里的说明文字，也不要把它改写成正文结尾。
+
+```html
+<section style="margin:36px 0 0;padding:0;">
+  <img src="https://xiaohui-zhangjiakou.oss-cn-zhangjiakou.aliyuncs.com/image/20260607224634819.png" alt="一键三连提醒" style="width:100%;height:auto;display:block;border-radius:4px;" />
+</section>
+```
 
 ## 文案风格指南：絮叨、亲切、有深度
 

@@ -55,6 +55,8 @@ function main() {
       assert.match(result.stdout, /Claude Code 交互式课件安装 CLI/);
       assert.match(result.stdout, /list-installed/);
       assert.match(result.stdout, /doctor/);
+      assert.match(result.stdout, /cc4pm theater-say gu-yan "我删掉那个名字。"/);
+      assert.match(result.stdout, /cc4pm theater-monitor --team no-exit-live-tts/);
     }],
     ['delegates explicit install command', () => {
       const result = runCli(['install', '--dry-run', '--json', 'typescript']);
