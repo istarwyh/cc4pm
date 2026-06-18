@@ -1,6 +1,6 @@
 # cc4pm
 
-**Claude Code for Product Makers** — 一个人，一支产品团队
+**Claude Code for Product Makers** — 一个人，一支产研团队
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![GitHub](https://img.shields.io/github/stars/istarwyh/cc4pm?style=flat)](https://github.com/istarwyh/cc4pm)
@@ -8,8 +8,6 @@
 > 一个人，一支产研团队。
 
 <div align="center">
-
-![cc4pm 交互式教学体系海报](https://github.com/user-attachments/assets/a018cb79-1315-4016-8853-d1bd37f3bd20)
 
 https://github.com/user-attachments/assets/1098774d-c250-4be1-a2d6-3894be687f66
 
