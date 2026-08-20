@@ -360,9 +360,9 @@ A: 当这个完成判断不是一次性任务，而是团队长期规则时。�
 
 请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
 
+- 继续 Lesson 23.8：了解 NVIDIA NIM API Catalog 的免费原型接口入口
 - 进入阶段 5：高级应用与持续优化
 - 返回 Lesson 23.2：Harness 实操
-- 返回主菜单
 
 ---
-*阶段 4 | Lesson 23.7/26 | 上一课: Lesson 23.6 - CLIProxyAPI 实战 | 下一课: Lesson 24 - 高级特性（阶段 5）*
+*阶段 4 | Lesson 23.7/26 | 上一课: Lesson 23.6 - CLIProxyAPI 实战 | 下一课: Lesson 23.8 - NVIDIA NIM API*

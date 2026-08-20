@@ -243,7 +243,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 
 ## 预计用时
 
-- 完整学习：约 90-120 分钟（5 个阶段，26 节课 + 49 个补充课）
+- 完整学习：约 90-120 分钟（5 个阶段，26 节课 + 50 个补充课）
 - 快速掌握核心：约 45 分钟（阶段 1-2）
 
 ## 使用方式
@@ -345,6 +345,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 | 23.5 | ccc 实战：国产大模型切换与严格 Supervisor 模式 | ccc-supervisor-mode、ccc-fork-evaluation、ccc-provider-switching、kimi-glm-integration |
 | 23.6 | CLIProxyAPI 实战：用 Gemini 免费额度驱动 Claude Code | cliproxyapi、gemini-oauth-free-tier、api-proxy-config、multi-account-rotation |
 | 23.7 | Goal 模式——给 Claude 一个可验收的终点 | goal-command、completion-condition、goal-vs-loop-stop-hook、loop-command |
+| 23.8 | NVIDIA NIM API Catalog——免费的原型模型接口入口 | nvidia-nim-api-catalog、build-nvidia-api-keys、nvidia-developer-program-free-prototyping、nvidia-api-key-env |
 
 ### 阶段 5：高级应用与持续优化（3 节课）
 
