@@ -247,7 +247,7 @@ claude
 
 ## 演示案例：解读 cc4pm 的 CLAUDE.md
 
-用 cc4pm 自身的 [CLAUDE.md](../../../../../CLAUDE.md) 作为范例。经过大量实践验证，以下六段式结构是 CLAUDE.md 的黄金模板：
+可以先查看 cc4pm 自身的 [CLAUDE.md](../../../CLAUDE.md)，再用下面的六段式模板检查项目说明是否完整。模板是一种组织方式，具体章节应按项目需要取舍：
 
 ```markdown
 # Project Contract
@@ -294,7 +294,7 @@ npm run lint
 
 ### cc4pm 的 CLAUDE.md 对照分析
 
-对照推荐模板，cc4pm 的 [CLAUDE.md](../../../../../CLAUDE.md) 有 Project Contract、Build And Test、Architecture Boundaries，但缺少 NEVER、ALWAYS 和 Compact Instructions。整体约 60 行，在最佳范围内。引用 CONTRIBUTING.md 而非内联——这是正确做法。
+当前 cc4pm 的 [CLAUDE.md](../../../CLAUDE.md) 使用 Project Overview、Running Tests、Architecture、Install Architecture 等章节介绍项目。检查时应关注是否能找到实际入口、测试命令、目录职责与维护规则，而不是要求章节名与模板完全一致。目录、模块数量和命令可能变化，需要结合当前代码核对。
 
 ### 下一步：让上下文治理继续生长
 

@@ -1,0 +1,21 @@
+repository: https://github.com/istarwyh/cc4pm
+branch: main
+productionURL: https://istarwyh.github.io/cc4pm/
+courses:
+  - id: product
+    title: 产品主理人课程
+    guide: guide
+    module: cc4pm-guide
+    intro: 从 Claude Code 基础，到创意、产品、设计、工程与完整项目实战。
+    color: '#a54f36'
+  - id: lawyer
+    title: cc4Lawyer 行业工作台课程
+    guide: verticals/lawyer/guide
+    module: cc4lawyer-guide
+    intro: 用一个模拟合同纠纷案例，学习把专业流程组织成 Claude Code 工作台。
+    overview: verticals/lawyer/README.md
+    color: '#657448'
+    materials:
+      - {id: case, title: 模拟案例材料, directory: verticals/lawyer/examples/saas-contract-dispute, exclude: [expected-outputs]}
+      - {id: templates, title: 工作台模板, directory: verticals/lawyer/templates}
+      - {id: outputs, title: 参考交付件, directory: verticals/lawyer/examples/saas-contract-dispute/expected-outputs}

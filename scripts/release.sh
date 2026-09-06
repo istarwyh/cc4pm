@@ -72,12 +72,14 @@ update_version "$ROOT_PACKAGE_JSON" "s|\"version\": *\"[^\"]*\"|\"version\": \"$
 update_version "$PLUGIN_JSON" "s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION\"|"
 update_version "$MARKETPLACE_JSON" "0,/\"version\": *\"[^\"]*\"/s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION\"|"
 
-# Update HTML documentation version and copy to homepage package
-update_version "docs/index.html" "s|>cc4pm v[0-9a-zA-Z.-]*</a>|>cc4pm v$VERSION</a>|"
+# Render the standalone homepage from the updated version and course maps.
+# The homepage package is published independently, so bump its patch as well.
+npm version "$VERSION" --no-git-tag-version --ignore-scripts --allow-same-version
+npm --prefix packages/homepage version patch --no-git-tag-version --ignore-scripts
 npm run build:homepage
 
 # Stage, commit, tag, and push
-git add "$ROOT_PACKAGE_JSON" "$PLUGIN_JSON" "$MARKETPLACE_JSON" "docs/index.html" "packages/homepage/index.html"
+git add "$ROOT_PACKAGE_JSON" "package-lock.json" "$PLUGIN_JSON" "$MARKETPLACE_JSON" "packages/homepage/package.json" "packages/homepage/index.html"
 git commit -m "chore: bump plugin version to $VERSION"
 git tag "v$VERSION"
 git push origin main "v$VERSION"

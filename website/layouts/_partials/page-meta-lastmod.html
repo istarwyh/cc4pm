@@ -1,0 +1,6 @@
+{{ with .Params.source_path }}
+<div class="td-page-meta__footer course-source">
+  <a href="{{ $.Params.source_url }}">查看课件来源</a>
+  {{ with $.Params.source_date }}<span> · 内容更新于 {{ time.Format "2006-01-02" . }}</span>{{ end }}
+</div>
+{{ end }}

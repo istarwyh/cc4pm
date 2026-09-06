@@ -1,10 +1,12 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
+const vm = require('vm');
 
 const repoRoot = path.join(__dirname, '..');
 const guideLessonsDir = path.join(repoRoot, 'guide', 'lessons');
 const skillPath = path.join(repoRoot, '.claude', 'skills', 'cc4pm-guide', 'SKILL.md');
+const agentGalleryPath = path.join(repoRoot, 'guide', 'lessons', 'stage-1', 'lesson-7-agent-gallery.html');
 
 function test(name, fn) {
   try {
@@ -51,6 +53,83 @@ function nextStepSections(content) {
   return sections;
 }
 
+function extractDecisionTreeScript(html) {
+  const start = html.indexOf('let dtState = { step: 1, answers: {} };');
+  const end = html.indexOf('/* ===================================================================\n   Init', start);
+  assert.notStrictEqual(start, -1, 'decision tree state should exist');
+  assert.notStrictEqual(end, -1, 'decision tree init marker should exist');
+  return html.slice(start, end);
+}
+
+function makeClassList(node) {
+  return {
+    add: (...classes) => {
+      const names = new Set(node.className.split(/\s+/).filter(Boolean));
+      classes.forEach((name) => names.add(name));
+      node.className = [...names].join(' ');
+    },
+    remove: (...classes) => {
+      const removeNames = new Set(classes);
+      node.className = node.className
+        .split(/\s+/)
+        .filter(Boolean)
+        .filter((name) => !removeNames.has(name))
+        .join(' ');
+    }
+  };
+}
+
+function makeNode(className) {
+  const node = {
+    className,
+    style: {},
+    textContent: '',
+    innerHTML: '',
+    choices: [{ className: 'dt-choice' }, { className: 'dt-choice' }],
+    querySelectorAll(selector) {
+      return selector === '.dt-choice' ? this.choices : [];
+    }
+  };
+  node.classList = makeClassList(node);
+  return node;
+}
+
+function runDecisionPath(answers) {
+  const nodes = {
+    dtNode1: makeNode('dt-node'),
+    dtNode2: makeNode('dt-node inactive'),
+    dtNode3: makeNode('dt-node inactive'),
+    dtConn1: makeNode('dt-connector'),
+    dtConn2: makeNode('dt-connector'),
+    dtResult: makeNode('dt-result'),
+    dtResetBtn: makeNode('dt-reset')
+  };
+  const context = {
+    document: {
+      getElementById(id) {
+        assert.ok(nodes[id], `unexpected decision tree DOM id: ${id}`);
+        return nodes[id];
+      },
+      querySelectorAll(selector) {
+        return selector === '.dt-connector' ? [nodes.dtConn1, nodes.dtConn2] : [];
+      }
+    }
+  };
+
+  vm.createContext(context);
+  const html = fs.readFileSync(agentGalleryPath, 'utf8');
+  vm.runInContext(extractDecisionTreeScript(html), context);
+  answers.forEach((yes, index) => context.dtAnswer(index + 1, yes));
+  return nodes;
+}
+
+function assertDecisionPath(answers, expectedClass, expectedText) {
+  const { dtResult } = runDecisionPath(answers);
+  assert.match(dtResult.className, new RegExp(`\\b${expectedClass}\\b`));
+  assert.match(dtResult.innerHTML, expectedText);
+  return dtResult;
+}
+
 function runTests() {
   console.log('\n=== Testing courseware interactions ===\n');
 
@@ -75,6 +154,21 @@ function runTests() {
     });
 
     assert.deepStrictEqual(failures, []);
+  })) passed++; else failed++;
+
+  if (test('lesson 7 decision tree routes according to lesson guidance', () => {
+    assertDecisionPath([false], 'stay-main', /留在主对话/);
+    assertDecisionPath([true, true], 'use-agent', /\/subtask/);
+
+    const afterQ2No = runDecisionPath([true, false]);
+    assert.doesNotMatch(afterQ2No.dtResult.className, /\bshow\b/, 'Q2 no should ask Q3 before showing a result');
+    assert.doesNotMatch(afterQ2No.dtNode3.className, /\binactive\b/, 'Q2 no should activate Q3');
+    assert.match(afterQ2No.dtConn2.className, /\bactive\b/, 'Q2 no should activate the connector to Q3');
+
+    const q3Yes = assertDecisionPath([true, false, true], 'use-agent', /子代理/);
+    assert.doesNotMatch(q3Yes.innerHTML, /\/subtask/, 'Q3 yes should choose an ordinary subagent, not /subtask');
+
+    assertDecisionPath([true, false, false], 'stay-main', /留在主对话/);
   })) passed++; else failed++;
 
   console.log(`\nResults: Passed: ${passed}, Failed: ${failed}`);

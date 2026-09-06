@@ -1,0 +1,6 @@
+This website uses OINK v1.0.0 (https://github.com/pgsty/oink),
+Copyright 2026 PGSTY contributors, derived from Docsy,
+Copyright 2018 Google LLC and Docsy contributors.
+OINK is distributed under Apache-2.0. Its third-party components retain
+their own licenses and notices in the pinned Hugo module.
+cc4pm content and project-authored website code retain the repository license.

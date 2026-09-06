@@ -1,0 +1,15 @@
+{{ with .Params.lesson_number }}
+<div class="course-tools d-print-none">
+  <span class="course-kind">{{ if $.Params.supplementary }}补充课{{ else }}主线课{{ end }}</span>
+  <a href="{{ "docs/learning/" | relURL }}">在 Claude Code 中学习</a>
+  <button type="button" aria-live="polite" data-course-copy="{{ $.Params.coaching_prompt }}">复制本课学习提示</button>
+</div>
+{{ end }}
+{{ with .Params.interactive }}
+<div class="course-resources d-print-none" aria-label="配套互动页面">
+  {{ range . }}<a href="{{ .url }}" target="_blank" rel="noopener">{{ .title }} <span aria-hidden="true">↗</span></a>{{ end }}
+</div>
+{{ end }}
+{{ with .Params.source_url }}
+<div class="course-source d-print-none"><a href="{{ . }}">查看源文件</a>{{ with $.Params.edit_url }} · <a href="{{ . }}">编辑本页</a>{{ end }}{{ with $.Params.download_url }} · <a href="{{ . }}" download>下载原文件</a>{{ end }}</div>
+{{ end }}

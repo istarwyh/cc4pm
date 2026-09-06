@@ -59,3 +59,11 @@ generated/
 memory/
 
 playground/
+
+# Official documentation build artifacts
+website/.generated/
+website/.generated.tmp/
+website/public/
+website/resources/
+website/.hugo_build.lock
+website/.hugo_cache/
