@@ -67,3 +67,5 @@ website/public/
 website/resources/
 website/.hugo_build.lock
 website/.hugo_cache/
+website/test-results/
+website/playwright-report/

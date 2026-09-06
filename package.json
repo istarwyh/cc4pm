@@ -71,7 +71,12 @@
     "prepare:site": "node website/scripts/generate.mjs",
     "build:site": "node website/scripts/build.mjs",
     "dev:site": "node website/scripts/dev.mjs",
-    "test:site": "node --test website/tests/*.test.mjs"
+    "test:site": "node --test website/tests/*.test.mjs",
+    "site:sync": "node website/scripts/sync.mjs",
+    "site:doctor": "node website/scripts/toolchain.mjs",
+    "site:check": "node website/scripts/check.mjs",
+    "site:verify": "node website/scripts/verify-live.mjs",
+    "test:site:browser": "playwright test --config website/playwright.config.mjs"
   },
   "dependencies": {
     "ajv": "^8.18.0",
@@ -79,6 +84,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@playwright/test": "1.63.0",
     "c8": "^10.1.2",
     "eslint": "^9.39.2",
     "globals": "^17.1.0",

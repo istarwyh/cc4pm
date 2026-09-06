@@ -1,0 +1,114 @@
+name: Restore a verified documentation deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful main Pages run containing the site-bundle artifact
+        required: true
+        type: string
+      dry_run:
+        description: Validate the saved bundle without changing the live site
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      pages: read
+    outputs:
+      revision: ${{ steps.source.outputs.revision }}
+      node: ${{ steps.source.outputs.node }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require a successful main Pages run from this repository
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN: ${{ inputs.run_id }}
+        run: |
+          [[ "$SOURCE_RUN" =~ ^[0-9]+$ ]]
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN" > "$RUNNER_TEMP/source-run.json"
+          jq -e '.path == ".github/workflows/pages.yml" and .head_branch == "main" and .conclusion == "success" and (.event == "push" or .event == "workflow_dispatch")' "$RUNNER_TEMP/source-run.json"
+          echo "revision=$(jq -r .head_sha "$RUNNER_TEMP/source-run.json")" >> "$GITHUB_OUTPUT"
+          echo "node=$(jq -r .node website/toolchain.json)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.source.outputs.node }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-bundle
+          path: website/public
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.run_id }}
+      - name: Verify bundle provenance, inventory, hashes and destination
+        env:
+          SOURCE_REVISION: ${{ steps.source.outputs.revision }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node website/scripts/release.mjs website/public "$SOURCE_REVISION" --clean
+          gh api "repos/$GITHUB_REPOSITORY/pages" --jq .html_url > "$RUNNER_TEMP/pages-url.txt"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const expected = fs.readFileSync(`${process.env.RUNNER_TEMP}/pages-url.txt`, 'utf8').trim().replace(/\/?$/, '/');
+          const manifest = JSON.parse(fs.readFileSync('website/public/site-release.json'));
+          if (manifest.baseURL !== expected) throw new Error(`Bundle destination ${manifest.baseURL} differs from ${expected}`);
+          NODE
+      - uses: actions/upload-pages-artifact@v3
+        if: inputs.dry_run == false
+        with:
+          path: website/public
+      - name: Record recovery target
+        env:
+          SOURCE_RUN: ${{ inputs.run_id }}
+          SOURCE_REVISION: ${{ steps.source.outputs.revision }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          echo "Validated run $SOURCE_RUN, revision $SOURCE_REVISION. Dry run: $DRY_RUN." >> "$GITHUB_STEP_SUMMARY"
+
+  deploy:
+    if: inputs.dry_run == false
+    needs: prepare
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages-production
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ needs.prepare.outputs.node }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-bundle
+          path: website/public
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.run_id }}
+      - id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Verify restored revision and all published files
+        env:
+          SOURCE_REVISION: ${{ needs.prepare.outputs.revision }}
+        run: node website/scripts/verify-live.mjs --revision "$SOURCE_REVISION"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: restored-site-live-verification
+          path: website/test-results/live.json
+          retention-days: 30

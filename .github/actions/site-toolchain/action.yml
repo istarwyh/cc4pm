@@ -1,0 +1,42 @@
+name: Documentation toolchain
+description: Install the versions used by local checks and documentation CI
+outputs:
+  node:
+    description: Node.js major version
+    value: ${{ steps.versions.outputs.node }}
+runs:
+  using: composite
+  steps:
+    - id: versions
+      shell: bash
+      run: |
+        echo "node=$(jq -r .node website/toolchain.json)" >> "$GITHUB_OUTPUT"
+        echo "hugo=$(jq -r .hugo website/toolchain.json)" >> "$GITHUB_OUTPUT"
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ steps.versions.outputs.node }}
+        cache: npm
+    - shell: bash
+      run: npm ci --ignore-scripts
+    - uses: actions/setup-go@v5
+      with:
+        go-version-file: website/go.mod
+        cache-dependency-path: website/go.sum
+    - name: Install pinned Hugo Extended with checksum verification
+      shell: bash
+      working-directory: ${{ runner.temp }}
+      env:
+        HUGO_VERSION: ${{ steps.versions.outputs.hugo }}
+      run: |
+        ASSET="hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+        RELEASE="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}"
+        curl --fail --location --retry 3 "$RELEASE/$ASSET" -o "$ASSET"
+        curl --fail --location --retry 3 "$RELEASE/hugo_${HUGO_VERSION}_checksums.txt" -o checksums.txt
+        awk -v asset="$ASSET" '$2 == asset { print }' checksums.txt > selected-checksum.txt
+        test -s selected-checksum.txt
+        sha256sum --check selected-checksum.txt
+        sudo dpkg -i "$ASSET"
+    - shell: bash
+      run: npx playwright install --with-deps chromium
+    - shell: bash
+      run: npm run site:doctor
