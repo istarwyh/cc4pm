@@ -85,6 +85,8 @@ Pages Source 使用 **GitHub Actions**。自定义域名时更新 `website/site.
 
 每月抽查安装 → 第一课 → 实操入口，以及有外部工具变化的相关课件。命令、接口、模型用法发生变化时，在内容 PR 中记录实测工具版本和结果。页面的 Git 更新时间只表示编辑时间，不宣称整课已重新实测。失效反馈的 Issue 应提供课程地址、工具版本、步骤和预期结果；优先处理阻塞入门路径的问题。每季度用仍在保留期的最近成功产物跑一次恢复演练。
 
-首页 npm 包保持 `filePath` 和 `html()` 接口。日常内容提交只校验生成首页，不查询 npm、发布包或通知下游。真正需要发布首页包时，提升 `packages/homepage/package.json` 版本，再手动运行 `publish-homepage.yml`；该流程会检查已发布版本是否一致，发布成功或显式强制通知时才通知下游。主项目 `scripts/release.sh` 会提升首页包 patch 并生成首页，但不会自动发布首页 npm 包。
+首页 npm 包保持 `filePath` 和 `html()` 接口。日常内容提交只校验生成首页，不查询 npm、发布包或通知下游。真正需要发布首页包时，提升 `packages/homepage/package.json` 版本，再手动运行 `publish-homepage.yml`；该流程会检查已发布版本是否一致，发布成功或显式强制通知时才通知下游。
+
+主项目版本发布也遵守 PR 检查：在干净且最新的 `main` 上运行 `scripts/release.sh VERSION`，脚本创建 `codex/release-vVERSION` 分支，更新版本、首页包 patch、锁文件和首页并提交。随后运行 `site:check`，推送该分支并创建 PR。合并且 `main` 部署验收通过后，对已验证的合并 SHA 创建并推送 `vVERSION` 标签。脚本会打印这些后续命令；准备阶段不推送 `main`、打标签或发布 npm 包。
 
 本站保持静态部署，没有账号系统、服务端数据库或学习进度同步。网页负责阅读、搜索与互动演示；教学实操继续在用户本机进行。
