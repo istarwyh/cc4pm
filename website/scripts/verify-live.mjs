@@ -20,6 +20,7 @@ export async function verifyLive(manifest, { revision, attempts = 12, retryDelay
         const response = await get(releaseFile);
         if (response.status !== 200) throw new Error(`Release manifest returned HTTP ${response.status}`);
         const published = validateRelease(await response.json(), manifest.revision);
+        if (published.baseURL !== manifest.baseURL || published.dirty !== manifest.dirty) throw new Error('Published release metadata differs from the expected build.');
         if (published.contentHash !== manifest.contentHash) throw new Error('Published files differ from the expected build.');
         ready = true;
         break;

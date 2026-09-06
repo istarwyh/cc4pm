@@ -24,6 +24,9 @@ test('release verification catches stale deployments, corruption and missing fil
   assert.equal(verifyBundle(output, revision).files.length, 3);
   const options = { revision, attempts: 1, retryDelay: 0, log: () => {} };
   assert.equal((await verifyLive(manifest, options)).verified, 3);
+  fs.writeFileSync(path.join(output, 'site-release.json'), JSON.stringify({ ...manifest, dirty: true }));
+  await assert.rejects(verifyLive(manifest, options), /metadata differs/);
+  fs.writeFileSync(path.join(output, 'site-release.json'), JSON.stringify(manifest));
   await assert.rejects(verifyLive({ ...manifest, revision: 'b'.repeat(40) }, { ...options, revision: 'b'.repeat(40) }), /Revision mismatch/);
   fs.writeFileSync(path.join(output, 'index.html'), 'corrupt');
   assert.throws(() => verifyBundle(output), /digest mismatch/);
