@@ -243,7 +243,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 
 ## 预计用时
 
-- 完整学习：约 90-120 分钟（5 个阶段，26 节课 + 50 个补充课）
+- 完整学习：约 90-120 分钟（5 个阶段，26 节课 + 52 个补充课）
 - 快速掌握核心：约 45 分钟（阶段 1-2）
 
 ## 使用方式
@@ -274,6 +274,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 | 3 | 主动管理上下文 | context-management、session-lifecycle、continue-resume-fork、btw-side-question |
 | 3.1 | Status Line——你的实时仪表盘 | status-line、token-monitoring、claude-hud-statusline、statusline-stdin-json |
 | 3.2 | 效率工作流：快捷键、编辑器与 tmux | keyboard-shortcuts、shift-enter-multiline、tab-toggle-thinking、plan-vs-thinking |
+| 3.3 | /subtask——把执行过程移出主上下文 | subtask-command、subtask-active-context-management、forked-subagent、inherited-conversation-context |
 | 4 | 快速上手：第一次实操 | prompt-precision、rich-input、screenshot-paste、claude-interview |
 | 4.1 | 压力光谱——用大厂 PUA 话术驱动 AI | pua-pressure-spectrum、three-red-lines、13-pua-flavors、pressure-level-selection |
 | 5 | CLAUDE.md：上下文治理的入口 | claude-md、context-governance-entry、file-hierarchy、six-section-template |
@@ -318,6 +319,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 | 17.7 | 风格落地——跨平台设计的选择与实现 | mobile-vs-web-differences、ios-hig-vs-material-design、mobile-unique-patterns、style-selection-decision-tree |
 | 17.8 | 品牌资产协议与设计交付——从品牌色到动画成片 | brand-asset-protocol、design-direction-consultant、five-dimension-review、motion-design-engine |
 | 17.9 | AI 品牌视觉趋势——14 种视觉信号与 5 个品牌原型 | ai-brand-visual-trends、14-ai-visual-signals、ai-brand-archetypes、visual-trend-decision |
+| 17.10 | UI 设计风格词典与选择方法 | ui-style-selection-method、ui-style-lexicon-50、design-style-brief、style-tradeoff-matrix |
 | 18 | Trigger Map：用户心理→功能映射 | trigger-map、four-layer-structure、what-why-when-pattern、four-workshops |
 | 19 | UX 场景与用户旅程设计 | scenario-outline、8-scenario-components、9-step-workflow、trigger-to-scenario |
 | 20 | 故事讲述：产品叙事与演示 | sophia-agent、caravaggio-agent、mirror-neurons、story-stickiness |

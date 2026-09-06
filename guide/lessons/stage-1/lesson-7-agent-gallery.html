@@ -508,7 +508,7 @@
      ==================================================================== -->
 <div class="card section-gap">
   <h2>子代理工作原理</h2>
-  <p>Claude Code 的子代理在<strong>独立的上下文窗口</strong>中运行，完成后只将摘要返回给父级。</p>
+  <p>Claude Code 的普通子代理在<strong>独立的上下文窗口</strong>中运行，完成后只将摘要返回给父级；<code>/subtask</code> 是会继承当前对话的 forked subagent。</p>
 
   <div class="arch-diagram">
     <div class="main-ctx">
@@ -520,7 +520,7 @@
         <span class="sub-ctx-label">子代理（独立上下文窗口）</span>
         <p style="font-size:.85rem; color:var(--text-secondary); margin:0;">
           独立的提示 + 独立的工具权限<br>
-          <strong>不能看到</strong>父级的完整对话历史
+          默认<strong>不能看到</strong>父级的完整对话历史
         </p>
       </div>
     </div>
@@ -532,6 +532,10 @@
       <span class="arch-arrow-icon">&#10132;</span>
       <div class="arch-step"><span class="num">3</span> 只返回摘要</div>
     </div>
+  </div>
+
+  <div class="callout" style="margin-top:1.2rem;">
+    <strong>例外：</strong><code>/subtask</code> 会 fork 调用时的完整对话，适合需要当前背景、但执行过程不该留在主上下文的独立任务。详见 Lesson 3.3。
   </div>
 
   <h3 style="text-align:center; margin-top:1.8rem; margin-bottom:.8rem;">三种内置子代理类型</h3>
@@ -926,22 +930,22 @@ function dtAnswer(step, yes) {
   choices[1].className = 'dt-choice' + (!yes ? ' selected-no' : '');
   node.classList.add('completed');
 
-  // Question 1: Yes -> use subagent
-  if (step === 1 && yes) {
-    showDtResult(true, '用子代理！大量文件读取会占用主上下文空间，子代理可以在独立窗口中处理后只返回摘要。');
+  // Question 1: small tasks should stay in the main conversation
+  if (step === 1 && !yes) {
+    showDtResult(false, '留在主对话。任务不需要读取大量文件，直接处理更快，也更适合连续决策。');
     return;
   }
 
-  // Question 2: Yes -> stay in main
+  // Question 2: choose a forked subagent when prior context is required
   if (step === 2 && yes) {
-    showDtResult(false, '留在主对话。子代理看不到之前的对话历史，需要上下文连续性的任务不适合委派。');
+    showDtResult(true, '用 /subtask！它会继承调用时的对话背景，并把长执行过程留在 fork 内；如果任务需要与你频繁来回决策，则留在主对话。');
     return;
   }
 
   // Question 3
   if (step === 3) {
     if (yes) {
-      showDtResult(true, '用子代理！输出远短于输入时，子代理可以大量阅读后返回简短摘要，节省主上下文空间。');
+      showDtResult(true, '用普通子代理！输出远短于输入时，子代理可以大量阅读后返回简短摘要，节省主上下文空间。');
     } else {
       showDtResult(false, '留在主对话。当输出和输入差不多长时，子代理的摘要可能丢失重要细节。');
     }

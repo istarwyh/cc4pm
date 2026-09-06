@@ -63,7 +63,7 @@ AGENTS.md
 
 如果你的团队只用 Claude Code，`CLAUDE.md` 就是首选入口。
 
-但如果团队同时使用 Claude Code、Codex、Cursor、Aider 或其他 Agent 工具，就需要一个更通用的入口：`AGENTS.md`。
+但 Claude Code 不会自动读取 `AGENTS.md`。如果团队同时使用 Codex、Cursor、Aider 等工具，就把跨工具约束写进 `AGENTS.md`，再在 `CLAUDE.md` 中用 `@AGENTS.md` 导入，避免复制漂移。
 
 ```text
 CLAUDE.md
@@ -83,7 +83,6 @@ AGENTS.md
 | Claude Code 独有的状态栏、权限、Skill 说明 | CLAUDE.md |
 
 关键是避免重复。不要把同一大段规则复制到两个文件里，否则几个月后一定会过期、冲突。
-
 
 ### Memory：记人和原因，不记代码事实
 
@@ -222,48 +221,48 @@ paths:
 
 这句话能防止大量“记忆正确但已经过期”的错误。
 
-### LLM Wiki 视角：项目目录全景
+### LLM Wiki 视角：知识库，也是 Steering Layer
 
-把 `.claude/` 目录看成一个 **LLM Wiki**（AI 的项目知识库），CLAUDE.md 就是这个 Wiki 的首页。Wiki 的价值不仅在于系统层面的结构化存放，更在于**微操层面的主动指向**——当你知道某个任务和哪些历史上下文有关，直接用 `@path` 指向它们。下面的目录结构就是这个 Wiki 的完整页面地图：
+把 `.claude/` 与项目文档看成一个 **LLM Wiki**，`CLAUDE.md` / `AGENTS.md` 是首页。但首页不只告诉 Agent“这里有什么”，还要把它路由到正确页面，让它按这个应用的方式工作。
+
+| 层 | 回答的问题 | 典型内容 | 作用 |
+|----|------------|----------|------|
+| Knowledge Wiki | 我们知道什么？ | PRD、ADR、调研、代码说明、历史决策 | 提供事实、背景和可引用材料 |
+| Steering Layer | 应该怎么判断和行动？ | 项目原则、任务路由、流程、质量标准、禁止事项 | 约束行动顺序、取舍和输出质量 |
+
+> `CLAUDE.md` / `AGENTS.md` 是应用上下文入口；LLM Wiki 是结构化上下文系统；Steering Layer 是其中负责路由、规则和质量判断的部分。
+
+一次任务进入项目后，首页只需要完成五件事：
+
+```text
+任务识别：这是内容、Bug、设计、PR Review，还是行业案例？
+  ↓
+路由规则：该读哪些 skills / rules / docs / 事实源？
+  ↓
+行动流程：先做什么，后做什么，哪些步骤不能跳？
+  ↓
+判断标准：什么叫合格，冲突时优先什么？
+  ↓
+验收机制：AI 自检，还是交给 Hooks / tests / reviewer / 人工复核？
+```
+
+因此首页要像路由器，不要像百科全书。完整知识留在按需页面，入口只保留所有任务都需要的总纲和指针：
 
 ```text
 Project/
-├── CLAUDE.md                      # 上下文治理入口：项目常驻总纲
-├── AGENTS.md                      # 可选：跨 Agent / 跨工具共享说明
+├── CLAUDE.md / AGENTS.md          # 入口：常驻原则 + 任务路由
 ├── .claude/
-│   ├── rules/                     # 专项规则：路径、语言、文件类型约束
-│   │   ├── api-contract.md
-│   │   ├── python-type-safety.md
-│   │   └── release.md
-│   ├── skills/                    # 任务型工作流，按需加载
-│   ├── agents/                    # 专家角色，独立上下文执行
-│   └── settings.json              # 权限、Hooks、环境变量、MCP
-├── docs/
-│   ├── architecture.md            # 正式架构事实
-│   └── adr/                       # 架构决策记录
-└── src/                           # 当前代码事实源
+│   ├── skills/                    # 任务型工作流
+│   ├── rules/                     # 主题、语言与路径约束
+│   ├── agents/                    # 专家角色与独立执行
+│   └── settings.json / hooks      # 权限与确定性守护
+├── docs/ / ADR                    # 正式知识与历史决策
+├── code / tests                   # 当前实现与可执行事实
+├── issues / PR                    # 当前任务与协作状态
+└── ~/.claude/projects/<project>/memory/  # Auto Memory：偏好、纠正与原因
 ```
 
-加载频率也不同：
-
-```text
-              加载频率 ↑
-                      │
-    CLAUDE.md ●───────│─── 每次必加载，必须精简
-    AGENTS.md ●/○─────│─── 跨工具团队常驻，避免重复
-    Rules     ●/○─────│─── 全局或路径触发，按主题拆分
-                      │
-    ──────────────────│──── 分界线：上方是治理规则，下方是按需能力 ────
-                      │
-    Skills    ○───────│─── 按需加载，可以很详细
-    Agents    ○───────│─── 按需启动，独立上下文
-    docs      ○───────│─── 需要事实时读取
-    code      ○───────│─── 需要事实时搜索
-                      │
-              加载频率 ↓
-```
-
-核心原则：**常驻信息要少，专项规则要按需触发，长期记忆要个人化，事实判断要回到代码和正式文档。**
+核心原则：**常驻信息要少，专项规则按需触发，Memory 只做提示和索引，事实判断回到代码、正式文档与 Issue；搜索负责“找得到”，Steering 负责“用得对”。**
 
 ### 实证研究：Augment 的六条规律
 
@@ -364,7 +363,6 @@ paths:
 
 修改 API 返回结构前，必须先检查客户端调用方和相关测试；如果字段含义变化，更新文档示例。
 ```
-
 
 ## 常见问题
 

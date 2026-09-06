@@ -75,6 +75,8 @@ disable-model-invocation: true
 | `disable-model-invocation` | 设为 `true` 则只能手动触发 | 有副作用的操作设为 true |
 | `context: fork` | 在独立子代理上下文中运行 | 不污染主对话的调研类技能 |
 
+`context: fork` 是 Skill 预先声明的执行方式；`/subtask` 是你临时创建的一次性 fork 任务。两者都能隔离执行过程，但触发方式不同，详见 **Lesson 3.3**。
+
 **关于 `description` 字段**：这是技能被自动发现的关键。Claude 会将用户的输入与所有技能的 description 进行语义匹配。写得好，技能就能在对的时机被激活；写得差，技能要么不被发现，要么在不该触发时触发。
 
 **关于 `disable-model-invocation`**：默认情况下，Claude 可以自主决定调用技能。但对于有副作用的操作（比如部署、删除文件、发布版本），应该设为 `true`，只允许用户手动触发。

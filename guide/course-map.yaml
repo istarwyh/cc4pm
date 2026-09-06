@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 50
+  supplementary_lessons: 52
   default_max_lines: 400
 
 stages:
@@ -120,6 +120,23 @@ stages:
           - parallel-cascade
           - claude-code-viewer
 
+      - id: lesson-3.3
+        file: lesson-3.3.md
+        number: 3.3
+        title: "/subtask——把执行过程移出主上下文"
+        short_title: "Subtask 上下文分叉"
+        supplementary: true
+        topics:
+          - subtask-command
+          - subtask-active-context-management
+          - forked-subagent
+          - inherited-conversation-context
+          - background-result-handoff
+          - subtask-vs-skill
+          - subtask-vs-fork
+          - shared-worktree-safety
+          - subtask-prompt-contract
+
       - id: lesson-4
         file: lesson-4.md
         number: 4
@@ -177,6 +194,10 @@ stages:
           - fact-source-principle
           - llm-wiki-directory-map
           - progressive-context-disclosure
+          - knowledge-wiki-vs-steering-layer
+          - application-context-entry
+          - task-routing
+          - steering-quality-gates
 
       - id: lesson-5.2
         file: lesson-5.2.md
@@ -640,6 +661,24 @@ stages:
           - technical-illustrations-generative-art
           - brand-signal-mapping
 
+      - id: lesson-1.10
+        file: lesson-1.10.md
+        number: "17.10"
+        title: "UI 设计风格词典与选择方法"
+        short_title: "UI 风格词典与选择"
+        supplementary: true
+        topics:
+          - ui-style-selection-method
+          - ui-style-lexicon-50
+          - design-style-brief
+          - style-tradeoff-matrix
+          - product-brand-style-system-layers
+          - vibe-design-vocabulary
+          - accessibility-performance-guardrails
+          - responsive-style-fallback
+          - visual-direction-acceptance
+          - style-to-ai-prompt
+
       - id: lesson-2
         file: lesson-2.md
         number: 18
@@ -1059,6 +1098,13 @@ stages:
           - obsidain-as-ide
           - qmd-local-rag
           - qmd-mcp-integration
+          - knowledge-wiki-vs-steering-layer
+          - qmd-search-vs-steering
+          - application-context-entry-template
+          - steering-execution-acceptance-chain
+          - collaborative-steering
+          - vertical-domain-guardrails
+          - human-review-boundaries
 
       - id: lesson-1.4
         file: lesson-1.4.md

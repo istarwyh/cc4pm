@@ -386,9 +386,9 @@ A: 某些终端模拟器需要额外配置才能正确识别 Shift+Enter。确�
 
 请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
 
-- 进入下一课：Lesson 4 - 快速上手：第一次实操
+- 进入下一课：Lesson 3.3 - `/subtask`：把执行过程移出主上下文
 - 返回主菜单
 - 退出学习
 
 ---
-*阶段 1 | Lesson 3.2/26 | 上一课: Lesson 3.1 - Status Line | 下一课: Lesson 4 - 快速上手*
+*阶段 1 | Lesson 3.2/26 | 上一课: Lesson 3.1 - Status Line | 下一课: Lesson 3.3 - Subtask 上下文分叉*
