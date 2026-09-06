@@ -43,6 +43,7 @@ jobs:
         run: npm run check:homepage
 
       - name: Check if version already published
+        if: github.event_name == 'workflow_dispatch'
         id: check
         working-directory: packages/homepage
         run: |

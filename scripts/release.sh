@@ -1,87 +1,69 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Release script for bumping plugin version
+# Prepare a release commit. Merge its PR before tagging the verified main commit.
 # Usage: ./scripts/release.sh VERSION
-
 VERSION="${1:-}"
-ROOT_PACKAGE_JSON="package.json"
-PLUGIN_JSON=".claude-plugin/plugin.json"
-MARKETPLACE_JSON=".claude-plugin/marketplace.json"
-
-# Function to show usage
-usage() {
-  echo "Usage: $0 VERSION"
-  echo "Example: $0 1.5.0"
-  exit 1
-}
-
-# Validate VERSION is provided
-if [[ -z "$VERSION" ]]; then
-  echo "Error: VERSION argument is required"
-  usage
-fi
-
-# Validate VERSION is semver format (X.Y.Z)
 if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-  echo "Error: VERSION must be in semver format (e.g., 1.5.0)"
+  echo "Usage: $0 VERSION (for example, 2.0.7)" >&2
+  exit 1
+fi
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+if [[ "$(git branch --show-current)" != "main" ]]; then
+  echo "Start from an up-to-date main checkout." >&2
+  exit 1
+fi
+if [[ -n "$(git status --porcelain --untracked-files=normal)" ]]; then
+  echo "Working tree is not clean. Commit your changes before preparing a release." >&2
+  exit 1
+fi
+if git show-ref --verify --quiet "refs/tags/v$VERSION"; then
+  echo "Tag v$VERSION already exists." >&2
   exit 1
 fi
 
-# Check current branch is main
-CURRENT_BRANCH=$(git branch --show-current)
-if [[ "$CURRENT_BRANCH" != "main" ]]; then
-  echo "Error: Must be on main branch (currently on $CURRENT_BRANCH)"
-  exit 1
-fi
+# Validate before creating a branch or touching any manifests.
+node - "$VERSION" <<'NODE'
+const fs = require('node:fs');
+const read = file => JSON.parse(fs.readFileSync(file, 'utf8'));
+const current = read('package.json').version;
+const next = process.argv[2].split('.').map(Number);
+const previous = current.split('.').map(Number);
+const changed = next.findIndex((value, index) => value !== previous[index]);
+if (changed < 0 || next[changed] < previous[changed]) throw new Error(`Version must be greater than ${current}`);
+read('package-lock.json');
+read('.claude-plugin/plugin.json');
+read('packages/homepage/package.json');
+if (!read('.claude-plugin/marketplace.json').plugins.some(plugin => plugin.name === 'cc4pm')) throw new Error('Marketplace is missing cc4pm');
+NODE
 
-# Check working tree is clean
-if ! git diff --quiet || ! git diff --cached --quiet; then
-  echo "Error: Working tree is not clean. Commit or stash changes first."
-  exit 1
-fi
-
-# Verify versioned manifests exist
-for FILE in "$ROOT_PACKAGE_JSON" "$PLUGIN_JSON" "$MARKETPLACE_JSON"; do
-  if [[ ! -f "$FILE" ]]; then
-    echo "Error: $FILE not found"
-    exit 1
-  fi
-done
-
-# Read current version from plugin.json
-OLD_VERSION=$(grep -oE '"version": *"[^"]*"' "$PLUGIN_JSON" | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
-if [[ -z "$OLD_VERSION" ]]; then
-  echo "Error: Could not extract current version from $PLUGIN_JSON"
-  exit 1
-fi
-echo "Bumping version: $OLD_VERSION -> $VERSION"
-
-update_version() {
-  local file="$1"
-  local pattern="$2"
-  if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' "$pattern" "$file"
-  else
-    sed -i "$pattern" "$file"
-  fi
-}
-
-# Update all shipped package/plugin manifests
-update_version "$ROOT_PACKAGE_JSON" "s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION\"|"
-update_version "$PLUGIN_JSON" "s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION\"|"
-update_version "$MARKETPLACE_JSON" "0,/\"version\": *\"[^\"]*\"/s|\"version\": *\"[^\"]*\"|\"version\": \"$VERSION\"|"
-
-# Render the standalone homepage from the updated version and course maps.
-# The homepage package is published independently, so bump its patch as well.
-npm version "$VERSION" --no-git-tag-version --ignore-scripts --allow-same-version
+git switch -c "codex/release-v$VERSION"
+# Structured JSON updates work identically on macOS and Linux.
+node - "$VERSION" <<'NODE'
+const fs = require('node:fs');
+const update = (file, mutate) => {
+  const value = JSON.parse(fs.readFileSync(file, 'utf8'));
+  mutate(value);
+  fs.writeFileSync(file, JSON.stringify(value, null, 2) + '\n');
+};
+const version = process.argv[2];
+update('.claude-plugin/plugin.json', plugin => { plugin.version = version; });
+update('.claude-plugin/marketplace.json', marketplace => {
+  marketplace.plugins.find(plugin => plugin.name === 'cc4pm').version = version;
+});
+NODE
+npm version "$VERSION" --no-git-tag-version --ignore-scripts
 npm --prefix packages/homepage version patch --no-git-tag-version --ignore-scripts
 npm run build:homepage
 
-# Stage, commit, tag, and push
-git add "$ROOT_PACKAGE_JSON" "package-lock.json" "$PLUGIN_JSON" "$MARKETPLACE_JSON" "packages/homepage/package.json" "packages/homepage/index.html"
-git commit -m "chore: bump plugin version to $VERSION"
-git tag "v$VERSION"
-git push origin main "v$VERSION"
-
-echo "Released v$VERSION"
+git add package.json package-lock.json .claude-plugin/plugin.json .claude-plugin/marketplace.json packages/homepage/package.json packages/homepage/index.html
+git commit -m "chore: prepare release v$VERSION"
+cat <<NEXT
+Prepared codex/release-v$VERSION. Next:
+  npm run site:check
+  git push -u origin codex/release-v$VERSION
+  gh pr create --base main
+After merging and verifying the main Pages deployment, tag that merged commit:
+  git tag v$VERSION <verified-main-sha>
+  git push origin v$VERSION
+NEXT

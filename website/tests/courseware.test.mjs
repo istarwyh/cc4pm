@@ -5,21 +5,40 @@ import path from 'node:path';
 import os from 'node:os';
 import yaml from 'js-yaml';
 import { fromMarkdown } from 'mdast-util-from-markdown';
-import { digest, inside, loadCatalog, siteURL, splitFrontMatter, transformMarkdown } from '../scripts/content.mjs';
+import { digest, inside, loadCatalog, siteURL, slash, splitFrontMatter, transformMarkdown, walkFiles } from '../scripts/content.mjs';
 import { prepareSite, repositoryRoot } from '../scripts/generate.mjs';
 import { renderHomepage } from '../scripts/homepage.mjs';
 import { inspectHtml } from '../scripts/validate.mjs';
+import { syncContent } from '../scripts/sync.mjs';
 
-test('course order uses map entries, preserving 17.10 and repeated local IDs', () => {
-  const { courses } = loadCatalog(repositoryRoot);
-  const product = courses.find(c => c.id === 'product');
-  assert.equal(product.lessons.length, 78);
-  assert.equal(courses.find(c => c.id === 'lawyer').lessons.length, 10);
-  const index = product.lessons.findIndex(l => l.number === '17.10');
-  assert.equal(product.lessons[index - 1].number, '17.9');
-  assert.equal(product.lessons[index + 1].number, '18');
-  assert.match(product.lessons[index].route, /stage-3\/lesson-1\.10\/$/);
-  assert.equal(new Set(courses.flatMap(c => c.lessons.map(l => l.id))).size, 88);
+test('a fixed fixture preserves decimal labels, map order and repeated local IDs', (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'cc4pm-catalog-test-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  function write(file, content) {
+    const target = path.join(root, file);
+    fs.mkdirSync(path.dirname(target), { recursive: true });
+    fs.writeFileSync(target, content);
+  }
+  write('package.json', JSON.stringify({ version: '0.0.0' }));
+  write('manifests/install-modules.json', JSON.stringify({ modules: [{ id: 'fixture-guide', stability: 'stable' }] }));
+  write('website/site.yaml', yaml.dump({ courses: [{ id: 'fixture', guide: 'guide', module: 'fixture-guide' }] }));
+  const lesson = (id, number) => ({ id, number, title: `Lesson ${number}`, file: `${id}.md` });
+  const stages = [
+    { id: 'stage-1', lessons: [lesson('lesson-1.9', '17.9'), lesson('lesson-1.10', '17.10'), lesson('lesson-2', 18)] },
+    { id: 'stage-2', lessons: [lesson('lesson-2', 19)] },
+  ];
+  for (const stage of stages) for (const entry of stage.lessons) write(`guide/lessons/${stage.id}/${entry.file}`, `# ${entry.title}\n`);
+  const mapFile = 'guide/course-map.yaml';
+  write(mapFile, yaml.dump({ meta: { total_lessons: 4 }, stages }));
+  let course = loadCatalog(root).courses[0];
+  assert.deepEqual(course.lessons.map(l => l.number), ['17.9', '17.10', '18', '19']);
+  assert.equal(new Set(course.lessons.map(l => l.id)).size, 4);
+  assert.match(course.lessons[1].route, /stage-1\/lesson-1\.10\/$/);
+  // Explicit map order wins over numeric sorting.
+  stages[0].lessons.reverse();
+  write(mapFile, yaml.dump({ meta: { total_lessons: 4 }, stages }));
+  course = loadCatalog(root).courses[0];
+  assert.deepEqual(course.lessons.map(l => l.number), ['18', '17.10', '17.9', '19']);
 });
 
 test('Markdown adaptation preserves code and next steps while resolving real links', () => {
@@ -58,13 +77,55 @@ function codeBlocks(source) {
   return blocks;
 }
 
+test('one sync repairs course counts, teaching navigation and homepage, and is idempotent', t => {
+  const root = fixture(t);
+  for (const entry of ['scripts/sync-courseware.js', '.claude/skills/cc4pm-guide/SKILL.md', 'packages/homepage/index.html']) {
+    fs.mkdirSync(path.dirname(path.join(root, entry)), { recursive: true });
+    fs.copyFileSync(path.join(repositoryRoot, entry), path.join(root, entry));
+  }
+  fs.symlinkSync(path.join(repositoryRoot, 'node_modules'), path.join(root, 'node_modules'), 'dir');
+  const mapFile = path.join(root, 'guide/course-map.yaml');
+  const map = yaml.load(fs.readFileSync(mapFile, 'utf8'));
+  const added = { ...map.stages[0].lessons[0], id: 'lesson-987654.1', file: 'lesson-maintenance-fixture.md', number: '987654.1', title: '维护测试新课程', short_title: '维护测试', supplementary: true };
+  delete added.visuals;
+  map.stages[0].lessons.push(added);
+  fs.writeFileSync(mapFile, yaml.dump(map));
+  fs.writeFileSync(path.join(root, 'guide/lessons/stage-1', added.file), '# 维护测试新课程\n\n正文练习。\n\n## 下一步\n\n继续学习。\n\n*阶段 1 | 待同步*\n');
+  assert.throws(() => syncContent({ root, check: true }), /stale supplementary_lessons/);
+  syncContent({ root });
+  syncContent({ root, check: true });
+  assert.equal(yaml.load(fs.readFileSync(mapFile, 'utf8')).meta.supplementary_lessons, map.meta.supplementary_lessons + 1);
+  assert.match(fs.readFileSync(path.join(root, 'packages/homepage/index.html'), 'utf8'), /维护测试新课程/);
+  assert.match(fs.readFileSync(path.join(root, '.claude/skills/cc4pm-guide/SKILL.md'), 'utf8'), /维护测试新课程/);
+  const snapshot = () => Object.fromEntries(walkFiles(root).filter(file => !file.includes(`${path.sep}node_modules${path.sep}`)).map(file => [file, digest(fs.readFileSync(file))]));
+  const before = snapshot();
+  syncContent({ root });
+  assert.deepEqual(snapshot(), before);
+});
+
+function sourceInventory(root) {
+  const settings = yaml.load(fs.readFileSync(path.join(root, 'website/site.yaml'), 'utf8'));
+  const lessons = [], interactive = [], downloads = [];
+  for (const course of settings.courses) {
+    const map = yaml.load(fs.readFileSync(path.join(root, course.guide, 'course-map.yaml'), 'utf8'));
+    for (const stage of map.stages) for (const lesson of stage.lessons) {
+      lessons.push({ course: course.id, source: slash(path.join(course.guide, 'lessons', stage.id, lesson.file)) });
+    }
+    interactive.push(...walkFiles(path.join(root, course.guide, 'lessons')).filter(f => f.endsWith('.html') && !f.endsWith('.wechat.html')).map(f => slash(path.relative(root, f))));
+    for (const group of course.materials || []) downloads.push(...walkFiles(path.join(root, group.directory), group.exclude).filter(f => f.endsWith('.md')).map(f => slash(path.relative(root, f))));
+  }
+  return { lessons, interactive, downloads };
+}
+
 test('all courseware publishes without rewriting sources, and source edits flow to every consumer', (t) => {
   const root = fixture(t);
   const original = fs.readFileSync(path.join(root, 'guide/lessons/stage-1/lesson-1.md'), 'utf8');
+  const expected = sourceInventory(root);
   const manifest = prepareSite({ root, baseURL: 'https://example.org/project/' });
-  assert.equal(manifest.lessons.length, 88);
-  assert.equal(manifest.assets.filter(a => a.route.endsWith('.html')).length, 11);
-  assert.equal(manifest.assets.filter(a => a.route.startsWith('/downloads/')).length, 28);
+  assert.deepEqual(manifest.lessons.map(l => ({ course: l.course, source: l.source })), expected.lessons);
+  assert.equal(new Set(manifest.lessons.map(l => l.route)).size, expected.lessons.length);
+  assert.deepEqual(manifest.assets.filter(a => a.route.endsWith('.html')).map(a => a.source).sort(), expected.interactive.sort());
+  assert.deepEqual(manifest.assets.filter(a => a.route.startsWith('/downloads/')).map(a => a.source).sort(), expected.downloads.sort());
   assert.ok(!manifest.assets.some(a => a.source.endsWith('.wechat.html')));
   for (const lesson of manifest.lessons) {
     const source = fs.readFileSync(path.join(root, lesson.source), 'utf8');
@@ -95,9 +156,30 @@ test('all courseware publishes without rewriting sources, and source edits flow 
   assert.ok(catalogPage.includes('测试新的课程标题'));
   const homepage = renderHomepage(root);
   assert.ok(homepage.includes('测试新的课程标题'));
-  assert.equal(inspectHtml(homepage).links.filter(l => l.includes('/courses/product/stage-')).length, 78);
-  // Frontmatter drift is surfaced instead of silently changing the teaching source's meaning.
-  map.stages[4].lessons.find(l => l.number === 24.1).title = 'Conflicting title';
+  assert.equal(inspectHtml(homepage).links.filter(l => l.includes('/courses/product/stage-')).length, expected.lessons.filter(l => l.course === 'product').length);
+  // Adding a lesson needs no edits to tests or a second navigation list.
+  const added = { id: 'lesson-987654.1', file: 'lesson-maintenance-fixture.md', number: '987654.1', title: '生命周期新增课件', supplementary: true };
+  map.stages[0].lessons.push(added);
+  map.meta.supplementary_lessons++;
+  const addedSource = path.join(root, 'guide/lessons', map.stages[0].id, added.file);
+  fs.writeFileSync(addedSource, '# 生命周期新增课件\n\n新增的练习。\n\n## 下一步\n\n继续学习。\n');
   fs.writeFileSync(mapFile, yaml.dump(map));
+  const expanded = prepareSite({ root, baseURL: 'https://example.org/project/' });
+  assert.equal(expanded.lessons.length, expected.lessons.length + 1);
+  const published = expanded.lessons.find(l => l.number === added.number);
+  assert.ok(published);
+  const addedPage = path.join(root, 'website/.generated/content', published.route.slice(1, -1) + '.md');
+  assert.ok(fs.readFileSync(addedPage, 'utf8').includes('新增的练习。'));
+  assert.ok(renderHomepage(root).includes(added.title));
+  map.stages[0].lessons.pop();
+  map.meta.supplementary_lessons--;
+  fs.writeFileSync(mapFile, yaml.dump(map));
+  fs.rmSync(addedSource);
+  const reduced = prepareSite({ root, baseURL: 'https://example.org/project/' });
+  assert.equal(reduced.lessons.length, expected.lessons.length);
+  assert.ok(!fs.existsSync(addedPage));
+  assert.ok(!renderHomepage(root).includes(added.title));
+  // Frontmatter drift is surfaced instead of silently changing the teaching source's meaning.
+  fs.writeFileSync(path.join(root, 'guide/lessons/stage-1/lesson-1.md'), '---\ntitle: Conflicting title\n---\n' + original);
   assert.throws(() => loadCatalog(root), /Metadata differs/);
 });

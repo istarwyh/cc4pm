@@ -3,20 +3,7 @@ name: Build and deploy official documentation
 on:
   push:
     branches: [main]
-    paths: &site-paths
-      - guide/**
-      - verticals/lawyer/**
-      - website/**
-      - docs/index.html
-      - package.json
-      - package-lock.json
-      - manifests/**
-      - packages/homepage/**
-      - scripts/sync-courseware.js
-      - .claude/skills/cc4pm-guide/SKILL.md
-      - .github/workflows/pages.yml
   pull_request:
-    paths: *site-paths
   workflow_dispatch:
 
 permissions:
@@ -27,51 +14,53 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  HUGO_VERSION: '0.165.0'
   GOWORK: 'off'
   HUGO_MODULE_WORKSPACE: 'off'
 
 jobs:
   build:
+    name: cc4pm-site-checks
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pages: read
+    outputs:
+      node: ${{ steps.toolchain.outputs.node }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-      - run: npm ci --ignore-scripts
-      - uses: actions/setup-go@v5
-        with:
-          go-version-file: website/go.mod
-          cache-dependency-path: website/go.sum
-      - name: Install pinned Hugo extended
-        run: |
-          ASSET="hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
-          RELEASE="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}"
-          curl --fail --location --retry 3 "$RELEASE/$ASSET" -o "$ASSET"
-          curl --fail --location --retry 3 "$RELEASE/hugo_${HUGO_VERSION}_checksums.txt" -o checksums.txt
-          awk -v asset="$ASSET" '$2 == asset { print }' checksums.txt > selected-checksum.txt
-          test -s selected-checksum.txt
-          sha256sum --check selected-checksum.txt
-          sudo dpkg -i "$ASSET"
-          hugo version
-      - run: npm test
-      - run: npm run test:site
-      - run: npm run check:homepage
+      - id: toolchain
+        uses: ./.github/actions/site-toolchain
       - uses: actions/configure-pages@v5
         if: github.event_name != 'pull_request'
         id: pages
-      - name: Build and validate all published pages
+      - name: Tests, browser journeys and production build
         env:
-          SITE_BASE_URL: ${{ steps.pages.outputs.base_url || 'https://istarwyh.github.io/cc4pm' }}
-        run: npm run build:site -- --baseURL "${SITE_BASE_URL%/}/"
+          SITE_BASE_URL: ${{ steps.pages.outputs.base_url }}
+        run: |
+          if [ -n "$SITE_BASE_URL" ]; then
+            npm run site:check -- --baseURL "${SITE_BASE_URL%/}/"
+          else
+            npm run site:check
+          fi
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: site-browser-failure
+          path: |
+            website/test-results
+            website/playwright-report
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          name: site-bundle
+          path: website/public
+          include-hidden-files: true
+          retention-days: 90
       - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         with:
           path: website/public
 
@@ -79,12 +68,34 @@ jobs:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     permissions:
+      contents: read
+      actions: read
       pages: write
       id-token: write
+    concurrency:
+      group: github-pages-production
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ needs.build.outputs.node }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-bundle
+          path: website/public
+      - run: node website/scripts/release.mjs website/public "$GITHUB_SHA" --clean
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify deployed revision, every file hash and 404
+        run: node website/scripts/verify-live.mjs --revision "$GITHUB_SHA"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: site-live-verification
+          path: website/test-results/live.json
+          retention-days: 30
