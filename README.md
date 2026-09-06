@@ -11,7 +11,7 @@
 
 https://github.com/user-attachments/assets/1098774d-c250-4be1-a2d6-3894be687f66
 
-**[🎨 官网](https://aispeeds.me)** 
+**[官网与课程](https://istarwyh.github.io/cc4pm/)** · [使用文档](https://istarwyh.github.io/cc4pm/docs/) · [AI Speeds](https://aispeeds.me)
 
 </div>
 

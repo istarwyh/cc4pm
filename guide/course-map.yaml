@@ -168,6 +168,8 @@ stages:
 
       - id: lesson-5
         file: lesson-5.md
+        visuals:
+          - {file: lesson-5-directory-guide.html, title: 交互式目录指南}
         number: 5
         title: "CLAUDE.md：上下文治理的入口"
         short_title: "CLAUDE.md"

@@ -1,0 +1,69 @@
+title: cc4pm
+baseURL: https://istarwyh.github.io/cc4pm/
+defaultContentLanguage: zh
+enableRobotsTXT: true
+enableEmoji: true
+timeZone: Asia/Shanghai
+disableKinds: [taxonomy, term, RSS]
+languages:
+  zh:
+    label: 简体中文
+    locale: zh-CN
+    title: cc4pm
+    hasCJKLanguage: true
+    params:
+      description: 系统学习 Claude Code，从产品主理人到行业工作台。
+menus:
+  main:
+    - {name: 首页, pageRef: /, weight: 10, params: {icon: fa-solid fa-house}}
+    - {name: 课程, pageRef: /courses, weight: 20, params: {icon: fa-solid fa-book-open}}
+    - {name: 使用文档, pageRef: /docs, weight: 30, params: {icon: fa-solid fa-book}}
+    - {name: GitHub, url: 'https://github.com/istarwyh/cc4pm', weight: 40, params: {icon: fa-brands fa-github}}
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+    parser:
+      attribute:
+        block: true
+      wrapStandAloneImageWithinParagraph: false
+  highlight:
+    noClasses: false
+outputs:
+  home: [HTML, markdown, LLMS, NAVJSON]
+  page: [HTML, markdown]
+  section: [HTML, markdown]
+params:
+  offline_search: true
+  offline_search_index: content
+  offline_search_max_results: 12
+  logo: icons/logo.svg
+  copyright:
+    authors: '[cc4pm contributors](https://github.com/istarwyh/cc4pm)'
+    from_year: 2026
+  footer_center_info: '用一份课件，连接阅读与实操'
+  ui:
+    theme_color: '#a54f36'
+    dark_mode: true
+    typography: system
+    section_index: list
+    sidebar_menu_foldable: true
+    sidebar_icon_policy: groups
+    sidebar_item_overflow: wrap
+    quick_links: [courses, docs]
+    footer_style: slim
+    toc_taxonomies: false
+    backlinks: true
+module:
+  imports:
+    - path: github.com/pgsty/oink
+  hugoVersion:
+    extended: true
+    min: 0.165.0
+  mounts:
+    - {source: .generated/content, target: content}
+    - {source: assets, target: assets}
+    - {source: .generated/assets, target: assets}
+    - {source: static, target: static}
+    - {source: .generated/static, target: static}
+    - {source: layouts, target: layouts}

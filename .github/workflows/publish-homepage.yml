@@ -1,4 +1,4 @@
-name: Publish @cc4pm/homepage & Notify Downstream
+name: Validate or publish @cc4pm/homepage
 
 on:
   push:
@@ -6,6 +6,15 @@ on:
     paths:
       - packages/homepage/**
       - docs/index.html
+      - guide/course-map.yaml
+      - verticals/lawyer/guide/course-map.yaml
+      - website/site.yaml
+      - website/scripts/content.mjs
+      - website/scripts/homepage.mjs
+      - website/scripts/check-published-homepage.mjs
+      - .github/workflows/publish-homepage.yml
+      - package.json
+      - package-lock.json
   workflow_dispatch:
     inputs:
       force_notify:
@@ -15,32 +24,23 @@ on:
 
 jobs:
   publish:
-    name: Publish to npm
+    name: Validate homepage and publish on manual dispatch
     runs-on: ubuntu-latest
     outputs:
       published: ${{ steps.publish.outputs.published }}
-      version: ${{ steps.publish.outputs.version }}
-      changed: ${{ steps.sync.outputs.changed }}
+      version: ${{ steps.check.outputs.version }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Sync docs/index.html → packages/homepage/index.html
-        id: sync
-        run: |
-          if ! diff -q docs/index.html packages/homepage/index.html > /dev/null 2>&1; then
-            cp docs/index.html packages/homepage/index.html
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::docs/index.html changed, syncing to packages/homepage/"
-          else
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::docs/index.html unchanged"
-          fi
+      - run: npm ci --ignore-scripts
+      - name: Verify generated standalone homepage
+        run: npm run check:homepage
 
       - name: Check if version already published
         id: check
@@ -49,6 +49,8 @@ jobs:
           PKG_VERSION=$(node -p "require('./package.json').version")
           echo "version=$PKG_VERSION" >> "$GITHUB_OUTPUT"
           if npm view "@cc4pm/homepage@$PKG_VERSION" version 2>/dev/null; then
+            npm pack "@cc4pm/homepage@$PKG_VERSION" --pack-destination "$RUNNER_TEMP" --json > "$RUNNER_TEMP/homepage-pack.json"
+            node ../../website/scripts/check-published-homepage.mjs "$RUNNER_TEMP/homepage-pack.json"
             echo "already_published=true" >> "$GITHUB_OUTPUT"
           else
             echo "already_published=false" >> "$GITHUB_OUTPUT"
@@ -56,7 +58,7 @@ jobs:
 
       - name: Publish to npm
         id: publish
-        if: steps.check.outputs.already_published == 'false'
+        if: github.event_name == 'workflow_dispatch' && steps.check.outputs.already_published == 'false'
         working-directory: packages/homepage
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -75,7 +77,7 @@ jobs:
   notify-downstream:
     name: Notify ai-speeds to upgrade
     needs: publish
-    if: needs.publish.outputs.published == 'true' || needs.publish.outputs.changed == 'true' || inputs.force_notify == true
+    if: github.event_name == 'workflow_dispatch' && (needs.publish.outputs.published == 'true' || inputs.force_notify == true)
     runs-on: ubuntu-latest
     steps:
       - name: Dispatch to istarwyh/ai-speeds

@@ -1,0 +1,4 @@
+{{ with resources.Get "js/course.js" }}
+{{ $script := . | minify | fingerprint }}
+<script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
+{{ end }}

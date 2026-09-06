@@ -123,12 +123,12 @@ section { padding: var(--space-5xl) 0; }
 }
 
 /* Animations */
-.anim { opacity: 0; transition: opacity 600ms cubic-bezier(0.25,0.46,0.45,0.94), transform 600ms cubic-bezier(0.25,0.46,0.45,0.94); }
-.anim.fade-up { transform: translateY(30px); }
+.anim { opacity: 1; }
+.anim.fade-up { transform: none; }
 .anim.fade-in { transform: none; }
-.anim.scale-in { transform: scale(0.92); }
-.anim.slide-left { transform: translateX(-40px); }
-.anim.slide-right { transform: translateX(40px); }
+.anim.scale-in { transform: none; }
+.anim.slide-left { transform: none; }
+.anim.slide-right { transform: none; }
 .anim.visible { opacity: 1; transform: translateY(0) scale(1) translateX(0); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -867,7 +867,7 @@ section { padding: var(--space-5xl) 0; }
   .hero-title { font-size: 40px; }
   .hero-sub { font-size: 17px; }
   .stat-number { font-size: 36px; }
-  .hero-stats { gap: 16px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
   .stat-item + .stat-item::before { display: none; }
   .hero-ctas { flex-direction: column; width: 100%; }
   .hero-ctas .btn-primary, .hero-ctas .btn-github { width: 100%; justify-content: center; }
@@ -881,7 +881,14 @@ section { padding: var(--space-5xl) 0; }
   .section-title { font-size: 40px; }
   .cta-footer-content h2 { font-size: 40px; }
 }
+
+button.stage-header { width:100%; border:0; background:transparent; color:inherit; text-align:left; font:inherit; }
+.stage-title, .stage-meta { display:block; }
+a.lesson-item { text-decoration:none; color:inherit; }
+a.lesson-item:hover, a.lesson-item:focus-visible { background:var(--bg-elevated); color:var(--link-color); }
 </style>
+<link rel="canonical" href="https://istarwyh.github.io/cc4pm/">
+<link rel="alternate" type="text/markdown" href="https://istarwyh.github.io/cc4pm/index.md">
 </head>
 <body>
 
@@ -890,12 +897,13 @@ section { padding: var(--space-5xl) 0; }
   <div class="container">
     <div class="nav-brand">
       <span class="nav-brand-name">cc4pm</span>
-      <span class="nav-version">v1.8.3</span>
+      <span class="nav-version">v2.0.6</span>
     </div>
     <nav>
       <ul class="nav-links">
         <li><a href="#for-who">适合谁</a></li>
-        <li><a href="#capabilities">能力</a></li>
+        <li><a href="https://istarwyh.github.io/cc4pm/courses/">课程</a></li>
+        <li><a href="https://istarwyh.github.io/cc4pm/docs/">使用文档</a></li>
         <li><a href="#workflow">全流程</a></li>
         <li><a href="#install">安装</a></li>
         <li><a href="#faq">FAQ</a></li>
@@ -916,7 +924,8 @@ section { padding: var(--space-5xl) 0; }
     <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </button>
   <a href="#for-who" onclick="toggleMobileMenu()">适合谁</a>
-  <a href="#capabilities" onclick="toggleMobileMenu()">能力</a>
+  <a href="https://istarwyh.github.io/cc4pm/courses/">课程</a>
+  <a href="https://istarwyh.github.io/cc4pm/docs/">使用文档</a>
   <a href="#workflow" onclick="toggleMobileMenu()">全流程</a>
   <a href="#install" onclick="toggleMobileMenu()">安装</a>
   <a href="#faq" onclick="toggleMobileMenu()">FAQ</a>
@@ -949,24 +958,25 @@ section { padding: var(--space-5xl) 0; }
 
     <div class="hero-stats anim fade-up" style="transition-delay:300ms">
       <div class="stat-item">
-        <span class="stat-number" data-target="26">0</span>
+        <span class="stat-number" data-target="26">26</span>
         <span class="stat-label" style="color:var(--color-bmm)">节主课</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number" data-target="5">0</span>
+        <span class="stat-number" data-target="5">5</span>
         <span class="stat-label" style="color:var(--color-cis)">学习阶段</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number" data-target="2">0</span>
-        <span class="stat-label" style="color:var(--color-wds)">小时完整体验</span>
+        <span class="stat-number" data-target="52">52</span>
+        <span class="stat-label" style="color:var(--color-wds)">节补充课</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number" data-target="200" data-suffix="+">0</span>
-        <span class="stat-label" style="color:var(--color-eng)">配套 Skills</span>
+        <span class="stat-number" data-target="2">2</span>
+        <span class="stat-label" style="color:var(--color-eng)">课程方向</span>
       </div>
     </div>
 
     <div class="hero-ctas anim fade-up" style="transition-delay:400ms">
+      <a href="https://istarwyh.github.io/cc4pm/courses/" class="btn-secondary">阅读课程 →</a>
       <a href="#install" class="btn-primary">
         <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
         立即安装
@@ -1194,146 +1204,141 @@ section { padding: var(--space-5xl) 0; }
     <div class="section-header center anim fade-up">
       <div class="section-label">课程大纲</div>
       <h2 class="section-title">26 节课，5 个阶段</h2>
-      <p class="section-subtitle">点击展开每个阶段，查看完整课程内容</p>
+      <p class="section-subtitle">26 节主线与 52 节补充课，点击课名即可阅读。<br><a href="https://istarwyh.github.io/cc4pm/courses/lawyer/">查看 cc4Lawyer 行业工作台课程 · Beta →</a></p>
     </div>
 
     <div class="curriculum-list anim fade-up" id="curriculumList">
 
-      <!-- Stage 1 -->
+      <!-- cc4pm:curriculum:start -->
+
       <div class="curriculum-stage open" id="stage-1">
-        <div class="stage-header" onclick="toggleStage('stage-1')">
-          <div class="stage-badge" style="background:var(--color-bmm)">S1</div>
-          <div class="stage-info">
-            <div class="stage-title">Claude Code 基础入门</div>
-            <div class="stage-meta">10 节主课 · 6 节补充课 · 约 30 分钟</div>
-          </div>
-          <span class="stage-tag" style="color:var(--color-bmm);background:color-mix(in srgb,var(--color-bmm) 12%,transparent)">必修基础</span>
-          <svg class="stage-toggle" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="stage-body">
-          <div class="stage-highlight"><strong>这是整个课程最重要的阶段。</strong>Claude Code 不是聊天机器人，而是代理式编码环境。学完这一阶段，你才真正理解它如何工作，以及为什么后续所有功能都能成立。</div>
-          <div class="lesson-grid">
-            <div class="lesson-item"><span class="lesson-num">L1</span><span class="lesson-name">cc4pm 全景：四大模块与产品思维</span></div>
-            <div class="lesson-item"><span class="lesson-num">L2</span><span class="lesson-name">上下文窗口：你最重要的资源</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">1.1</span><span class="lesson-name">Claude Code 工作原理——源码级深度解析</span></div>
-            <div class="lesson-item"><span class="lesson-num">L3</span><span class="lesson-name">主动管理上下文</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">3.1</span><span class="lesson-name">Status Line——你的实时仪表盘</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">3.2</span><span class="lesson-name">效率工作流：快捷键、编辑器与 tmux</span></div>
-            <div class="lesson-item"><span class="lesson-num">L4</span><span class="lesson-name">快速上手：第一次实操与提示精确度</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">4.1</span><span class="lesson-name">压力光谱——用大厂 PUA 话术驱动 AI</span></div>
-            <div class="lesson-item"><span class="lesson-num">L5</span><span class="lesson-name">CLAUDE.md：项目的 AI 记忆</span></div>
-            <div class="lesson-item"><span class="lesson-num">L6</span><span class="lesson-name">命令与技能系统</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">6.1</span><span class="lesson-name">Skill 深度：新一代交互式软件</span></div>
-            <div class="lesson-item"><span class="lesson-num">L7</span><span class="lesson-name">代理系统：你的 AI 专家团</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">7.1</span><span class="lesson-name">Agent Teams——多 Claude 协作团队</span></div>
-            <div class="lesson-item"><span class="lesson-num">L8</span><span class="lesson-name">Hooks 与 Rules：自动化守护</span></div>
-            <div class="lesson-item"><span class="lesson-num">L9</span><span class="lesson-name">环境搭建：安装与验证</span></div>
-            <div class="lesson-item"><span class="lesson-num">L10</span><span class="lesson-name">综合实战：为 cc4pm 构思新功能</span></div>
-          </div>
-        </div>
+        <button class="stage-header" type="button" onclick="toggleStage('stage-1')" aria-expanded="true">
+          <span class="stage-badge" style="background:var(--color-bmm)">S1</span>
+          <span class="stage-info"><span class="stage-title">Claude Code 基础入门</span><span class="stage-meta">10 节主线 · 13 节补充</span></span>
+          <span class="stage-toggle" aria-hidden="true">⌄</span>
+        </button>
+        <div class="stage-body"><div class="lesson-grid">
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-1/"><span class="lesson-num">1</span><span class="lesson-name">cc4pm 全景：四大模块与产品思维</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-1.1/"><span class="lesson-num">1.1</span><span class="lesson-name">Claude Code 工作原理——源码级深度解析</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-2/"><span class="lesson-num">2</span><span class="lesson-name">上下文窗口：你最重要的资源</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-2.1/"><span class="lesson-num">2.1</span><span class="lesson-name">Token 与语言税——你的隐性成本</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-3/"><span class="lesson-num">3</span><span class="lesson-name">主动管理上下文</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-3.1/"><span class="lesson-num">3.1</span><span class="lesson-name">Status Line——你的实时仪表盘</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-3.2/"><span class="lesson-num">3.2</span><span class="lesson-name">效率工作流：快捷键、编辑器与 tmux</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-3.3/"><span class="lesson-num">3.3</span><span class="lesson-name">/subtask——把执行过程移出主上下文</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-4/"><span class="lesson-num">4</span><span class="lesson-name">快速上手：第一次实操</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-4.1/"><span class="lesson-num">4.1</span><span class="lesson-name">压力光谱——用大厂 PUA 话术驱动 AI</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-5/"><span class="lesson-num">5</span><span class="lesson-name">CLAUDE.md：上下文治理的入口</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-5.1/"><span class="lesson-num">5.1</span><span class="lesson-name">上下文治理分层：Memory、Rules 与 AGENTS.md</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-5.2/"><span class="lesson-num">5.2</span><span class="lesson-name">持久上下文运维：CLAUDE.md 与 Auto Memory 故障排查</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-6/"><span class="lesson-num">6</span><span class="lesson-name">命令与技能系统</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-6.1/"><span class="lesson-num">6.1</span><span class="lesson-name">Skill 深度：新一代交互式软件</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-6.2/"><span class="lesson-num">6.2</span><span class="lesson-name">Skill 链式调用——Agent Loop 驱动的即时注入</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-7/"><span class="lesson-num">7</span><span class="lesson-name">代理系统：你的 AI 专家团</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-7.1/"><span class="lesson-num">7.1</span><span class="lesson-name">Agent Teams——多 Claude 协作团队</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-7.2/"><span class="lesson-num">7.2</span><span class="lesson-name">Agent View——大屏遥控你的 AI 团队</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-8/"><span class="lesson-num">8</span><span class="lesson-name">Hooks 与 Rules：自动化守护</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-9/"><span class="lesson-num">9</span><span class="lesson-name">环境搭建：安装与验证</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-9.1/"><span class="lesson-num">9.1</span><span class="lesson-name">环境变量完全手册</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-1/lesson-10/"><span class="lesson-num">10</span><span class="lesson-name">综合实战：为 cc4pm 构思新功能</span></a>
+        </div></div>
       </div>
 
-      <!-- Stage 2 -->
       <div class="curriculum-stage" id="stage-2">
-        <div class="stage-header" onclick="toggleStage('stage-2')">
-          <div class="stage-badge" style="background:var(--color-cis)">S2</div>
-          <div class="stage-info">
-            <div class="stage-title">产品主理人核心能力 — BMM + CIS</div>
-            <div class="stage-meta">6 节主课 · 约 30 分钟</div>
-          </div>
-          <span class="stage-tag" style="color:var(--color-cis);background:color-mix(in srgb,var(--color-cis) 12%,transparent)">产品方法论</span>
-          <svg class="stage-toggle" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="stage-body">
-          <div class="stage-highlight">用 Claude Code 驱动完整的产品开发方法论。<strong>CIS 负责发散</strong>（从一个想法生成 100+ 创意方向），<strong>BMM 负责收敛</strong>（从创意到 PRD 到 Sprint 规划）。</div>
-          <div class="lesson-grid">
-            <div class="lesson-item"><span class="lesson-num">L11</span><span class="lesson-name">头脑风暴：36 种创意技巧生成 100+ 想法</span></div>
-            <div class="lesson-item"><span class="lesson-num">L12</span><span class="lesson-name">创新策略：蓝海分析与商业模式设计</span></div>
-            <div class="lesson-item"><span class="lesson-num">L13</span><span class="lesson-name">市场研究与领域分析</span></div>
-            <div class="lesson-item"><span class="lesson-num">L14</span><span class="lesson-name">PRD 创建：AI 辅助的需求文档</span></div>
-            <div class="lesson-item"><span class="lesson-num">L15</span><span class="lesson-name">需求拆解：从 PRD 到 Epics 和 Stories</span></div>
-            <div class="lesson-item"><span class="lesson-num">L16</span><span class="lesson-name">冲刺规划与进度追踪</span></div>
-          </div>
-        </div>
+        <button class="stage-header" type="button" onclick="toggleStage('stage-2')" aria-expanded="false">
+          <span class="stage-badge" style="background:var(--color-cis)">S2</span>
+          <span class="stage-info"><span class="stage-title">产品主理人核心能力</span><span class="stage-meta">6 节主线 · 3 节补充</span></span>
+          <span class="stage-toggle" aria-hidden="true">⌄</span>
+        </button>
+        <div class="stage-body"><div class="lesson-grid">
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-2/lesson-1/"><span class="lesson-num">11</span><span class="lesson-name">头脑风暴：36种创意技巧生成100+想法</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-2/lesson-2/"><span class="lesson-num">12</span><span class="lesson-name">创新策略：蓝海分析与商业模式设计</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-2/lesson-2.1/"><span class="lesson-num">12.1</span><span class="lesson-name">BMad 完整工作流：四个阶段与三条轨道</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-2/lesson-3/"><span class="lesson-num">13</span><span class="lesson-name">市场研究与领域分析</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-2/lesson-3.1/"><span class="lesson-num">13.1</span><span class="lesson-name">网站情报工具——竞品分析的实战利器</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-2/lesson-4/"><span class="lesson-num">14</span><span class="lesson-name">PRD 创建：AI 辅助的需求文档</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-2/lesson-5/"><span class="lesson-num">15</span><span class="lesson-name">需求拆解：从 PRD 到 Epics 和 Stories</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-2/lesson-6/"><span class="lesson-num">16</span><span class="lesson-name">冲刺规划与进度追踪</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-2/lesson-6.1/"><span class="lesson-num">16.1</span><span class="lesson-name">路线纠正与 Epic 回顾</span></a>
+        </div></div>
       </div>
 
-      <!-- Stage 3 -->
       <div class="curriculum-stage" id="stage-3">
-        <div class="stage-header" onclick="toggleStage('stage-3')">
-          <div class="stage-badge" style="background:var(--color-wds)">S3</div>
-          <div class="stage-info">
-            <div class="stage-title">网页设计系统 — WDS</div>
-            <div class="stage-meta">4 节主课 · 2 节补充课 · 约 20 分钟</div>
-          </div>
-          <span class="stage-tag" style="color:var(--color-wds);background:color-mix(in srgb,var(--color-wds) 12%,transparent)">设计思维</span>
-          <svg class="stage-toggle" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="stage-body">
-          <div class="stage-highlight">cc4pm 最独特的模块。<strong>Trigger Map</strong> 是核心：把商业目标翻译成用户的心理驱动力，再从心理驱动力推导出功能优先级——这是其他设计方法论里找不到等价物的。</div>
-          <div class="lesson-grid">
-            <div class="lesson-item"><span class="lesson-num">L17</span><span class="lesson-name">WDS 概览：从用户心理到设计规范</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">17.1</span><span class="lesson-name">UI 设计词典——108 个界面模式速查</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">17.2</span><span class="lesson-name">AI 原型实验室——从场景到交互式 HTML</span></div>
-            <div class="lesson-item"><span class="lesson-num">L18</span><span class="lesson-name">Trigger Map：用户心理 → 功能映射</span></div>
-            <div class="lesson-item"><span class="lesson-num">L19</span><span class="lesson-name">UX 场景与用户旅程设计</span></div>
-            <div class="lesson-item"><span class="lesson-num">L20</span><span class="lesson-name">故事讲述：产品叙事与演示</span></div>
-          </div>
-        </div>
+        <button class="stage-header" type="button" onclick="toggleStage('stage-3')" aria-expanded="false">
+          <span class="stage-badge" style="background:var(--color-wds)">S3</span>
+          <span class="stage-info"><span class="stage-title">网页设计系统</span><span class="stage-meta">4 节主线 · 12 节补充</span></span>
+          <span class="stage-toggle" aria-hidden="true">⌄</span>
+        </button>
+        <div class="stage-body"><div class="lesson-grid">
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-1/"><span class="lesson-num">17</span><span class="lesson-name">WDS 概览：从用户心理到设计规范</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-1.1/"><span class="lesson-num">17.1</span><span class="lesson-name">UI 设计词典——108 个界面模式速查</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-1.2/"><span class="lesson-num">17.2</span><span class="lesson-name">AI 原型实验室——从场景到交互式 HTML</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-1.3/"><span class="lesson-num">17.3</span><span class="lesson-name">设计系统搭建——从 Tokens 到组件封装</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-1.4/"><span class="lesson-num">17.4</span><span class="lesson-name">排版美学——从网格极简到杂志之场</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-1.5/"><span class="lesson-num">17.5</span><span class="lesson-name">风格识别——13 种网页设计风格速查</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-1.6/"><span class="lesson-num">17.6</span><span class="lesson-name">风格溯源——从美术运动到像素的演化之路</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-1.7/"><span class="lesson-num">17.7</span><span class="lesson-name">风格落地——跨平台设计的选择与实现</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-1.8/"><span class="lesson-num">17.8</span><span class="lesson-name">品牌资产协议与设计交付——从品牌色到动画成片</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-1.9/"><span class="lesson-num">17.9</span><span class="lesson-name">AI 品牌视觉趋势——14 种视觉信号与 5 个品牌原型</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-1.10/"><span class="lesson-num">17.10</span><span class="lesson-name">UI 设计风格词典与选择方法</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-2/"><span class="lesson-num">18</span><span class="lesson-name">Trigger Map：用户心理→功能映射</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-3/"><span class="lesson-num">19</span><span class="lesson-name">UX 场景与用户旅程设计</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-4/"><span class="lesson-num">20</span><span class="lesson-name">故事讲述：产品叙事与演示</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-4.1/"><span class="lesson-num">20.1</span><span class="lesson-name">26 个故事框架——从启蒙到冲突的完整工具箱</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-3/lesson-4.2/"><span class="lesson-num">20.2</span><span class="lesson-name">7 种产品演示类型——从概念演示到交互工作坊</span></a>
+        </div></div>
       </div>
 
-      <!-- Stage 4 -->
       <div class="curriculum-stage" id="stage-4">
-        <div class="stage-header" onclick="toggleStage('stage-4')">
-          <div class="stage-badge" style="background:var(--color-eng)">S4</div>
-          <div class="stage-info">
-            <div class="stage-title">工程工具链</div>
-            <div class="stage-meta">3 节主课 · 6 节补充课 · 约 15 分钟</div>
-          </div>
-          <span class="stage-tag" style="color:var(--color-eng);background:color-mix(in srgb,var(--color-eng) 12%,transparent)">工程实战</span>
-          <svg class="stage-toggle" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="stage-body">
-          <div class="stage-highlight">从 <code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/plan</code> 到 <code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/tdd</code> 到 <code style="font-family:var(--font-mono);font-size:13px;color:var(--cta-from)">/code-review</code>，学会用 Claude Code 的工程命令体系完成高质量交付。补充课深入 Harness 设计哲学、EDD 量化评估、国产大模型切换等进阶主题。</div>
-          <div class="lesson-grid">
-            <div class="lesson-item"><span class="lesson-num">L21</span><span class="lesson-name">工程协作概览：产品主理人的交付引擎</span></div>
-            <div class="lesson-item"><span class="lesson-num">L22</span><span class="lesson-name">测试与代码审查：质量保障三板斧</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">22.1</span><span class="lesson-name">EDD——量化 AI 表现的 Pass@K 指标</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">22.2</span><span class="lesson-name">视觉校验——让 AI 拥有"眼睛"</span></div>
-            <div class="lesson-item"><span class="lesson-num">L23</span><span class="lesson-name">自动化工作流：Hooks、Rules 和质量门禁</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">23.1</span><span class="lesson-name">Harness 设计哲学（Anthropic 工程团队实战）</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">23.2</span><span class="lesson-name">Harness 实操：循环模式、编排与审计</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">23.3</span><span class="lesson-name">实战：HelixVerify 的 114 次自举迭代</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">23.4</span><span class="lesson-name">架构演进：解耦大脑、双手与会话</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">23.5</span><span class="lesson-name">ccc 实战：国产大模型切换与 Supervisor 模式</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">23.6</span><span class="lesson-name">CLIProxyAPI：用 Gemini 免费额度驱动 Claude Code</span></div>
-          </div>
-        </div>
+        <button class="stage-header" type="button" onclick="toggleStage('stage-4')" aria-expanded="false">
+          <span class="stage-badge" style="background:var(--color-eng)">S4</span>
+          <span class="stage-info"><span class="stage-title">工程工具链</span><span class="stage-meta">3 节主线 · 15 节补充</span></span>
+          <span class="stage-toggle" aria-hidden="true">⌄</span>
+        </button>
+        <div class="stage-body"><div class="lesson-grid">
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-1/"><span class="lesson-num">21</span><span class="lesson-name">工程协作概览：产品主理人的交付引擎</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-2/"><span class="lesson-num">22</span><span class="lesson-name">测试与代码审查：质量保障三板斧</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-2.1/"><span class="lesson-num">22.1</span><span class="lesson-name">Eval-Driven Development (EDD)——量化 AI 的表现</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-2.2/"><span class="lesson-num">22.2</span><span class="lesson-name">视觉校验——让 AI 拥有“眼睛”</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-2.3/"><span class="lesson-num">22.3</span><span class="lesson-name">六大编码原则——驯服 AI 代码的魔法词</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-2.4/"><span class="lesson-num">22.4</span><span class="lesson-name">TDD Prompt 模板——从需求到代码的结构化桥梁</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-2.5/"><span class="lesson-num">22.5</span><span class="lesson-name">无人评测架构——消灭判断，只留验证</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-2.6/"><span class="lesson-num">22.6</span><span class="lesson-name">AI 编程即训练模型——心智模型的根本切换</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-2.7/"><span class="lesson-num">22.7</span><span class="lesson-name">超级甲方——AI 时代的人类角色升级</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-3/"><span class="lesson-num">23</span><span class="lesson-name">自动化工作流：Hooks、Rules 和质量门禁</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-3.1/"><span class="lesson-num">23.1</span><span class="lesson-name">Harness 设计哲学：来自 Anthropic 工程团队的实战经验</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-3.2/"><span class="lesson-num">23.2</span><span class="lesson-name">Harness 实操：循环模式、编排与审计</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-3.3/"><span class="lesson-num">23.3</span><span class="lesson-name">实战案例：HelixVerify 的 114 次自举迭代</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-3.4/"><span class="lesson-num">23.4</span><span class="lesson-name">架构演进：解耦大脑、双手与会话</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-3.5/"><span class="lesson-num">23.5</span><span class="lesson-name">ccc 实战：国产大模型切换与严格 Supervisor 模式</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-3.6/"><span class="lesson-num">23.6</span><span class="lesson-name">CLIProxyAPI 实战：用 Gemini 免费额度驱动 Claude Code</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-3.7/"><span class="lesson-num">23.7</span><span class="lesson-name">Goal 模式——给 Claude 一个可验收的终点</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-4/lesson-3.8/"><span class="lesson-num">23.8</span><span class="lesson-name">NVIDIA NIM API Catalog——免费的原型模型接口入口</span></a>
+        </div></div>
       </div>
 
-      <!-- Stage 5 -->
       <div class="curriculum-stage" id="stage-5">
-        <div class="stage-header" onclick="toggleStage('stage-5')">
-          <div class="stage-badge" style="background:var(--text-secondary)">S5</div>
-          <div class="stage-info">
-            <div class="stage-title">高级应用与完整实战</div>
-            <div class="stage-meta">3 节主课 · 4 节补充课 · 约 25 分钟</div>
-          </div>
-          <span class="stage-tag" style="color:var(--text-secondary);background:var(--bg-elevated)">进阶实战</span>
-          <svg class="stage-toggle" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="stage-body">
-          <div class="stage-highlight"><strong>L25 是整个课程的高潮</strong>：以"AI 记账工具"为例，走完 CIS → BMM → WDS → 工程全链路，双代理实例并行工作，你来审核每个关键交付物。L26 是总结与命令速查表。</div>
-          <div class="lesson-grid">
-            <div class="lesson-item"><span class="lesson-num">L24</span><span class="lesson-name">高级特性：MCP 集成与持续学习系统</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">24.1</span><span class="lesson-name">Karpathy's LLM Wiki——知识编译与 Agentic 知识库</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">24.2</span><span class="lesson-name">Next AI Draw.io：AI 驱动的架构绘图专家</span></div>
-            <div class="lesson-item supplementary"><span class="lesson-num">24.3</span><span class="lesson-name">graphify——用知识图谱秒懂任意代码库</span></div>
-            <div class="lesson-item"><span class="lesson-num">L25</span><span class="lesson-name">完整项目实战：从零到发布</span></div>
-            <div class="lesson-item"><span class="lesson-num">L26</span><span class="lesson-name">课程总结：你的 AI 产品主理人工具箱</span></div>
-          </div>
-        </div>
+        <button class="stage-header" type="button" onclick="toggleStage('stage-5')" aria-expanded="false">
+          <span class="stage-badge" style="background:var(--text-secondary)">S5</span>
+          <span class="stage-info"><span class="stage-title">高级应用与持续优化</span><span class="stage-meta">3 节主线 · 9 节补充</span></span>
+          <span class="stage-toggle" aria-hidden="true">⌄</span>
+        </button>
+        <div class="stage-body"><div class="lesson-grid">
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-5/lesson-1/"><span class="lesson-num">24</span><span class="lesson-name">高级特性：MCP 集成与持续学习</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-5/lesson-1.1/"><span class="lesson-num">24.1</span><span class="lesson-name">MCP 生态与文档工具</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-5/lesson-1.2/"><span class="lesson-num">24.2</span><span class="lesson-name">插件架构与 SDK</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-5/lesson-1.3/"><span class="lesson-num">24.3</span><span class="lesson-name">Karpathy&#39;s LLM Wiki——知识编译与 Agentic 知识库</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-5/lesson-1.4/"><span class="lesson-num">24.4</span><span class="lesson-name">Next AI Draw.io：AI 驱动的架构绘图专家</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-5/lesson-1.5/"><span class="lesson-num">24.5</span><span class="lesson-name">graphify——用知识图谱秒懂任意知识库</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-5/lesson-1.6/"><span class="lesson-num">24.6</span><span class="lesson-name">cc-connect 实战：通过微信远程控制 Claude Code</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-5/lesson-1.7/"><span class="lesson-num">24.7</span><span class="lesson-name">微信读书 Skill——把读过的书变成 AI 的私人语料库</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-5/lesson-1.8/"><span class="lesson-num">24.8</span><span class="lesson-name">OpenAI 生图 Skill——从提示词到本地 PNG</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-5/lesson-2/"><span class="lesson-num">25</span><span class="lesson-name">完整项目实战：从零到发布</span></a>
+          <a class="lesson-item supplementary" href="https://istarwyh.github.io/cc4pm/courses/product/stage-5/lesson-2.1/"><span class="lesson-num">25.1</span><span class="lesson-name">开发者工作流：从 Issue 到 PR 的完整闭环</span></a>
+          <a class="lesson-item" href="https://istarwyh.github.io/cc4pm/courses/product/stage-5/lesson-3/"><span class="lesson-num">26</span><span class="lesson-name">课程总结：你的 AI 产品主理人工具箱</span></a>
+        </div></div>
       </div>
-
+<!-- cc4pm:curriculum:end -->
     </div>
   </div>
 </section>
@@ -1407,15 +1412,15 @@ section { padding: var(--space-5xl) 0; }
       <div class="anim fade-up" style="transition-delay:80ms">
         <div class="data-cards">
           <div class="data-card">
-            <div class="data-card-number" data-target="200" data-suffix="+">0</div>
+            <div class="data-card-number" data-target="200" data-suffix="+">200+</div>
             <div class="data-card-label">Skills · 覆盖产品全生命周期</div>
           </div>
           <div class="data-card">
-            <div class="data-card-number" data-target="26">0</div>
+            <div class="data-card-number" data-target="26">26</div>
             <div class="data-card-label">交互式课程 · 5 阶段从入门到实战</div>
           </div>
           <div class="data-card">
-            <div class="data-card-number" data-target="19">0</div>
+            <div class="data-card-number" data-target="19">19</div>
             <div class="data-card-label">补充课 · 深度主题与高阶实战</div>
           </div>
           <div class="data-card">
@@ -1550,7 +1555,7 @@ section { padding: var(--space-5xl) 0; }
   <footer class="site-footer">
     <div class="container">
       <div class="footer-inner">
-        <a href="https://github.com/istarwyh/cc4pm" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;transition:color 200ms" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">cc4pm v1.8.3</a>
+        <a href="https://github.com/istarwyh/cc4pm" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;transition:color 200ms" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">cc4pm v2.0.6</a>
         <a href="https://github.com/istarwyh/cc4pm/blob/main/LICENSE" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:none;transition:color 200ms" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'">MIT License</a>
         <a href="https://aispeeds.me/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-size:13px;text-decoration:none;transition:opacity 200ms" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">由 <img src="https://aispeeds.me/brand/ai-speeds-logo-horizontal.svg" alt="AI Speeds" height="16" style="vertical-align:middle"> 出品</a>
         <div class="footer-links">
@@ -1759,44 +1764,11 @@ section { padding: var(--space-5xl) 0; }
     var el = document.getElementById(id);
     if (!el) return;
     el.classList.toggle('open');
+    var button = el.querySelector('button.stage-header');
+    if (button) button.setAttribute('aria-expanded', String(el.classList.contains('open')));
   };
 
-  // ====== INTERSECTION OBSERVER ======
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
-
-  document.querySelectorAll('.anim').forEach(function(el) { observer.observe(el); });
-
-  // ====== NUMBER COUNTER ======
-  var counterObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (!e.isIntersecting) return;
-      var el = e.target;
-      counterObserver.unobserve(el);
-      var target = parseInt(el.getAttribute('data-target'));
-      if (isNaN(target)) return;
-      var suffix = el.getAttribute('data-suffix') || '';
-      var start = performance.now();
-      var duration = 2000;
-
-      function update(now) {
-        var t = Math.min((now - start) / duration, 1);
-        t = 1 - Math.pow(1 - t, 3); // ease-out cubic
-        var val = Math.round(t * target);
-        el.textContent = val.toLocaleString() + (t >= 1 ? suffix : '');
-        if (t < 1) requestAnimationFrame(update);
-      }
-      requestAnimationFrame(update);
-    });
-  }, { threshold: 0.15 });
-
-  document.querySelectorAll('[data-target]').forEach(function(el) { counterObserver.observe(el); });
+  // Course counts are rendered from the map and remain readable without animation.
 
   // ====== NAVBAR SCROLL + ACTIVE SECTION ======
   var navbar = document.getElementById('navbar');

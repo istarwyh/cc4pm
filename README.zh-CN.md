@@ -34,7 +34,7 @@ cc4pm 最初是 **Claude Code for Product Makers**：一套面向**产品主理�
 
 <div align="center">
 
-**[🎨 可视化 Showcase](https://istarwyh.github.io/cc4pm/)** — 了解四大核心模块、200+ Skills、完整产品工作流
+**[官网与课程](https://istarwyh.github.io/cc4pm/)** · [使用文档](https://istarwyh.github.io/cc4pm/docs/) — 在线阅读课件、搜索知识点、体验互动演示
 
 </div>
 
