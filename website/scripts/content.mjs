@@ -140,11 +140,35 @@ export function markdownLinks(source) {
   return links;
 }
 
+// Hugo parses shortcodes even inside Markdown code. Escape only teaching examples;
+// Hugo removes these comments in both HTML and .RenderShortcodes Markdown output.
+export function escapeHugoCode(source) {
+  const edits = [];
+  visit(fromMarkdown(source), node => {
+    if (!['code', 'inlineCode'].includes(node.type)) return;
+    const start = node.position.start.offset, end = node.position.end.offset;
+    const raw = source.slice(start, end);
+    const text = raw.replace(/\{\{(<)([\s\S]*?)(>)\}\}|\{\{(%)([\s\S]*?)(%)\}\}/g,
+      (_, left, body, right, percentLeft, percentBody, percentRight) => `{{${left || percentLeft}/*${body ?? percentBody}*/${right || percentRight}}}`);
+    if (text !== raw) edits.push({ start, end, text });
+  });
+  for (const edit of edits.sort((a, b) => b.start - a.start)) source = source.slice(0, edit.start) + edit.text + source.slice(edit.end);
+  return source;
+}
+
+export function codeBlocks(source) {
+  const blocks = [];
+  visit(fromMarkdown(splitFrontMatter(source).body), node => {
+    if (node.type === 'code') blocks.push({ lang: node.lang, value: node.value });
+  });
+  return blocks;
+}
+
 export function writePage(directory, route, metadata, body, section = false) {
   const base = route.replace(/^\//, '').replace(/\/$/, '');
   const file = section ? `${base}/_index.md` : `${base}.md`;
   const dest = path.join(directory, file);
   if (fs.existsSync(dest)) throw new Error(`Duplicate generated page: ${route}`);
   fs.mkdirSync(path.dirname(dest), { recursive: true });
-  fs.writeFileSync(dest, `---\n${yaml.dump(metadata, { lineWidth: -1, noRefs: true })}---\n\n${body}`);
+  fs.writeFileSync(dest, `---\n${yaml.dump(metadata, { lineWidth: -1, noRefs: true })}---\n\n${escapeHugoCode(body)}`);
 }

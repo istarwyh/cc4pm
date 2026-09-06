@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { digest, escapeHtml as h, inside, loadCatalog, markdownLinks, readYaml, siteURL, slash, sourceMetadata, transformMarkdown, walkFiles, writePage } from './content.mjs';
+import { digest, escapeHtml as h, escapeHugoCode, inside, loadCatalog, markdownLinks, readYaml, siteURL, slash, sourceMetadata, transformMarkdown, walkFiles, writePage } from './content.mjs';
 import { renderHomepage } from './homepage.mjs';
 
 export const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -157,7 +157,7 @@ export function prepareSite({ root = repositoryRoot, baseURL, generatedDir = pat
     const destination = path.join(contentDir, relative);
     if (fs.existsSync(destination)) throw new Error(`Authored/generated content collision: ${source}`);
     fs.mkdirSync(path.dirname(destination), { recursive: true });
-    fs.writeFileSync(destination, front + '\n' + transformMarkdown(raw, { sourcePath: source, resolveLink, removeTitle: false, removeFooter: false }));
+    fs.writeFileSync(destination, front + '\n' + escapeHugoCode(transformMarkdown(raw, { sourcePath: source, resolveLink, removeTitle: false, removeFooter: false })));
   }
   for (const asset of assets) {
     const destination = path.join(staging, 'static', asset.route);

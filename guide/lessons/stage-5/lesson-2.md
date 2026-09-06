@@ -127,13 +127,26 @@ Day 5 ─── 发布 ───────────────────
 │  ⚙ 后台自动：pre-bash-git-push-reminder.js 提醒先 review、post-bash-pr-created.js 记录 PR URL
 │  代码合并到主分支
 │
-├─ Step 21: 部署
-│  通过 Vercel MCP (http: https://mcp.vercel.com) 或 Railway MCP (npx -y @railway/mcp-server) 部署
+├─ Step 21: 部署（先按交付物分流）
+│  内容型站点：OINK 严格构建 → public/ → 静态托管
+│  动态应用：通过 Vercel MCP (http: https://mcp.vercel.com) 或 Railway MCP (npx -y @railway/mcp-server) 部署
 │
 └─ Step 22: /bmad-sm → [SS]
    Bob 更新冲刺状态
    产出：Sprint 1 进度报告
 ```
+
+### 发布前先做交付分流
+
+Step 21 不是所有项目都走同一条路：
+
+| 交付物 | 发布链路 |
+|-------|---------|
+| 项目站、Docs、Book、Release / 下载页 | 默认按 Lesson 24.9 使用 OINK，严格构建后部署 `public/` |
+| 登录、数据库、支付、实时交互应用 | 保留常规应用栈，再通过 Vercel、Railway 等平台部署 |
+| 只需验证交互方向 | 先交付 Lesson 17.2 的原型，不要过早搭完整发布系统 |
+
+先识别交付物，再选择生成器和部署目标；“能部署”不等于“技术路线选对了”。
 
 ### 关键衔接点
 
@@ -351,9 +364,9 @@ A: 用 /bmad-document-project 先文档化现有项目，然后从任意阶段�
 
 请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
 
-- 进入最后一课：Lesson 26 - 课程总结与进阶
+- 进入下一课：Lesson 25.1 - Issue→PR 工作流
+- 跳到最后一课：Lesson 26 - 课程总结与进阶
 - 返回主菜单
-- 退出学习
 
 ---
-*阶段 5 | Lesson 25/26 (阶段内 2/3) | 上一课: Lesson 24.8 - OpenAI 生图 Skill | 下一课: Lesson 25.1 - Issue→PR 工作流*
+*阶段 5 | Lesson 25/26 (阶段内 2/3) | 上一课: Lesson 24.9 - OINK 内容站 | 下一课: Lesson 25.1 - Issue→PR 工作流*
