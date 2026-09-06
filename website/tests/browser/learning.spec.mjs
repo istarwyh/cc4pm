@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { test, expect } from '@playwright/test';
-import { loadCatalog } from '../../scripts/content.mjs';
+import { codeBlocks, loadCatalog } from '../../scripts/content.mjs';
 import { root } from '../../scripts/toolchain.mjs';
 
 const catalog = loadCatalog(root);
@@ -24,7 +24,9 @@ test('homepage → course → interactive page → course, with working clipboar
   await expect(page.locator('h1')).toBeVisible();
   // The existing homepage collapses stages; expand the stage containing this lesson.
   const link = page.locator(`a.lesson-item[href$="${lesson.route}"]`);
-  if (!await link.isVisible()) await link.locator('xpath=ancestor::div[contains(@class,"curriculum-stage")]').locator('button').click();
+  const toggle = page.locator(`#${lesson.stageId} .stage-header`);
+  if (await toggle.getAttribute('aria-expanded') !== 'true') await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
   await link.click();
   await expect(page.locator('.td-content h1')).toContainText(lesson.title);
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: new URL(baseURL).origin });
@@ -51,6 +53,28 @@ test('course filter follows the current course map', async ({ page }) => {
   await expect(rows).toHaveCount(product.lessons.filter(lesson => !lesson.supplementary).length);
   await page.getByLabel('只看主线课程').uncheck();
   await expect(rows).toHaveCount(product.lessons.length);
+});
+
+test('Hugo teaching examples open from the homepage, copy literally and appear in search', async ({ page, context, baseURL }) => {
+  const lesson = product.lessons.find(entry => /\{\{[<%]/.test(fs.readFileSync(path.join(root, entry.source), 'utf8')));
+  expect(lesson).toBeDefined();
+  const sample = codeBlocks(fs.readFileSync(path.join(root, lesson.source), 'utf8')).find(block => /\{\{[<%]/.test(block.value));
+  await page.goto('./');
+  const link = page.locator(`a.lesson-item[href$="${lesson.route}"]`);
+  const toggle = page.locator(`#${lesson.stageId} .stage-header`);
+  if (await toggle.getAttribute('aria-expanded') !== 'true') await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await link.click();
+  await expect(page.locator('.td-content h1')).toContainText(lesson.title);
+  const block = page.locator('[data-td-code]').filter({ has: page.locator('code').filter({ hasText: sample.value }) }).first();
+  await context.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: new URL(baseURL).origin });
+  await block.hover();
+  await block.locator('[data-td-code-copy]').first().click();
+  await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(sample.value.trimEnd() + '\n');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
+  await page.locator('[data-td-shell-search-open]:visible').first().click();
+  await page.locator('.td-shell-search__input').fill('OINK');
+  await expect(page.locator('.td-shell-search__item-title').filter({ hasText: lesson.title }).first()).toBeVisible();
 });
 
 test('Chinese, filename, acronym and decimal lesson searches lead to reading pages', async ({ page }) => {

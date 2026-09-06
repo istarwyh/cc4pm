@@ -70,10 +70,13 @@ function fixture(t) {
   return root;
 }
 
-function codeBlocks(source) {
+function codeBlocks(source, { prepared = false } = {}) {
   const blocks = [];
   const visit = node => { if (node.type === 'code') blocks.push({ lang: node.lang, value: node.value }); for (const child of node.children || []) visit(child); };
-  visit(fromMarkdown(splitFrontMatter(source).body));
+  // Prepared Hugo escapes are stripped once by Hugo, including in Markdown output.
+  let body = splitFrontMatter(source).body;
+  if (prepared) body = body.replace(/\{\{([<%])\/\*([\s\S]*?)\*\/([>%])\}\}/g, '{{$1$2$3}}');
+  visit(fromMarkdown(body));
   return blocks;
 }
 
@@ -131,7 +134,7 @@ test('all courseware publishes without rewriting sources, and source edits flow 
     const source = fs.readFileSync(path.join(root, lesson.source), 'utf8');
     assert.equal(digest(source), manifest.sources[lesson.source]);
     const generated = fs.readFileSync(path.join(root, 'website/.generated/content', lesson.route.slice(1, -1) + '.md'), 'utf8');
-    assert.deepEqual(codeBlocks(generated), codeBlocks(source), `Code changed: ${lesson.source}`);
+    assert.deepEqual(codeBlocks(generated, { prepared: true }), codeBlocks(source), `Code changed: ${lesson.source}`);
     assert.ok(generated.includes('## 下一步'), `Next steps lost: ${lesson.source}`);
   }
   assert.equal(fs.readFileSync(path.join(root, 'guide/lessons/stage-1/lesson-1.md'), 'utf8'), original);

@@ -243,7 +243,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 
 ## 预计用时
 
-- 完整学习：约 90-120 分钟（5 个阶段，26 节课 + 52 个补充课）
+- 完整学习：约 90-120 分钟（5 个阶段，26 节课 + 53 个补充课）
 - 快速掌握核心：约 45 分钟（阶段 1-2）
 
 ## 使用方式
@@ -362,6 +362,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 | 24.6 | cc-connect 实战：通过微信远程控制 Claude Code | cc-connect、ilink-protocol、wechat-bot-gateway、remote-claude-control |
 | 24.7 | 微信读书 Skill——把读过的书变成 AI 的私人语料库 | weread-skill、weread-api-gateway、skill-version-handshake、personal-corpus-as-rag |
 | 24.8 | OpenAI 生图 Skill——从提示词到本地 PNG | openai-image-skill、openai-compatible-image-generation、provider-memory、image-generation-orchestration |
+| 24.9 | OINK 内容站——项目、Book 与下载页的默认发布框架 | oink-site-generator、content-site-default-routing、oink-starter-bootstrap、hugo-module-version-pinning |
 | 25 | 完整项目实战：从零到发布 | full-workflow、key-handoff-points、project-launch-checklist、agent-collaboration-panorama |
 | 25.1 | 开发者工作流：从 Issue 到 PR 的完整闭环 | issue-driven-workflow、multi-workspace-claude、unrestricted-mode、external-ai-review |
 | 26 | 课程总结：你的 AI 产品主理人工具箱 | knowledge-map、command-cheatsheet、abbreviation-reference、learning-path |

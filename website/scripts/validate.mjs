@@ -1,21 +1,24 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from 'parse5';
-import { digest, walkFiles } from './content.mjs';
+import { codeBlocks, digest, walkFiles } from './content.mjs';
 
 export function inspectHtml(html) {
   const links = [];
   const ids = new Set();
   const headings = [];
+  const code = [];
+  const text = node => node.nodeName === '#text' ? node.value : (node.childNodes || []).map(text).join('');
   const visit = (node) => {
     const attrs = Object.fromEntries((node.attrs || []).map(a => [a.name, a.value]));
     if (attrs.id) ids.add(attrs.id);
     if (node.tagName === 'h1') headings.push(node);
+    if (node.tagName === 'code') code.push(text(node).trimEnd());
     for (const key of ['href', 'src', 'poster']) if (attrs[key]) links.push(attrs[key]);
     for (const child of node.childNodes || []) visit(child);
   };
   visit(parse(html));
-  return { links, ids, headings };
+  return { links, ids, headings, code };
 }
 
 export function validateSite({ root, outputDir = path.join(root, 'website/public'), generatedDir = path.join(root, 'website/.generated') }) {
@@ -70,7 +73,15 @@ export function validateSite({ root, outputDir = path.join(root, 'website/public
     const file = fileFor(new URL(lesson.route.replace(/^\//, ''), base));
     if (!file || !parsed.has(file)) { errors.push(`Lesson missing: ${lesson.source}`); continue; }
     if (parsed.get(file).headings.length !== 1) errors.push(`Lesson must have one H1: ${lesson.source}`);
-    if (!fs.existsSync(path.join(path.dirname(file), 'index.md'))) errors.push(`Markdown output missing: ${lesson.source}`);
+    const markdown = path.join(path.dirname(file), 'index.md');
+    if (!fs.existsSync(markdown)) errors.push(`Markdown output missing: ${lesson.source}`);
+    else {
+      const original = codeBlocks(fs.readFileSync(path.join(root, lesson.source), 'utf8'));
+      if (JSON.stringify(codeBlocks(fs.readFileSync(markdown, 'utf8'))) !== JSON.stringify(original)) errors.push(`Published Markdown code changed: ${lesson.source}`);
+      for (const block of original.filter(block => /\{\{[<%]/.test(block.value))) {
+        if (!parsed.get(file).code.includes(block.value.trimEnd())) errors.push(`HTML shortcode example changed: ${lesson.source}`);
+      }
+    }
   }
   for (const [source, hash] of Object.entries(manifest.sources)) {
     if (digest(fs.readFileSync(path.join(root, source))) !== hash) errors.push(`Source changed during build: ${source}`);
