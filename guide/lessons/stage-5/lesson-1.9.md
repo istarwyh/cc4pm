@@ -390,9 +390,9 @@ local-first 也不等于绝对离线。主题资产和搜索可以本地运行�
 ## 下一步
 请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
 
-- 进入下一课：Lesson 25 - 完整项目实战
+- 进入下一课：Lesson 24.10 - 共享传输生命周期
 - 返回 Lesson 17.2：AI 原型实验室
 - 返回主菜单
 
 ---
-*阶段 5 | Lesson 24.9/26 | 上一课: Lesson 24.8 - OpenAI 生图 Skill | 下一课: Lesson 25 - 完整项目实战*
+*阶段 5 | Lesson 24.9/26 | 上一课: Lesson 24.8 - OpenAI 生图 Skill | 下一课: Lesson 24.10 - 共享传输生命周期*

@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 53
+  supplementary_lessons: 56
   default_max_lines: 400
 
 stages:
@@ -687,6 +687,24 @@ stages:
           - visual-direction-acceptance
           - style-to-ai-prompt
 
+      - id: lesson-1.11
+        file: lesson-1.11.md
+        number: "17.11"
+        title: "营收加权的 App 设计逆向——从真实流程提炼设计语法"
+        short_title: "营收加权设计逆向"
+        supplementary: true
+        topics:
+          - revenue-weighted-design-research
+          - appllama-design-library
+          - cross-app-flow-benchmarking
+          - screen-element-research
+          - category-design-grammar
+          - evidence-to-design-spec
+          - appllama-mcp-workflow
+          - design-research-saturation
+          - reference-not-causation
+          - design-reference-compliance
+
       - id: lesson-2
         file: lesson-2.md
         number: 18
@@ -821,6 +839,11 @@ stages:
           - fork-verifier-agent
           - mentioned-element-feedback
           - screen-labeling
+          - chrome-devtools-mcp
+          - cdp-browser-debugging
+          - performance-trace
+          - network-console-inspection
+          - isolated-chrome-profile
 
       - id: lesson-2.3
         file: lesson-22.3.md
@@ -1216,6 +1239,42 @@ stages:
           - machine-readable-outputs
           - static-site-deployment
           - oink-capability-boundaries
+
+      - id: lesson-1.10
+        file: lesson-1.10.md
+        number: "24.10"
+        title: "共享传输生命周期——H2 复用、优雅排空与 SSE 恢复边界"
+        short_title: "共享传输生命周期"
+        supplementary: true
+        topics:
+          - http2-stream-multiplexing
+          - connection-pool-baseline-controls
+          - shared-transport-failure-domain
+          - parent-connection-age-gating
+          - acquire-time-admission-predicate
+          - graceful-stream-draining
+          - zero-concurrency-reclamation
+          - deferred-background-reaping
+          - sse-event-level-recovery-gap
+          - parent-child-lifecycle-observability
+
+      - id: lesson-1.11
+        file: lesson-1.11.md
+        number: "24.11"
+        title: "能力层选型——CLI、MCP 与 Skill 不是二选一"
+        short_title: "CLI/MCP/Skill 选型"
+        supplementary: true
+        topics:
+          - skill-knowledge-layer
+          - cli-mcp-capability-layer
+          - cli-skill-vs-mcp-skill
+          - capability-layer-decision-matrix
+          - deterministic-vs-exploratory-tooling
+          - structured-tool-contracts
+          - persistent-mcp-state
+          - browser-debugging-mcp
+          - playwright-cli-mcp-convergence
+          - tool-route-audit
 
       - id: lesson-2
         file: lesson-2.md
