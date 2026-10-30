@@ -369,4 +369,4 @@ A: 用 /bmad-document-project 先文档化现有项目，然后从任意阶段�
 - 返回主菜单
 
 ---
-*阶段 5 | Lesson 25/26 (阶段内 2/3) | 上一课: Lesson 24.11 - CLI/MCP/Skill 选型 | 下一课: Lesson 25.1 - Issue→PR 工作流*
+*阶段 5 | Lesson 25/26 (阶段内 2/3) | 上一课: Lesson 24.12 - DigUp 本地多模态搜索 | 下一课: Lesson 25.1 - Issue→PR 工作流*

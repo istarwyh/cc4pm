@@ -243,7 +243,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 
 ## 预计用时
 
-- 完整学习：约 90-120 分钟（5 个阶段，26 节课 + 56 个补充课）
+- 完整学习：约 90-120 分钟（5 个阶段，26 节课 + 58 个补充课）
 - 快速掌握核心：约 45 分钟（阶段 1-2）
 
 ## 使用方式
@@ -321,6 +321,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 | 17.9 | AI 品牌视觉趋势——14 种视觉信号与 5 个品牌原型 | ai-brand-visual-trends、14-ai-visual-signals、ai-brand-archetypes、visual-trend-decision |
 | 17.10 | UI 设计风格词典与选择方法 | ui-style-selection-method、ui-style-lexicon-50、design-style-brief、style-tradeoff-matrix |
 | 17.11 | 营收加权的 App 设计逆向——从真实流程提炼设计语法 | revenue-weighted-design-research、appllama-design-library、cross-app-flow-benchmarking、screen-element-research |
+| 17.12 | App Designer——从真实概念到三版方案与独立评审 | app-designer-public-method、real-world-design-concept、concept-to-visual-rules、three-direction-main-screen-exploration |
 | 18 | Trigger Map：用户心理→功能映射 | trigger-map、four-layer-structure、what-why-when-pattern、four-workshops |
 | 19 | UX 场景与用户旅程设计 | scenario-outline、8-scenario-components、9-step-workflow、trigger-to-scenario |
 | 20 | 故事讲述：产品叙事与演示 | sophia-agent、caravaggio-agent、mirror-neurons、story-stickiness |
@@ -366,6 +367,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 | 24.9 | OINK 内容站——项目、Book 与下载页的默认发布框架 | oink-site-generator、content-site-default-routing、oink-starter-bootstrap、hugo-module-version-pinning |
 | 24.10 | 共享传输生命周期——H2 复用、优雅排空与 SSE 恢复边界 | http2-stream-multiplexing、connection-pool-baseline-controls、shared-transport-failure-domain、parent-connection-age-gating |
 | 24.11 | 能力层选型——CLI、MCP 与 Skill 不是二选一 | skill-knowledge-layer、cli-mcp-capability-layer、cli-skill-vs-mcp-skill、capability-layer-decision-matrix |
+| 24.12 | DigUp——本地多模态搜索与片段定位的产品设计 | digup-local-search、embeddinggemma-2-multimodal-embeddings、shared-multimodal-vector-space、location-aware-media-segments |
 | 25 | 完整项目实战：从零到发布 | full-workflow、key-handoff-points、project-launch-checklist、agent-collaboration-panorama |
 | 25.1 | 开发者工作流：从 Issue 到 PR 的完整闭环 | issue-driven-workflow、multi-workspace-claude、unrestricted-mode、external-ai-review |
 | 26 | 课程总结：你的 AI 产品主理人工具箱 | knowledge-map、command-cheatsheet、abbreviation-reference、learning-path |

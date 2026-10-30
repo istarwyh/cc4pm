@@ -323,9 +323,9 @@ Playwright MCP、Chrome DevTools MCP、浏览器自动化 Skill 同时启用时�
 
 请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
 
-- 进入下一课：Lesson 25 - 完整项目实战
+- 进入下一课：Lesson 24.12 - DigUp 本地多模态搜索
 - 返回 Lesson 24.1：MCP 生态与文档工具
 - 返回主菜单
 
 ---
-*阶段 5 | Lesson 24.11/26 | 上一课: Lesson 24.10 - 共享传输生命周期 | 下一课: Lesson 25 - 完整项目实战*
+*阶段 5 | Lesson 24.11/26 | 上一课: Lesson 24.10 - 共享传输生命周期 | 下一课: Lesson 24.12 - DigUp 本地多模态搜索*
