@@ -185,10 +185,10 @@ Lesson 17.4 的 `kill-ai-slop` 能补充代码信号扫描，本课增加的是�
 
 请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
 
-- 进入下一课：Lesson 18 - Trigger Map：用户心理→功能映射
+- 进入下一课：Lesson 17.13 - 可回退的视觉探索
 - 回顾 Lesson 17.4：排版美学与去 AI 味
 - 回顾 Lesson 17.11：从真实流程提炼设计语法
 - 返回主菜单
 
 ---
-*阶段 3 | Lesson 17.12/26 | 上一课: Lesson 17.11 - 营收加权设计逆向 | 下一课: Lesson 18 - Trigger Map*
+*阶段 3 | Lesson 17.12/26 | 上一课: Lesson 17.11 - 营收加权设计逆向 | 下一课: Lesson 17.13 - 可回退的视觉探索*

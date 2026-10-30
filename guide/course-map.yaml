@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 58
+  supplementary_lessons: 59
   default_max_lines: 400
 
 stages:
@@ -719,6 +719,22 @@ stages:
           - device-font-rendering-evidence
           - independent-visual-design-critic
           - selected-direction-screen-continuity
+
+      - id: lesson-1.13
+        file: lesson-1.13.md
+        number: "17.13"
+        title: "Railcode 设计实战——强度谱、原型分叉与参数 Playground"
+        short_title: "可回退的视觉探索"
+        supplementary: true
+        topics:
+          - railcode-visual-design-case
+          - design-intensity-spectrum
+          - reversible-html-design-forks
+          - prompt-prototype-provenance
+          - parameter-playground-feedback-loop
+          - visual-anchor-asset-coherence
+          - section-transition-contextual-navigation
+          - design-convergence-before-componentization
 
       - id: lesson-2
         file: lesson-2.md

@@ -243,7 +243,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 
 ## 预计用时
 
-- 完整学习：约 90-120 分钟（5 个阶段，26 节课 + 58 个补充课）
+- 完整学习：约 90-120 分钟（5 个阶段，26 节课 + 59 个补充课）
 - 快速掌握核心：约 45 分钟（阶段 1-2）
 
 ## 使用方式
@@ -322,6 +322,7 @@ cc4pm 是你的**AI 产品私教**，专门为产品主理人设计。我的目�
 | 17.10 | UI 设计风格词典与选择方法 | ui-style-selection-method、ui-style-lexicon-50、design-style-brief、style-tradeoff-matrix |
 | 17.11 | 营收加权的 App 设计逆向——从真实流程提炼设计语法 | revenue-weighted-design-research、appllama-design-library、cross-app-flow-benchmarking、screen-element-research |
 | 17.12 | App Designer——从真实概念到三版方案与独立评审 | app-designer-public-method、real-world-design-concept、concept-to-visual-rules、three-direction-main-screen-exploration |
+| 17.13 | Railcode 设计实战——强度谱、原型分叉与参数 Playground | railcode-visual-design-case、design-intensity-spectrum、reversible-html-design-forks、prompt-prototype-provenance |
 | 18 | Trigger Map：用户心理→功能映射 | trigger-map、four-layer-structure、what-why-when-pattern、four-workshops |
 | 19 | UX 场景与用户旅程设计 | scenario-outline、8-scenario-components、9-step-workflow、trigger-to-scenario |
 | 20 | 故事讲述：产品叙事与演示 | sophia-agent、caravaggio-agent、mirror-neurons、story-stickiness |
