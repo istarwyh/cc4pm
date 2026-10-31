@@ -1,6 +1,6 @@
 ---
 title: cc4pm
-description: 一个人，一支产品团队。从课程阅读到 Claude Code 实操。
+description: 一个人，一支创造产品的团队。边学边做，用好 AI。
 ---
 
 [产品主理人课程](/courses/product/)覆盖 Claude Code 基础、产品、设计、工程与完整项目实战。

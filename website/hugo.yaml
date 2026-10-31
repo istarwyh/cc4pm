@@ -12,7 +12,7 @@ languages:
     title: cc4pm
     hasCJKLanguage: true
     params:
-      description: 系统学习 Claude Code，从产品主理人到行业工作台。
+      description: 教你如何：一个人，一支创造产品的团队。
 menus:
   main:
     - {name: 首页, pageRef: /, weight: 10, params: {icon: fa-solid fa-house}}

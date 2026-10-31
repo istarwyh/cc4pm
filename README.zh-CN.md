@@ -1,11 +1,11 @@
 # cc4pm
 
-**Claude Code for Product Makers** — AI 驱动的产品全生命周期系统
+**Context & Collaboration for Product Makers** — 一个人，一支创造产品的团队
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![GitHub](https://img.shields.io/github/stars/istarwyh/cc4pm?style=flat)](https://github.com/istarwyh/cc4pm)
 
-> 从想法到上线，一个人就是一支产品团队。
+> 一个人，一支创造产品的团队。
 
 ---
 
@@ -21,7 +21,11 @@
 
 ## 这是什么
 
-cc4pm 最初是 **Claude Code for Product Makers**：一套面向**产品主理人**的 AI 全生命周期产品系统**交互式课件**。现在它正在升级为一套可迁移到垂直行业的 Claude Code 专业工作台方法论与交互式教学系统。运行 `npx cc4pm install` 走交互式安装，然后在 Claude Code 里输入 `/cc4pm-guide` 即可开始产品主线学习。
+cc4pm — **Context & Collaboration for Product Makers**。
+
+教你如何：**一个人，一支创造产品的团队**。
+
+课程教你用好 AI，学习创造产品所需的设计与工程知识，并在教学中帮你装好必要的环境和依赖。上下文与协作方法可以迁移到不同 AI 工具；当前交互式课件默认通过 Claude Code 安装和启动。
 
 课件覆盖四大主题，从灵感验证到产品上线发布的完整链路：
 
