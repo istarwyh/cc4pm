@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**cc4pm (Claude Code for Product Makers)** — 面向产品主理人的 AI 全生命周期产品系统**交互式课件**。
+**cc4pm (Context & Collaboration for Product Makers)** — 教你如何：一个人，一支创造产品的团队。以课程为主线，教授 AI 使用、设计与工程知识，并在教学中帮助配置必要的环境和依赖。方法面向多种 AI 工具，当前交互式课件默认使用 Claude Code。
 
 运行 `npx cc4pm install` 走交互式安装，然后在 Claude Code 里输入 `/cc4pm-guide` 即可开始 5 阶段、26+ 节课的渐进式学习。课件覆盖四大主题：
 

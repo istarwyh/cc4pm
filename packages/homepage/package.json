@@ -1,7 +1,7 @@
 {
   "name": "@cc4pm/homepage",
-  "version": "1.0.14",
-  "description": "cc4pm 官网首页 — 可嵌入其他网站的独立 HTML 页面",
+  "version": "1.0.15",
+  "description": "cc4pm — Context & Collaboration for Product Makers。教你如何：一个人，一支创造产品的团队。",
   "main": "index.js",
   "files": [
     "index.html",

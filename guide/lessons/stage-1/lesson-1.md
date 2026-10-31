@@ -169,7 +169,9 @@ Claude 输出：
 
 现在你理解了代理循环，让我们看看 cc4pm 给你准备了什么。
 
-cc4pm 的全称暗示了它的定位：**Claude Code for Product Maker**——但它的能力远不止产品管理。
+cc4pm — **Context & Collaboration for Product Makers**。教你如何：**一个人，一支创造产品的团队**。
+
+Context 是让 AI 理解目标、业务和质量要求的上下文；Collaboration 是人与 AI 的分工、执行与反馈。课程会讲解用好 AI 所需的方法，以及好的设计、好的代码等必要知识，并在教学中帮助配置环境和依赖。本课程当前以 Claude Code 为实践环境，这些方法也可以迁移到其他 AI 工具。
 
 #### 四大模块
 
