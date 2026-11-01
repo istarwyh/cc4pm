@@ -302,10 +302,10 @@ A: 如果只复制共同模式，会。正确做法是保留 Table stakes 降低
 
 请调用 `AskUserQuestion` 展示以下选项，让学习者点击选择；从每条中提炼 1-5 个词作为 label，其余写入 description，不要要求输入数字：
 
-- 进入下一课：Lesson 18 - Trigger Map：用户心理→功能映射
+- 进入下一课：Lesson 17.12 - 概念驱动的 App 设计
 - 回顾界面模式：Lesson 17.1 - UI 设计词典
 - 回顾风格选择：Lesson 17.10 - UI 设计风格词典与选择方法
 - 返回主菜单
 
 ---
-*阶段 3 | Lesson 17.11/26 | 上一课: Lesson 17.10 - UI 风格词典与选择 | 下一课: Lesson 18 - Trigger Map*
+*阶段 3 | Lesson 17.11/26 | 上一课: Lesson 17.10 - UI 风格词典与选择 | 下一课: Lesson 17.12 - 概念驱动的 App 设计*

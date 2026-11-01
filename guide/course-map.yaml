@@ -6,7 +6,7 @@ meta:
   title: "cc4pm 交互式教学"
   subtitle: "为产品主理人打造的 AI 全生命周期产品系统指南"
   total_lessons: 26
-  supplementary_lessons: 56
+  supplementary_lessons: 59
   default_max_lines: 400
 
 stages:
@@ -705,6 +705,37 @@ stages:
           - reference-not-causation
           - design-reference-compliance
 
+      - id: lesson-1.12
+        file: lesson-1.12.md
+        number: "17.12"
+        title: "App Designer——从真实概念到三版方案与独立评审"
+        short_title: "概念驱动的 App 设计"
+        supplementary: true
+        topics:
+          - app-designer-public-method
+          - real-world-design-concept
+          - concept-to-visual-rules
+          - three-direction-main-screen-exploration
+          - device-font-rendering-evidence
+          - independent-visual-design-critic
+          - selected-direction-screen-continuity
+
+      - id: lesson-1.13
+        file: lesson-1.13.md
+        number: "17.13"
+        title: "Railcode 设计实战——强度谱、原型分叉与参数 Playground"
+        short_title: "可回退的视觉探索"
+        supplementary: true
+        topics:
+          - railcode-visual-design-case
+          - design-intensity-spectrum
+          - reversible-html-design-forks
+          - prompt-prototype-provenance
+          - parameter-playground-feedback-loop
+          - visual-anchor-asset-coherence
+          - section-transition-contextual-navigation
+          - design-convergence-before-componentization
+
       - id: lesson-2
         file: lesson-2.md
         number: 18
@@ -1275,6 +1306,24 @@ stages:
           - browser-debugging-mcp
           - playwright-cli-mcp-convergence
           - tool-route-audit
+
+      - id: lesson-1.12
+        file: lesson-1.12.md
+        number: "24.12"
+        title: "DigUp——本地多模态搜索与片段定位的产品设计"
+        short_title: "DigUp 本地多模态搜索"
+        supplementary: true
+        topics:
+          - digup-local-search
+          - embeddinggemma-2-multimodal-embeddings
+          - shared-multimodal-vector-space
+          - location-aware-media-segments
+          - hybrid-semantic-exact-search
+          - local-first-search-onboarding
+          - search-to-action-ux
+          - offline-model-network-boundaries
+          - local-search-cli-integration
+          - multimodal-retrieval-evaluation
 
       - id: lesson-2
         file: lesson-2.md
