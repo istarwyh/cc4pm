@@ -1,6 +1,6 @@
 {
   "name": "@cc4pm/homepage",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "cc4pm — Context & Collaboration for Product Makers。教你如何：一个人，一支创造产品的团队。",
   "main": "index.js",
   "files": [
